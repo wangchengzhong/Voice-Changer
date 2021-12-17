@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="faI7jG" name="VoiceChanger_wcz" projectType="audioplug" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
+              cppLanguageStandard="17" pluginFormats="buildStandalone,buildVST3">
+  <MAINGROUP id="PQHAjN" name="VoiceChanger_wcz">
+    <GROUP id="{2B23833A-41C0-04F9-78E4-035161AB1CFF}" name="Source">
+      <FILE id="GlqlwJ" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="SmcnAU" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="Skcgrb" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="JeZ6al" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="Ah9nLj" name="AutoCorr.h" compile="0" resource="0" file="Source/AutoCorr.h"/>
+      <FILE id="ey4qzk" name="BlockCircularBuffer.h" compile="0" resource="0"
+            file="Source/BlockCircularBuffer.h"/>
+      <FILE id="Thk304" name="CircularBuffer.h" compile="0" resource="0"
+            file="Source/CircularBuffer.h"/>
+      <FILE id="xQUCa4" name="ManVoiceExtract.h" compile="0" resource="0"
+            file="Source/ManVoiceExtract.h"/>
+      <FILE id="qcvpjf" name="ManVoiceFilter.h" compile="0" resource="0"
+            file="Source/ManVoiceFilter.h"/>
+      <FILE id="zZCi7l" name="PeakShifter.h" compile="0" resource="0" file="Source/PeakShifter.h"/>
+      <FILE id="B0vyvQ" name="PhaseVocoder.h" compile="0" resource="0" file="Source/PhaseVocoder.h"/>
+      <FILE id="JkBjH8" name="phaseVocoderForShapeInvariant.h" compile="0"
+            resource="0" file="Source/phaseVocoderForShapeInvariant.h"/>
+      <FILE id="XQJfXm" name="RingBuffer.h" compile="0" resource="0" file="Source/RingBuffer.h"/>
+      <FILE id="GTFmWa" name="PitchShifterRubberband.h" compile="0" resource="0"
+            file="Source/PitchShifterRubberband.h"/>
+      <FILE id="hq1uv0" name="PitchShifter.h" compile="0" resource="0" file="Source/PitchShifter.h"/>
+      <FILE id="ME6liW" name="PluginFilter.h" compile="0" resource="0" file="Source/PluginFilter.h"/>
+      <FILE id="DPnGTU" name="PluginParameter.h" compile="0" resource="0"
+            file="Source/PluginParameter.h"/>
+      <FILE id="La9dYM" name="Resample.h" compile="0" resource="0" file="Source/Resample.h"/>
+      <FILE id="chhvmw" name="ShapeInvariantPitchShifter.h" compile="0" resource="0"
+            file="Source/ShapeInvariantPitchShifter.h"/>
+    </GROUP>
+    <GROUP id="{F3F4013B-8233-0097-0A2B-200A842EEE30}" name="rubberband">
+      <GROUP id="{9EDC7BCB-2F07-CC2D-1ABE-086C0B4A6B60}" name="rubberband">
+        <FILE id="rdxJHJ" name="rubberband-c.h" compile="0" resource="0" file="rubberband/rubberband/rubberband-c.h"/>
+        <FILE id="B4BjBs" name="RubberBandStretcher.h" compile="0" resource="0"
+              file="rubberband/rubberband/RubberBandStretcher.h"/>
+      </GROUP>
+      <GROUP id="{05738E8C-1EEC-E554-F4BB-BC949C6590D0}" name="src">
+        <GROUP id="{8677D455-C60B-37A1-55C8-80A2987C54C7}" name="audiocurves">
+          <FILE id="itNUB5" name="CompoundAudioCurve.cpp" compile="1" resource="0"
+                file="rubberband/src/audiocurves/CompoundAudioCurve.cpp"/>
+          <FILE id="XqMIuY" name="CompoundAudioCurve.h" compile="0" resource="0"
+                file="rubberband/src/audiocurves/CompoundAudioCurve.h"/>
+          <FILE id="xMlKbK" name="ConstantAudioCurve.cpp" compile="1" resource="0"
+                file="rubberband/src/audiocurves/ConstantAudioCurve.cpp"/>
+          <FILE id="Cjge8T" name="ConstantAudioCurve.h" compile="0" resource="0"
+                file="rubberband/src/audiocurves/ConstantAudioCurve.h"/>
+          <FILE id="e5k3OP" name="HighFrequencyAudioCurve.cpp" compile="1" resource="0"
+                file="rubberband/src/audiocurves/HighFrequencyAudioCurve.cpp"/>
+          <FILE id="kAgq0M" name="HighFrequencyAudioCurve.h" compile="0" resource="0"
+                file="rubberband/src/audiocurves/HighFrequencyAudioCurve.h"/>
+          <FILE id="l3tYk9" name="PercussiveAudioCurve.cpp" compile="1" resource="0"
+                file="rubberband/src/audiocurves/PercussiveAudioCurve.cpp"/>
+          <FILE id="CNxhkZ" name="PercussiveAudioCurve.h" compile="0" resource="0"
+                file="rubberband/src/audiocurves/PercussiveAudioCurve.h"/>
+          <FILE id="OJKSev" name="SilentAudioCurve.cpp" compile="1" resource="0"
+                file="rubberband/src/audiocurves/SilentAudioCurve.cpp"/>
+          <FILE id="xPdNvS" name="SilentAudioCurve.h" compile="0" resource="0"
+                file="rubberband/src/audiocurves/SilentAudioCurve.h"/>
+          <FILE id="YaRAFA" name="SpectralDifferenceAudioCurve.cpp" compile="1"
+                resource="0" file="rubberband/src/audiocurves/SpectralDifferenceAudioCurve.cpp"/>
+          <FILE id="Xrx0fJ" name="SpectralDifferenceAudioCurve.h" compile="0"
+                resource="0" file="rubberband/src/audiocurves/SpectralDifferenceAudioCurve.h"/>
+        </GROUP>
+        <GROUP id="{08FC2CC0-8BB7-5FA3-7807-0A1A80A573EC}" name="base">
+          <FILE id="ynBg5B" name="Profiler.cpp" compile="1" resource="0" file="rubberband/src/base/Profiler.cpp"/>
+          <FILE id="lQqXE5" name="Profiler.h" compile="0" resource="0" file="rubberband/src/base/Profiler.h"/>
+          <FILE id="W6BMm0" name="RingBuffer.h" compile="0" resource="0" file="rubberband/src/base/RingBuffer.h"/>
+          <FILE id="kmBrSc" name="Scavenger.h" compile="0" resource="0" file="rubberband/src/base/Scavenger.h"/>
+        </GROUP>
+        <GROUP id="{5D1F82DB-6862-5CAC-6150-2583E5FB4FB6}" name="dsp">
+          <FILE id="IRUoEl" name="AudioCurveCalculator.cpp" compile="1" resource="0"
+                file="rubberband/src/dsp/AudioCurveCalculator.cpp"/>
+          <FILE id="hPEIUb" name="AudioCurveCalculator.h" compile="0" resource="0"
+                file="rubberband/src/dsp/AudioCurveCalculator.h"/>
+          <FILE id="xpPE7T" name="BQResampler.cpp" compile="1" resource="0" file="rubberband/src/dsp/BQResampler.cpp"/>
+          <FILE id="TjdJkw" name="BQResampler.h" compile="0" resource="0" file="rubberband/src/dsp/BQResampler.h"/>
+          <FILE id="e7OYmT" name="FFT.cpp" compile="1" resource="0" file="rubberband/src/dsp/FFT.cpp"/>
+          <FILE id="fVvzw4" name="FFT.h" compile="0" resource="0" file="rubberband/src/dsp/FFT.h"/>
+          <FILE id="MKNMoF" name="MovingMedian.h" compile="0" resource="0" file="rubberband/src/dsp/MovingMedian.h"/>
+          <FILE id="NqVg3y" name="Resampler.cpp" compile="1" resource="0" file="rubberband/src/dsp/Resampler.cpp"/>
+          <FILE id="eGq3X9" name="Resampler.h" compile="0" resource="0" file="rubberband/src/dsp/Resampler.h"/>
+          <FILE id="GqEPji" name="SampleFilter.h" compile="0" resource="0" file="rubberband/src/dsp/SampleFilter.h"/>
+          <FILE id="X48WrL" name="SincWindow.h" compile="0" resource="0" file="rubberband/src/dsp/SincWindow.h"/>
+          <FILE id="h4Vcm3" name="Window.h" compile="0" resource="0" file="rubberband/src/dsp/Window.h"/>
+        </GROUP>
+        <GROUP id="{009DA565-1AD8-12CF-A411-3E26AA687407}" name="float_cast">
+          <FILE id="PSfpvi" name="float_cast.h" compile="0" resource="0" file="rubberband/src/float_cast/float_cast.h"/>
+        </GROUP>
+        <GROUP id="{E94A762F-C6A3-7A80-F55C-6C63FB9D4E93}" name="getopt">
+          <FILE id="q441Lo" name="getopt.c" compile="1" resource="0" file="rubberband/src/getopt/getopt.c"/>
+          <FILE id="iWWGYr" name="getopt.h" compile="0" resource="0" file="rubberband/src/getopt/getopt.h"/>
+          <FILE id="oKsRuq" name="getopt_long.c" compile="1" resource="0" file="rubberband/src/getopt/getopt_long.c"/>
+          <FILE id="YUWZTS" name="unistd.h" compile="0" resource="0" file="rubberband/src/getopt/unistd.h"/>
+        </GROUP>
+        <GROUP id="{26CFADC6-98E9-EBD4-D1EA-B8D596604676}" name="kissfft">
+          <FILE id="o6pru9" name="_kiss_fft_guts.h" compile="0" resource="0"
+                file="rubberband/src/kissfft/_kiss_fft_guts.h"/>
+          <FILE id="TX5Grl" name="COPYING" compile="0" resource="1" file="rubberband/src/kissfft/COPYING"/>
+          <FILE id="lZyqMu" name="kiss_fft.c" compile="1" resource="0" file="rubberband/src/kissfft/kiss_fft.c"/>
+          <FILE id="R4frXc" name="kiss_fft.h" compile="0" resource="0" file="rubberband/src/kissfft/kiss_fft.h"/>
+          <FILE id="kUwp54" name="kiss_fft_log.h" compile="0" resource="0" file="rubberband/src/kissfft/kiss_fft_log.h"/>
+          <FILE id="R9KjYT" name="kiss_fftr.c" compile="1" resource="0" file="rubberband/src/kissfft/kiss_fftr.c"/>
+          <FILE id="m21kNz" name="kiss_fftr.h" compile="0" resource="0" file="rubberband/src/kissfft/kiss_fftr.h"/>
+        </GROUP>
+        <GROUP id="{BA495691-ED26-8360-9AE0-C6F7A029F874}" name="pommier">
+          <FILE id="QQCATm" name="neon_mathfun.h" compile="0" resource="0" file="rubberband/src/pommier/neon_mathfun.h"/>
+          <FILE id="X1yGza" name="sse_mathfun.h" compile="0" resource="0" file="rubberband/src/pommier/sse_mathfun.h"/>
+        </GROUP>
+        <GROUP id="{831FF522-0074-A537-6475-7F7C0E4CB9E7}" name="speex">
+          <FILE id="RSqW82" name="COPYING" compile="0" resource="1" file="rubberband/src/speex/COPYING"/>
+          <FILE id="IpaJmf" name="resample.c" compile="1" resource="0" file="rubberband/src/speex/resample.c"/>
+          <FILE id="GbQ32S" name="speex_resampler.h" compile="0" resource="0"
+                file="rubberband/src/speex/speex_resampler.h"/>
+        </GROUP>
+        <GROUP id="{9776C17D-F740-F7AA-9FCC-450BC8919375}" name="system">
+          <FILE id="s6W1FJ" name="Allocators.cpp" compile="1" resource="0" file="rubberband/src/system/Allocators.cpp"/>
+          <FILE id="vS3GWI" name="Allocators.h" compile="0" resource="0" file="rubberband/src/system/Allocators.h"/>
+          <FILE id="RGc6Ly" name="sysutils.cpp" compile="1" resource="0" file="rubberband/src/system/sysutils.cpp"/>
+          <FILE id="xfqKVR" name="sysutils.h" compile="0" resource="0" file="rubberband/src/system/sysutils.h"/>
+          <FILE id="qJmVSw" name="Thread.cpp" compile="1" resource="0" file="rubberband/src/system/Thread.cpp"/>
+          <FILE id="pcuFwB" name="Thread.h" compile="0" resource="0" file="rubberband/src/system/Thread.h"/>
+          <FILE id="sSBNFv" name="VectorOps.h" compile="0" resource="0" file="rubberband/src/system/VectorOps.h"/>
+          <FILE id="g5q8a3" name="VectorOpsComplex.cpp" compile="1" resource="0"
+                file="rubberband/src/system/VectorOpsComplex.cpp"/>
+          <FILE id="gW4BaW" name="VectorOpsComplex.h" compile="0" resource="0"
+                file="rubberband/src/system/VectorOpsComplex.h"/>
+        </GROUP>
+        <FILE id="BMZKC8" name="rubberband-c.cpp" compile="1" resource="0"
+              file="rubberband/src/rubberband-c.cpp"/>
+        <FILE id="usq0es" name="RubberBandStretcher.cpp" compile="1" resource="0"
+              file="rubberband/src/RubberBandStretcher.cpp"/>
+        <FILE id="jt4eBV" name="StretchCalculator.cpp" compile="1" resource="0"
+              file="rubberband/src/StretchCalculator.cpp"/>
+        <FILE id="BiyIZC" name="StretchCalculator.h" compile="0" resource="0"
+              file="rubberband/src/StretchCalculator.h"/>
+        <FILE id="WivRNI" name="StretcherChannelData.cpp" compile="1" resource="0"
+              file="rubberband/src/StretcherChannelData.cpp"/>
+        <FILE id="IrRzPJ" name="StretcherChannelData.h" compile="0" resource="0"
+              file="rubberband/src/StretcherChannelData.h"/>
+        <FILE id="KoboLj" name="StretcherImpl.cpp" compile="1" resource="0"
+              file="rubberband/src/StretcherImpl.cpp"/>
+        <FILE id="kKDx0P" name="StretcherImpl.h" compile="0" resource="0" file="rubberband/src/StretcherImpl.h"/>
+        <FILE id="rYPeGP" name="StretcherProcess.cpp" compile="1" resource="0"
+              file="rubberband/src/StretcherProcess.cpp"/>
+      </GROUP>
+    </GROUP>
+    <GROUP id="{117B0783-DB41-E650-9DC0-68B0582B1CC3}" name="soundtouch">
+      <GROUP id="{1FE769D5-8B11-F8D9-7100-469A623D33C3}" name="include">
+        <FILE id="K6ygwa" name="BPMDetect.h" compile="0" resource="0" file="soundtouch/include/BPMDetect.h"/>
+        <FILE id="Cm5CtX" name="FIFOSampleBuffer.h" compile="0" resource="0"
+              file="soundtouch/include/FIFOSampleBuffer.h"/>
+        <FILE id="SqPwle" name="FIFOSamplePipe.h" compile="0" resource="0"
+              file="soundtouch/include/FIFOSamplePipe.h"/>
+        <FILE id="NyB64E" name="SoundTouch.h" compile="0" resource="0" file="soundtouch/include/SoundTouch.h"/>
+        <FILE id="UztHxN" name="soundtouch_config.h" compile="0" resource="0"
+              file="soundtouch/include/soundtouch_config.h"/>
+        <FILE id="r6h5ap" name="STTypes.h" compile="0" resource="0" file="soundtouch/include/STTypes.h"/>
+      </GROUP>
+      <GROUP id="{D1161324-947F-7C48-ABF3-D775D5803BFB}" name="source">
+        <GROUP id="{BB416447-A1A0-92D3-B612-347BA31C1246}" name="SoundTouch">
+          <FILE id="tBTKTn" name="AAFilter.cpp" compile="1" resource="0" file="soundtouch/source/SoundTouch/AAFilter.cpp"/>
+          <FILE id="ChYMpG" name="AAFilter.h" compile="0" resource="0" file="soundtouch/source/SoundTouch/AAFilter.h"/>
+          <FILE id="MIlWw6" name="BPMDetect.cpp" compile="1" resource="0" file="soundtouch/source/SoundTouch/BPMDetect.cpp"/>
+          <FILE id="egwjub" name="BPMDetect.h" compile="0" resource="0" file="soundtouch/source/SoundTouch/BPMDetect.h"/>
+          <FILE id="jPHaaw" name="cpu_detect.h" compile="0" resource="0" file="soundtouch/source/SoundTouch/cpu_detect.h"/>
+          <FILE id="uEDjTt" name="cpu_detect_x86.cpp" compile="1" resource="0"
+                file="soundtouch/source/SoundTouch/cpu_detect_x86.cpp"/>
+          <FILE id="m1x4CH" name="FIFOSampleBuffer.cpp" compile="1" resource="0"
+                file="soundtouch/source/SoundTouch/FIFOSampleBuffer.cpp"/>
+          <FILE id="PZ4o7t" name="FIFOSampleBuffer.h" compile="0" resource="0"
+                file="soundtouch/source/SoundTouch/FIFOSampleBuffer.h"/>
+          <FILE id="gH0PSw" name="FIFOSamplePipe.h" compile="0" resource="0"
+                file="soundtouch/source/SoundTouch/FIFOSamplePipe.h"/>
+          <FILE id="aHa2Un" name="FIRFilter.cpp" compile="1" resource="0" file="soundtouch/source/SoundTouch/FIRFilter.cpp"/>
+          <FILE id="pC3fZI" name="FIRFilter.h" compile="0" resource="0" file="soundtouch/source/SoundTouch/FIRFilter.h"/>
+          <FILE id="NaWffW" name="InterpolateCubic.cpp" compile="1" resource="0"
+                file="soundtouch/source/SoundTouch/InterpolateCubic.cpp"/>
+          <FILE id="sfi2Uv" name="InterpolateCubic.h" compile="0" resource="0"
+                file="soundtouch/source/SoundTouch/InterpolateCubic.h"/>
+          <FILE id="ccLo2o" name="InterpolateLinear.cpp" compile="1" resource="0"
+                file="soundtouch/source/SoundTouch/InterpolateLinear.cpp"/>
+          <FILE id="d2fUnG" name="InterpolateLinear.h" compile="0" resource="0"
+                file="soundtouch/source/SoundTouch/InterpolateLinear.h"/>
+          <FILE id="r1OAOt" name="InterpolateShannon.cpp" compile="1" resource="0"
+                file="soundtouch/source/SoundTouch/InterpolateShannon.cpp"/>
+          <FILE id="a3kw5c" name="InterpolateShannon.h" compile="0" resource="0"
+                file="soundtouch/source/SoundTouch/InterpolateShannon.h"/>
+          <FILE id="lCTJpm" name="mmx_optimized.cpp" compile="1" resource="0"
+                file="soundtouch/source/SoundTouch/mmx_optimized.cpp"/>
+          <FILE id="RYyHfe" name="PeakFinder.cpp" compile="1" resource="0" file="soundtouch/source/SoundTouch/PeakFinder.cpp"/>
+          <FILE id="rZa75w" name="PeakFinder.h" compile="0" resource="0" file="soundtouch/source/SoundTouch/PeakFinder.h"/>
+          <FILE id="aj3x5e" name="RateTransposer.cpp" compile="1" resource="0"
+                file="soundtouch/source/SoundTouch/RateTransposer.cpp"/>
+          <FILE id="DJdsOd" name="RateTransposer.h" compile="0" resource="0"
+                file="soundtouch/source/SoundTouch/RateTransposer.h"/>
+          <FILE id="NToIet" name="SoundTouch.cpp" compile="1" resource="0" file="soundtouch/source/SoundTouch/SoundTouch.cpp"/>
+          <FILE id="A7jBPx" name="SoundTouch.h" compile="0" resource="0" file="soundtouch/source/SoundTouch/SoundTouch.h"/>
+          <FILE id="smNgOl" name="sse_optimized.cpp" compile="1" resource="0"
+                file="soundtouch/source/SoundTouch/sse_optimized.cpp"/>
+          <FILE id="WDEh3Y" name="STTypes.h" compile="0" resource="0" file="soundtouch/source/SoundTouch/STTypes.h"/>
+          <FILE id="d16WVn" name="TDStretch.cpp" compile="1" resource="0" file="soundtouch/source/SoundTouch/TDStretch.cpp"/>
+          <FILE id="WXP4oU" name="TDStretch.h" compile="0" resource="0" file="soundtouch/source/SoundTouch/TDStretch.h"/>
+        </GROUP>
+      </GROUP>
+    </GROUP>
+  </MAINGROUP>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
+  <EXPORTFORMATS>
+    <VS2019 targetFolder="Builds/VisualStudio2019">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="VoiceChangerwcz" libraryPath="D:\1a\tools\rubberband-2.0.0\otherbuilds\x64\Debug"
+                       defines="NOMINMAX&#10;_USE_MATH_DEFINES&#10;HAVE_KISSFFT&#10;USE_SPEEX"
+                       headerPath="D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="VoiceChangerwcz" headerPath="D:/1a/tools/rubberband-2.0.0/rubberband"
+                       libraryPath="D:/1a/tools/rubberband-2.0.0/otherbuilds/x64/Debug"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_analytics" path="../../../juce/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../juce/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../juce/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../juce/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../juce/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../juce/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../juce/JUCE/modules"/>
+        <MODULEPATH id="juce_blocks_basics" path="../../../juce/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../juce/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../juce/JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../../juce/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../juce/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../juce/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../juce/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../juce/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2019>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_analytics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_blocks_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <LIVE_SETTINGS>
+    <WINDOWS/>
+  </LIVE_SETTINGS>
+</JUCERPROJECT>
