@@ -173,8 +173,8 @@ protected:
 
     bool resampleBeforeStretching() const;
     
-    double m_timeRatio;
-    double m_pitchScale;
+    double m_outputTimeRatio;
+    double m_outputPitchRatio;
 
     // n.b. either m_fftSize is an integer multiple of m_windowSize,
     // or vice versa

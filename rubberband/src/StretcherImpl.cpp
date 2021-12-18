@@ -73,8 +73,8 @@ RubberBandStretcher::Impl::Impl(size_t sampleRate,
                                 double initialPitchScale) :
     m_sampleRate(sampleRate),
     m_channels(channels),
-    m_timeRatio(initialTimeRatio),
-    m_pitchScale(initialPitchScale),
+    m_outputTimeRatio(initialTimeRatio),
+    m_outputPitchRatio(initialPitchScale),
     m_fftSize(m_defaultFftSize),
     m_aWindowSize(m_defaultFftSize),
     m_sWindowSize(m_defaultFftSize),
@@ -291,8 +291,8 @@ RubberBandStretcher::Impl::setTimeRatio(double ratio)
         }
     }
 
-    if (ratio == m_timeRatio) return;
-    m_timeRatio = ratio;
+    if (ratio == m_outputTimeRatio) return;
+    m_outputTimeRatio = ratio;
 
     reconfigure();
 }
@@ -307,18 +307,18 @@ RubberBandStretcher::Impl::setPitchScale(double fs)
         }
     }
 
-    if (fs == m_pitchScale) return;
+    if (fs == m_outputPitchRatio) return;
     
-    bool was1 = (m_pitchScale == 1.f);
+    bool was1 = (m_outputPitchRatio == 1.f);
     bool rbs = resampleBeforeStretching();
 
-    m_pitchScale = fs;
+    m_outputPitchRatio = fs;
 
     reconfigure();
 
     if (!(m_options & OptionPitchHighConsistency) &&
         (was1 || resampleBeforeStretching() != rbs) &&
-        m_pitchScale != 1.f) {
+        m_outputPitchRatio != 1.f) {
         
         // resampling mode has changed
         for (int c = 0; c < int(m_channels); ++c) {
@@ -332,13 +332,13 @@ RubberBandStretcher::Impl::setPitchScale(double fs)
 double
 RubberBandStretcher::Impl::getTimeRatio() const
 {
-    return m_timeRatio;
+    return m_outputTimeRatio;
 }
 
 double
 RubberBandStretcher::Impl::getPitchScale() const
 {
-    return m_pitchScale;
+    return m_outputPitchRatio;
 }
 
 void
@@ -403,7 +403,7 @@ RubberBandStretcher::Impl::getEffectiveRatio() const
 {
     // Returns the ratio that the internal time stretcher needs to
     // achieve, not the resulting duration ratio of the output (which
-    // is simply m_timeRatio).
+    // is simply m_outputTimeRatio).
 
     // A frequency shift is achieved using an additional time shift,
     // followed by resampling back to the original time shift to
@@ -412,7 +412,7 @@ RubberBandStretcher::Impl::getEffectiveRatio() const
     // time shifting, which is variable aiming to place the majority
     // of the stretch or squash in low-interest regions of audio.
 
-    return m_timeRatio * m_pitchScale;
+    return m_outputTimeRatio * m_outputPitchRatio;
 }
 
 size_t RubberBandStretcher::Impl::roundUp(size_t value)
@@ -434,17 +434,17 @@ RubberBandStretcher::Impl::calculateSizes()
     size_t windowSize = m_baseFftSize;
     size_t outputIncrement;
 
-    if (m_pitchScale <= 0.0) {
+    if (m_outputPitchRatio <= 0.0) {
         // This special case is likelier than one might hope, because
         // of naive initialisations in programs that set it from a
         // variable
-        // std::cerr << "RubberBandStretcher: WARNING: Pitch scale must be greater than zero!\nResetting it from " << m_pitchScale << " to the default of 1.0: no pitch change will occur" << std::endl;
-        m_pitchScale = 1.0;
+        // std::cerr << "RubberBandStretcher: WARNING: Pitch scale must be greater than zero!\nResetting it from " << m_outputPitchRatio << " to the default of 1.0: no pitch change will occur" << std::endl;
+        m_outputPitchRatio = 1.0;
     }
-    if (m_timeRatio <= 0.0) {
+    if (m_outputTimeRatio <= 0.0) {
         // Likewise
-        // std::cerr << "RubberBandStretcher: WARNING: Time ratio must be greater than zero!\nResetting it from " << m_timeRatio << " to the default of 1.0: no time stretch will occur" << std::endl;
-        m_timeRatio = 1.0;
+        // std::cerr << "RubberBandStretcher: WARNING: Time ratio must be greater than zero!\nResetting it from " << m_outputTimeRatio << " to the default of 1.0: no time stretch will occur" << std::endl;
+        m_outputTimeRatio = 1.0;
     }
 
     double r = getEffectiveRatio();
@@ -453,7 +453,7 @@ RubberBandStretcher::Impl::calculateSizes()
 
         if (r < 1) 
         {
-            bool rsb = (m_pitchScale < 1.0 && !resampleBeforeStretching());
+            bool rsb = (m_outputPitchRatio < 1.0 && !resampleBeforeStretching());
             float windowIncrRatio = 4.5;
             if (r == 1.0) windowIncrRatio = 4;
             else if (rsb) windowIncrRatio = 4.5;
@@ -479,7 +479,7 @@ RubberBandStretcher::Impl::calculateSizes()
         else 
         {
 
-            bool rsb = (m_pitchScale > 1.0 && resampleBeforeStretching());
+            bool rsb = (m_outputPitchRatio > 1.0 && resampleBeforeStretching());
             float windowIncrRatio = 4.5;
             if (r == 1.0) windowIncrRatio = 4;
             else if (rsb)
@@ -515,7 +515,7 @@ RubberBandStretcher::Impl::calculateSizes()
             if (rsb) 
             {
 //                cerr << "adjusting window size from " << windowSize;
-                size_t newWindowSize = roundUp(lrint(windowSize / m_pitchScale));
+                size_t newWindowSize = roundUp(lrint(windowSize / m_outputPitchRatio));
                 if (newWindowSize < 512) 
                     newWindowSize = 512;
                 size_t div = windowSize / newWindowSize;
@@ -601,8 +601,8 @@ RubberBandStretcher::Impl::calculateSizes()
 
     if (m_debugLevel > 0) 
     {
-        DBG("calculateSizes: time ratio = " << m_timeRatio << ", pitch scale = " 
-            << m_pitchScale << ", effective ratio = " << getEffectiveRatio() << "\n");
+        DBG("calculateSizes: time ratio = " << m_outputTimeRatio << ", pitch scale = " 
+            << m_outputPitchRatio << ", effective ratio = " << getEffectiveRatio() << "\n");
         DBG("calculateSizes: analysis window size = " << m_aWindowSize 
             << ", synthesis window size = "
             << m_sWindowSize << ", fft size = " 
@@ -618,8 +618,8 @@ RubberBandStretcher::Impl::calculateSizes()
 
     m_outbufSize = size_t
         (ceil(max
-              (m_maxProcessSize / m_pitchScale,
-               m_maxProcessSize * 2 * (m_timeRatio > 1.f ? m_timeRatio : 1.f))));
+              (m_maxProcessSize / m_outputPitchRatio,
+               m_maxProcessSize * 2 * (m_outputTimeRatio > 1.f ? m_outputTimeRatio : 1.f))));
     // DBG(m_outbufSize);
     if (m_realtime) 
     {
@@ -650,7 +650,7 @@ void RubberBandStretcher::Impl::configure()
     if (m_debugLevel > 0) 
     {
         std::cerr << "configure[" << this << "]: realtime = " << m_realtime << ", pitch scale = "
-                  << m_pitchScale << ", channels = " << m_channels << std::endl;
+                  << m_outputPitchRatio << ", channels = " << m_channels << std::endl;
     }
 
     size_t prevFftSize = m_fftSize;
@@ -741,7 +741,7 @@ void RubberBandStretcher::Impl::configure()
         m_studyFFT->initFloat();
     }
 
-    if (m_pitchScale != 1.0 ||
+    if (m_outputPitchRatio != 1.0 ||
         (m_options & OptionPitchHighConsistency) ||
         m_realtime) {
 
@@ -777,7 +777,7 @@ void RubberBandStretcher::Impl::configure()
             // for resampling; but allocate a sensible amount in case
             // the pitch scale changes during use
             size_t rbs = 
-                lrintf(ceil((m_inbufJumpSampleNum * m_timeRatio * 2) / m_pitchScale));
+                lrintf(ceil((m_inbufJumpSampleNum * m_outputTimeRatio * 2) / m_outputPitchRatio));
             //DBG(rbs); //1024 run 2 times
             if (rbs < m_inbufJumpSampleNum * 16)
             {
@@ -912,7 +912,7 @@ void RubberBandStretcher::Impl::reconfigure()
         somethingChanged = true;
     }
 
-    if (m_pitchScale != 1.0) {
+    if (m_outputPitchRatio != 1.0) {
         for (size_t c = 0; c < m_channels; ++c) {
 
             if (m_channelData[c]->resampler) continue;
@@ -929,7 +929,7 @@ void RubberBandStretcher::Impl::reconfigure()
             m_channelData[c]->resampler = new Resampler(params, 1);
 
             size_t rbs = 
-                lrintf(ceil((m_inbufJumpSampleNum * m_timeRatio * 2) / m_pitchScale));
+                lrintf(ceil((m_inbufJumpSampleNum * m_outputTimeRatio * 2) / m_outputPitchRatio));
             if (rbs < m_inbufJumpSampleNum * 16) rbs = m_inbufJumpSampleNum * 16;
             m_channelData[c]->setResampleBufSize(rbs);
 
@@ -959,7 +959,7 @@ size_t
 RubberBandStretcher::Impl::getLatency() const
 {
     if (!m_realtime) return 0;
-    return lrint((m_aWindowSize/2) / m_pitchScale);
+    return lrint((m_aWindowSize/2) / m_outputPitchRatio);
 }
 
 void

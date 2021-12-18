@@ -69,7 +69,7 @@ public:
      * this block in preference to m_inbufJumpSampleNum.
      */
     int calculateSingle(double outputTimeStretchRatio,
-                        double effectivePitchRatio,
+                        double frac_1_outputPitchRatio,
                         float curveValue,
                         size_t increment,
                         size_t analysisWindowSize,

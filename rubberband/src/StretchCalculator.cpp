@@ -306,20 +306,20 @@ int64_t StretchCalculator::expectedOutFrame(int64_t inFrame, double outputTimeSt
     return int64_t(round(checkpointed + (inFrame - checkpointedAt) * outputTimeStretchRatio));
 }
 
-int StretchCalculator::calculateSingle(double outputTimeStretchRatio,
-                                   double effectivePitchRatio,
+int StretchCalculator::calculateSingle(double outputTimeRatio,
+                                   double frac_1_outputPitchRatio,
                                    float df,
                                    size_t inIncrement,
                                    size_t analysisWindowSize,
                                    size_t synthesisWindowSize)
 {
-    double outputPitchRatio = outputTimeStretchRatio / effectivePitchRatio;
-    // DBG(effectivePitchRatio); //outputTimeStretchRatio = 1
+    double innerPitchRatio = outputTimeRatio / frac_1_outputPitchRatio;
+    // DBG(frac_1_outputPitchRatio); //outputTimeStretchRatio = 1
 
     int increment = int(inIncrement);
     if (increment == 0) increment = m_inbufJumpSampleNum;
 
-    int outIncrement = lrint(increment * outputPitchRatio); // the normal case
+    int outIncrement = lrint(increment * innerPitchRatio); // the normal case
     bool isTransient = false;
     
     // We want to ensure, as close as possible, that the phase reset
@@ -343,13 +343,13 @@ int StretchCalculator::calculateSingle(double outputTimeStretchRatio,
     // resampling occurs after stretching, all of our output
     // increments will be effectively modified by resampling after we
     // return. This is why we separate out outputTimeStretchRatio and
-    // effectivePitchRatio arguments - the former is the ratio that
+    // frac_1_outputPitchRatio arguments - the former is the ratio that
     // has already been applied and the latter is the ratio that will
     // be applied by any subsequent resampling step (which will be 1.0
     // / pitchScale if resampling is happening after stretching). So
-    // the overall ratio is outputTimeStretchRatio / effectivePitchRatio.
+    // the overall ratio is outputTimeStretchRatio / frac_1_outputPitchRatio.
 
-    bool isPitchRatioChanged = (outputPitchRatio != m_prevOutputPitchRatio);
+    bool isPitchRatioChanged = (innerPitchRatio != m_prevOutputPitchRatio);
     // int i = 0; if (isPitchRatioChanged) i = 1;
     // DBG("isPitchRatioChanged:" << i);//only happen when slider moves
     if (isPitchRatioChanged) 
@@ -361,7 +361,7 @@ int StretchCalculator::calculateSingle(double outputTimeStretchRatio,
         // the use of outputTimeStretchRatio rather than ratio here
 
         if (m_debugLevel > 1) {
-            std::cerr << "StretchCalculator: ratio changed from " << m_prevOutputPitchRatio << " to " << outputPitchRatio << std::endl;
+            std::cerr << "StretchCalculator: ratio changed from " << m_prevOutputPitchRatio << " to " << innerPitchRatio << std::endl;
         }
 
         int64_t toCheckpoint = expectedOutFrame
@@ -370,15 +370,15 @@ int StretchCalculator::calculateSingle(double outputTimeStretchRatio,
             std::pair<int64_t, int64_t>(m_inFrameCounter, toCheckpoint);
     }
     
-    m_prevOutputPitchRatio = outputPitchRatio;
-    m_prevOutputTimeRatio = outputTimeStretchRatio;
+    m_prevOutputPitchRatio = innerPitchRatio;
+    m_prevOutputTimeRatio = outputTimeRatio;
 
     if (m_debugLevel > 1) {
         DBG("StretchCalculator::calculateSingle: outputTimeStretchRatio = "
-            << outputTimeStretchRatio << ", effectivePitchRatio = "
-            << effectivePitchRatio << " (that's 1.0 / "
-            << (1.0 / effectivePitchRatio)
-            << "), \nratio = " << outputPitchRatio << ", df = " << df
+            << outputTimeRatio << ", frac_1_outputPitchRatio = "
+            << frac_1_outputPitchRatio << " (that's 1.0 / "
+            << (1.0 / frac_1_outputPitchRatio)
+            << "), \nratio = " << innerPitchRatio << ", df = " << df
             << ", inIncrement = " << inIncrement
             << ", default outIncrement = " << outIncrement
             << ", analysisWindowSize = " << analysisWindowSize
@@ -398,12 +398,12 @@ int StretchCalculator::calculateSingle(double outputTimeStretchRatio,
     }
     
     int64_t intended = 
-        expectedOutFrame(m_inFrameCounter + analysisWindowSize/4, outputTimeStretchRatio);
+        expectedOutFrame(m_inFrameCounter + analysisWindowSize/4, outputTimeRatio);
     int64_t projected 
         = int64_t
             (round
                 (
-                    m_outFrameCounter + (synthesisWindowSize/4 * effectivePitchRatio)
+                    m_outFrameCounter + (synthesisWindowSize/4 * frac_1_outputPitchRatio)
                 )
             );
     // DBG("intended: " << intended << "  projected: " << projected);
@@ -510,8 +510,8 @@ int StretchCalculator::calculateSingle(double outputTimeStretchRatio,
         // DBG("divergence = " << divergence << ", recovery = " << recovery << ", incr = " << incr << ", ");
         // incr~=256, recover = above desc, divergence =-1/-2most times, but can run to -57 occa
 
-        int minIncr = lrint(increment * outputPitchRatio * 0.3);
-        int maxIncr = lrint(increment * outputPitchRatio * 2);
+        int minIncr = lrint(increment * innerPitchRatio * 0.3);
+        int maxIncr = lrint(increment * innerPitchRatio * 2);
         // DBG(minIncr << "   max: " << maxIncr);//min=68,max = 455 / 77 512
         if (incr < minIncr) 
         {
@@ -541,7 +541,7 @@ int StretchCalculator::calculateSingle(double outputTimeStretchRatio,
     //else is 265,256,255,257 or so, and 255 256 the most
 
     m_inFrameCounter += inIncrement;
-    m_outFrameCounter += outIncrement * effectivePitchRatio;
+    m_outFrameCounter += outIncrement * frac_1_outputPitchRatio;
     
     if (isTransient) 
     {

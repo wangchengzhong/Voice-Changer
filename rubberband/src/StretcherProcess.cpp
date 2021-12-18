@@ -132,7 +132,7 @@ bool RubberBandStretcher::Impl::resampleBeforeStretching() const
 
     if (m_options & OptionPitchHighQuality)// equal to &&
     {
-        return (m_pitchScale < 1.0); // better sound
+        return (m_outputPitchRatio < 1.0); // better sound
     } 
     else if (m_options & OptionPitchHighConsistency) 
     {
@@ -140,7 +140,7 @@ bool RubberBandStretcher::Impl::resampleBeforeStretching() const
     } 
     else 
     {
-        return (m_pitchScale > 1.0); // better performance
+        return (m_outputPitchRatio > 1.0); // better performance
     }
 }
 
@@ -194,14 +194,14 @@ size_t RubberBandStretcher::Impl::consumeChannel(size_t c,
         // never run here
         Profiler profiler2("RubberBandStretcher::Impl::resample");
         
-        toWriteSampleNum = int(ceil(samples / m_pitchScale));
+        toWriteSampleNum = int(ceil(samples / m_outputPitchRatio));
         if (writableSampleNum < toWriteSampleNum) 
         {
-            samples = int(floor(writableSampleNum * m_pitchScale));
+            samples = int(floor(writableSampleNum * m_outputPitchRatio));
             if (samples == 0) return 0;
         }
 
-        size_t reqSize = int(ceil(samples / m_pitchScale));
+        size_t reqSize = int(ceil(samples / m_outputPitchRatio));
         if (reqSize > cd.resamplebufSize) 
         {
             cerr << "WARNING: RubberBandStretcher::Impl::consumeChannel: resizing resampler buffer from "
@@ -231,7 +231,7 @@ size_t RubberBandStretcher::Impl::consumeChannel(size_t c,
                                          cd.resamplebufSize,
                                          &actualPutToInbuf,
                                          samples,
-                                         1.0 / m_pitchScale,
+                                         1.0 / m_outputPitchRatio,
                                          final);
 
 #ifndef NO_THREADING
@@ -548,10 +548,10 @@ RubberBandStretcher::Impl::processChunkForChannel(size_t c,
         
     int required = shiftIncrement;
 
-    if (m_pitchScale != 1.0) 
+    if (m_outputPitchRatio != 1.0) 
     {
         //DBG(")
-        required = int(required / m_pitchScale) + 1;
+        required = int(required / m_outputPitchRatio) + 1;
     }
 
     int ws = cd.outbuf->getWriteSpace();
@@ -674,17 +674,17 @@ void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRef,
         }
     }
 
-    double effectivePitchRatio = 1.0 / m_pitchScale;
-    // DBG("effectivePitchRatio:" << m_pitchScale);
-    //effectivePitchRatio:when choose 12, 2
+    double frac_1_outputPitchRatio = 1.0 / m_outputPitchRatio;
+    // DBG("frac_1_outputPitchRatio:" << m_outputPitchRatio);
+    //frac_1_outputPitchRatio:when choose 12, 2
     //if (cd.resampler) 
     //{ 
-    //    effectivePitchRatio = cd.resampler->getEffectiveRatio(effectivePitchRatio);
-    //    DBG("have run here" << effectivePitchRatio); //always, change to:0.890899
+    //    frac_1_outputPitchRatio = cd.resampler->getEffectiveRatio(frac_1_outputPitchRatio);
+    //    DBG("have run here" << frac_1_outputPitchRatio); //always, change to:0.890899
     //}
     
     int incr = m_stretchCalculator->calculateSingle
-        (m_timeRatio, effectivePitchRatio, df, m_inbufJumpSampleNum,
+        (m_outputTimeRatio, frac_1_outputPitchRatio, df, m_inbufJumpSampleNum,
          m_aWindowSize, m_sWindowSize);
     // DBG("incr:" << incr);
     //incr: most is 255/256,
@@ -1090,10 +1090,10 @@ void RubberBandStretcher::Impl::formantShiftChunk(size_t channel)
     v_exp(envelope, hs + 1);
     v_divide(mag, envelope, hs + 1);
 
-    if (m_pitchScale > 1.0) {
+    if (m_outputPitchRatio > 1.0) {
         // scaling up, we want a new envelope that is lower by the pitch factor
         for (int target = 0; target <= hs; ++target) {
-            int source = lrint(target * m_pitchScale);
+            int source = lrint(target * m_outputPitchRatio);
             if (source > hs) {
                 envelope[target] = 0.0;
             } else {
@@ -1104,7 +1104,7 @@ void RubberBandStretcher::Impl::formantShiftChunk(size_t channel)
         // scaling down, we want a new envelope that is higher by the pitch factor
         for (int target = hs; target > 0; ) {
             --target;
-            int source = lrint(target * m_pitchScale);
+            int source = lrint(target * m_outputPitchRatio);
             envelope[target] = envelope[source];
         }
     }
@@ -1122,7 +1122,7 @@ RubberBandStretcher::Impl::synthesiseChunk(size_t channel,
 
 
     if ((m_options & OptionFormantPreserved) &&
-        (m_pitchScale != 1.0)) 
+        (m_outputPitchRatio != 1.0)) 
     {
         // DBG("have run here"); // never run here
         formantShiftChunk(channel);
@@ -1224,19 +1224,19 @@ void RubberBandStretcher::Impl::writeChunk(size_t channel, size_t shiftIncrement
     // were running in RT mode)
     size_t theoreticalOut = 0;
     if (cd.inputSize >= 0) {
-        theoreticalOut = lrint(cd.inputSize * m_timeRatio);
+        theoreticalOut = lrint(cd.inputSize * m_outputTimeRatio);
     }
 
     bool resampledAlready = resampleBeforeStretching();
 
     if (!resampledAlready &&
-        (m_pitchScale != 1.0 || m_options & OptionPitchHighConsistency) &&
+        (m_outputPitchRatio != 1.0 || m_options & OptionPitchHighConsistency) &&
         cd.resampler) 
     {
 
         Profiler profiler2("RubberBandStretcher::Impl::resample");
 
-        size_t reqSize = int(ceil(si / m_pitchScale));
+        size_t reqSize = int(ceil(si / m_outputPitchRatio));
         if (reqSize > cd.resamplebufSize) {
             // This shouldn't normally happen -- the buffer is
             // supposed to be initialised with enough space in the
@@ -1262,7 +1262,7 @@ void RubberBandStretcher::Impl::writeChunk(size_t channel, size_t shiftIncrement
                                                   cd.resamplebufSize,
                                                   &cd.accumulator,
                                                   si,
-                                                  1.0 / m_pitchScale,
+                                                  1.0 / m_outputPitchRatio,
                                                   last);
 
 #ifndef NO_THREADING
@@ -1312,7 +1312,7 @@ RubberBandStretcher::Impl::writeOutput(RingBuffer<float> &to, float *from, size_
 
     size_t startSkip = 0;
     if (!m_realtime) {
-        startSkip = lrintf((m_sWindowSize/2) / m_pitchScale);
+        startSkip = lrintf((m_sWindowSize/2) / m_outputPitchRatio);
     }
 
     if (outCount > startSkip) {
@@ -1434,13 +1434,13 @@ RubberBandStretcher::Impl::available() const
 
     if (min == 0 && consumed) 
         return -1;
-    if (m_pitchScale == 1.0) 
+    if (m_outputPitchRatio == 1.0) 
         return min;
 
     if (haveResamplers) 
         return min; // shouldResampleBeforeStretching has already happened
 
-    return int(floor(min / m_pitchScale));
+    return int(floor(min / m_outputPitchRatio));
 }
 
 size_t RubberBandStretcher::Impl::retrieve(float *const *output, size_t samples) const
