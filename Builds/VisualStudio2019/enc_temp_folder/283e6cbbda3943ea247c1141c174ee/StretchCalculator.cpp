@@ -427,7 +427,7 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
         {
             // never
             DBG("StretchCalculator::calculateSingle: transient, but we're not permitting it because the divergence (" << divergence << ") is too great\n");
-        }
+        } 
         else 
         {
             // happen occasionally

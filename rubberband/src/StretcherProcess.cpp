@@ -899,7 +899,8 @@ void RubberBandStretcher::Impl::modifyChunk(size_t channel,
     {
         float r = getEffectiveRatio();
         // DBG("r: " << r);//effectiveRatio:0.5-2
-        if (r > 1) {
+        if (r > 1) 
+        {
             float rf0 = 600 + (600 * ((r - 1) * (r - 1) * (r - 1) * 2));
             // DBG(rf0);//600-1800 when r is 1 to 2
             float f1ratio = freq1 / freq0;//2
@@ -915,7 +916,7 @@ void RubberBandStretcher::Impl::modifyChunk(size_t channel,
     int limit0 = lrint((freq0 * m_fftSize) / sr);
     int limit1 = lrint((freq1 * m_fftSize) / sr);
     int limit2 = lrint((freq2 * m_fftSize) / sr);
-    // DBG(limit0 << "    " << limit1 << "    " << limit2);//change with pitch ratio
+    // DBG(limit0 << "    " << limit1 << "    " << limit2); //change with pitch ratio
     //typical:0.5) 28 56 557
     //2) 84 167 1672
     if (limit1 < limit0) limit1 = limit0;
@@ -993,13 +994,11 @@ void RubberBandStretcher::Impl::modifyChunk(size_t channel,
                 } 
                 else if (instability > prevInstability && direction == prevDirection) 
                 {
-            
                     // DBG("inherit is true"); // often run here
                     inherit = true;
                 }
             }
             // else { DBG("no laminer"); }// never run here
-
             // DBG(m_inbufJumpSampleNum);// change with ratio, 455 when lower, 157 when higher, eg.
             process_t advance = outputIncrement * ((omega + perr) / m_inbufJumpSampleNum);
             //DBG("outputIncr: " << outputIncrement << "   omega: " << omega << " perr " << perr << " m_incr: " << advance);
@@ -1093,7 +1092,8 @@ void RubberBandStretcher::Impl::formantShiftChunk(size_t channel)
     v_exp(envelope, hs + 1);
     v_divide(mag, envelope, hs + 1);
 
-    if (m_outputPitchRatio > 1.0) {
+    if (m_outputPitchRatio > 1.0) 
+    {
         // scaling up, we want a new envelope that is lower by the pitch factor
         for (int target = 0; target <= hs; ++target) {
             int source = lrint(target * m_outputPitchRatio);
