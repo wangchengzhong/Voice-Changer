@@ -71,7 +71,7 @@ public:
     /**
      * Regenerate the sinc window with the same size, but a new scale
      * (the p value is interpreted as for the argument of the same
-     * name to the constructor).  If p is unchanged from the previous
+     * name to the constructor).  If p is isUnchanged from the previous
      * value, do nothing (quickly).
      */
     inline void rewrite(int p) {
@@ -141,7 +141,7 @@ protected:
      * Write the positive half (i.e. n/2 to n-1) of a sinc window of
      * size n with scale p (the p value is interpreted as for the
      * argument of the same name to the constructor). The negative
-     * half (indices 0 to n/2-1) of dst is left unchanged.
+     * half (indices 0 to n/2-1) of dst is left isUnchanged.
      */
     static
     void writeHalf(T *const R__ dst, const int n, const int p) {

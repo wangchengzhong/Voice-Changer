@@ -787,16 +787,20 @@ bool RubberBandStretcher::Impl::getIncrements(size_t channel,
     ChannelData &cd = *m_channelData[channel];
     bool gotData = true;
 
-    if (cd.chunkSampleCount >= m_outputIncrements.size()) {
+    if (cd.chunkSampleCount >= m_outputIncrements.size()) 
+    {
 //        cerr << "WARNING: RubberBandStretcher::Impl::getIncrements:"
 //             << " chunk count " << cd.chunkSampleCount << " >= "
 //             << m_outputIncrements.size() << endl;
-        if (m_outputIncrements.size() == 0) {
+        if (m_outputIncrements.size() == 0) 
+        {
             phaseIncrementRef = m_inbufJumpSampleNum;
             shiftIncrementRef = m_inbufJumpSampleNum;
             shouldResetPhase = false;
             return false;
-        } else {
+        } 
+        else 
+        {
             cd.chunkSampleCount = m_outputIncrements.size()-1;
             gotData = false;
         }
@@ -805,16 +809,19 @@ bool RubberBandStretcher::Impl::getIncrements(size_t channel,
     int phaseIncrement = m_outputIncrements[cd.chunkSampleCount];
     
     int shiftIncrement = phaseIncrement;
-    if (cd.chunkSampleCount + 1 < m_outputIncrements.size()) {
+    if (cd.chunkSampleCount + 1 < m_outputIncrements.size()) 
+    {
         shiftIncrement = m_outputIncrements[cd.chunkSampleCount + 1];
     }
     
-    if (phaseIncrement < 0) {
+    if (phaseIncrement < 0) 
+    {
         phaseIncrement = -phaseIncrement;
         shouldResetPhase = true;
     }
     
-    if (shiftIncrement < 0) {
+    if (shiftIncrement < 0) 
+    {
         shiftIncrement = -shiftIncrement;
     }
     /*
@@ -825,12 +832,12 @@ bool RubberBandStretcher::Impl::getIncrements(size_t channel,
     */
     phaseIncrementRef = phaseIncrement;
     shiftIncrementRef = shiftIncrement;
-    if (cd.chunkSampleCount == 0) shouldResetPhase = true; // don't mess with the first chunk
+    if (cd.chunkSampleCount == 0) 
+        shouldResetPhase = true; // don't mess with the first chunk
     return gotData;
 }
 
-void
-RubberBandStretcher::Impl::windowingAndFft(size_t channel)
+void RubberBandStretcher::Impl::windowingAndFft(size_t channel)
 {
     Profiler profiler("RubberBandStretcher::Impl::windowingAndFft");
 
@@ -865,21 +872,21 @@ void RubberBandStretcher::Impl::modifyChunk(size_t channel,
         //DBG("phase reset: leaving phases unmodified");//often when muted and during silence, occa when playing music
     //}
 
-    const process_t rate = process_t(m_sampleRate); 
+    const process_t sr = process_t(m_sampleRate); 
     //DBG(rate);// change with the host
     const int count = m_fftSize / 2;
     // DBG(count);//1024
-    bool unchanged = cd.unchanged && (outputIncrement == m_inbufJumpSampleNum);
-    bool fullReset = shouldResetPhase;
+    bool isUnchanged = cd.isUnchanged && (outputIncrement == m_inbufJumpSampleNum);
+    bool shouldUseFullReset = shouldResetPhase;
     bool laminar = !(m_options & OptionPhaseIndependent);//banzhuangde, cengliude
     // always true
 
     bool bandlimited = (m_options & OptionTransientsMixed);
     // if (bandlimited)
     //    DBG("bandlimited is true");//always wrong
-    int bandlow = lrint((150 * m_fftSize) / rate);
+    int bandlow = lrint((150 * m_fftSize) / sr);
     
-    int bandhigh = lrint((1000 * m_fftSize) / rate);
+    int bandhigh = lrint((1000 * m_fftSize) / sr);
     // DBG("bandlow: " << bandlow << " bandhigh: " << bandhigh);
     // bandlow:7 always  bandhigh:46 always
 
@@ -896,7 +903,6 @@ void RubberBandStretcher::Impl::modifyChunk(size_t channel,
             float rf0 = 600 + (600 * ((r - 1) * (r - 1) * (r - 1) * 2));
             // DBG(rf0);//600-1800 when r is 1 to 2
             float f1ratio = freq1 / freq0;//2
-            
             float f2ratio = freq2 / freq0;//20
             // DBG("f1ratio: " << f1ratio << " f2ratio: " << f2ratio);//f1:2,f2:20
             freq0 = std::max(freq0, rf0);//max(600,rf0,which is more than 600 every time)
@@ -906,9 +912,9 @@ void RubberBandStretcher::Impl::modifyChunk(size_t channel,
         }
     }
 
-    int limit0 = lrint((freq0 * m_fftSize) / rate);
-    int limit1 = lrint((freq1 * m_fftSize) / rate);
-    int limit2 = lrint((freq2 * m_fftSize) / rate);
+    int limit0 = lrint((freq0 * m_fftSize) / sr);
+    int limit1 = lrint((freq1 * m_fftSize) / sr);
+    int limit2 = lrint((freq2 * m_fftSize) / sr);
     // DBG(limit0 << "    " << limit1 << "    " << limit2);//change with pitch ratio
     //typical:0.5) 28 56 557
     //2) 84 167 1672
@@ -938,7 +944,7 @@ void RubberBandStretcher::Impl::modifyChunk(size_t channel,
                 if (i > bandlow && i < bandhigh) 
                 {
                     resetThis = false;
-                    fullReset = false;
+                    shouldUseFullReset = false;
                 }
             }
         }
@@ -959,9 +965,7 @@ void RubberBandStretcher::Impl::modifyChunk(size_t channel,
         if (!resetThis) 
         {
             process_t omega = (2 * M_PI * m_inbufJumpSampleNum * i) / (m_fftSize);
-
             process_t pp = cd.prevPhase[i];
-
             process_t ep = pp + omega;
             perr = princarg(p - ep);
             // DBG(perr);//perr between -3.14 and 3.14
@@ -978,8 +982,7 @@ void RubberBandStretcher::Impl::modifyChunk(size_t channel,
                 // DBG("mi:" << mi); // int ,change with pitch ratio, if pitch ratio is more than 0,
                 // it would be 8 or 3
                 if (distance >= mi || i == count) 
-                {
-                    
+                {   
                     // DBG(distance); //sometimes 0, sometimes 1
                     inherit = false;
                 } 
@@ -1046,10 +1049,10 @@ void RubberBandStretcher::Impl::modifyChunk(size_t channel,
     // DBG("mean inheritance distance = " << distacc / count <<"\n");
     //usually between 0.009 and 0.035
 
-    if (fullReset) unchanged = true;
-    cd.unchanged = unchanged;
+    if (shouldUseFullReset) isUnchanged = true;
+    cd.isUnchanged = isUnchanged;
 
-    // if (unchanged) DBG("frame unchanged on channel " << channel << "\n");// jiaocuo, (staggered, occa)
+    // if (isUnchanged) DBG("frame isUnchanged on channel " << channel << "\n");// jiaocuo, (staggered, occa)
     // sync to resetThis
 }    
 
@@ -1111,7 +1114,7 @@ void RubberBandStretcher::Impl::formantShiftChunk(size_t channel)
 
     v_multiply(mag, envelope, hs+1);
 
-    cd.unchanged = false;
+    cd.isUnchanged = false;
 }
 
 void
@@ -1140,9 +1143,9 @@ RubberBandStretcher::Impl::synthesiseChunk(size_t channel,
 
     const int wsz = m_sWindowSize;
 
-    if (!cd.unchanged) 
+    if (!cd.isUnchanged) 
     {
-        // DBG("cd.unchanged is right"); // most times run here
+        // DBG("cd.isUnchanged is right"); // most times run here
         // Our FFTs produced unscaled results. Scale before inverse
         // transform rather than after, to avoid overflow if using a
         // fixed-point FFT.

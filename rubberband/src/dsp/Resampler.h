@@ -47,7 +47,7 @@ public:
         /**
          * Performance hint indicating whether the ratio is expected
          * to change regularly or not. If not, more work may happen on
-         * ratio changes to reduce work when ratio is unchanged.
+         * ratio changes to reduce work when ratio is isUnchanged.
          */
         Dynamism dynamism; 
 

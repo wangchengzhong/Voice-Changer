@@ -309,17 +309,17 @@ int64_t StretchCalculator::expectedOutFrame(int64_t inFrame, double outputTimeSt
 int StretchCalculator::calculateSingle(double outputTimeRatio,
                                    double frac_1_outputPitchRatio,
                                    float df,
-                                   size_t inIncrement,
+                                   size_t in_Increment,
                                    size_t analysisWindowSize,
                                    size_t synthesisWindowSize)
 {
     double innerPitchRatio = outputTimeRatio / frac_1_outputPitchRatio;
     // DBG(frac_1_outputPitchRatio); //outputTimeStretchRatio = 1
 
-    int increment = int(inIncrement);
-    if (increment == 0) increment = m_inbufJumpSampleNum;
+    int inIncrement = int(in_Increment);
+    if (inIncrement == 0) inIncrement = m_inbufJumpSampleNum;
 
-    int outIncrement = lrint(increment * innerPitchRatio); // the normal case
+    int outIncrement = lrint(inIncrement * innerPitchRatio); // the normal case
     bool isTransient = false;
     
     // We want to ensure, as close as possible, that the phase reset
@@ -373,7 +373,8 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
     m_prevOutputPitchRatio = innerPitchRatio;
     m_prevOutputTimeRatio = outputTimeRatio;
 
-    if (m_debugLevel > 1) {
+    if (m_debugLevel > 1) 
+    {
         DBG("StretchCalculator::calculateSingle: outputTimeStretchRatio = "
             << outputTimeRatio << ", frac_1_outputPitchRatio = "
             << frac_1_outputPitchRatio << " (that's 1.0 / "
@@ -410,11 +411,9 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
     // almost intended incr 173 each time; projected is equalto /-1 /-2 of intended.
     int64_t divergence = projected - intended;
 
-    if (m_debugLevel > 2) 
-    {
-        std::cerr << "for current frame + quarter frame: intended " << intended << ", projected " << projected << ", divergence " << divergence << std::endl;
-    }
-    
+
+    DBG("for current frame + quarter frame: intended " << intended << ", projected " << projected << ", divergence " << divergence << "\n");
+
     // In principle, the threshold depends on chunk size: larger chunk
     // sizes need higher thresholds.  Since chunk size depends on
     // ratio, I suppose we could in theory calculate the threshold
@@ -429,11 +428,8 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
         // DBG("run here ");// occasinally
         if (divergence > 1000 || divergence < -1000) 
         {
-            // DBG("run here"); //never
-            if (m_debugLevel > 1) 
-            {
-                std::cerr << "StretchCalculator::calculateSingle: transient, but we're not permitting it because the divergence (" << divergence << ") is too great" << std::endl;
-            }
+            // never
+            DBG("StretchCalculator::calculateSingle: transient, but we're not permitting it because the divergence (" << divergence << ") is too great\n");
         } 
         else 
         {
@@ -470,16 +466,16 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
 
     }
             
-    if (isTransient) {
-
+    if (isTransient) 
+    {
         // DBG("StretchCalculator::calculateSingle: transient at (df " << df << ", threshold " << transientThreshold << ")\n");
         // when df > 0.35, exe. occa.
 
         // as in offline mode, 0.05 sec approx min between transients
         m_transientAmnesty =
-            lrint(ceil(double(m_sampleRate) / (20 * double(increment))));
+            lrint(ceil(double(m_sampleRate) / (20 * double(inIncrement))));
 
-        outIncrement = increment;
+        outIncrement = inIncrement;
 
     } 
     else 
@@ -488,12 +484,12 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
         if (divergence > 1000 || divergence < -1000) 
         {
             // DBG("never run here");//yes!
-            recovery = divergence / ((m_sampleRate / 10.0) / increment);
+            recovery = divergence / ((m_sampleRate / 10.0) / inIncrement);
         } 
         else if (divergence > 100 || divergence < -100) 
         {
             // DBG("sometimes run here"); // only at the beginning
-            recovery = divergence / ((m_sampleRate / 20.0) / increment);
+            recovery = divergence / ((m_sampleRate / 20.0) / inIncrement);
         } 
         else 
         {
@@ -510,8 +506,8 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
         // DBG("divergence = " << divergence << ", recovery = " << recovery << ", incr = " << incr << ", ");
         // incr~=256, recover = above desc, divergence =-1/-2most times, but can run to -57 occa
 
-        int minIncr = lrint(increment * innerPitchRatio * 0.3);
-        int maxIncr = lrint(increment * innerPitchRatio * 2);
+        int minIncr = lrint(inIncrement * innerPitchRatio * 0.3);
+        int maxIncr = lrint(inIncrement * innerPitchRatio * 2);
         // DBG(minIncr << "   max: " << maxIncr);//min=68,max = 455 / 77 512
         if (incr < minIncr) 
         {
@@ -533,8 +529,6 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
             outIncrement = incr;
         }
     }
-    int i = 0; if (isTransient) i = 1;
-
     //DBG("StretchCalculator::calculateSingle: returning isTransient = "
     //    << i << ", outIncrement = " << outIncrement << "\n");
     // if isTransient = 1, outIncrement would be 173 or so;
@@ -547,7 +541,7 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
     {
         //DBG("occasionally run here " << -outIncrement);// only -157 at first, and past is always -173
         return -outIncrement;
-    } 
+    }
     else 
     {
         return outIncrement;
@@ -604,13 +598,15 @@ StretchCalculator::findPeaks(const std::vector<float> &rawDf)
             if (df[i] < 0.22) continue;
 
             if (!hardPeakCandidates.empty() &&
-                i < prevHardPeak + hardPeakAmnesty) {
+                i < prevHardPeak + hardPeakAmnesty) 
+            {
                 continue;
             }
 
             bool hard = (df[i] > 0.4);
             
-            if (hard && (m_debugLevel > 1)) {
+            if (hard && (m_debugLevel > 1))
+            {
                 std::cerr << "hard peak at " << i << ": " << df[i] 
                           << " > absolute " << 0.4
                           << std::endl;

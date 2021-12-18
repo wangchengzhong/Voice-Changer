@@ -117,7 +117,7 @@ public:
     float *fltbuf;
     process_t *dblbuf; // owned by FFT object, only used for time domain FFT i/o
     process_t *envelope; // for cepstral formant shift
-    bool unchanged;
+    bool isUnchanged;
 
     size_t prevIncrement; // only used in RT mode
 

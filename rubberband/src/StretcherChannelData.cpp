@@ -288,7 +288,7 @@ RubberBandStretcher::Impl::ChannelData::reset()
     inputSize = -1;
     outCount = 0;
     interpolatorScale = 0;
-    unchanged = true;
+    isUnchanged = true;
     draining = false;
     outputComplete = false;
 }
