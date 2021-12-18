@@ -307,13 +307,13 @@ int64_t StretchCalculator::expectedOutFrame(int64_t inFrame, double outputTimeSt
 }
 
 int StretchCalculator::calculateSingle(double outputTimeStretchRatio,
-                                   double effectivePitchRatio,
+                                   double frac_1_pitchRatio,
                                    float df,
                                    size_t inIncrement,
                                    size_t analysisWindowSize,
                                    size_t synthesisWindowSize)
 {
-    double outputPitchRatio = outputTimeStretchRatio / effectivePitchRatio;
+    double outputPitchRatio = outputTimeStretchRatio / frac_1_pitchRatio;
     // DBG(effectivePitchRatio); //outputTimeStretchRatio = 1
 
     int increment = int(inIncrement);
@@ -376,8 +376,8 @@ int StretchCalculator::calculateSingle(double outputTimeStretchRatio,
     if (m_debugLevel > 1) {
         DBG("StretchCalculator::calculateSingle: outputTimeStretchRatio = "
             << outputTimeStretchRatio << ", effectivePitchRatio = "
-            << effectivePitchRatio << " (that's 1.0 / "
-            << (1.0 / effectivePitchRatio)
+            << frac_1_pitchRatio << " (that's 1.0 / "
+            << (1.0 / frac_1_pitchRatio)
             << "), \nratio = " << outputPitchRatio << ", df = " << df
             << ", inIncrement = " << inIncrement
             << ", default outIncrement = " << outIncrement
@@ -403,7 +403,7 @@ int StretchCalculator::calculateSingle(double outputTimeStretchRatio,
         = int64_t
             (round
                 (
-                    m_outFrameCounter + (synthesisWindowSize/4 * effectivePitchRatio)
+                    m_outFrameCounter + (synthesisWindowSize/4 * frac_1_pitchRatio)
                 )
             );
     // DBG("intended: " << intended << "  projected: " << projected);
@@ -541,7 +541,7 @@ int StretchCalculator::calculateSingle(double outputTimeStretchRatio,
     //else is 265,256,255,257 or so, and 255 256 the most
 
     m_inFrameCounter += inIncrement;
-    m_outFrameCounter += outIncrement * effectivePitchRatio;
+    m_outFrameCounter += outIncrement * frac_1_pitchRatio;
     
     if (isTransient) 
     {

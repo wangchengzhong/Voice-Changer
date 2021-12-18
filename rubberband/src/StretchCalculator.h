@@ -68,7 +68,7 @@ public:
      * If increment is non-zero, use it for the input increment for
      * this block in preference to m_inbufJumpSampleNum.
      */
-    int calculateSingle(double timeRatio,
+    int calculateSingle(double outputTimeStretchRatio,
                         double effectivePitchRatio,
                         float curveValue,
                         size_t increment,
@@ -111,14 +111,14 @@ protected:
     size_t m_sampleRate;
     size_t m_inbufJumpSampleNum;
     float m_prevDf;
-    double m_prevRatio;
-    double m_prevTimeRatio;
+    double m_prevOutputPitchRatio;
+    double m_prevOutputTimeRatio;
     int m_transientAmnesty; // only in RT mode; handled differently offline
     int m_debugLevel;
     bool m_useHardPeaks;
     int64_t m_inFrameCounter;
     std::pair<int64_t, int64_t> m_frameCheckpoint;
-    int64_t expectedOutFrame(int64_t inFrame, double timeRatio);
+    int64_t expectedOutFrame(int64_t inFrame, double outputTimeStretchRatio);
     double m_outFrameCounter;
 
     std::map<size_t, size_t> m_keyFrameMap;

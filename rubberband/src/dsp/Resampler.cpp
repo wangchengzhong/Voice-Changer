@@ -574,7 +574,7 @@ protected:
     int m_channels;
     int m_iinsize;
     int m_ioutsize;
-    double m_prevRatio;
+    double m_prevOutputPitchRatio;
     bool m_ratioUnset;
     bool m_smoothRatios;
     int m_debugLevel;
@@ -588,7 +588,7 @@ D_SRC::D_SRC(Resampler::Quality quality, Resampler::RatioChange ratioChange,
     m_channels(channels),
     m_iinsize(0),
     m_ioutsize(0),
-    m_prevRatio(1.0),
+    m_prevOutputPitchRatio(1.0),
     m_ratioUnset(true),
     m_smoothRatios(ratioChange == Resampler::SmoothRatioChange),
     m_debugLevel(debugLevel)
@@ -701,15 +701,15 @@ D_SRC::resampleInterleaved(float *const BQ_R__ out,
         // The first time we set a ratio, we want to do it directly
         src_set_ratio(m_src, ratio);
         m_ratioUnset = false;
-        m_prevRatio = ratio;
+        m_prevOutputPitchRatio = ratio;
 
-    } else if (ratio != m_prevRatio) {
+    } else if (ratio != m_prevOutputPitchRatio) {
 
         // If we are processing a block of appreciable length, turn it
         // into two recursive calls, one for the short smoothing block
-        // and the other for the rest. Update m_prevRatio before doing
+        // and the other for the rest. Update m_prevOutputPitchRatio before doing
         // this so that the calls don't themselves recurse!
-        m_prevRatio = ratio;
+        m_prevOutputPitchRatio = ratio;
 
         int shortBlock = 200;
         if (outcount > shortBlock * 2) {

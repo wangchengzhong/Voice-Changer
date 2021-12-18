@@ -675,8 +675,8 @@ void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRef,
     }
 
     double effectivePitchRatio = 1.0 / m_pitchScale;
-    //  DBG("effectivePitchRatio:" << m_pitchScale);
-    //effectivePitchRatio:when choose 2, 0.890899
+    // DBG("effectivePitchRatio:" << m_pitchScale);
+    //effectivePitchRatio:when choose 12, 2
     //if (cd.resampler) 
     //{ 
     //    effectivePitchRatio = cd.resampler->getEffectiveRatio(effectivePitchRatio);
