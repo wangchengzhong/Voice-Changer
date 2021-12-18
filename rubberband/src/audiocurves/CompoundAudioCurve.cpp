@@ -93,8 +93,7 @@ float CompoundAudioCurve::processFloat(const float *R__ mag, int increment)
     return processFiltering(percussive, hf);
 }
 
-double
-CompoundAudioCurve::processDouble(const double *R__ mag, int increment)
+double CompoundAudioCurve::processDouble(const double *R__ mag, int increment)
 {
     double percussive = 0.0;
     double hf = 0.0;

@@ -350,10 +350,10 @@ void RubberBandStretcher::Impl::processChunks(size_t c, bool &any, bool &last)
             }
         }
 
-        cd.chunkCount++;
+        cd.chunkSampleCount++;
         if (m_debugLevel > 2) 
         {
-            cerr << "channel " << c << ": last = " << last << ", chunkCount = " << cd.chunkCount << endl;
+            cerr << "channel " << c << ": last = " << last << ", chunkSampleCount = " << cd.chunkSampleCount << endl;
         }
     }
 
@@ -408,7 +408,7 @@ bool RubberBandStretcher::Impl::processOneChunk()
     for (size_t c = 0; c < m_channels; ++c)
     {
         last = processChunkForChannel(c, phaseIncrement, shiftIncrement, shouldResetPhase);
-        m_channelData[c]->chunkCount++;
+        m_channelData[c]->chunkSampleCount++;
     }
     // int i = 0; if (last) i = 1;
     // DBG("processOneChunk return value:" << i);
@@ -584,8 +584,8 @@ RubberBandStretcher::Impl::processChunkForChannel(size_t c,
     return last;
 }
 
-void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRtn,
-                                               size_t &shiftIncrementRtn,
+void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRef,
+                                               size_t &shiftIncrementRef,
                                                bool &shouldResetPhase)
 {
     Profiler profiler("RubberBandStretcher::Impl::calculateIncrements");
@@ -602,19 +602,19 @@ void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRtn,
 
     // This function is only used in real-time mode.
 
-    phaseIncrementRtn = m_inbufJumpSampleNum;
-    shiftIncrementRtn = m_inbufJumpSampleNum;
+    phaseIncrementRef = m_inbufJumpSampleNum;
+    shiftIncrementRef = m_inbufJumpSampleNum;
     shouldResetPhase = false;
 
     if (m_channels == 0) return;
 
     ChannelData &cd = *m_channelData[0];
 
-    size_t bc = cd.chunkCount;
-    // DBG("chunkCount: " << bc);//chunkCount:from 0 growing, without stopping
+    size_t bc = cd.chunkSampleCount;
+    // DBG("chunkSampleCount: " << bc);//chunkSampleCount:from 0 growing, without stopping
     for (size_t c = 1; c < m_channels; ++c) 
     {
-        if (m_channelData[c]->chunkCount != bc) 
+        if (m_channelData[c]->chunkSampleCount != bc) 
         {
             cerr << "ERROR: RubberBandStretcher::Impl::calculateIncrements: Channels are not in sync" << endl;
             return;
@@ -634,22 +634,22 @@ void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRtn,
     // be apparent.
 
     float df = 0.f;
-    bool silent = false;
+    bool isSilent = false;
 
     if (m_channels == 1) 
     {
         if (sizeof(process_t) == sizeof(double)) 
         {
             df = m_phaseResetAudioCurve->processDouble((double *)cd.mag, m_inbufJumpSampleNum);
-            silent = (m_silentAudioCurve->processDouble((double *)cd.mag, m_inbufJumpSampleNum) > 0.f);
-            // DBG("df: " << df << "silent:\n\n"); //not run here at all
+            isSilent = (m_silentAudioCurve->processDouble((double *)cd.mag, m_inbufJumpSampleNum) > 0.f);
+            // DBG("df: " << df << "isSilent:\n\n"); //not run here at all
         }   
         else 
         {
 
             df = m_phaseResetAudioCurve->processFloat((float *)cd.mag, m_inbufJumpSampleNum);
-            silent = (m_silentAudioCurve->processFloat((float *)cd.mag, m_inbufJumpSampleNum) > 0.f);
-            // DBG("df: " << df << "silent:\n\n"); //not run here at all
+            isSilent = (m_silentAudioCurve->processFloat((float *)cd.mag, m_inbufJumpSampleNum) > 0.f);
+            // DBG("df: " << df << "isSilent:\n\n"); //not run here at all
         }
     } 
     else 
@@ -665,12 +665,12 @@ void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRtn,
         if (sizeof(process_t) == sizeof(double)) 
         {
             df = m_phaseResetAudioCurve->processDouble((double *)tmp, m_inbufJumpSampleNum);
-            silent = (m_silentAudioCurve->processDouble((double *)tmp, m_inbufJumpSampleNum) > 0.f);
+            isSilent = (m_silentAudioCurve->processDouble((double *)tmp, m_inbufJumpSampleNum) > 0.f);
         } 
         else 
         {
             df = m_phaseResetAudioCurve->processFloat((float *)tmp, m_inbufJumpSampleNum);
-            silent = (m_silentAudioCurve->processFloat((float *)tmp, m_inbufJumpSampleNum) > 0.f);
+            isSilent = (m_silentAudioCurve->processFloat((float *)tmp, m_inbufJumpSampleNum) > 0.f);
         }
     }
 
@@ -725,20 +725,20 @@ void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRtn,
     // of the broadband onset detector may mean that this isn't a
     // problem -- test it and see.
 
-    shiftIncrementRtn = incr;
+    shiftIncrementRef = incr;
 
     if (cd.prevIncrement == 0) 
     {
-        phaseIncrementRtn = shiftIncrementRtn;
+        phaseIncrementRef = shiftIncrementRef;
     } 
     else 
     {
-        phaseIncrementRtn = cd.prevIncrement;
+        phaseIncrementRef = cd.prevIncrement;
     }
 
-    cd.prevIncrement = shiftIncrementRtn;
+    cd.prevIncrement = shiftIncrementRef;
 
-    if (silent) 
+    if (isSilent) 
         ++m_silentHistory;
     else 
         m_silentHistory = 0;
@@ -746,7 +746,7 @@ void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRtn,
     if (m_silentHistory >= int(m_aWindowSize / m_inbufJumpSampleNum) && !shouldResetPhase) 
     {
         shouldResetPhase = true;
-        //DBG("calculateIncrements: phase reset on silence (silent history == "
+        //DBG("calculateIncrements: phase reset on silence (isSilent history == "
         //    << m_silentHistory << ")\n");
         // at the first few times, although running, it is still mute.
         // when mute, run these block.
@@ -754,16 +754,16 @@ void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRtn,
 }
 
 bool RubberBandStretcher::Impl::getIncrements(size_t channel,
-                                         size_t &phaseIncrementRtn,
-                                         size_t &shiftIncrementRtn,
+                                         size_t &phaseIncrementRef,
+                                         size_t &shiftIncrementRef,
                                          bool &shouldResetPhase)
 {
     Profiler profiler("RubberBandStretcher::Impl::getIncrements");
 
     if (channel >= m_channels) 
     {
-        phaseIncrementRtn = m_inbufJumpSampleNum;
-        shiftIncrementRtn = m_inbufJumpSampleNum;
+        phaseIncrementRef = m_inbufJumpSampleNum;
+        shiftIncrementRef = m_inbufJumpSampleNum;
         shouldResetPhase = false;
         return false;
     }
@@ -787,26 +787,26 @@ bool RubberBandStretcher::Impl::getIncrements(size_t channel,
     ChannelData &cd = *m_channelData[channel];
     bool gotData = true;
 
-    if (cd.chunkCount >= m_outputIncrements.size()) {
+    if (cd.chunkSampleCount >= m_outputIncrements.size()) {
 //        cerr << "WARNING: RubberBandStretcher::Impl::getIncrements:"
-//             << " chunk count " << cd.chunkCount << " >= "
+//             << " chunk count " << cd.chunkSampleCount << " >= "
 //             << m_outputIncrements.size() << endl;
         if (m_outputIncrements.size() == 0) {
-            phaseIncrementRtn = m_inbufJumpSampleNum;
-            shiftIncrementRtn = m_inbufJumpSampleNum;
+            phaseIncrementRef = m_inbufJumpSampleNum;
+            shiftIncrementRef = m_inbufJumpSampleNum;
             shouldResetPhase = false;
             return false;
         } else {
-            cd.chunkCount = m_outputIncrements.size()-1;
+            cd.chunkSampleCount = m_outputIncrements.size()-1;
             gotData = false;
         }
     }
     
-    int phaseIncrement = m_outputIncrements[cd.chunkCount];
+    int phaseIncrement = m_outputIncrements[cd.chunkSampleCount];
     
     int shiftIncrement = phaseIncrement;
-    if (cd.chunkCount + 1 < m_outputIncrements.size()) {
-        shiftIncrement = m_outputIncrements[cd.chunkCount + 1];
+    if (cd.chunkSampleCount + 1 < m_outputIncrements.size()) {
+        shiftIncrement = m_outputIncrements[cd.chunkSampleCount + 1];
     }
     
     if (phaseIncrement < 0) {
@@ -819,13 +819,13 @@ bool RubberBandStretcher::Impl::getIncrements(size_t channel,
     }
     /*
     if (shiftIncrement >= int(m_windowSize)) {
-        cerr << "*** ERROR: RubberBandStretcher::Impl::processChunks: shiftIncrement " << shiftIncrement << " >= windowSize " << m_windowSize << " at " << cd.chunkCount << " (of " << m_outputIncrements.size() << ")" << endl;
+        cerr << "*** ERROR: RubberBandStretcher::Impl::processChunks: shiftIncrement " << shiftIncrement << " >= windowSize " << m_windowSize << " at " << cd.chunkSampleCount << " (of " << m_outputIncrements.size() << ")" << endl;
         shiftIncrement = m_windowSize;
     }
     */
-    phaseIncrementRtn = phaseIncrement;
-    shiftIncrementRtn = shiftIncrement;
-    if (cd.chunkCount == 0) shouldResetPhase = true; // don't mess with the first chunk
+    phaseIncrementRef = phaseIncrement;
+    shiftIncrementRef = shiftIncrement;
+    if (cd.chunkSampleCount == 0) shouldResetPhase = true; // don't mess with the first chunk
     return gotData;
 }
 

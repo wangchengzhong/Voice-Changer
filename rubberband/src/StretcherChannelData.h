@@ -121,7 +121,7 @@ public:
 
     size_t prevIncrement; // only used in RT mode
 
-    size_t chunkCount;
+    size_t chunkSampleCount;
     size_t into_RB_InbufSampleCount;
     std::atomic<int64_t> inputSize; // set only after known (when data ended); -1 previously
     size_t outCount;
