@@ -166,7 +166,8 @@ struct BlockCircularBuffer final
 			memcpy(internalBuffer, sourceBuffer + overlapAmount + firstWriteAmount, sizeof(ElementType) *
 				(remainingElements - static_cast<unsigned long long>(firstWriteAmount)));
 		}
-
+		// DBG(writeHopSize);
+		// DBG(readHopSize);
 		latestDataIndex = (writeIndex + sourceLength) % length;
 		writeIndex += writeHopSize;
 		writeIndex %= length;

@@ -260,8 +260,6 @@ public:
 	{
 		return (int)log2(juce::nextPowerOfTwo(value));
 	}
-
-
 	std::shared_ptr<float>getSpectrumInput(void)
 	{
 		auto LevelRange = juce::FloatVectorOperations::findMinAndMax(fftBufferIn.get(), windowSize / 2);

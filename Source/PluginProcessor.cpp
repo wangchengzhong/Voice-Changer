@@ -1,10 +1,4 @@
-/*
-  ==============================================================================
 
-    This file contains the basic framework code for a JUCE plugin processor.
-
-  ==============================================================================
-*/
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
@@ -165,7 +159,7 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
 
         const auto windows = pitchShifters[0]->getLatencyInSamples();
 #if USE_RUBBERBAND==false
-        setLatencySamples(windows);
+        setLatencySamples(windows/5);
 #endif
 #endif
         // SpectrumFilter* pSpectrumFilter;
