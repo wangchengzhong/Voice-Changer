@@ -119,17 +119,17 @@ protected:
     void processChunks(size_t channel, bool &any, bool &last);
     bool processOneChunk(); // across all channels, for real time use
     bool processChunkForChannel(size_t channel, size_t phaseIncrement,
-                                size_t shiftIncrement, bool shouldResetPhase);
+                                size_t synthIncrement, bool shouldResetPhase);
     bool testInbufReadSpace(size_t channel);
     void calculateIncrements(size_t &phaseIncrement,
-                             size_t &shiftIncrement, bool &shouldResetPhase);
+                             size_t &synthIncrement, bool &shouldResetPhase);
     bool getIncrements(size_t channel, size_t &phaseIncrement,
-                       size_t &shiftIncrement, bool &shouldResetPhase);
+                       size_t &synthIncrement, bool &shouldResetPhase);
     void windowingAndFft(size_t channel);
     void modifyChunk(size_t channel, size_t outputIncrement, bool shouldResetPhase);
     void formantShiftChunk(size_t channel);
-    void synthesiseChunk(size_t channel, size_t shiftIncrement);
-    void writeChunk(size_t channel, size_t shiftIncrement, bool last);
+    void synthesiseChunk(size_t channel, size_t synthIncrement);
+    void writeChunk(size_t channel, size_t synthIncrement, bool last);
 
     void calculateSizes();
     void configure();

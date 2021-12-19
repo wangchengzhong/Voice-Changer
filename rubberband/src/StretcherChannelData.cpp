@@ -282,7 +282,7 @@ RubberBandStretcher::Impl::ChannelData::reset()
     windowAccumulator[0] = 1.f;
     
     accumulatorFill = 0;
-    prevIncrement = 0;
+    prevSynthIncrement = 0;
     chunkSampleCount = 0;
     into_RB_InbufSampleCount = 0;
     inputSize = -1;

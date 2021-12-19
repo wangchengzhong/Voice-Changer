@@ -397,8 +397,7 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
         // increment steadily, equal to inFrameCounter
     }
     
-    int64_t intended =
-        expectedOutFrame(m_inFrameCounter + analysisWindowSize / 4, outputTimeRatio);
+    int64_t intended = expectedOutFrame(m_inFrameCounter + analysisWindowSize / 4, outputTimeRatio);
     int64_t projected 
         = int64_t
             (round

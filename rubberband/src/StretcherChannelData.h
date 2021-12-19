@@ -119,7 +119,7 @@ public:
     process_t *envelope; // for cepstral formant shift
     bool isUnchanged;
 
-    size_t prevIncrement; // only used in RT mode
+    size_t prevSynthIncrement; // only used in RT mode
 
     size_t chunkSampleCount;
     size_t into_RB_InbufSampleCount;

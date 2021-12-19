@@ -51,8 +51,8 @@ public:
 				previousFramePhases[x] = phase;
 				synthPhaseIncrements[x] = PhaseVocoder::principalArgument(synthPhaseIncrements[x] + (deltaPhase * phaseVocoder.getTimeStretchRatio()));
 
-				// buffer[i] = mag * std::cos(synthPhaseIncrements[x]);
-				// buffer[i + 1] = mag * std::sin(synthPhaseIncrements[x]);
+				buffer[i] = mag * std::cos(synthPhaseIncrements[x]);
+				buffer[i + 1] = mag * std::sin(synthPhaseIncrements[x]);
 			}
 
 			setProcessFlag(true);

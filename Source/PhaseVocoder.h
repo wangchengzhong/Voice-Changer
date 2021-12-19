@@ -143,6 +143,7 @@ public:
 			internalBufferSize = incomingSampleCount + remainingIncomingSamples >= samplesTilNextProcess ?
 				samplesTilNextProcess - incomingSampleCount : remainingIncomingSamples;
 			/////////////////////////////////
+			DBG(samplesTilNextProcess);
 			//DBG("Internal buffer: Offset: " << internalOffset << ", Size: " << internalBufferSize);
 			/////////////////////////////////
 			jassert(internalBufferSize <= audioBufferSize);
@@ -216,7 +217,6 @@ public:
 				//DBG("Synthesis Write Index: " << synthesisBuffer.getWriteIndex());
 				////////////////////////////////////////////////////
 				setProcessFlag(true);
-				
 			}
 			// Emit silence until we start producing output
 			if (!isProcessing)

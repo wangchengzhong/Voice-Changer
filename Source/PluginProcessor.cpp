@@ -114,9 +114,9 @@ void VoiceChanger_wczAudioProcessor::changeProgramName (int index, const juce::S
 //==============================================================================
 void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-
+#if USE_RUBBERBAND
     rbs = std::make_unique<PitchShifterRubberband>(getTotalNumInputChannels(), sampleRate, samplesPerBlock);
-
+#endif
 #if _OPEN_PEAK_PITCH
     pitchShifters.clear();
     peakShifters.clear();
@@ -161,7 +161,9 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
         peakShifters.add(pPeakShifter = new PeakShifter());
 
         const auto windows = pitchShifters[0]->getLatencyInSamples();
-
+#if USE_RUBBERBAND==false
+        setLatencySamples(windows);
+#endif
 #endif
         // SpectrumFilter* pSpectrumFilter;
         // spectrumFilter.add(pSpectrumFilter = new SpectrumFilter());
@@ -248,24 +250,18 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
     }
 #endif
 #if _OPEN_PEAK_PITCH
-
+#if USE_RUBBERBAND
+    rbs->processBuffer(buffer);
+#else
     for (int channel = 0; channel < getNumInputChannels(); ++channel)
     {
         float* channelData = buffer.getWritePointer(channel);
         pitchShifters[channel]->process(channelData, numSamples);
-        //peakShifters[channel]->process(channelData, numSamples);
+        // peakShifters[channel]->process(channelData, numSamples);
     }
-    float* channelData = buffer.getWritePointer(0);
-    auto readPointers = buffer.getArrayOfWritePointers();
-    auto writePointers = buffer.getArrayOfWritePointers();
-    // auto samplesAvailableFromStretcher = rb->available();
-    
-    //rb->process(writePointers, buffer.getNumSamples(), false);
-    rbs->processBuffer(buffer);
-    
-    // auto rbOutput = rb->retrieve(writePointers, buffer.getNumSamples());
-    // transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
 #endif
+#endif
+
 #if _OPEN_TEST
 
     for (int channel = 0; channel < getNumInputChannels(); ++channel)
@@ -748,16 +744,19 @@ void VoiceChanger_wczAudioProcessor::updateUIControls()
     float pitchRatio = getPitchShift();
     float peakRatio = getPeakShift();
     // rb->setPitchScale(pitchRatio);
+#if USE_RUBBERBAND
     rbs->setSemitoneShift(pitchRatio);
+#else
     for (int i = 0; i < pitchShifters.size(); ++i)
     {
-        // pitchShifters[i]->setPitchRatio(pitchRatio);
+        pitchShifters[i]->setPitchRatio(pow(2,(pitchRatio/12)));
         // shapeInvariantPitchShifters[i]->setPitchRatio(pitchRatio);
     }
     for (int i = 0; i < peakShifters.size(); ++i)
     {
-        peakShifters[i]->setPitchRatio(peakRatio);
+        // peakShifters[i]->setPitchRatio(peakRatio);
     }
+#endif
 #endif
 #if _OPEN_TEST
     float pitchRatioTest = getPitchShift();

@@ -28,6 +28,7 @@
 #define _OPEN_DYNAMICS true
 #define _OPEN_TEST false
 #define _FILTER_NUM 5
+#define USE_RUBBERBAND false
 //==============================================================================
 /**
 */
@@ -218,9 +219,12 @@ private:
     void drawSpectrumGraph(juce::Image view, std::shared_ptr<float>level, juce::Colour colour, bool isLog);
     //void syncPluginParameter();
     juce::Image spectrum;
-
+#if USE_RUBBERBAND
     std::unique_ptr<PitchShifterRubberband> rbs;
     const int rbOptions = RubberBand::RubberBandStretcher::Option::OptionProcessRealTime + RubberBand::RubberBandStretcher::Option::OptionPitchHighConsistency;
+#endif // USE_RUBBERBAND
+
+    
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VoiceChanger_wczAudioProcessor)

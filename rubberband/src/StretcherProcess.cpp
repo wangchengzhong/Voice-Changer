@@ -320,29 +320,29 @@ void RubberBandStretcher::Impl::processChunks(size_t c, bool &any, bool &last)
         }
 
         bool shouldResetPhase = false;
-        size_t phaseIncrement, shiftIncrement;
-        getIncrements(c, phaseIncrement, shiftIncrement, shouldResetPhase);
+        size_t phaseIncrement, synthIncrement;
+        getIncrements(c, phaseIncrement, synthIncrement, shouldResetPhase);
 
-        if (shiftIncrement <= m_aWindowSize) {
+        if (synthIncrement <= m_aWindowSize) {
             windowingAndFft(c);
             last = processChunkForChannel
-                (c, phaseIncrement, shiftIncrement, shouldResetPhase);
+                (c, phaseIncrement, synthIncrement, shouldResetPhase);
         } else {
             size_t bit = m_aWindowSize/4;
             if (m_debugLevel > 1)
             {
-                cerr << "channel " << c << " breaking down overlong increment " << shiftIncrement << " into " << bit << "-size bits" << endl;
+                cerr << "channel " << c << " breaking down overlong increment " << synthIncrement << " into " << bit << "-size bits" << endl;
             }
             if (!tmp) tmp = allocate<float>(m_aWindowSize);
             windowingAndFft(c);
             v_copy(tmp, cd.fltbuf, m_aWindowSize);
-            for (size_t i = 0; i < shiftIncrement; i += bit) 
+            for (size_t i = 0; i < synthIncrement; i += bit) 
             {
                 v_copy(cd.fltbuf, tmp, m_aWindowSize);
                 size_t thisIncrement = bit;
-                if (i + thisIncrement > shiftIncrement) 
+                if (i + thisIncrement > synthIncrement) 
                 {
-                    thisIncrement = shiftIncrement - i;
+                    thisIncrement = synthIncrement - i;
                 }
                 last = processChunkForChannel
                     (c, phaseIncrement + i, thisIncrement, shouldResetPhase);
@@ -397,17 +397,17 @@ bool RubberBandStretcher::Impl::processOneChunk()
     }
     
     bool shouldResetPhase = false;
-    size_t phaseIncrement, shiftIncrement;
-    if (!getIncrements(0, phaseIncrement, shiftIncrement, shouldResetPhase)) 
+    size_t phaseIncrement, synthIncrement;
+    if (!getIncrements(0, phaseIncrement, synthIncrement, shouldResetPhase)) 
     {
         // DBG("have run here");//often
-        calculateIncrements(phaseIncrement, shiftIncrement, shouldResetPhase);
+        calculateIncrements(phaseIncrement, synthIncrement, shouldResetPhase);
     }
 
     bool last = false;
     for (size_t c = 0; c < m_channels; ++c)
     {
-        last = processChunkForChannel(c, phaseIncrement, shiftIncrement, shouldResetPhase);
+        last = processChunkForChannel(c, phaseIncrement, synthIncrement, shouldResetPhase);
         m_channelData[c]->chunkSampleCount++;
     }
     // int i = 0; if (last) i = 1;
@@ -474,7 +474,7 @@ bool RubberBandStretcher::Impl::testInbufReadSpace(size_t c)
 bool 
 RubberBandStretcher::Impl::processChunkForChannel(size_t c,
                                                   size_t phaseIncrement,
-                                                  size_t shiftIncrement,
+                                                  size_t synthIncrement,
                                                   bool shouldResetPhase)
 {
     Profiler profiler("RubberBandStretcher::Impl::processChunkForChannel");
@@ -487,8 +487,8 @@ RubberBandStretcher::Impl::processChunkForChannel(size_t c,
 
 
     // DBG("processChunkForChannel: phase reset found, incrs "
-    //        << phaseIncrement << ":" << shiftIncrement << "\n");
-    // 173 first appear at shiftIncrement 2 times, then appear at phaseIncrement 2 times
+    //        << phaseIncrement << ":" << synthIncrement << "\n");
+    // 173 first appear at synthIncrement 2 times, then appear at phaseIncrement 2 times
     // most times, 2 pairs together, 256:255 happen most times
 
     ChannelData &cd = *m_channelData[c];
@@ -510,7 +510,7 @@ RubberBandStretcher::Impl::processChunkForChannel(size_t c,
         // then skip m_inbufJumpSampleNum to advance the read pointer.
 
         modifyChunk(c, phaseIncrement, shouldResetPhase);
-        synthesiseChunk(c, shiftIncrement); // reads from cd.mag, cd.phase
+        synthesiseChunk(c, synthIncrement); // reads from cd.mag, cd.phase
 
         //if (m_debugLevel > 2) 
         //{
@@ -529,24 +529,24 @@ RubberBandStretcher::Impl::processChunkForChannel(size_t c,
     // not running at all
     if (cd.draining) 
     {
-        // DBG("draining: accumulator fill = " << cd.accumulatorFill << " (shiftIncrement = " << shiftIncrement << ")\n");
-        if (shiftIncrement == 0) {
-            // DBG("WARNING: draining: shiftIncrement == 0, can't handle that in this context: setting to " 
+        // DBG("draining: accumulator fill = " << cd.accumulatorFill << " (synthIncrement = " << synthIncrement << ")\n");
+        if (synthIncrement == 0) {
+            // DBG("WARNING: draining: synthIncrement == 0, can't handle that in this context: setting to " 
             //    << m_inbufJumpSampleNum << "\n");
-            // shiftIncrement = m_inbufJumpSampleNum;
+            // synthIncrement = m_inbufJumpSampleNum;
         }
-        if (cd.accumulatorFill <= shiftIncrement) 
+        if (cd.accumulatorFill <= synthIncrement) 
         {
-            //DBG("reducing shift increment from " << shiftIncrement
+            //DBG("reducing shift increment from " << synthIncrement
             //              << " to " << cd.accumulatorFill
             //              << " and marking as last\n");
 
-            shiftIncrement = cd.accumulatorFill;
+            synthIncrement = cd.accumulatorFill;
             last = true;
         }
     }
         
-    int required = shiftIncrement;
+    int required = synthIncrement;
 
     if (m_outputPitchRatio != 1.0) 
     {
@@ -580,12 +580,12 @@ RubberBandStretcher::Impl::processChunkForChannel(size_t c,
         m_emergencyScavenger.claim(oldbuf);
     }
 
-    writeChunk(c, shiftIncrement, last);
+    writeChunk(c, synthIncrement, last);
     return last;
 }
 
 void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRef,
-                                               size_t &shiftIncrementRef,
+                                               size_t &synthIncrementRef,
                                                bool &shouldResetPhase)
 {
     Profiler profiler("RubberBandStretcher::Impl::calculateIncrements");
@@ -603,7 +603,7 @@ void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRef,
     // This function is only used in real-time mode.
 
     phaseIncrementRef = m_inbufJumpSampleNum;
-    shiftIncrementRef = m_inbufJumpSampleNum;
+    synthIncrementRef = m_inbufJumpSampleNum;
     shouldResetPhase = false;
 
     if (m_channels == 0) return;
@@ -703,6 +703,7 @@ void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRef,
 
     if (incr < 0) 
     {
+        // DBG("have run here");
         shouldResetPhase = true;
         incr = -incr;
     }
@@ -725,18 +726,18 @@ void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRef,
     // of the broadband onset detector may mean that this isn't a
     // problem -- test it and see.
 
-    shiftIncrementRef = incr;
+    synthIncrementRef = incr;
 
-    if (cd.prevIncrement == 0) 
+    if (cd.prevSynthIncrement == 0) 
     {
-        phaseIncrementRef = shiftIncrementRef;
+        phaseIncrementRef = synthIncrementRef;
     } 
     else 
     {
-        phaseIncrementRef = cd.prevIncrement;
+        phaseIncrementRef = cd.prevSynthIncrement;
     }
 
-    cd.prevIncrement = shiftIncrementRef;
+    cd.prevSynthIncrement = synthIncrementRef;
 
     if (isSilent) 
         ++m_silentHistory;
@@ -755,7 +756,7 @@ void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRef,
 
 bool RubberBandStretcher::Impl::getIncrements(size_t channel,
                                          size_t &phaseIncrementRef,
-                                         size_t &shiftIncrementRef,
+                                         size_t &synthIncrementRef,
                                          bool &shouldResetPhase)
 {
     Profiler profiler("RubberBandStretcher::Impl::getIncrements");
@@ -763,7 +764,7 @@ bool RubberBandStretcher::Impl::getIncrements(size_t channel,
     if (channel >= m_channels) 
     {
         phaseIncrementRef = m_inbufJumpSampleNum;
-        shiftIncrementRef = m_inbufJumpSampleNum;
+        synthIncrementRef = m_inbufJumpSampleNum;
         shouldResetPhase = false;
         return false;
     }
@@ -795,7 +796,7 @@ bool RubberBandStretcher::Impl::getIncrements(size_t channel,
         if (m_outputIncrements.size() == 0) 
         {
             phaseIncrementRef = m_inbufJumpSampleNum;
-            shiftIncrementRef = m_inbufJumpSampleNum;
+            synthIncrementRef = m_inbufJumpSampleNum;
             shouldResetPhase = false;
             return false;
         } 
@@ -808,10 +809,10 @@ bool RubberBandStretcher::Impl::getIncrements(size_t channel,
     
     int phaseIncrement = m_outputIncrements[cd.chunkSampleCount];
     
-    int shiftIncrement = phaseIncrement;
+    int synthIncrement = phaseIncrement;
     if (cd.chunkSampleCount + 1 < m_outputIncrements.size()) 
     {
-        shiftIncrement = m_outputIncrements[cd.chunkSampleCount + 1];
+        synthIncrement = m_outputIncrements[cd.chunkSampleCount + 1];
     }
     
     if (phaseIncrement < 0) 
@@ -820,18 +821,18 @@ bool RubberBandStretcher::Impl::getIncrements(size_t channel,
         shouldResetPhase = true;
     }
     
-    if (shiftIncrement < 0) 
+    if (synthIncrement < 0) 
     {
-        shiftIncrement = -shiftIncrement;
+        synthIncrement = -synthIncrement;
     }
     /*
-    if (shiftIncrement >= int(m_windowSize)) {
-        cerr << "*** ERROR: RubberBandStretcher::Impl::processChunks: shiftIncrement " << shiftIncrement << " >= windowSize " << m_windowSize << " at " << cd.chunkSampleCount << " (of " << m_outputIncrements.size() << ")" << endl;
-        shiftIncrement = m_windowSize;
+    if (synthIncrement >= int(m_windowSize)) {
+        cerr << "*** ERROR: RubberBandStretcher::Impl::processChunks: synthIncrement " << synthIncrement << " >= windowSize " << m_windowSize << " at " << cd.chunkSampleCount << " (of " << m_outputIncrements.size() << ")" << endl;
+        synthIncrement = m_windowSize;
     }
     */
     phaseIncrementRef = phaseIncrement;
-    shiftIncrementRef = shiftIncrement;
+    synthIncrementRef = synthIncrement;
     if (cd.chunkSampleCount == 0) 
         shouldResetPhase = true; // don't mess with the first chunk
     return gotData;
@@ -1119,7 +1120,7 @@ void RubberBandStretcher::Impl::formantShiftChunk(size_t channel)
 
 void
 RubberBandStretcher::Impl::synthesiseChunk(size_t channel,
-                                           size_t shiftIncrement)
+                                           size_t synthIncrement)
 {
     Profiler profiler("RubberBandStretcher::Impl::synthesiseChunk");
 
@@ -1175,7 +1176,7 @@ RubberBandStretcher::Impl::synthesiseChunk(size_t channel,
     if (wsz > fsz) 
     {
         // DBG("have run here"); //never run here
-        int p = shiftIncrement * 2;
+        int p = synthIncrement * 2;
         if (cd.interpolatorScale != p) 
         {
             SincWindow<float>::write(cd.interpolator, wsz, p);
@@ -1203,7 +1204,7 @@ RubberBandStretcher::Impl::synthesiseChunk(size_t channel,
     }
 }
 
-void RubberBandStretcher::Impl::writeChunk(size_t channel, size_t shiftIncrement, bool last)
+void RubberBandStretcher::Impl::writeChunk(size_t channel, size_t synthIncrement, bool last)
 {
     Profiler profiler("RubberBandStretcher::Impl::writeChunk");
 
@@ -1213,10 +1214,10 @@ void RubberBandStretcher::Impl::writeChunk(size_t channel, size_t shiftIncrement
     float *const R__ windowAccumulator = cd.windowAccumulator;
 
     const int sz = cd.accumulatorFill;
-    const int si = shiftIncrement;
+    const int si = synthIncrement;
 
     
-    // DBG("writeChunk(" << channel << ", " << shiftIncrement << ", "  << ")\n");
+    // DBG("writeChunk(" << channel << ", " << synthIncrement << ", "  << ")\n");
     // writeChunk(0/1, 255/256/269,sometimes down to 173 or so
     // 173 appears as a group
     
@@ -1303,8 +1304,7 @@ void RubberBandStretcher::Impl::writeChunk(size_t channel, size_t shiftIncrement
     }
 }
 
-void
-RubberBandStretcher::Impl::writeOutput(RingBuffer<float> &to, float *from, size_t qty, size_t &outCount, size_t theoreticalOut)
+void RubberBandStretcher::Impl::writeOutput(RingBuffer<float> &to, float *from, size_t qty, size_t &outCount, size_t theoreticalOut)
 {
     Profiler profiler("RubberBandStretcher::Impl::writeOutput");
 
