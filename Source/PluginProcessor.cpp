@@ -21,8 +21,10 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
 #endif
     )
     , spectrum(juce::Image::RGB, 512, 256, true)
+#if _OPEN_FILTERS
     , filters(new juce::OwnedArray<Filter>[nFiltersPerChannel])
     , filterIndex(createFilterIndexArray(_FILTER_NUM))
+#endif
     //, updataParamFlag(false)
     // , bandpassFilter(juce::dsp::IIR::Coefficients<float>::makeBandPass(22050, 5000.0f, 0.1))
 
@@ -30,6 +32,7 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
 {
     addParameter(nPitchShift = new juce::AudioParameterFloat("PitchShift", "pitchShift", -12.0f, 12.0f, 0.0f));
     addParameter(nPeakShift = new juce::AudioParameterFloat("PeakShift", "peakShift", 0.5f, 2.0f, 1.f));
+#if _OPEN_FILTERS
     addParameter(nFilterFreq = new juce::AudioParameterFloat("FilterFreq", "filterFreq", 80, 8000, 1));
     addParameter(nFilterQFactor = new juce::AudioParameterFloat("FilterQFactor", "filterQFactor", 0.01, 5.0, 1.f));
     addParameter(nFilterGain = new juce::AudioParameterFloat("FilterGain", "filterGain", -50, 1.0, 0.5f));
@@ -37,7 +40,7 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
     addParameter(nFilterType = new juce::AudioParameterInt("FilterType", "filterType", 1, 8, 6));
     // addParameter(nFilter2Type = new juce::AudioParameterInt("Filter2Type", "filter2Type", 1, 8, 6));
     addParameter(nFilterIndex = new juce::AudioParameterInt("FilterIndex", "filterIndex", 0, nFiltersPerChannel, 1));
-
+#endif
     addParameter(nDynamicsThreshold = new juce::AudioParameterFloat("DynamicsThreshold", "dynamicsThreshold", -50, 0.0, -3.0f));
     addParameter(nDynamicsRatio = new juce::AudioParameterFloat("DynamicsRatio", "dynamicsRatio", 1.0f, 25.0f, 5.0f));
     addParameter(nDynamicsAttack = new juce::AudioParameterFloat("DynamicsAttack", "dynammicsAttack", 0.00001f, 1.0f, 0.002f));
@@ -133,10 +136,10 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
     lfoPhaseForWahWah = 0.0f;
     inverseSampleRateForWahWah = 1.0f / (float)sampleRate;
 #endif
-//#if _OPEN_FILTERS
+#if _OPEN_FILTERS
     for (int i = 0; i < nFiltersPerChannel; i++)
         filters[i].clear();
-//#endif
+#endif
 #
 #if _OPEN_TEST
     shapeInvariantPitchShifters.clear();
@@ -144,11 +147,11 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
 
     for (int i = 0; i < getTotalNumInputChannels(); ++i)
     {
-//#if _OPEN_FILTERS
+#if _OPEN_FILTERS
         Filter* filter;
         for (int j = 0; j < nFiltersPerChannel; j++)
             filters[j].add(filter = new Filter());
-//#endif
+#endif
 #if _OPEN_WAHWAH
         filtersForWahWah.add(filter = new Filter());
 #endif
@@ -240,6 +243,7 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
     processWahwah(buffer, 0.02, 0.3, 0.8, 5, 0.5, 20, 2, 200.0f);
 #endif
 #if _OPEN_FILTERS
+#if _FILTER_PROCESS
     for (int channel = 0; channel < getNumInputChannels(); ++channel)
     {
         float* channelData = buffer.getWritePointer(channel);
@@ -249,10 +253,14 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
         }
     }
 #endif
+#endif
 #if _OPEN_PEAK_PITCH
+
+
 #if USE_RUBBERBAND
     rbs->processBuffer(buffer);
-#else
+#endif
+#if _SHOW_SPEC
     for (int channel = 0; channel < getNumInputChannels(); ++channel)
     {
         float* channelData = buffer.getWritePointer(channel);
@@ -294,10 +302,6 @@ void VoiceChanger_wczAudioProcessor::getStateInformation (juce::MemoryBlock& des
 
     xml->setAttribute("pitchShift", (double)*nPitchShift);
     xml->setAttribute("peakShift", (double)*nPeakShift);
-    xml->setAttribute("filterFreq", (double)*nFilterFreq);
-    xml->setAttribute("filterQFactor", (double)*nFilterQFactor);
-    xml->setAttribute("filterGain", (double)*nFilterGain);
-    xml->setAttribute("filterType", (int)*nFilterType);
 
     copyXmlToBinary(*xml, destData);
 }
@@ -312,13 +316,12 @@ void VoiceChanger_wczAudioProcessor::setStateInformation (const void* data, int 
 
             *nPitchShift = (float)xmlState->getDoubleAttribute("pitchShift", 1.0);
             *nPeakShift = (float)xmlState->getDoubleAttribute("peakShift", 1.0);
+#if _OPEN_FILTERS
             *nFilterFreq = (float)xmlState->getDoubleAttribute("filterFreq", 5000);
             *nFilterQFactor = (float)xmlState->getDoubleAttribute("filterQFactor", 1.0);
             *nFilterGain = (float)xmlState->getDoubleAttribute("filterGain", 1.0);
             *nFilterType = (int)xmlState->getIntAttribute("filterType", 1);
-
-            //postPitchShift = *nPitchShift = (float)xmlState->getDoubleAttribute("pitchShift", 1.0);
-            //postPeakShift = *nPeakShift = (float)xmlState->getDoubleAttribute("peakShift", 1.0);
+#endif
         }
     }
     //postPeakShift = 1.0;
@@ -532,13 +535,12 @@ void VoiceChanger_wczAudioProcessor::setPeakShift(float peak)
     *nPeakShift = peak;
 }
 
-
+#if _OPEN_FILTERS
 void VoiceChanger_wczAudioProcessor::setFilterFreqShift(float freq, int filterIndex)
 {
     //*bandpassFilter.state = *juce::dsp::IIR::Coefficients<float>::makeBandPass(lastSampleRate, freq, *nBandpassQ);
     //*nBandpassFreq = freq;
     //postBandpassFreq = freq;
-    *nFilterFreq = freq;
     for (int channel = 0; channel < getTotalNumInputChannels(); channel++)
     {
         filters[filterIndex - 1][channel]->freq = freq;
@@ -546,17 +548,15 @@ void VoiceChanger_wczAudioProcessor::setFilterFreqShift(float freq, int filterIn
 }
 void VoiceChanger_wczAudioProcessor::setFilterQFactorShift(float q, int filterIndex)
 {
-    //*bandpassFilter.state = *juce::dsp::IIR::Coefficients<float>::makeBandPass(lastSampleRate, *nBandpassFreq, q);
-    // *nFilterQFactor = q;
+
     for (int channel = 0; channel < getTotalNumInputChannels(); channel++)
     {
         filters[filterIndex - 1][channel]->qFactor = q;
     }
-    //postBandpassQ = q;
+
 }
 void VoiceChanger_wczAudioProcessor::setFilterGainShift(float gain,int filterIndex)
 {
-    // *nFilterGain = gain;
     for (int channel = 0; channel < getTotalNumInputChannels(); channel++)
     {
         filters[filterIndex - 1][channel]->gain = gain;
@@ -564,7 +564,6 @@ void VoiceChanger_wczAudioProcessor::setFilterGainShift(float gain,int filterInd
 }
 void VoiceChanger_wczAudioProcessor::setFilterTypeShift(int filterType,int filterIndex)
 {
-    // *nFilterType = filterType;
     for (int channel = 0; channel < getTotalNumInputChannels(); channel++)
     {
         filters[filterIndex - 1][channel]->filterType = filterType;
@@ -576,7 +575,9 @@ double VoiceChanger_wczAudioProcessor::getFilterFreqShift(int filterIndex)
 }
 double VoiceChanger_wczAudioProcessor::getFilterQFactorShift(int filterIndex)
 {
+
     return filters[filterIndex - 1][0]->qFactor;
+
 }
 double VoiceChanger_wczAudioProcessor::getFilterGainShift(int filterIndex)
 {
@@ -586,7 +587,7 @@ int VoiceChanger_wczAudioProcessor::getFilterTypeShift(int filterIndex)
 {
     return filters[filterIndex - 1][0]->filterType;
 }
-
+#endif
 
 void VoiceChanger_wczAudioProcessor::setDynamicsThresholdShift(float threshold)
 {
@@ -731,6 +732,7 @@ void VoiceChanger_wczAudioProcessor::drawSpectrumGraph(juce::Image view, std::sh
 void VoiceChanger_wczAudioProcessor::updateUIControls()
 {
 #if _OPEN_FILTERS
+#if _FILTER_PROCESS
     double discreteFrequency = 2.0 * juce::MathConstants<double>::pi * (double)getFilterFreqShift(currentFilterIndex) / getSampleRate();
     double qFactor = (double)getFilterQFactorShift(currentFilterIndex);
     double gain = pow(10.0, (double)getFilterGainShift(currentFilterIndex) * 0.05);
@@ -739,6 +741,7 @@ void VoiceChanger_wczAudioProcessor::updateUIControls()
     {
         filters[currentFilterIndex - 1][i]->updateCoefficients(discreteFrequency, qFactor, gain, type);
     }
+#endif
 #endif
 #if _OPEN_PEAK_PITCH
     float pitchRatio = getPitchShift();

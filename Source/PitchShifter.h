@@ -50,9 +50,10 @@ public:
 				const auto deltaPhase = omega + PhaseVocoder::principalArgument(phase - previousFramePhases[x] - omega);
 				previousFramePhases[x] = phase;
 				synthPhaseIncrements[x] = PhaseVocoder::principalArgument(synthPhaseIncrements[x] + (deltaPhase * phaseVocoder.getTimeStretchRatio()));
-
+#if USE_RUBBERBAND == false
 				buffer[i] = mag * std::cos(synthPhaseIncrements[x]);
 				buffer[i + 1] = mag * std::sin(synthPhaseIncrements[x]);
+#endif
 			}
 
 			setProcessFlag(true);

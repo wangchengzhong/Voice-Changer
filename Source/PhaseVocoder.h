@@ -143,7 +143,7 @@ public:
 			internalBufferSize = incomingSampleCount + remainingIncomingSamples >= samplesTilNextProcess ?
 				samplesTilNextProcess - incomingSampleCount : remainingIncomingSamples;
 			/////////////////////////////////
-			DBG(samplesTilNextProcess);
+			// DBG(samplesTilNextProcess);
 			//DBG("Internal buffer: Offset: " << internalOffset << ", Size: " << internalBufferSize);
 			/////////////////////////////////
 			jassert(internalBufferSize <= audioBufferSize);

@@ -1,12 +1,15 @@
-/*
-  ==============================================================================
-
-    This file contains the basic framework code for a JUCE plugin processor.
-
-  ==============================================================================
-*/
-
 #pragma once
+#define _USE_MATH_DEFINES
+#define _OPEN_FILTERS true
+#define _OPEN_PEAK_PITCH true
+#define _OPEN_WAHWAH false
+#define _OPEN_DYNAMICS true
+#define _OPEN_TEST false
+#define _FILTER_NUM 5
+#define _FILTER_PROCESS false
+#define USE_RUBBERBAND true
+#define _SHOW_SPEC true
+
 
 #include <JuceHeader.h>
 #include"juce_audio_plugin_client//Standalone//juce_StandaloneFilterWindow.h"
@@ -21,14 +24,7 @@
 #include"rubberband/RubberBandStretcher.h"
 #include"rubberband/rubberband-c.h"
 #include"PitchShifterRubberband.h"
-#define _USE_MATH_DEFINES
-#define _OPEN_FILTERS false
-#define _OPEN_PEAK_PITCH true
-#define _OPEN_WAHWAH false
-#define _OPEN_DYNAMICS true
-#define _OPEN_TEST false
-#define _FILTER_NUM 5
-#define USE_RUBBERBAND false
+
 //==============================================================================
 /**
 */
@@ -78,10 +74,7 @@ public:
     void setPeakShift(float peak);
 
 
-    void setFilterFreqShift(float freq,int filterIndex);
-    void setFilterQFactorShift(float q,int filterIndex);
-    void setFilterTypeShift(int filterType, int filterIndex);
-    void setFilterGainShift(float gain, int filterIndex);
+
     void setDynamicsThresholdShift(float threshold);
     void setDynamicsRatioShift(float ratio);
     void setDynamicsAttackShift(float attack);
@@ -90,15 +83,22 @@ public:
 
     float getPitchShift();
     float getPeakShift();
-    double getFilterFreqShift(int filterIndex);
-    double getFilterQFactorShift(int filterIndex);
-    double getFilterGainShift(int filterIndex);
-    int getFilterTypeShift(int filterIndex);
+
     float getDynamicsThresholdShift();
     float getDynamicsRatioShift();
     float getDynamicsAttackShift();
     float getDynamicsReleaseShift();
     float getDynamicsMakeupGainShift();
+#if _OPEN_FILTERS
+    void setFilterFreqShift(float freq, int filterIndex);
+    void setFilterQFactorShift(float q, int filterIndex);
+    void setFilterTypeShift(int filterType, int filterIndex);
+    void setFilterGainShift(float gain, int filterIndex);
+
+    double getFilterFreqShift(int filterIndex);
+    double getFilterQFactorShift(int filterIndex);
+    double getFilterGainShift(int filterIndex);
+    int getFilterTypeShift(int filterIndex);
 
     juce::StringArray filterIndex = {
         "1",
@@ -141,9 +141,16 @@ public:
     //    filterTypePeakingNotch,
     //    filterTypeResonantLowPass
     //};
+private:
+    juce::AudioParameterFloat* nFilterQFactor;
+    juce::AudioParameterFloat* nFilterFreq;
+    juce::AudioParameterFloat* nFilterGain;
 
-
-
+    juce::AudioParameterInt* nFilterType;
+    juce::AudioParameterInt* nFilter2Type;
+    juce::AudioParameterInt* nFilterIndex;
+#endif
+public:
 #if _OPEN_DYNAMICS 
     juce::AudioBuffer<float> mixedDownInputDynamics;
     float xlDynamics;
@@ -187,6 +194,7 @@ public:
     juce::Array<float> envelopesForWahWah;
     float inverseEForWahWah;
     float calculateAttackOrReleaseForWahWah(float value);
+
 #endif
 #if _OPEN_PEAK_PITCH
     juce::OwnedArray<PitchShifter>pitchShifters;
@@ -201,13 +209,7 @@ private:
 
     juce::AudioParameterFloat* nPitchShift{ 0 };
     juce::AudioParameterFloat* nPeakShift;
-    juce::AudioParameterFloat* nFilterQFactor;
-    juce::AudioParameterFloat* nFilterFreq;
-    juce::AudioParameterFloat* nFilterGain;
 
-    juce::AudioParameterInt* nFilterType;
-    juce::AudioParameterInt* nFilter2Type;
-    juce::AudioParameterInt* nFilterIndex;
 
     juce::AudioParameterFloat* nDynamicsThreshold;
     juce::AudioParameterFloat* nDynamicsRatio;

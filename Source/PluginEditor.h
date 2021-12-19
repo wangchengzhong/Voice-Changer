@@ -51,7 +51,7 @@ private:
 
     std::unique_ptr<juce::Slider> pPitchSlider;
     std::unique_ptr<juce::Slider> pPeakSlider;
-
+#if _OPEN_FILTERS
     std::unique_ptr<juce::Slider> pFilterFreqSlider;
     std::unique_ptr<juce::Slider> pFilterQFactorSlider;
     std::unique_ptr<juce::Slider> pFilterGainSlider;
@@ -59,7 +59,7 @@ private:
 
     std::unique_ptr<juce::ComboBox> pFilterTypeComboBox;
     std::unique_ptr<juce::ComboBox> pFilterIndexComboBox;
-
+#endif
     std::unique_ptr<juce::Slider> pDynamicsThresholdSlider;
     std::unique_ptr<juce::Slider> pDynamicsRatioSlider;
     std::unique_ptr<juce::Slider> pDynamicsAttackSlider;
