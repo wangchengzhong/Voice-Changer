@@ -136,18 +136,19 @@ struct BlockCircularBuffer final
 		const int overlapSampleCount = sourceLength - writeHopSize;
 		const auto overlapAmount = std::min(writeIndexDifference, overlapSampleCount);
 
+		//DBG("writeIndexDifference: " << writeIndexDifference << ", overlapSampleCount: " << overlapSampleCount);
 		auto tempWriteIndex = writeIndex;
 		auto firstWriteAmount = writeIndex + overlapAmount > length ?
 			length - writeIndex : overlapAmount;
-
+		//DBG("firstWriteAmout: " << firstWriteAmount << "\n");
+		
 		auto internalBuffer = block.getData();
 
 		juce::FloatVectorOperations::add(internalBuffer + writeIndex, sourceBuffer, firstWriteAmount);
 
 		if (firstWriteAmount < overlapAmount)
 		{
-			juce::FloatVectorOperations::add(internalBuffer, sourceBuffer + firstWriteAmount,
-				overlapAmount - firstWriteAmount);
+			juce::FloatVectorOperations::add(internalBuffer, sourceBuffer + firstWriteAmount, overlapAmount - firstWriteAmount);
 		}
 
 		tempWriteIndex += overlapAmount;

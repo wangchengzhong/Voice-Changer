@@ -593,7 +593,6 @@ void VoiceChanger_wczAudioProcessor::setDynamicsThresholdShift(float threshold)
 {
     *nDynamicsThreshold = threshold;
 }
-
 void VoiceChanger_wczAudioProcessor::setDynamicsRatioShift(float ratio)
 {
     *nDynamicsRatio = ratio;
@@ -610,8 +609,6 @@ void VoiceChanger_wczAudioProcessor::setDynamicsMakeupGainShift(float makeupGain
 {
     *nDynamicsMakeupGain = makeupGain;
 }
-
-
 float VoiceChanger_wczAudioProcessor::getPitchShift()
 {
     return *nPitchShift;
@@ -620,8 +617,6 @@ float VoiceChanger_wczAudioProcessor::getPeakShift()
 {
     return *nPeakShift;
 }
-
-
 float VoiceChanger_wczAudioProcessor::getDynamicsThresholdShift()
 {
     return *nDynamicsThreshold;
@@ -630,7 +625,6 @@ float VoiceChanger_wczAudioProcessor::getDynamicsRatioShift()
 {
     return *nDynamicsRatio;
 }
-
 float VoiceChanger_wczAudioProcessor::getDynamicsAttackShift()
 {
     return *nDynamicsAttack;
@@ -643,14 +637,12 @@ float VoiceChanger_wczAudioProcessor::getDynamicsMakeupGainShift()
 {
     return *nDynamicsMakeupGain;
 }
-
 //bool VoiceChanger_wczAudioProcessor::isUpdateParameter()
 //{
 //    bool result = updataParamFlag;
 //    updataParamFlag = false;
 //    return result;
 //}
-
 //void VoiceChanger_wczAudioProcessor::syncPluginParameter()
 //{
 //    if (*nPitchShift != postPitchShift)
@@ -667,7 +659,6 @@ float VoiceChanger_wczAudioProcessor::getDynamicsMakeupGainShift()
 //        updataParamFlag = true;
 //    }
 //}
-
 juce::Image& VoiceChanger_wczAudioProcessor::getSpectrumView()
 {
     if (pitchShifters[0]->getProcessFlag())
@@ -727,7 +718,6 @@ void VoiceChanger_wczAudioProcessor::drawSpectrumGraph(juce::Image view, std::sh
     g.setOpacity(1.0);
     // syncPluginParameter();
 }
-
 
 void VoiceChanger_wczAudioProcessor::updateUIControls()
 {

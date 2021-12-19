@@ -191,8 +191,6 @@ public:
 				std::rotate(spectralBufferData, spectralBufferData + (windowSize / 2), spectralBufferData + windowSize);
 
 				// Perform FFT, process and inverse FFT
-				
-				
 				fft->performRealOnlyForwardTransform(spectralBufferData);
 
 				
@@ -223,21 +221,22 @@ public:
 			{
 				std::fill(audioBuffer + internalOffset, audioBuffer + internalOffset +
 					internalBufferSize, 0.f);
-				//////////////////////////////////////////
-				//DBG("Zeroed output: " << internalOffset << " -> " << internalBufferSize);
-				//////////////////////////////////////////
+
+				// DBG("Zeroed output: " << internalOffset << " -> " << internalBufferSize);
 				continue;
 			}
 
 			const auto previousSynthesisReadIndex = synthesisBuffer.getReadIndex();
+#if USE_RUBBERBAND==false
 			synthesisBuffer.read(audioBuffer + internalOffset, internalBufferSize);
-			//////////////////////////
-			//DBG("Synthesis Read Index: " << previousSynthesisReadIndex << " -> " << synthesisBuffer.getReadIndex());
-			//////////////////////////
-		}
+#endif
 
+			//DBG("Synthesis Read Index: " << previousSynthesisReadIndex << " -> " << synthesisBuffer.getReadIndex());
+		}
+#if USE_RUBBERBAND==false
 		// Rescale output
 		juce::FloatVectorOperations::multiply(audioBuffer, 1.f / rescalingFactor, audioBufferSize);
+#endif
 	}
 	void copyFromSpectralToFft(FloatType* spectralBufferData,std::shared_ptr<float> fftBuffer)
 	{

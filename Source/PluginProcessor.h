@@ -1,13 +1,13 @@
 #pragma once
 #define _USE_MATH_DEFINES
-#define _OPEN_FILTERS true
+#define _OPEN_FILTERS false
 #define _OPEN_PEAK_PITCH true
 #define _OPEN_WAHWAH false
 #define _OPEN_DYNAMICS true
 #define _OPEN_TEST false
 #define _FILTER_NUM 5
 #define _FILTER_PROCESS false
-#define USE_RUBBERBAND true
+#define USE_RUBBERBAND false
 #define _SHOW_SPEC true
 
 
