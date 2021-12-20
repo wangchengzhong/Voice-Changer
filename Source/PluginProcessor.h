@@ -8,7 +8,7 @@
 #define _FILTER_NUM 5
 #define _FILTER_PROCESS false
 #define USE_RUBBERBAND true
-#define _SHOW_SPEC false
+#define _SHOW_SPEC true
 
 
 #include <JuceHeader.h>

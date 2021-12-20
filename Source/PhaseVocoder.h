@@ -27,10 +27,12 @@ public:
 		Windows windowType = Windows::hann) :
 		samplesTilNextProcess(windowLength),
 		windowSize(windowLength),
-		resampleBufferSize(windowLength),
 		spectralBufferSize(windowLength * 2),
 		analysisBuffer(windowLength),
+#if USE_RUBBERBAND == false
+		resampleBufferSize(windowLength),
 		synthesisBuffer(windowLength * 3),
+#endif
 		windowFunction(windowLength),
 		fft(std::make_unique<juce::dsp::FFT>(nearestPower2(fftSize))),
 		fftBufferIn(new float[windowLength]),
@@ -40,6 +42,7 @@ public:
 		windowOverlaps = getOverlapsRequiredForWindowType(windowType);
 		analysisHopSize = windowLength / windowOverlaps;
 		synthesisHopSize = windowLength / windowOverlaps;
+		// DBG("cur1: " << synthesisHopSize);
 
 		initialiseWindow(getWindowForEnum(windowType));
 
@@ -53,13 +56,14 @@ public:
 		spectralBuffer.resize(spectralBufferSize);
 		
 		std::fill(spectralBuffer.data(), spectralBuffer.data() + spectralBufferSize, 0.f);
-
+#if USE_RUBBERBAND==false
 		// Calculate maximium size resample signal can be
 		const auto maxResampleSize = (int)std::ceil(std::max(this->windowSize * MaxPitchRatio,
 			this->windowSize / MinPitchRatio));
 
 		resampleBuffer.resize(maxResampleSize);
 		std::fill(resampleBuffer.data(), resampleBuffer.data() + maxResampleSize, 0.f);
+#endif
 	}
 
 	juce::SpinLock& getParamLock() { return paramLock; }
@@ -195,8 +199,9 @@ public:
 
 				
 				copyFromSpectralToFft(spectralBufferData,fftBufferIn);
-
+#if USE_RUBBERBAND==false
 				processCallback(spectralBufferData, spectralBufferSize);
+
 				fft->performRealOnlyInverseTransform(spectralBufferData);
 
 				// spectralBuffer.resize(spectralBufferSize);
@@ -214,8 +219,10 @@ public:
 				////////////////////////////////////////////////////
 				//DBG("Synthesis Write Index: " << synthesisBuffer.getWriteIndex());
 				////////////////////////////////////////////////////
+#endif
 				setProcessFlag(true);
 			}
+#if USE_RUBBERBAND == false
 			// Emit silence until we start producing output
 			if (!isProcessing)
 			{
@@ -227,7 +234,6 @@ public:
 			}
 
 			const auto previousSynthesisReadIndex = synthesisBuffer.getReadIndex();
-#if USE_RUBBERBAND==false
 			synthesisBuffer.read(audioBuffer + internalOffset, internalBufferSize);
 #endif
 
@@ -340,10 +346,12 @@ private:
 
 	// Buffers
 	BlockCircularBuffer<FloatType> analysisBuffer;
-	BlockCircularBuffer<FloatType> synthesisBuffer;
+	
 	std::vector<FloatType> spectralBuffer;
+#if USE_RUBBERBAND==false
 	std::vector<FloatType> resampleBuffer;
-
+	BlockCircularBuffer<FloatType> synthesisBuffer;
+#endif
 	// Misc state
 	long incomingSampleCount = 0;
 	int spectralBufferSize = 0;

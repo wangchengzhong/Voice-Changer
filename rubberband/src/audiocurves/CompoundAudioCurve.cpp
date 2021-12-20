@@ -29,8 +29,6 @@
 
 namespace RubberBand
 {
-
-
 CompoundAudioCurve::CompoundAudioCurve(Parameters parameters) :
     AudioCurveCalculator(parameters),
     m_percussive(parameters),
@@ -78,7 +76,8 @@ float CompoundAudioCurve::processFloat(const float *R__ mag, int increment)
 {
     float percussive = 0.f;
     float hf = 0.f;
-    switch (m_type) {
+    switch (m_type) 
+    {
     case PercussiveDetector:
         percussive = m_percussive.processFloat(mag, increment);
         break;
@@ -97,7 +96,8 @@ double CompoundAudioCurve::processDouble(const double *R__ mag, int increment)
 {
     double percussive = 0.0;
     double hf = 0.0;
-    switch (m_type) {
+    switch (m_type) 
+    {
     case PercussiveDetector:
         percussive = m_percussive.processDouble(mag, increment);
         break;
@@ -116,7 +116,8 @@ double CompoundAudioCurve::processDouble(const double *R__ mag, int increment)
 
 double CompoundAudioCurve::processFiltering(double percussive, double hf)
 {
-    if (m_type == PercussiveDetector) {
+    if (m_type == PercussiveDetector) 
+    {
         return percussive;
     }
 
@@ -165,7 +166,5 @@ double CompoundAudioCurve::processFiltering(double percussive, double hf)
 
     return rv;
 }
-
-
 }
 
