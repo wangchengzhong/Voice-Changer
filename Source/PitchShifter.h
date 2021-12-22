@@ -7,7 +7,7 @@ class PitchShifter:PhaseVocoder
 {
 public:
 	PitchShifter()
-#if USE_RUBBERBAND==false
+#if USE_3rdPARTYPITCHSHIFT==false
 		:
 		synthPhaseIncrements(phaseVocoder.getWindowSize(), 0),
 		previousFramePhases(phaseVocoder.getWindowSize(), 0)
@@ -24,7 +24,7 @@ public:
 		phaseVocoder.setPitchRatio(newPitchRatio);
 		phaseVocoder.setSynthesisHopSize((int)(phaseVocoder.getWindowSize() / (float)phaseVocoder.getWindowOverlapCount()));
 		phaseVocoder.setAnalysisHopSize((int)round(phaseVocoder.getSynthesisHopSize() / phaseVocoder.getPitchRatio()));
-#if USE_RUBBERBAND==false
+#if USE_3rdPARTYPITCHSHIFT==false
 		double accum = 0.0;
 		auto windowFunction = phaseVocoder.getWindowFunction();
 		for (int i = 0; i < phaseVocoder.getWindowSize(); ++i)
@@ -44,7 +44,7 @@ public:
 	{
 		phaseVocoder.process(buffer, bufferSize, [&](FloatType* const buffer, const int bufferSize)
 		{
-#if USE_RUBBERBAND == false
+#if USE_3rdPARTYPITCHSHIFT == false
 			for (int i = 0, x = 0; i < bufferSize - 1; i += 2, ++x)
 			{
 				const auto real = buffer[i];
@@ -81,7 +81,7 @@ public:
 	}
 private:
 	PhaseVocoder phaseVocoder;
-#if USE_RUBBERBAND==false
+#if USE_3rdPARTYPITCHSHIFT==false
 	std::vector<FloatType>synthPhaseIncrements;
 	std::vector<FloatType> previousFramePhases;
 #endif

@@ -1,14 +1,23 @@
 #pragma once
 #define _USE_MATH_DEFINES
-#define _OPEN_FILTERS false
+#define _OPEN_FILTERS true
 #define _OPEN_PEAK_PITCH true
 #define _OPEN_WAHWAH false
 #define _OPEN_DYNAMICS true
 #define _OPEN_TEST false
 #define _FILTER_NUM 5
 #define _FILTER_PROCESS false
-#define USE_RUBBERBAND true
+
+#if _OPEN_PEAK_PITCH
 #define _SHOW_SPEC true
+
+#define USE_3rdPARTYPITCHSHIFT true
+#if USE_3rdPARTYPITCHSHIFT
+#define USE_RUBBERBAND false
+#define USE_SOUNDTOUCH true
+#endif
+
+#endif
 
 
 #include <JuceHeader.h>
@@ -24,6 +33,7 @@
 #include"rubberband/RubberBandStretcher.h"
 #include"rubberband/rubberband-c.h"
 #include"PitchShifterRubberband.h"
+#include"PitchShifterSoundTouch.h"
 
 //==============================================================================
 /**
@@ -221,10 +231,15 @@ private:
     void drawSpectrumGraph(juce::Image view, std::shared_ptr<float>level, juce::Colour colour, bool isLog);
     //void syncPluginParameter();
     juce::Image spectrum;
+#if USE_3rdPARTYPITCHSHIFT
 #if USE_RUBBERBAND
     std::unique_ptr<PitchShifterRubberband> rbs;
     const int rbOptions = RubberBand::RubberBandStretcher::Option::OptionProcessRealTime + RubberBand::RubberBandStretcher::Option::OptionPitchHighConsistency;
-#endif // USE_RUBBERBAND
+#endif // USE_3rdPARTYPITCHSHIFT
+#if USE_SOUNDTOUCH
+    std::unique_ptr<PitchShifterSoundTouch> sts;
+#endif
+#endif
 
     
     

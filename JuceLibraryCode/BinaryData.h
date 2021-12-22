@@ -8,6 +8,12 @@
 
 namespace BinaryData
 {
+    extern const char*   Makefile_am;
+    const int            Makefile_amSize = 1096;
+
+    extern const char*   soundtouch_config_h_in;
+    const int            soundtouch_config_h_inSize = 188;
+
     extern const char*   COPYING;
     const int            COPYINGSize = 246;
 
@@ -15,7 +21,7 @@ namespace BinaryData
     const int            COPYING2Size = 1774;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 2;
+    const int namedResourceListSize = 4;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

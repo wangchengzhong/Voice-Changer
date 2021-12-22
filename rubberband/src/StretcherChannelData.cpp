@@ -120,11 +120,10 @@ void RubberBandStretcher::Impl::ChannelData::construct(const std::set<size_t> &s
 }
 
 
-void
-RubberBandStretcher::Impl::ChannelData::setSizes(size_t windowSize,
+void RubberBandStretcher::Impl::ChannelData::setSizes(size_t windowSize,
                                                  size_t fftSize)
 {
-    std::cerr << "ChannelData::setSizes: windowSize = " << windowSize << ", fftSize = " << fftSize << std::endl;
+    DBG( "ChannelData::setSizes: windowSize = " << windowSize << ", fftSize = " << fftSize << "\n");
 
     size_t maxSize = 2 * std::max(windowSize, fftSize);
     size_t realSize = maxSize / 2 + 1;

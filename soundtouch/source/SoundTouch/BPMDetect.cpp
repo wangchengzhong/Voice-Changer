@@ -14,10 +14,10 @@
 ///   taking absolute value that's smoothed by sliding average. Signal levels that
 ///   are below a couple of times the general RMS amplitude level are cut away to
 ///   leave only notable peaks there.
-/// - Repeating sound patterns (e.g. beats) are detected by calculating short-term
+/// - Repeating sound patterns (e.g. beats) are detected by calculating short-term 
 ///   autocorrelation function of the enveloped signal.
-/// - After whole sound data file has been analyzed as above, the bpm level is
-///   detected by function 'getBpm' that finds the highest peak of the autocorrelation
+/// - After whole sound data file has been analyzed as above, the bpm level is 
+///   detected by function 'getBpm' that finds the highest peak of the autocorrelation 
 ///   function, calculates it's precise location and converts this reading to bpm's.
 ///
 /// Author        : Copyright (c) Olli Parviainen
@@ -76,8 +76,8 @@ static const int XCORR_UPDATE_SEQUENCE = (int)(TARGET_SRATE / 5);
 static const int MOVING_AVERAGE_N = 15;
 
 /// XCorr decay time constant, decay to half in 30 seconds
-/// If it's desired to have the system adapt quicker to beat rate
-/// changes within a continuing music stream, then the
+/// If it's desired to have the system adapt quicker to beat rate 
+/// changes within a continuing music stream, then the 
 /// 'xcorr_decay_time_constant' value can be reduced, yet that
 /// can increase possibility of glitches in bpm detection.
 static const double XCORR_DECAY_TIME_CONSTANT = 30.0;
@@ -186,8 +186,10 @@ BPMDetect::BPMDetect(int numChannels, int aSampleRate) :
 
     // choose decimation factor so that result is approx. 1000 Hz
     decimateBy = sampleRate / TARGET_SRATE;
-    assert(decimateBy > 0);
-    assert(INPUT_BLOCK_SIZE < decimateBy * DECIMATED_BLOCK_SIZE);
+    if ((decimateBy <= 0) || (decimateBy * DECIMATED_BLOCK_SIZE < INPUT_BLOCK_SIZE))
+    {
+        ST_THROW_RT_ERROR("Too small samplerate");
+    }
 
     // Calculate window length & starting item according to desired min & max bpms
     windowLen = (60 * sampleRate) / (decimateBy * MIN_BPM);
@@ -231,16 +233,16 @@ BPMDetect::~BPMDetect()
 }
 
 
-/// convert to mono, low-pass filter & decimate to about 500 Hz.
+/// convert to mono, low-pass filter & decimate to about 500 Hz. 
 /// return number of outputted samples.
 ///
-/// Decimation is used to remove the unnecessary frequencies and thus to reduce
-/// the amount of data needed to be processed as calculating autocorrelation
+/// Decimation is used to remove the unnecessary frequencies and thus to reduce 
+/// the amount of data needed to be processed as calculating autocorrelation 
 /// function is a very-very heavy operation.
 ///
-/// Anti-alias filtering is done simply by averaging the samples. This is really a
+/// Anti-alias filtering is done simply by averaging the samples. This is really a 
 /// poor-man's anti-alias filtering, but it's not so critical in this kind of application
-/// (it'd also be difficult to design a high-quality filter with steep cut-off at very
+/// (it'd also be difficult to design a high-quality filter with steep cut-off at very 
 /// narrow band)
 int BPMDetect::decimate(SAMPLETYPE *dest, const SAMPLETYPE *src, int numsamples)
 {
@@ -250,7 +252,7 @@ int BPMDetect::decimate(SAMPLETYPE *dest, const SAMPLETYPE *src, int numsamples)
     assert(channels > 0);
     assert(decimateBy > 0);
     outcount = 0;
-    for (count = 0; count < numsamples; count ++)
+    for (count = 0; count < numsamples; count ++) 
     {
         int j;
 
@@ -262,7 +264,7 @@ int BPMDetect::decimate(SAMPLETYPE *dest, const SAMPLETYPE *src, int numsamples)
         src += j;
 
         decimateCount ++;
-        if (decimateCount >= decimateBy)
+        if (decimateCount >= decimateBy) 
         {
             // Store every Nth sample only
             out = (LONG_SAMPLETYPE)(decimateSum / (decimateBy * channels));
@@ -270,11 +272,11 @@ int BPMDetect::decimate(SAMPLETYPE *dest, const SAMPLETYPE *src, int numsamples)
             decimateCount = 0;
 #ifdef SOUNDTOUCH_INTEGER_SAMPLES
             // check ranges for sure (shouldn't actually be necessary)
-            if (out > 32767)
+            if (out > 32767) 
             {
                 out = 32767;
-            }
-            else if (out < -32768)
+            } 
+            else if (out < -32768) 
             {
                 out = -32768;
             }
@@ -292,7 +294,7 @@ void BPMDetect::updateXCorr(int process_samples)
 {
     int offs;
     SAMPLETYPE *pBuffer;
-
+    
     assert(buffer->numSamples() >= (uint)(process_samples + windowLen));
     assert(process_samples == XCORR_UPDATE_SEQUENCE);
 
@@ -309,13 +311,13 @@ void BPMDetect::updateXCorr(int process_samples)
     }
 
     #pragma omp parallel for
-    for (offs = windowStart; offs < windowLen; offs ++)
+    for (offs = windowStart; offs < windowLen; offs ++) 
     {
-        double sum;
+        float sum;
         int i;
 
         sum = 0;
-        for (i = 0; i < process_samples; i ++)
+        for (i = 0; i < process_samples; i ++) 
         {
             sum += tmp[i] * pBuffer[i + offs];  // scaling the sub-result shouldn't be necessary
         }
@@ -339,7 +341,6 @@ void BPMDetect::updateBeatPos(int process_samples)
     //    static double thr = 0.0003;
     double posScale = (double)this->decimateBy / (double)this->sampleRate;
     int resetDur = (int)(0.12 / posScale + 0.5);
-    double corrScale = 1.0 / (double)(windowLen - windowStart);
 
     // prescale pbuffer
     float tmp[XCORR_UPDATE_SEQUENCE / 2];
@@ -351,7 +352,7 @@ void BPMDetect::updateBeatPos(int process_samples)
     #pragma omp parallel for
     for (int offs = windowStart; offs < windowLen; offs++)
     {
-        double sum = 0;
+        float sum = 0;
         for (int i = 0; i < process_samples; i++)
         {
             sum += tmp[i] * pBuffer[offs + i];
@@ -432,7 +433,7 @@ void BPMDetect::inputSamples(const SAMPLETYPE *samples, int numSamples)
 
     // when the buffer has enough samples for processing...
     int req = max(windowLen + XCORR_UPDATE_SEQUENCE, 2 * XCORR_UPDATE_SEQUENCE);
-    while ((int)buffer->numSamples() >= req)
+    while ((int)buffer->numSamples() >= req) 
     {
         // ... update autocorrelations...
         updateXCorr(XCORR_UPDATE_SEQUENCE);
@@ -503,7 +504,7 @@ void MAFilter(float *dest, const float *source, int start, int end, int N)
 
         double sum = 0;
         for (int j = i1; j < i2; j ++)
-        {
+        { 
             sum += source[j];
         }
         dest[i] = (float)(sum / (i2 - i1));
@@ -549,18 +550,18 @@ float BPMDetect::getBpm()
 }
 
 
-/// Get beat position arrays. Note: The array includes also really low beat detection values
+/// Get beat position arrays. Note: The array includes also really low beat detection values 
 /// in absence of clear strong beats. Consumer may wish to filter low values away.
 /// - "pos" receive array of beat positions
 /// - "values" receive array of beat detection strengths
-/// - max_num indicates max.size of "pos" and "values" array.
+/// - max_num indicates max.size of "pos" and "values" array.  
 ///
 /// You can query a suitable array sized by calling this with NULL in "pos" & "values".
 ///
 /// \return number of beats in the arrays.
 int BPMDetect::getBeats(float *pos, float *values, int max_num)
 {
-    int num = beats.size();
+    int num = (int)beats.size();
     if ((!pos) || (!values)) return num;    // pos or values NULL, return just size
 
     for (int i = 0; (i < num) && (i < max_num); i++)

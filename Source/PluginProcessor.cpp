@@ -111,8 +111,13 @@ void VoiceChanger_wczAudioProcessor::changeProgramName (int index, const juce::S
 //==============================================================================
 void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+#if USE_3rdPARTYPITCHSHIFT
 #if USE_RUBBERBAND
     rbs = std::make_unique<PitchShifterRubberband>(getTotalNumInputChannels(), sampleRate, samplesPerBlock);
+#endif
+#if USE_SOUNDTOUCH
+    sts = std::make_unique<PitchShifterSoundTouch>(getTotalNumInputChannels(), sampleRate, samplesPerBlock);
+#endif
 #endif
 #if _OPEN_PEAK_PITCH
     pitchShifters.clear();
@@ -150,7 +155,6 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
         filtersForWahWah.add(filter = new Filter());
 #endif
 #if _OPEN_PEAK_PITCH
-        
         PitchShifter* pPitchShifter;
         pitchShifters.add(pPitchShifter = new PitchShifter());
 
@@ -158,9 +162,6 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
         peakShifters.add(pPeakShifter = new PeakShifter());
 
         const auto windows = pitchShifters[0]->getLatencyInSamples();
-#if USE_RUBBERBAND==false
-        setLatencySamples(windows/5);
-#endif
 #endif
         // SpectrumFilter* pSpectrumFilter;
         // spectrumFilter.add(pSpectrumFilter = new SpectrumFilter());
@@ -250,10 +251,15 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
 #endif
 #if _OPEN_PEAK_PITCH
 
-
+#if USE_3rdPARTYPITCHSHIFT
 #if USE_RUBBERBAND
     rbs->processBuffer(buffer);
+
+#elif USE_SOUNDTOUCH
+    sts->processBuffer(buffer);
 #endif
+#endif
+
 #if _SHOW_SPEC
     for (int channel = 0; channel < getNumInputChannels(); ++channel)
     {
@@ -731,8 +737,12 @@ void VoiceChanger_wczAudioProcessor::updateUIControls()
     float pitchRatio = getPitchShift();
     float peakRatio = getPeakShift();
     // rb->setPitchScale(pitchRatio);
+#if USE_3rdPARTYPITCHSHIFT
 #if USE_RUBBERBAND
     rbs->setSemitoneShift(pitchRatio);
+#elif USE_SOUNDTOUCH
+    sts->setSemitoneShift(pitchRatio);
+#endif
 #else
     for (int i = 0; i < pitchShifters.size(); ++i)
     {

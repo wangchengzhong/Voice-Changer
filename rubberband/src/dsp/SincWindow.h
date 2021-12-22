@@ -119,11 +119,13 @@ public:
      * constructor).
      */
     static
-    void write(T *const R__ dst, const int n, const int p) {
+    void write(T *const R__ dst, const int n, const int p) 
+    {
         const int half = n/2;
         writeHalf(dst, n, p);
         int target = half - 1;
-        for (int i = half + 1; i < n; ++i) {
+        for (int i = half + 1; i < n; ++i)
+        {
             dst[target--] = dst[i];
         }
         const T twopi = T(2. * M_PI);
@@ -144,18 +146,22 @@ protected:
      * half (indices 0 to n/2-1) of dst is left isUnchanged.
      */
     static
-    void writeHalf(T *const R__ dst, const int n, const int p) {
+    void writeHalf(T *const R__ dst, const int n, const int p) 
+    {
         const int half = n/2;
         const T twopi = T(2. * M_PI);
         dst[half] = T(1.0);
-        for (int i = 1; i < half; ++i) {
+        for (int i = 1; i < half; ++i) 
+        {
             T arg = T(i) * twopi / p;
             dst[half+i] = sin(arg) / arg;
         }
     }
     
-    void encache() {
-        if (!m_cache) {
+    void encache() 
+    {
+        if (!m_cache) 
+        {
             m_cache = allocate<T>(m_size);
         }
 

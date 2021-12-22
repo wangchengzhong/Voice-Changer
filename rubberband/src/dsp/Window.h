@@ -53,47 +53,62 @@ public:
     /**
      * Construct a windower of the given type.
      */
-    Window(WindowType type, int size) : m_type(type), m_size(size), m_cache(0) {
+    Window(WindowType type, int size) : m_type(type), m_size(size), m_cache(0) 
+    {
         encache();
     }
-    Window(const Window &w) : m_type(w.m_type), m_size(w.m_size), m_cache(0) {
+    Window(const Window &w) : m_type(w.m_type), m_size(w.m_size), m_cache(0) 
+    {
         encache();
     }
-    Window &operator=(const Window &w) {
-	if (&w == this) return *this;
-	m_type = w.m_type;
-	m_size = w.m_size;
+    Window& operator=(const Window& w)
+    {
+        if (&w == this) return *this;
+        m_type = w.m_type;
+        m_size = w.m_size;
         m_cache = 0;
-	encache();
-	return *this;
+        encache();
+        return *this;
     }
-    virtual ~Window() {
+    virtual ~Window() 
+    {
         deallocate(m_cache);
     }
     
-    inline void cut(T *const R__ block) const {
+    inline void cut(T *const R__ block) const 
+    {
         v_multiply(block, m_cache, m_size);
     }
 
-    inline void cut(const T *const R__ src, T *const R__ dst) const {
+    inline void cut(const T *const R__ src, T *const R__ dst) const 
+    {
         v_multiply(dst, src, m_cache, m_size);
     }
 
-    inline void add(T *const R__ dst, T scale) const {
+    inline void add(T *const R__ dst, T scale) const 
+    {
         v_add_with_gain(dst, m_cache, scale, m_size);
     }
 
-    inline T getRMS() const {
+    inline T getRMS() const 
+    {
         T total = 0;
-        for (int i = 0; i < m_size; ++i) {
+        for (int i = 0; i < m_size; ++i) 
+        {
             total += m_cache[i] * m_cache[i];
         }
         T rms = sqrt(total / m_size);
         return rms;
     }
 
-    inline T getArea() const { return m_area; }
-    inline T getValue(int i) const { return m_cache[i]; }
+    inline T getArea() const 
+    {
+        return m_area; 
+    }
+    inline T getValue(int i) const 
+    {
+        return m_cache[i]; 
+    }
 
     inline WindowType getType() const { return m_type; }
     inline int getSize() const { return m_size; }

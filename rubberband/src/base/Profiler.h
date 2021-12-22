@@ -66,7 +66,7 @@ public:
 
     void end(); // same action as dtor
 
-    static void dump();// qingdao
+    static void dump();
 
     // Unlike the other functions, this is only defined if NO_TIMING
     // is not set (because it uses std::string which is otherwise

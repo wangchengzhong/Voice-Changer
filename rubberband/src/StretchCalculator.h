@@ -1,25 +1,4 @@
-/* -*- c-basic-offset: 4 indent-tabs-mode: nil -*-  vi:set ts=8 sts=4 sw=4: */
 
-/*
-    Rubber Band Library
-    An audio time-stretching and pitch-shifting library.
-    Copyright 2007-2021 Particular Programs Ltd.
-
-    This program is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public License as
-    published by the Free Software Foundation; either version 2 of the
-    License, or (at your option) any later version.  See the file
-    COPYING included with this distribution for more information.
-
-    Alternatively, if you have a valid commercial licence for the
-    Rubber Band Library obtained by agreement with the copyright
-    holders, you may redistribute and/or modify it under the terms
-    described in that licence.
-
-    If you wish to distribute code using the Rubber Band Library
-    under terms other than those of the GNU General Public License,
-    you must obtain a valid commercial licence before doing so.
-*/
 
 #ifndef RUBBERBAND_STRETCH_CALCULATOR_H
 #define RUBBERBAND_STRETCH_CALCULATOR_H
@@ -111,15 +90,15 @@ protected:
     size_t m_sampleRate;
     size_t m_inbufJumpSampleNum;
     float m_prevDf;
-    double m_prevOutputPitchRatio;
+    double m_prevOverallRatio;
     double m_prevOutputTimeRatio;
     int m_transientAmnesty; // only in RT mode; handled differently offline
     int m_debugLevel;
     bool m_useHardPeaks;
-    int64_t m_inFrameCounter;
+    int64_t m_inSampleCounter;
     std::pair<int64_t, int64_t> m_frameCheckpoint;
     int64_t expectedOutFrame(int64_t inFrame, double outputTimeStretchRatio);
-    double m_outFrameCounter;
+    double m_outSampleCounter;
 
     std::map<size_t, size_t> m_keyFrameMap;
     std::vector<Peak> m_peaks;

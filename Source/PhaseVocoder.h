@@ -29,7 +29,7 @@ public:
 		windowSize(windowLength),
 		spectralBufferSize(windowLength * 2),
 		analysisBuffer(windowLength),
-#if USE_RUBBERBAND == false
+#if USE_3rdPARTYPITCHSHIFT == false
 		resampleBufferSize(windowLength),
 		synthesisBuffer(windowLength * 3),
 #endif
@@ -56,7 +56,7 @@ public:
 		spectralBuffer.resize(spectralBufferSize);
 		
 		std::fill(spectralBuffer.data(), spectralBuffer.data() + spectralBufferSize, 0.f);
-#if USE_RUBBERBAND==false
+#if USE_3rdPARTYPITCHSHIFT==false
 		// Calculate maximium size resample signal can be
 		const auto maxResampleSize = (int)std::ceil(std::max(this->windowSize * MaxPitchRatio,
 			this->windowSize / MinPitchRatio));
@@ -199,7 +199,7 @@ public:
 
 				
 				copyFromSpectralToFft(spectralBufferData,fftBufferIn);
-#if USE_RUBBERBAND==false
+#if USE_3rdPARTYPITCHSHIFT==false
 				processCallback(spectralBufferData, spectralBufferSize);
 
 				fft->performRealOnlyInverseTransform(spectralBufferData);
@@ -222,7 +222,7 @@ public:
 #endif
 				setProcessFlag(true);
 			}
-#if USE_RUBBERBAND == false
+#if USE_3rdPARTYPITCHSHIFT == false
 			// Emit silence until we start producing output
 			if (!isProcessing)
 			{
@@ -239,7 +239,7 @@ public:
 
 			//DBG("Synthesis Read Index: " << previousSynthesisReadIndex << " -> " << synthesisBuffer.getReadIndex());
 		}
-#if USE_RUBBERBAND==false
+#if USE_3rdPARTYPITCHSHIFT==false
 		// Rescale output
 		juce::FloatVectorOperations::multiply(audioBuffer, 1.f / rescalingFactor, audioBufferSize);
 #endif
@@ -348,7 +348,7 @@ private:
 	BlockCircularBuffer<FloatType> analysisBuffer;
 	
 	std::vector<FloatType> spectralBuffer;
-#if USE_RUBBERBAND==false
+#if USE_3rdPARTYPITCHSHIFT==false
 	std::vector<FloatType> resampleBuffer;
 	BlockCircularBuffer<FloatType> synthesisBuffer;
 #endif

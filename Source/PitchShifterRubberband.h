@@ -1,7 +1,7 @@
 #include <JuceHeader.h>
 #include "rubberband/RubberBandStretcher.h"
 #include "RingBuffer.h"
-
+#if USE_RUBBERBAND
 class PitchShifterRubberband
 {
 public:
@@ -16,9 +16,7 @@ public:
         rubberband = std::make_unique<RubberBand::RubberBandStretcher>(sampleRate, numChannels, 
             RubberBand::RubberBandStretcher::Option::OptionProcessRealTime + 
             RubberBand::RubberBandStretcher::Option::OptionPitchHighConsistency, 1.0, 1.0);
-        st = std::make_unique<soundtouch::SoundTouch>();
-        st->setChannels(numChannels);
-        st->setSampleRate(sampleRate);
+
         
         //soundtouch::SAMPLETYPE
         //rubberband->setMaxProcessSize(samplesPerBlock);
@@ -74,7 +72,7 @@ public:
         auto newPitch = pitchSmoothing.skip(buffer.getNumSamples());
         if (oldPitch != newPitch)
         {
-            st->setPitch(newPitch);
+            // st->setPitch(newPitch);
             rubberband->setPitchScale(newPitch);
             // st->setPitch(newPitch);
             oldPitch = newPitch;
@@ -92,6 +90,7 @@ public:
                 {
                     // st->putSamples(input.readPointerArray(buffer.getNumSamples()), buffer.getNumSamples);
                     auto reqSamples = rubberband->getSamplesRequired();
+                    // DBG(reqSamples);
                     // auto reqStSamples = st->putSamples();
                     if (reqSamples <= input.getAvailableSampleNum(0))
                     {
@@ -128,7 +127,8 @@ public:
             output.copyToBuffer(availableSamples);
         }
 
-        auto availableOutputSamples = output.getAvailableSampleNum(0);        
+        auto availableOutputSamples = output.getAvailableSampleNum(0);      
+        // DBG(availableOutputSamples);
         // Copy samples from output ring buffer to output buffer where available.
         for (int channel = 0; channel < buffer.getNumChannels(); channel++) 
         {
@@ -136,9 +136,10 @@ public:
             {
                 if (output.getAvailableSampleNum(channel) > 0) 
                 {
+                    // DBG(availableOutputSamples);
                     //if (availableOutputSamples < buffer.getNumSamples())
                     //    DBG("available<numSamples!");// only begin at the beginning several
-                    buffer.setSample(channel, ((availableOutputSamples >= buffer.getNumSamples()) ? 
+                    buffer.setSample(channel,  ((availableOutputSamples >= buffer.getNumSamples()) ?
                         sample : sample + buffer.getNumSamples() - availableOutputSamples), output.popSample(channel));
                 }
             }
@@ -194,10 +195,9 @@ public:
     {
         return maxSamples * 3.0 + initLatency;
     }
-
+    
 private:
     std::unique_ptr<RubberBand::RubberBandStretcher> rubberband;
-    std::unique_ptr<soundtouch::SoundTouch> st;
     RingBuffer input, output;
     juce::AudioBuffer<float> inputBuffer, outputBuffer;
     int maxSamples, initLatency, bufferFail, smallestAcceptableSize, largestAcceptableSize;
@@ -205,3 +205,4 @@ private:
     std::unique_ptr<juce::dsp::DryWetMixer<float>> dryWet;
     juce::SmoothedValue<float> timeSmoothing, mixSmoothing, pitchSmoothing;
 };
+#endif

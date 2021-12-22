@@ -1,4 +1,4 @@
-/* -*- c-basic-offset: 4 indent-tabs-mode: nil -*-  vi:set ts=8 sts=4 sw=4: */
+
 
 #include "StretchCalculator.h"
 #include"JuceHeader.h"
@@ -20,14 +20,14 @@ StretchCalculator::StretchCalculator(size_t sampleRate,
     m_sampleRate(sampleRate),
     m_inbufJumpSampleNum(inputIncrement),
     m_prevDf(0),
-    m_prevOutputPitchRatio(1.0),
+    m_prevOverallRatio(1.0),
     m_prevOutputTimeRatio(1.0),
     m_transientAmnesty(0),
-    m_debugLevel(3),
+    m_debugLevel(0),
     m_useHardPeaks(useHardPeaks),
-    m_inFrameCounter(0),
+    m_inSampleCounter(0),
     m_frameCheckpoint(0, 0),
-    m_outFrameCounter(0)
+    m_outSampleCounter(0)
 {
 //    std::cerr << "StretchCalculator::StretchCalculator: useHardPeaks = " << useHardPeaks << std::endl;
 }    
@@ -54,6 +54,7 @@ std::vector<int> StretchCalculator::calculate(double ratio, size_t inputDuration
                              const std::vector<float> &phaseResetDf,
                              const std::vector<float> &stretchDf)
 {
+    // DBG("have run here");// never
     assert(phaseResetDf.size() == stretchDf.size());
     
     m_peaks = findPeaks(phaseResetDf);
@@ -62,11 +63,8 @@ std::vector<int> StretchCalculator::calculate(double ratio, size_t inputDuration
     // DBG(totalCount);
     size_t outputDuration = lrint(inputDuration * ratio);
 
-    if (m_debugLevel > 0) 
-    {
-        std::cerr << "StretchCalculator::calculate(): inputDuration " << inputDuration << ", ratio " << ratio << ", outputDuration " << outputDuration;
-    }
 
+    DBG("StretchCalculator::calculate(): inputDuration " << inputDuration << ", ratio " << ratio << ", outputDuration " << outputDuration);
     outputDuration = lrint((phaseResetDf.size() * m_inbufJumpSampleNum) * ratio);
 
     if (m_debugLevel > 0) 
@@ -282,7 +280,8 @@ void StretchCalculator::mapPeaks(std::vector<Peak> &peaks,
                 lrint(proportion *
                       (targetEndSample - targetStartSample));
 
-            if (target <= targets[targets.size()-1] + m_inbufJumpSampleNum) {
+            if (target <= targets[targets.size()-1] + m_inbufJumpSampleNum) 
+            {
                 // peaks will become too close together afterwards, ignore
                 ++peakidx;
                 continue;
@@ -297,13 +296,13 @@ void StretchCalculator::mapPeaks(std::vector<Peak> &peaks,
             ++peakidx;
         }
     }
-}    
+}
 
-int64_t StretchCalculator::expectedOutFrame(int64_t inFrame, double outputTimeStretchRatio)
+int64_t StretchCalculator::expectedOutFrame(int64_t inFrame, double ratio)
 {
     int64_t checkpointedAt = m_frameCheckpoint.first;
     int64_t checkpointed = m_frameCheckpoint.second;
-    return int64_t(round(checkpointed + (inFrame - checkpointedAt) * outputTimeStretchRatio));
+    return int64_t(round(checkpointed + (inFrame - checkpointedAt) * ratio));
 }
 
 int StretchCalculator::calculateSingle(double outputTimeRatio,
@@ -350,26 +349,26 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
     // / pitchScale if resampling is happening after stretching). So
     // the overall ratio is outputTimeStretchRatio / frac_1_outputPitchRatio.
 
-    bool isPitchRatioChanged = (innerPitchRatio != m_prevOutputPitchRatio);
+    bool isOverallRatioChanged = (innerPitchRatio != m_prevOverallRatio);
     // int i = 0; if (isPitchRatioChanged) i = 1;
     // DBG("isPitchRatioChanged:" << i);//only happen when slider moves
-    if (isPitchRatioChanged) 
+    if (isOverallRatioChanged) 
     {
         // Reset our frame counters from the ratio change.
-
-        // m_outFrameCounter tracks the frames counted at output from
+        // m_outSampleCounter tracks the frames counted at output from
         // this function, which normally precedes resampling - hence
         // the use of outputTimeStretchRatio rather than ratio here
 
-        if (m_debugLevel > 1) {
-            std::cerr << "StretchCalculator: ratio changed from " << m_prevOutputPitchRatio << " to " << innerPitchRatio << std::endl;
+        if (m_debugLevel > 1) 
+        {
+            DBG("StretchCalculator: ratio changed from " << m_prevOverallRatio << " to " << innerPitchRatio << "\n");
         }
 
-        int64_t toCheckpoint = expectedOutFrame(m_inFrameCounter, m_prevOutputTimeRatio);
-        m_frameCheckpoint = std::pair<int64_t, int64_t>(m_inFrameCounter, toCheckpoint);
+        int64_t toCheckpoint = expectedOutFrame(m_inSampleCounter, m_prevOutputTimeRatio);
+        m_frameCheckpoint = std::pair<int64_t, int64_t>(m_inSampleCounter, toCheckpoint);
     }
     
-    m_prevOutputPitchRatio = innerPitchRatio;
+    m_prevOverallRatio = innerPitchRatio;
     m_prevOutputTimeRatio = outputTimeRatio;
 
     if (m_debugLevel > 1) 
@@ -386,23 +385,23 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
             << "\n\n");
         // outputTimeStretchRatio:1.4, default outIncrement is always 255, aW and sW
         // always 2048, increment always 173 
-        DBG("inFrameCounter = " << m_inFrameCounter
-                  << ", outFrameCounter = " << m_outFrameCounter
+        DBG("inSampleCounter = " << m_inSampleCounter
+                  << ", outSampleCounter = " << m_outSampleCounter
                   << "\n\n");
         // increment steadily, outFrameCounter may not be integer,
         // inFrameCounter incr 173 each time
         // outFrameCounter incr 172.7(``) each time
 
-        DBG("The next sample out is input sample " << m_inFrameCounter << "\n\n\n");
+        DBG("The next sample out is input sample " << m_inSampleCounter << "\n\n\n");
         // increment steadily, equal to inFrameCounter
     }
     
-    int64_t intended = expectedOutFrame(m_inFrameCounter + analysisWindowSize / 4, outputTimeRatio);
+    int64_t intended = expectedOutFrame(m_inSampleCounter + analysisWindowSize / 4, outputTimeRatio);
     int64_t projected 
         = int64_t
             (round
                 (
-                    m_outFrameCounter + (synthesisWindowSize / 4 * frac_1_outputPitchRatio)
+                    m_outSampleCounter + (synthesisWindowSize / 4 * frac_1_outputPitchRatio)
                 )
             );
     // DBG("intended: " << intended << "  projected: " << projected);
@@ -433,8 +432,6 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
             isTransient = true;
         }
     }
-
-
     //{
     //    // df:most time: 0, occasinally: 0.37 0.40 0.36 0.5 then jump back to 0
     //    // prevDf: most times: 0, occa: late than df one loop, then jump back to 0 afterwards
@@ -468,11 +465,9 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
         // when df > 0.35, exe. occa.
 
         // as in offline mode, 0.05 sec approx min between transients
-        m_transientAmnesty =
-            lrint(ceil(double(m_sampleRate) / (20 * double(inIncrement))));
-
+        m_transientAmnesty = lrint(ceil(double(m_sampleRate) / (20 * double(inIncrement))));
+        // DBG(m_transientAmnesty); //13
         outIncrement = inIncrement;
-
     } 
     else 
     {
@@ -498,10 +493,8 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
         int incr = lrint(outIncrement - recovery);
         // DBG("incr:  " << incr);//256,257,260,267,255,269,256...
  
-        
         // DBG("divergence = " << divergence << ", recovery = " << recovery << ", incr = " << incr << ", ");
         // incr~=256, recover = above desc, divergence =-1/-2most times, but can run to -57 occa
-
         int minIncr = lrint(inIncrement * innerPitchRatio * 0.3);
         int maxIncr = lrint(inIncrement * innerPitchRatio * 2);
         // DBG(minIncr << "   max: " << maxIncr);//min=68,max = 455 / 77 512
@@ -513,8 +506,6 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
         {
             incr = maxIncr;
         }
-    
-
         if (incr < 0) 
         {
             // DBG("WARNING: internal error: incr < 0 in calculateSingle");// never run here
@@ -529,10 +520,8 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
     //    << i << ", outIncrement = " << outIncrement << "\n");
     // if isTransient = 1, outIncrement would be 173 or so;
     //else is 265,256,255,257 or so, and 255 256 the most
-
-    m_inFrameCounter += inIncrement;
-    m_outFrameCounter += outIncrement * frac_1_outputPitchRatio;
-    
+    m_inSampleCounter += inIncrement;
+    m_outSampleCounter += outIncrement * frac_1_outputPitchRatio;
     if (isTransient) 
     {
         //DBG("occasionally run here " << -outIncrement);// only -157 at first, and past is always -173
@@ -547,11 +536,11 @@ int StretchCalculator::calculateSingle(double outputTimeRatio,
 void StretchCalculator::reset()
 {
     m_prevDf = 0;
-    m_prevOutputPitchRatio = 1.0;
+    m_prevOverallRatio = 1.0;
     m_prevOutputTimeRatio = 1.0;
-    m_inFrameCounter = 0;
+    m_inSampleCounter = 0;
     m_frameCheckpoint = std::pair<int64_t, int64_t>(0, 0);
-    m_outFrameCounter = 0.0;
+    m_outSampleCounter = 0.0;
     m_transientAmnesty = 0;
     m_keyFrameMap.clear();
 }
@@ -883,10 +872,10 @@ std::vector<float> StretchCalculator::smoothDF(const std::vector<float> &df)
     return smoothedDF;
 }
 
-std::vector<int>
-StretchCalculator::distributeRegion(const std::vector<float> &dfIn,
+std::vector<int> StretchCalculator::distributeRegion(const std::vector<float> &dfIn,
                                     size_t duration, float ratio, bool shouldResetPhase)
 {
+    // DBG("run here"); never
     std::vector<float> df(dfIn);
     std::vector<int> increments;
 

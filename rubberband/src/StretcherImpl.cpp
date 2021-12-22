@@ -111,7 +111,8 @@ RubberBandStretcher::Impl::Impl(size_t sampleRate,
     m_freq2(12000),
     m_baseFftSize(m_defaultFftSize)
 {
-    if (!_initialised) {
+    if (!_initialised) 
+    {
         system_specific_initialise();
         _initialised = true;
     }
@@ -427,8 +428,7 @@ size_t RubberBandStretcher::Impl::roundUp(size_t value)
     return value;
 }
 
-void
-RubberBandStretcher::Impl::calculateSizes()
+void RubberBandStretcher::Impl::calculateSizes()
 {
     size_t inputIncrement = m_defaultIncrement;
     size_t windowSize = m_baseFftSize;
@@ -460,7 +460,7 @@ RubberBandStretcher::Impl::calculateSizes()
             if (r == 1.0) windowIncrRatio = 4;
             else if (rsb) windowIncrRatio = 4.5;
             else windowIncrRatio = 6;
-
+            // DBG(windowIncrRatio);
             inputIncrement = int(windowSize / windowIncrRatio);
             outputIncrement = int(floor(inputIncrement * r));
 
@@ -516,7 +516,7 @@ RubberBandStretcher::Impl::calculateSizes()
 
             if (rsb) 
             {
-                DBG("adjusting window size from " << windowSize);
+                // DBG("adjusting window size from " << windowSize);
                 size_t newWindowSize = roundUp(lrint(windowSize / m_outputPitchRatio));
                 if (newWindowSize < 512) 
                     newWindowSize = 512;
@@ -649,6 +649,7 @@ RubberBandStretcher::Impl::calculateSizes()
 
 void RubberBandStretcher::Impl::configure()
 {
+    // DBG("run here");
     if (m_debugLevel > 0) 
     {
         std::cerr << "configure[" << this << "]: realtime = " << m_realtime << ", pitch scale = "
@@ -698,8 +699,7 @@ void RubberBandStretcher::Impl::configure()
     if (windowSizeChanged) 
     {
         // DBG("could this happen?"); // happen 2 times when constructing
-        for (set<size_t>::const_iterator i = windowSizes.begin();
-             i != windowSizes.end(); ++i) 
+        for (set<size_t>::const_iterator i = windowSizes.begin(); i != windowSizes.end(); ++i) 
         {
             if (m_windows.find(*i) == m_windows.end()) 
             {
@@ -737,7 +737,8 @@ void RubberBandStretcher::Impl::configure()
         }
     }
 
-    if (!m_realtime && fftSizeChanged) {
+    if (!m_realtime && fftSizeChanged) 
+    {
         delete m_studyFFT;
         m_studyFFT = new FFT(m_fftSize, m_debugLevel);
         m_studyFFT->initFloat();
@@ -801,12 +802,16 @@ void RubberBandStretcher::Impl::configure()
     m_silentAudioCurve = new SilentAudioCurve
         (SilentAudioCurve::Parameters(m_sampleRate, m_fftSize));
 
-    if (!m_realtime) {
+    if (!m_realtime) 
+    {
         delete m_stretchAudioCurve;
-        if (!(m_options & OptionStretchPrecise)) {
+        if (!(m_options & OptionStretchPrecise)) 
+        {
             m_stretchAudioCurve = new SpectralDifferenceAudioCurve
                 (SpectralDifferenceAudioCurve::Parameters(m_sampleRate, m_fftSize));
-        } else {
+        } 
+        else 
+        {
             m_stretchAudioCurve = new ConstantAudioCurve
                 (ConstantAudioCurve::Parameters(m_sampleRate, m_fftSize));
         }

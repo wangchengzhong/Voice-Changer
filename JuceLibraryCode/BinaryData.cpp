@@ -7,8 +7,48 @@
 namespace BinaryData
 {
 
-//================== COPYING ==================
+//================== Makefile.am ==================
 static const unsigned char temp_binary_data_0[] =
+"## Process this file with automake to create Makefile.in\r\n"
+"##\r\n"
+"## This file is part of SoundTouch, an audio processing library for pitch/time adjustments\r\n"
+"## \r\n"
+"## SoundTouch is free software; you can redistribute it and/or modify it under the\r\n"
+"## terms of the GNU General Public License as published by the Free Software\r\n"
+"## Foundation; either version 2 of the License, or (at your option) any later\r\n"
+"## version.\r\n"
+"## \r\n"
+"## SoundTouch is distributed in the hope that it will be useful, but WITHOUT ANY\r\n"
+"## WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR\r\n"
+"## A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\r\n"
+"## \r\n"
+"## You should have received a copy of the GNU General Public License along with\r\n"
+"## this program; if not, write to the Free Software Foundation, Inc., 59 Temple\r\n"
+"## Place - Suite 330, Boston, MA  02111-1307, USA\r\n"
+"\r\n"
+"## I used config/am_include.mk for common definitions\r\n"
+"include $(top_srcdir)/config/am_include.mk\r\n"
+"\r\n"
+"pkginclude_HEADERS=FIFOSampleBuffer.h FIFOSamplePipe.h SoundTouch.h STTypes.h BPMDetect.h soundtouch_config.h\r\n"
+"\r\n";
+
+const char* Makefile_am = (const char*) temp_binary_data_0;
+
+//================== soundtouch_config.h.in ==================
+static const unsigned char temp_binary_data_1[] =
+"/* Use Float as Sample type */\n"
+"#undef SOUNDTOUCH_FLOAT_SAMPLES\n"
+"\n"
+"/* Use Integer as Sample type */\n"
+"#undef SOUNDTOUCH_INTEGER_SAMPLES\n"
+"\n"
+"/* Use ARM NEON extension */\n"
+"#undef SOUNDTOUCH_USE_NEON\n";
+
+const char* soundtouch_config_h_in = (const char*) temp_binary_data_1;
+
+//================== COPYING ==================
+static const unsigned char temp_binary_data_2[] =
 "Copyright (c) 2003-2010 Mark Borgerding . All rights reserved.\n"
 "\n"
 "KISS FFT is provided under:\n"
@@ -21,10 +61,10 @@ static const unsigned char temp_binary_data_0[] =
 "  LICENSES/BSD-3-Clause\n"
 "\n";
 
-const char* COPYING = (const char*) temp_binary_data_0;
+const char* COPYING = (const char*) temp_binary_data_2;
 
 //================== COPYING ==================
-static const unsigned char temp_binary_data_1[] =
+static const unsigned char temp_binary_data_3[] =
 "Copyright 2002-2007 \tXiph.org Foundation\n"
 "Copyright 2002-2007 \tJean-Marc Valin\n"
 "Copyright 2005-2007\tAnalog Devices Inc.\n"
@@ -61,7 +101,7 @@ static const unsigned char temp_binary_data_1[] =
 "NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\n"
 "SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n";
 
-const char* COPYING2 = (const char*) temp_binary_data_1;
+const char* COPYING2 = (const char*) temp_binary_data_3;
 
 
 const char* getNamedResource (const char* resourceNameUTF8, int& numBytes)
@@ -74,6 +114,8 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes)
 
     switch (hash)
     {
+        case 0x1a187401:  numBytes = 1096; return Makefile_am;
+        case 0x6fff950a:  numBytes = 188; return soundtouch_config_h_in;
         case 0x63a1442d:  numBytes = 246; return COPYING;
         case 0x108741a5:  numBytes = 1774; return COPYING2;
         default: break;
@@ -85,12 +127,16 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes)
 
 const char* namedResourceList[] =
 {
+    "Makefile_am",
+    "soundtouch_config_h_in",
     "COPYING",
     "COPYING2"
 };
 
 const char* originalFilenames[] =
 {
+    "Makefile.am",
+    "soundtouch_config.h.in",
     "COPYING",
     "COPYING"
 };

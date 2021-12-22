@@ -194,7 +194,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
 
 
 
-    openEffectButton.setButtonText(juce::CharPointer_UTF8("\xe6\x89\x93\xe5\x8d\xa1"));
+    openEffectButton.setButtonText(juce::CharPointer_UTF8("\xe6\x89\x93\xe5\xbc\x80"));
     openEffectButton.onClick = [this] {openEffectButtonClicked(); };
     openEffectButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkslateblue);
     addAndMakeVisible(&openEffectButton);

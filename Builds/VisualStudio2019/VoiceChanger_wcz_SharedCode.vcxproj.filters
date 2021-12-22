@@ -1,7 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="VoiceChanger_wcz\soundtouch\include">
+      <UniqueIdentifier>{B58BDA64-BB42-E404-02B5-02B77FF9D63C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\soundtouch\source\SoundTouch">
+      <UniqueIdentifier>{71884137-991B-BEDC-2AD2-990EB2E4EE91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\soundtouch\source">
+      <UniqueIdentifier>{92036F60-6C25-0AB0-12A3-AECE7E461C44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\soundtouch">
+      <UniqueIdentifier>{CEF005F0-A873-1618-E172-CE1ACD396999}</UniqueIdentifier>
+    </Filter>
     <Filter Include="VoiceChanger_wcz\Source">
       <UniqueIdentifier>{09231230-2408-C1E3-3C7C-C7E59524470A}</UniqueIdentifier>
     </Filter>
@@ -40,18 +51,6 @@
     </Filter>
     <Filter Include="VoiceChanger_wcz\rubberband">
       <UniqueIdentifier>{B70B0AAA-7018-5757-985A-48A165339603}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="VoiceChanger_wcz\soundtouch\include">
-      <UniqueIdentifier>{B58BDA64-BB42-E404-02B5-02B77FF9D63C}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="VoiceChanger_wcz\soundtouch\source\SoundTouch">
-      <UniqueIdentifier>{71884137-991B-BEDC-2AD2-990EB2E4EE91}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="VoiceChanger_wcz\soundtouch\source">
-      <UniqueIdentifier>{92036F60-6C25-0AB0-12A3-AECE7E461C44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="VoiceChanger_wcz\soundtouch">
-      <UniqueIdentifier>{CEF005F0-A873-1618-E172-CE1ACD396999}</UniqueIdentifier>
     </Filter>
     <Filter Include="VoiceChanger_wcz">
       <UniqueIdentifier>{FBEC025A-5DF7-F80D-3100-10CA0974E90E}</UniqueIdentifier>
@@ -529,6 +528,48 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\soundtouch\source\SoundTouch\AAFilter.cpp">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\soundtouch\source\SoundTouch\BPMDetect.cpp">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\soundtouch\source\SoundTouch\cpu_detect_x86.cpp">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\soundtouch\source\SoundTouch\FIFOSampleBuffer.cpp">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\soundtouch\source\SoundTouch\FIRFilter.cpp">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\soundtouch\source\SoundTouch\InterpolateCubic.cpp">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\soundtouch\source\SoundTouch\InterpolateLinear.cpp">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\soundtouch\source\SoundTouch\InterpolateShannon.cpp">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\soundtouch\source\SoundTouch\mmx_optimized.cpp">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\soundtouch\source\SoundTouch\PeakFinder.cpp">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\soundtouch\source\SoundTouch\RateTransposer.cpp">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\soundtouch\source\SoundTouch\SoundTouch.cpp">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\soundtouch\source\SoundTouch\sse_optimized.cpp">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\soundtouch\source\SoundTouch\TDStretch.cpp">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\PluginProcessor.cpp">
       <Filter>VoiceChanger_wcz\Source</Filter>
     </ClCompile>
@@ -612,48 +653,6 @@
     </ClCompile>
     <ClCompile Include="..\..\rubberband\src\StretcherProcess.cpp">
       <Filter>VoiceChanger_wcz\rubberband\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\soundtouch\source\SoundTouch\AAFilter.cpp">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\soundtouch\source\SoundTouch\BPMDetect.cpp">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\soundtouch\source\SoundTouch\cpu_detect_x86.cpp">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\soundtouch\source\SoundTouch\FIFOSampleBuffer.cpp">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\soundtouch\source\SoundTouch\FIRFilter.cpp">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\soundtouch\source\SoundTouch\InterpolateCubic.cpp">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\soundtouch\source\SoundTouch\InterpolateLinear.cpp">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\soundtouch\source\SoundTouch\InterpolateShannon.cpp">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\soundtouch\source\SoundTouch\mmx_optimized.cpp">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\soundtouch\source\SoundTouch\PeakFinder.cpp">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\soundtouch\source\SoundTouch\RateTransposer.cpp">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\soundtouch\source\SoundTouch\SoundTouch.cpp">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\soundtouch\source\SoundTouch\sse_optimized.cpp">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\soundtouch\source\SoundTouch\TDStretch.cpp">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_analytics\analytics\juce_Analytics.cpp">
       <Filter>JUCE Modules\juce_analytics\analytics</Filter>
@@ -767,9 +766,6 @@
       <Filter>JUCE Modules\juce_audio_basics\utilities</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_basics\juce_audio_basics.cpp">
-      <Filter>JUCE Modules\juce_audio_basics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_basics\juce_audio_basics.mm">
       <Filter>JUCE Modules\juce_audio_basics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_devices\audio_io\juce_AudioDeviceManager.cpp">
@@ -988,9 +984,6 @@
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_devices\juce_audio_devices.cpp">
       <Filter>JUCE Modules\juce_audio_devices</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_devices\juce_audio_devices.mm">
-      <Filter>JUCE Modules\juce_audio_devices</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_formats\codecs\flac\libFLAC\bitmath.c">
       <Filter>JUCE Modules\juce_audio_formats\codecs\flac\libFLAC</Filter>
     </ClCompile>
@@ -1162,16 +1155,10 @@
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_formats\juce_audio_formats.cpp">
       <Filter>JUCE Modules\juce_audio_formats</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_formats\juce_audio_formats.mm">
-      <Filter>JUCE Modules\juce_audio_formats</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_plugin_client\utility\juce_PluginUtilities.cpp">
       <Filter>JUCE Modules\juce_audio_plugin_client\utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_utils.cpp">
-      <Filter>JUCE Modules\juce_audio_plugin_client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST_utils.mm">
       <Filter>JUCE Modules\juce_audio_plugin_client</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_processors\format\juce_AudioPluginFormat.cpp">
@@ -1249,9 +1236,6 @@
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_processors\format_types\VST3_SDK\public.sdk\source\vst\vstpresetfile.cpp">
       <Filter>JUCE Modules\juce_audio_processors\format_types\VST3_SDK\public.sdk\source\vst</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_processors\format_types\juce_AudioUnitPluginFormat.mm">
-      <Filter>JUCE Modules\juce_audio_processors\format_types</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_processors\format_types\juce_LADSPAPluginFormat.cpp">
       <Filter>JUCE Modules\juce_audio_processors\format_types</Filter>
     </ClCompile>
@@ -1321,9 +1305,6 @@
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_processors\juce_audio_processors.cpp">
       <Filter>JUCE Modules\juce_audio_processors</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_processors\juce_audio_processors.mm">
-      <Filter>JUCE Modules\juce_audio_processors</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_utils\audio_cd\juce_AudioCDReader.cpp">
       <Filter>JUCE Modules\juce_audio_utils\audio_cd</Filter>
     </ClCompile>
@@ -1348,22 +1329,10 @@
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_utils\native\juce_android_BluetoothMidiDevicePairingDialogue.cpp">
       <Filter>JUCE Modules\juce_audio_utils\native</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_utils\native\juce_ios_BluetoothMidiDevicePairingDialogue.mm">
-      <Filter>JUCE Modules\juce_audio_utils\native</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_utils\native\juce_linux_AudioCDReader.cpp">
       <Filter>JUCE Modules\juce_audio_utils\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_utils\native\juce_linux_BluetoothMidiDevicePairingDialogue.cpp">
-      <Filter>JUCE Modules\juce_audio_utils\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_utils\native\juce_mac_AudioCDBurner.mm">
-      <Filter>JUCE Modules\juce_audio_utils\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_utils\native\juce_mac_AudioCDReader.mm">
-      <Filter>JUCE Modules\juce_audio_utils\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_utils\native\juce_mac_BluetoothMidiDevicePairingDialogue.mm">
       <Filter>JUCE Modules\juce_audio_utils\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_utils\native\juce_win_BluetoothMidiDevicePairingDialogue.cpp">
@@ -1382,9 +1351,6 @@
       <Filter>JUCE Modules\juce_audio_utils\players</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_utils\juce_audio_utils.cpp">
-      <Filter>JUCE Modules\juce_audio_utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_audio_utils\juce_audio_utils.mm">
       <Filter>JUCE Modules\juce_audio_utils</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_blocks_basics\blocks\juce_Block.cpp">
@@ -1576,21 +1542,6 @@
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_core\native\juce_linux_Threads.cpp">
       <Filter>JUCE Modules\juce_core\native</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_core\native\juce_mac_Files.mm">
-      <Filter>JUCE Modules\juce_core\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_core\native\juce_mac_Network.mm">
-      <Filter>JUCE Modules\juce_core\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_core\native\juce_mac_Strings.mm">
-      <Filter>JUCE Modules\juce_core\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_core\native\juce_mac_SystemStats.mm">
-      <Filter>JUCE Modules\juce_core\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_core\native\juce_mac_Threads.mm">
-      <Filter>JUCE Modules\juce_core\native</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_core\native\juce_posix_NamedPipe.cpp">
       <Filter>JUCE Modules\juce_core\native</Filter>
     </ClCompile>
@@ -1765,9 +1716,6 @@
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_core\juce_core.cpp">
       <Filter>JUCE Modules\juce_core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_core\juce_core.mm">
-      <Filter>JUCE Modules\juce_core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_data_structures\app_properties\juce_ApplicationProperties.cpp">
       <Filter>JUCE Modules\juce_data_structures\app_properties</Filter>
     </ClCompile>
@@ -1793,9 +1741,6 @@
       <Filter>JUCE Modules\juce_data_structures\values</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_data_structures\juce_data_structures.cpp">
-      <Filter>JUCE Modules\juce_data_structures</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_data_structures\juce_data_structures.mm">
       <Filter>JUCE Modules\juce_data_structures</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_dsp\containers\juce_AudioBlock_test.cpp">
@@ -1906,9 +1851,6 @@
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_dsp\juce_dsp.cpp">
       <Filter>JUCE Modules\juce_dsp</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_dsp\juce_dsp.mm">
-      <Filter>JUCE Modules\juce_dsp</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_events\broadcasters\juce_ActionBroadcaster.cpp">
       <Filter>JUCE Modules\juce_events\broadcasters</Filter>
     </ClCompile>
@@ -1945,13 +1887,7 @@
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_events\native\juce_android_Messaging.cpp">
       <Filter>JUCE Modules\juce_events\native</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_events\native\juce_ios_MessageManager.mm">
-      <Filter>JUCE Modules\juce_events\native</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_events\native\juce_linux_Messaging.cpp">
-      <Filter>JUCE Modules\juce_events\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_events\native\juce_mac_MessageManager.mm">
       <Filter>JUCE Modules\juce_events\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_events\native\juce_win32_Messaging.cpp">
@@ -1967,9 +1903,6 @@
       <Filter>JUCE Modules\juce_events\timers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_events\juce_events.cpp">
-      <Filter>JUCE Modules\juce_events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_events\juce_events.mm">
       <Filter>JUCE Modules\juce_events</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_graphics\colour\juce_Colour.cpp">
@@ -2254,12 +2187,6 @@
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_graphics\native\juce_linux_IconHelpers.cpp">
       <Filter>JUCE Modules\juce_graphics\native</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_graphics\native\juce_mac_CoreGraphicsContext.mm">
-      <Filter>JUCE Modules\juce_graphics\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_graphics\native\juce_mac_Fonts.mm">
-      <Filter>JUCE Modules\juce_graphics\native</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_graphics\native\juce_mac_IconHelpers.cpp">
       <Filter>JUCE Modules\juce_graphics\native</Filter>
     </ClCompile>
@@ -2282,9 +2209,6 @@
       <Filter>JUCE Modules\juce_graphics\placement</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_graphics\juce_graphics.cpp">
-      <Filter>JUCE Modules\juce_graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_graphics\juce_graphics.mm">
       <Filter>JUCE Modules\juce_graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_basics\application\juce_Application.cpp">
@@ -2560,34 +2484,10 @@
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_basics\native\juce_ios_ContentSharer.cpp">
       <Filter>JUCE Modules\juce_gui_basics\native</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_basics\native\juce_ios_FileChooser.mm">
-      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_basics\native\juce_ios_UIViewComponentPeer.mm">
-      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_basics\native\juce_ios_Windowing.mm">
-      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_basics\native\juce_linux_FileChooser.cpp">
       <Filter>JUCE Modules\juce_gui_basics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_basics\native\juce_linux_Windowing.cpp">
-      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_basics\native\juce_mac_FileChooser.mm">
-      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_basics\native\juce_mac_MainMenu.mm">
-      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_basics\native\juce_mac_MouseCursor.mm">
-      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_basics\native\juce_mac_NSViewComponentPeer.mm">
-      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_basics\native\juce_mac_Windowing.mm">
       <Filter>JUCE Modules\juce_gui_basics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_basics\native\juce_win32_DragAndDrop.cpp">
@@ -2713,9 +2613,6 @@
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_basics\juce_gui_basics.cpp">
       <Filter>JUCE Modules\juce_gui_basics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_basics\juce_gui_basics.mm">
-      <Filter>JUCE Modules\juce_gui_basics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_extra\code_editor\juce_CodeDocument.cpp">
       <Filter>JUCE Modules\juce_gui_extra\code_editor</Filter>
     </ClCompile>
@@ -2776,9 +2673,6 @@
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_extra\native\juce_ios_PushNotifications.cpp">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_extra\native\juce_ios_UIViewComponent.mm">
-      <Filter>JUCE Modules\juce_gui_extra\native</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_extra\native\juce_linux_X11_SystemTrayIcon.cpp">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
@@ -2788,19 +2682,10 @@
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_extra\native\juce_linux_XEmbedComponent.cpp">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_extra\native\juce_mac_AppleRemote.mm">
-      <Filter>JUCE Modules\juce_gui_extra\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_extra\native\juce_mac_NSViewComponent.mm">
-      <Filter>JUCE Modules\juce_gui_extra\native</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_extra\native\juce_mac_PushNotifications.cpp">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_extra\native\juce_mac_SystemTrayIcon.cpp">
-      <Filter>JUCE Modules\juce_gui_extra\native</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_extra\native\juce_mac_WebBrowserComponent.mm">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_extra\native\juce_win32_ActiveXComponent.cpp">
@@ -2816,9 +2701,6 @@
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_extra\juce_gui_extra.cpp">
-      <Filter>JUCE Modules\juce_gui_extra</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\juce\JUCE\modules\juce_gui_extra\juce_gui_extra.mm">
       <Filter>JUCE Modules\juce_gui_extra</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\BinaryData.cpp">
@@ -2871,6 +2753,51 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\soundtouch\include\BPMDetect.h">
+      <Filter>VoiceChanger_wcz\soundtouch\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\soundtouch\include\FIFOSampleBuffer.h">
+      <Filter>VoiceChanger_wcz\soundtouch\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\soundtouch\include\FIFOSamplePipe.h">
+      <Filter>VoiceChanger_wcz\soundtouch\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\soundtouch\include\SoundTouch.h">
+      <Filter>VoiceChanger_wcz\soundtouch\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\soundtouch\include\soundtouch_config.h">
+      <Filter>VoiceChanger_wcz\soundtouch\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\soundtouch\include\STTypes.h">
+      <Filter>VoiceChanger_wcz\soundtouch\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\soundtouch\source\SoundTouch\AAFilter.h">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\soundtouch\source\SoundTouch\cpu_detect.h">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\soundtouch\source\SoundTouch\FIRFilter.h">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\soundtouch\source\SoundTouch\InterpolateCubic.h">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\soundtouch\source\SoundTouch\InterpolateLinear.h">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\soundtouch\source\SoundTouch\InterpolateShannon.h">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\soundtouch\source\SoundTouch\PeakFinder.h">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\soundtouch\source\SoundTouch\RateTransposer.h">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\soundtouch\source\SoundTouch\TDStretch.h">
+      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\PluginProcessor.h">
       <Filter>VoiceChanger_wcz\Source</Filter>
     </ClInclude>
@@ -3032,66 +2959,6 @@
     </ClInclude>
     <ClInclude Include="..\..\rubberband\src\StretcherImpl.h">
       <Filter>VoiceChanger_wcz\rubberband\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\include\BPMDetect.h">
-      <Filter>VoiceChanger_wcz\soundtouch\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\include\FIFOSampleBuffer.h">
-      <Filter>VoiceChanger_wcz\soundtouch\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\include\FIFOSamplePipe.h">
-      <Filter>VoiceChanger_wcz\soundtouch\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\include\SoundTouch.h">
-      <Filter>VoiceChanger_wcz\soundtouch\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\include\soundtouch_config.h">
-      <Filter>VoiceChanger_wcz\soundtouch\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\include\STTypes.h">
-      <Filter>VoiceChanger_wcz\soundtouch\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\source\SoundTouch\AAFilter.h">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\source\SoundTouch\BPMDetect.h">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\source\SoundTouch\cpu_detect.h">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\source\SoundTouch\FIFOSampleBuffer.h">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\source\SoundTouch\FIFOSamplePipe.h">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\source\SoundTouch\FIRFilter.h">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\source\SoundTouch\InterpolateCubic.h">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\source\SoundTouch\InterpolateLinear.h">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\source\SoundTouch\InterpolateShannon.h">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\source\SoundTouch\PeakFinder.h">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\source\SoundTouch\RateTransposer.h">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\source\SoundTouch\SoundTouch.h">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\source\SoundTouch\STTypes.h">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\soundtouch\source\SoundTouch\TDStretch.h">
-      <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\juce\JUCE\modules\juce_analytics\analytics\juce_Analytics.h">
       <Filter>JUCE Modules\juce_analytics\analytics</Filter>
@@ -5528,6 +5395,9 @@
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\JucePluginDefines.h">
       <Filter>JUCE Library Code</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PitchShifterSoundTouch.h">
+      <Filter>VoiceChanger_wcz\Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
