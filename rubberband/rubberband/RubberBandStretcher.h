@@ -437,7 +437,7 @@ public:
      * If the stretcher was constructed in RealTime mode, the pitch
      * scaling ratio may be varied during operation; this function may
      * be called at any time, so long as it is not called concurrently
-     * with process().  You should either call this function from the
+     * with process().  You  should either call this function from the
      * same thread as process(), or provide your own mutex or similar
      * mechanism to ensure that setPitchScale and process() cannot be
      * run at once (there is no internal mutex for this purpose).

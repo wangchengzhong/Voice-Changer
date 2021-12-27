@@ -69,6 +69,7 @@
    generally useful.
 */
 
+//#include"JuceHeader.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -363,19 +364,20 @@ static int resampler_basic_direct_single(SpeexResamplerState *st, unsigned int c
         /* We already have all the filter coefficients pre-computed in the table */
         const float *ptr;
 
-        for (j = 0; last_sample - N + 1 + j < 0; j++) {
+        for (j = 0; last_sample - N + 1 + j < 0; j++) 
+        {
             sum += ((float)(mem[last_sample+j]) *
 		    (float)(st->sinc_table[samp_frac_num*st->filt_len+j]));
         }
 
         /* Do the new part */
-        if (in != NULL) {
-
+        if (in != NULL) 
+        {
             ptr = in + st->in_stride * (last_sample - N + 1 + j);
-
-            for (; j < N; j++) {
+            for (; j < N; j++) 
+            {
                 sum += ((float)(*ptr) *
-			(float)(st->sinc_table[samp_frac_num*st->filt_len+j]));
+			        (float)(st->sinc_table[samp_frac_num*st->filt_len+j]));
                 ptr += st->in_stride;
             }
         }
@@ -386,15 +388,14 @@ static int resampler_basic_direct_single(SpeexResamplerState *st, unsigned int c
         out_sample++;
         last_sample += st->int_advance;
         samp_frac_num += st->frac_advance;
-
-        if (samp_frac_num >= st->den_rate) {
+        if (samp_frac_num >= st->den_rate) 
+        {
             samp_frac_num -= st->den_rate;
             last_sample++;
         }
     }
 
     st->last_sample[channel_index] = last_sample;
-
     st->samp_frac_num[channel_index] = samp_frac_num;
     return out_sample;
 }
@@ -410,27 +411,28 @@ static int resampler_basic_direct_double(SpeexResamplerState *st, unsigned int c
 
     mem = st->mem + channel_index * st->mem_alloc_size;
 
-    while (!(last_sample >= (int)*in_len || out_sample >= (int)*out_len)) {
-
+    while (!(last_sample >= (int)*in_len || out_sample >= (int)*out_len)) 
+    {
         int j;
         double sum = 0;
 
         /* We already have all the filter coefficients pre-computed in
          * the table */
         const float *ptr;
-
-        for (j = 0; last_sample - N + 1 + j < 0; j++) {
+        for (j = 0; last_sample - N + 1 + j < 0; j++) 
+        {
             sum += ((float)(mem[last_sample+j]) *
 		    (float)((double)st->sinc_table[samp_frac_num*st->filt_len+j]));
         }
-
         /* Do the new part */
-        if (in != NULL) {
+        if (in != NULL) 
+        {
             ptr = in + st->in_stride * (last_sample - N + 1 + j);
 
-            for (; j < N; j++) {
+            for (; j < N; j++) 
+            {
                 sum += ((float)(*ptr) *
-			(float)((double)st->sinc_table[samp_frac_num*st->filt_len+j]));
+			        (float)((double)st->sinc_table[samp_frac_num*st->filt_len+j]));
                 ptr += st->in_stride;
             }
         }
@@ -442,7 +444,8 @@ static int resampler_basic_direct_double(SpeexResamplerState *st, unsigned int c
         last_sample += st->int_advance;
         samp_frac_num += st->frac_advance;
 
-        if (samp_frac_num >= st->den_rate) {
+        if (samp_frac_num >= st->den_rate)
+        {
             samp_frac_num -= st->den_rate;
             last_sample++;
         }
@@ -464,8 +467,8 @@ static int resampler_basic_interpolate_single(SpeexResamplerState *st, unsigned 
 
     mem = st->mem + channel_index * st->mem_alloc_size;
 
-    while (!(last_sample >= (int)*in_len || out_sample >= (int)*out_len)) {
-
+    while (!(last_sample >= (int)*in_len || out_sample >= (int)*out_len))
+    {
         int j;
         float sum = 0;
 
@@ -486,8 +489,8 @@ static int resampler_basic_interpolate_single(SpeexResamplerState *st, unsigned 
 	 * loops in two because most DSPs have only two
 	 * accumulators */
 
-        for (j = 0; last_sample - N + 1 + j < 0; j++) {
-
+        for (j = 0; last_sample - N + 1 + j < 0; j++) 
+        {
             float curr_mem = mem[last_sample+j];
 
             accum[0] += ((float)(curr_mem) *
@@ -504,8 +507,8 @@ static int resampler_basic_interpolate_single(SpeexResamplerState *st, unsigned 
                                  [4 + (j+1)*st->oversample - offset + 1]));
         }
 
-        if (in != NULL) {
-
+        if (in != NULL)
+        {
             ptr = in + st->in_stride * (last_sample - N + 1 + j);
 
             /* Do the new part */
@@ -543,7 +546,8 @@ static int resampler_basic_interpolate_single(SpeexResamplerState *st, unsigned 
         last_sample += st->int_advance;
         samp_frac_num += st->frac_advance;
 
-        if (samp_frac_num >= st->den_rate) {
+        if (samp_frac_num >= st->den_rate)
+        {
             samp_frac_num -= st->den_rate;
             last_sample++;
         }
@@ -566,8 +570,8 @@ static int resampler_basic_interpolate_double(SpeexResamplerState *st, unsigned 
 
     mem = st->mem + channel_index * st->mem_alloc_size;
 
-    while (!(last_sample >= (int)*in_len || out_sample >= (int)*out_len)) {
-
+    while (!(last_sample >= (int)*in_len || out_sample >= (int)*out_len)) 
+    {
         int j;
         float sum = 0;
 
@@ -584,8 +588,8 @@ static int resampler_basic_interpolate_double(SpeexResamplerState *st, unsigned 
 	 * loops in two because most DSPs have only two
 	 * accumulators */
 
-        for (j = 0; last_sample - N + 1 + j < 0; j++) {
-
+        for (j = 0; last_sample - N + 1 + j < 0; j++) 
+        {
             double curr_mem = mem[last_sample + j];
 
             accum[0] += ((float)(curr_mem) *
@@ -602,13 +606,13 @@ static int resampler_basic_interpolate_double(SpeexResamplerState *st, unsigned 
                                  [4 + (j+1)*st->oversample - offset + 1]));
         }
 
-        if (in != NULL) {
-
+        if (in != NULL) 
+        {
             ptr = in + st->in_stride * (last_sample - N + 1 + j);
 
             /* Do the new part */
-            for (; j < N; j++) {
-
+            for (; j < N; j++) 
+            {
                 double curr_in = *ptr;
                 ptr += st->in_stride;
 
@@ -641,7 +645,8 @@ static int resampler_basic_interpolate_double(SpeexResamplerState *st, unsigned 
         last_sample += st->int_advance;
         samp_frac_num += st->frac_advance;
 
-        if (samp_frac_num >= st->den_rate) {
+        if (samp_frac_num >= st->den_rate)
+        {
             samp_frac_num -= st->den_rate;
             last_sample++;
         }
@@ -663,8 +668,8 @@ static void update_filter(SpeexResamplerState *st)
     st->oversample = quality_map[st->quality].oversample;
     st->filt_len = quality_map[st->quality].base_length;
 
-    if (st->num_rate > st->den_rate) {
-
+    if (st->num_rate > st->den_rate) 
+    {
         /* down-sampling */
         st->cutoff = quality_map[st->quality].downsample_bandwidth
             * st->den_rate / st->num_rate;
@@ -689,8 +694,9 @@ static void update_filter(SpeexResamplerState *st)
 
         if (st->oversample < 1)
             st->oversample = 1;
-
-    } else {
+    }
+    else 
+    {
 
         /* up-sampling */
         st->cutoff = quality_map[st->quality].upsample_bandwidth;
@@ -698,29 +704,30 @@ static void update_filter(SpeexResamplerState *st)
 
     /* Choose the resampling type that requires the least amount of memory */
 
-    if (st->den_rate <= st->oversample) {
-
+    if (st->den_rate <= st->oversample)
+    {
         unsigned int i;
-
-        if (!st->sinc_table) {
+        if (!st->sinc_table) 
+        {
 
             st->sinc_table = (float *)speex_alloc
                 (st->filt_len * st->den_rate, sizeof(float));
-
-	} else if (st->sinc_table_alloc < st->filt_len*st->den_rate) {
-
-//		fprintf(stderr,"sinc_table=%p\n",st->sinc_table);
+        } 
+        else if (st->sinc_table_alloc < st->filt_len*st->den_rate)
+        {
+            //fprintf(stderr,"sinc_table=%p\n",st->sinc_table);
             st->sinc_table = (float *)speex_realloc
                 (st->sinc_table, st->sinc_table_alloc,
                  st->filt_len * st->den_rate, sizeof(float));
             st->sinc_table_alloc = st->filt_len * st->den_rate;
         }
 
-        for (i = 0; i < st->den_rate; i++) {
-
+        for (i = 0; i < st->den_rate; i++) 
+        {
             int j;
 
-            for (j = 0; j < st->filt_len; j++) {
+            for (j = 0; j < st->filt_len; j++)
+            {
                 st->sinc_table[i*st->filt_len+j] = sinc
                     (st->cutoff,
                      ((j - (int)st->filt_len / 2 + 1) - ((float)i) / st->den_rate), 
@@ -729,25 +736,28 @@ static void update_filter(SpeexResamplerState *st)
             }
         }
 
-        if (st->quality > 8) {
+        if (st->quality > 8) 
+        {
             st->resampler_ptr = resampler_basic_direct_double;
-        } else {
+        } 
+        else 
+        {
             st->resampler_ptr = resampler_basic_direct_single;
         }
 
         /*      fprintf (stderr, "resampler uses direct sinc table and normalised cutoff %f\n", st->cutoff); */
 
-    } else {
-
+    } 
+    else 
+    {
         int i;
-
-        if (!st->sinc_table) {
-
+        if (!st->sinc_table)
+        {
             st->sinc_table = (float *)speex_alloc
                 ((st->filt_len * st->oversample + 8),  sizeof(float));
-
-	} else if (st->sinc_table_alloc < st->filt_len*st->oversample + 8) {
-
+        } 
+        else if (st->sinc_table_alloc < st->filt_len*st->oversample + 8) 
+        {
 		//fprintf(stderr,"sinc_table=%p\n",st->sinc_table);
             st->sinc_table = (float *)speex_realloc
                 (st->sinc_table, st->sinc_table_alloc,
@@ -755,13 +765,14 @@ static void update_filter(SpeexResamplerState *st)
             st->sinc_table_alloc = st->filt_len * st->oversample + 8;
         }
 
-        for (i = -4; i < (int)(st->oversample * st->filt_len + 4); i++) {
+        for (i = -4; i < (int)(st->oversample * st->filt_len + 4); i++) 
+        {
             st->sinc_table[i+4] = sinc
                 (st->cutoff,
                  (i / (float)st->oversample - st->filt_len / 2),
                  st->filt_len,
                  quality_map[st->quality].window_func);
-	}
+        }
 
         if (st->quality > 8)
             st->resampler_ptr = resampler_basic_interpolate_double;
@@ -780,7 +791,8 @@ static void update_filter(SpeexResamplerState *st)
        account the change in filter length. It's probably the messiest
        part of the code due to handling of lots of corner cases. */
 
-    if (!st->mem) {
+    if (!st->mem) 
+    {
 
         unsigned int i;
         st->mem = (float*)speex_alloc
@@ -790,9 +802,9 @@ static void update_filter(SpeexResamplerState *st)
             st->mem[i] = 0;
 
         st->mem_alloc_size = st->filt_len - 1;
-
-    } else if (!st->started) {
-
+    }
+    else if (!st->started) 
+    {
         unsigned int i;
 
 		//fprintf(stderr,"mem=%p\n",st->mem);
@@ -803,17 +815,17 @@ static void update_filter(SpeexResamplerState *st)
             st->mem[i] = 0;
 
         st->mem_alloc_size = st->filt_len - 1;
-
-    } else if (st->filt_len > old_length) {
-
+    }
+    else if (st->filt_len > old_length)
+    {
         int i;
 
         /* Increase the filter length */
 
         int old_alloc_size = st->mem_alloc_size;
 
-        if (st->filt_len - 1 > st->mem_alloc_size) {
-			
+        if (st->filt_len - 1 > st->mem_alloc_size)
+        {
 		//fprintf(stderr,"mem=%p\n",st->mem);
 
             st->mem = (float*)speex_realloc
@@ -822,8 +834,8 @@ static void update_filter(SpeexResamplerState *st)
             st->mem_alloc_size = st->filt_len - 1;
         }
 
-        for (i = st->nb_channels - 1; i >= 0; i--) {
-
+        for (i = st->nb_channels - 1; i >= 0; i--) 
+        {
             int j;
             unsigned int olen = old_length;
 
@@ -834,62 +846,61 @@ static void update_filter(SpeexResamplerState *st)
 
                 /* FIXME: This is wrong but for now we need it to
                  * avoid going over the array bounds */
-
                 olen = old_length + 2 * st->magic_samples[i];
 
-                for (j = old_length - 2 + st->magic_samples[i]; j >= 0; j--) {
+                for (j = old_length - 2 + st->magic_samples[i]; j >= 0; j--) 
+                {
                     st->mem[i*st->mem_alloc_size+j+st->magic_samples[i]] =
                         st->mem[i*old_alloc_size+j];
                 }
-
                 for (j = 0; j < st->magic_samples[i]; j++) {
                     st->mem[i*st->mem_alloc_size+j] = 0;
                 }
 
                 st->magic_samples[i] = 0;
             }
-
-            if (st->filt_len > olen) {
-
+            if (st->filt_len > olen) 
+            {
                 /* If the new filter length is still bigger than the
                  * "augmented" length */
 
                 /* Copy data going backward */
 
-                for (j = 0; j < olen - 1; j++) {
+                for (j = 0; j < olen - 1; j++) 
+                {
                     st->mem[i*st->mem_alloc_size+(st->filt_len-2-j)] =
                         st->mem[i*st->mem_alloc_size+(olen-2-j)];
                 }
-
                 /* Then put zeros for lack of anything better */
-                for (; j < st->filt_len - 1; j++) {
+                for (; j < st->filt_len - 1; j++) 
+                {
                     st->mem[i*st->mem_alloc_size+(st->filt_len-2-j)] = 0;
                 }
-
                 /* Adjust last_sample */
                 st->last_sample[i] += (st->filt_len - olen) / 2;
 
-            } else {
-
+            }
+            else 
+            {
                 /* Put back some of the magic! */
                 st->magic_samples[i] = (olen - st->filt_len) / 2;
 
-                for (j = 0; j < st->filt_len - 1 + st->magic_samples[i]; j++) {
+                for (j = 0; j < st->filt_len - 1 + st->magic_samples[i]; j++) 
+                {
                     st->mem[i*st->mem_alloc_size+j] =
                         st->mem[i*st->mem_alloc_size+j+st->magic_samples[i]];
                 }
             }
         }
-    } else if (st->filt_len < old_length) {
-
+    } 
+    else if (st->filt_len < old_length) 
+    {
         unsigned int i;
-
         /* Reduce filter length, this a bit tricky. We need to store
            some of the memory as "magic" samples so they can be used
            directly as input the next time(s) */
-
-        for (i = 0; i < st->nb_channels; i++) {
-
+        for (i = 0; i < st->nb_channels; i++)
+        {
             unsigned int j;
             unsigned int old_magic = st->magic_samples[i];
             st->magic_samples[i] = (old_length - st->filt_len) / 2;
@@ -897,11 +908,11 @@ static void update_filter(SpeexResamplerState *st)
             /* We must copy some of the memory that's no longer used */
             /* Copy data going backward */
 
-            for (j = 0; j < st->filt_len - 1 + st->magic_samples[i] + old_magic; j++) {
+            for (j = 0; j < st->filt_len - 1 + st->magic_samples[i] + old_magic; j++) 
+            {
                 st->mem[i*st->mem_alloc_size+j] =
                     st->mem[i*st->mem_alloc_size+j+st->magic_samples[i]];
-	    }
-
+            }
             st->magic_samples[i] += old_magic;
         }
     }
@@ -913,16 +924,19 @@ SpeexResamplerState *speex_resampler_init(unsigned int nb_channels, unsigned int
 				     in_rate, out_rate, quality, err);
 }
 
-SpeexResamplerState *speex_resampler_init_frac(unsigned int nb_channels, unsigned int ratio_num, unsigned int ratio_den, unsigned int in_rate, unsigned int out_rate, int quality, int *err)
+SpeexResamplerState *speex_resampler_init_frac(unsigned int nb_channels, 
+    unsigned int ratio_num, unsigned int ratio_den, unsigned int in_rate, unsigned int out_rate, int quality, int *err)
 {
+    
     unsigned int i;
     SpeexResamplerState *st;
 
-    if (quality > 10 || quality < 0) {
+    if (quality > 10 || quality < 0) 
+    {
         if (err) *err = RESAMPLER_ERR_INVALID_ARG;
         return NULL;
     }
-
+    // DBG("run here");
     st = (SpeexResamplerState *)speex_alloc(1, sizeof(SpeexResamplerState));
 
     st->initialised = 0;
@@ -950,7 +964,8 @@ SpeexResamplerState *speex_resampler_init_frac(unsigned int nb_channels, unsigne
     st->magic_samples = (unsigned int*)speex_alloc(nb_channels, sizeof(int));
     st->samp_frac_num = (unsigned int*)speex_alloc(nb_channels, sizeof(int));
 
-    for (i = 0; i < nb_channels; i++) {
+    for (i = 0; i < nb_channels; i++) 
+    {
         st->last_sample[i] = 0;
         st->magic_samples[i] = 0;
         st->samp_frac_num[i] = 0;
@@ -992,8 +1007,8 @@ static int speex_resampler_process_native(SpeexResamplerState *st, unsigned int 
     /* Handle the case where we have samples left from a reduction in
      * filter length */
 
-    if (st->magic_samples[channel_index]) {
-
+    if (st->magic_samples[channel_index]) 
+    {
         int istride_save;
         unsigned int tmp_in_len;
         unsigned int tmp_magic;
@@ -1013,17 +1028,17 @@ static int speex_resampler_process_native(SpeexResamplerState *st, unsigned int 
         /* If we couldn't process all "magic" input samples, save the
          * rest for next time */
 
-        if (tmp_in_len < tmp_magic) {
-
+        if (tmp_in_len < tmp_magic) 
+        {
             unsigned int i;
 
             st->magic_samples[channel_index] = tmp_magic - tmp_in_len;
 
-            for (i = 0; i < st->magic_samples[channel_index]; i++) {
+            for (i = 0; i < st->magic_samples[channel_index]; i++) 
+            {
                 mem[N-1+i] = mem[N-1+i+tmp_in_len];
             }
         }
-
         out += tmp_out_len * st->out_stride;
         *out_len -= tmp_out_len;
     }
@@ -1032,7 +1047,8 @@ static int speex_resampler_process_native(SpeexResamplerState *st, unsigned int 
     out_sample = st->resampler_ptr(st, channel_index,
                                    in, in_len, out, out_len);
 
-    if (st->last_sample[channel_index] < (int)*in_len) {
+    if (st->last_sample[channel_index] < (int)*in_len) 
+    {
         *in_len = st->last_sample[channel_index];
     }
 
@@ -1040,16 +1056,19 @@ static int speex_resampler_process_native(SpeexResamplerState *st, unsigned int 
 
     st->last_sample[channel_index] -= *in_len;
 
-    for (j = 0; j < N-1 - (int)*in_len; j++) {
+    for (j = 0; j < N-1 - (int)*in_len; j++) 
+    {
         mem[j] = mem[j+*in_len];
     }
 
-    if (in != NULL) {
+    if (in != NULL) 
+    {
         for ( ; j < N-1; j++) mem[j] = in[st->in_stride*(j+*in_len-N+1)];
-    } else {
+    } 
+    else 
+    {
         for ( ; j < N-1; j++) mem[j] = 0;
     }
-
     return RESAMPLER_ERR_SUCCESS;
 }
 
@@ -1068,17 +1087,17 @@ int speex_resampler_process_interleaved_float(SpeexResamplerState *st, const flo
     ostride_save = st->out_stride;
     st->in_stride = st->out_stride = st->nb_channels;
 
-    for (i = 0; i < st->nb_channels; i++) {
-
+    for (i = 0; i < st->nb_channels; i++)
+    {
         *out_len = bak_len;
-
-        if (in != NULL) {
+        if (in != NULL) 
+        {
             speex_resampler_process_float(st, i, in + i, in_len, out + i, out_len);
-        } else {
+        } else 
+        {
             speex_resampler_process_float(st, i, NULL, in_len, out + i, out_len);
         }
     }
-
     st->in_stride = istride_save;
     st->out_stride = ostride_save;
 
@@ -1100,12 +1119,12 @@ static unsigned int gcd(unsigned int a, unsigned int b)
 {
     /* Euclid */
 
-    while (b) {
+    while (b) 
+    {
         unsigned int tmp = b;
         b = a % b;
         a = tmp;
     }
-
     return a;
 }
 
@@ -1116,7 +1135,8 @@ int speex_resampler_set_rate_frac(SpeexResamplerState *st, unsigned int ratio_nu
 	unsigned int g;
 
     if (st->in_rate == in_rate && st->out_rate == out_rate &&
-	st->num_rate == ratio_num && st->den_rate == ratio_den) {
+	st->num_rate == ratio_num && st->den_rate == ratio_den) 
+    {
         return RESAMPLER_ERR_SUCCESS;
     }
 
@@ -1133,19 +1153,22 @@ int speex_resampler_set_rate_frac(SpeexResamplerState *st, unsigned int ratio_nu
     st->num_rate /= g;
     st->den_rate /= g;
 
-    if (old_den > 0) {
-
-        for (i = 0; i < st->nb_channels; i++) {
+    if (old_den > 0)
+    {
+        for (i = 0; i < st->nb_channels; i++) 
+        {
 
             st->samp_frac_num[i] = st->samp_frac_num[i] * st->den_rate / old_den;
 
-            if (st->samp_frac_num[i] >= st->den_rate) {
+            if (st->samp_frac_num[i] >= st->den_rate) 
+            {
                 st->samp_frac_num[i] = st->den_rate - 1;
-	    }
+            }
         }
     }
 
-    if (st->initialised) {
+    if (st->initialised) 
+    {
         update_filter(st);
     }
 
@@ -1160,17 +1183,18 @@ void speex_resampler_get_ratio(SpeexResamplerState *st, unsigned int *ratio_num,
 
 int speex_resampler_set_quality(SpeexResamplerState *st, int quality)
 {
-    if (quality > 10 || quality < 0) {
+    if (quality > 10 || quality < 0) 
+    {
         return RESAMPLER_ERR_INVALID_ARG;
     }
 
-    if (st->quality == quality) {
+    if (st->quality == quality) 
+    {
         return RESAMPLER_ERR_SUCCESS;
     }
-
     st->quality = quality;
-
-    if (st->initialised) {
+    if (st->initialised)
+    {
         update_filter(st); 
     }
 
@@ -1216,7 +1240,8 @@ int speex_resampler_skip_zeros(SpeexResamplerState *st)
 {
     unsigned int i;
 
-    for (i = 0; i < st->nb_channels; i++) {
+    for (i = 0; i < st->nb_channels; i++) 
+    {
         st->last_sample[i] = st->filt_len / 2;
     }
 
@@ -1227,11 +1252,13 @@ int speex_resampler_reset_mem(SpeexResamplerState *st)
 {
     unsigned int i;
 
-    for (i = 0; i < st->nb_channels*(st->filt_len - 1); i++) {
+    for (i = 0; i < st->nb_channels*(st->filt_len - 1); i++) 
+    {
         st->mem[i] = 0;
     }
 
-    for (i = 0; i < st->nb_channels; i++) {
+    for (i = 0; i < st->nb_channels; i++) 
+    {
         st->last_sample[i] = 0;
         st->magic_samples[i] = 0;
         st->samp_frac_num[i] = 0;
@@ -1242,24 +1269,25 @@ int speex_resampler_reset_mem(SpeexResamplerState *st)
 
 const char *speex_resampler_strerror(int err)
 {
-    switch (err) {
+    switch (err) 
+    {
 
-    case RESAMPLER_ERR_SUCCESS:
-        return "Success.";
+        case RESAMPLER_ERR_SUCCESS:
+            return "Success.";
 
-    case RESAMPLER_ERR_ALLOC_FAILED:
-        return "Memory allocation failed.";
+        case RESAMPLER_ERR_ALLOC_FAILED:
+            return "Memory allocation failed.";
 
-    case RESAMPLER_ERR_BAD_STATE:
-        return "Bad resampler state.";
+        case RESAMPLER_ERR_BAD_STATE:
+            return "Bad resampler state.";
 
-    case RESAMPLER_ERR_INVALID_ARG:
-        return "Invalid argument.";
+        case RESAMPLER_ERR_INVALID_ARG:
+            return "Invalid argument.";
 
-    case RESAMPLER_ERR_PTR_OVERLAP:
-        return "Input and output buffers overlap.";
+        case RESAMPLER_ERR_PTR_OVERLAP:
+            return "Input and output buffers overlap.";
 
-    default:
-        return "Unknown error. Bad error code or strange version mismatch.";
+        default:
+            return "Unknown error. Bad error code or strange version mismatch.";
     }
 }

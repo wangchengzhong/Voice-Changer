@@ -1,16 +1,12 @@
 #include <JuceHeader.h>
 #include "rubberband/RubberBandStretcher.h"
 #include "RingBuffer.h"
+//CONTINUOUS WAVELET TRANSFORM BASED HYBRID FILTERING FOR REAL-TIME EMOTIONAL VOICE CONVERSION
 #if USE_RUBBERBAND
 class PitchShifterRubberband
 {
 public:
-    /** 
-    Setup the pitch shifter. By default the shifter will be setup so that 
-    the dry signal isn't delayed to be given a somewhat similar latency to the wet signal -
-    this is not accurate when enabled! By enabling minLatency some latency can be reduced with the
-    expense of potential tearing during modulation with a change of the pitch parameter.
-     */
+
     PitchShifterRubberband(int numChannels, double sampleRate, int samplesPerBlock, bool dryCompensationDelay = false, bool minLatency = false)
     {
         rubberband = std::make_unique<RubberBand::RubberBandStretcher>(sampleRate, numChannels, 
@@ -199,7 +195,7 @@ public:
 private:
     std::unique_ptr<RubberBand::RubberBandStretcher> rubberband;
     RingBuffer input, output;
-    juce::AudioBuffer<float> inputBuffer, outputBuffer;
+    // juce::AudioBuffer<float> inputBuffer, outputBuffer;
     int maxSamples, initLatency, bufferFail, smallestAcceptableSize, largestAcceptableSize;
     float oldPitch, pitchParam, mixParam{ 100.0f };
     std::unique_ptr<juce::dsp::DryWetMixer<float>> dryWet;

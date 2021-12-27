@@ -214,7 +214,7 @@
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="VoiceChangerwcz" libraryPath="D:\1a\tools\rubberband-2.0.0\otherbuilds\x64\Debug"
                        defines="NOMINMAX&#10;_USE_MATH_DEFINES&#10;HAVE_KISSFFT&#10;USE_SPEEX"
-                       headerPath="D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source"/>
+                       headerPath="D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HTKLib&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMLib&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMTools&#10;"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="VoiceChangerwcz" headerPath="D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source"
                        libraryPath="D:/1a/tools/rubberband-2.0.0/otherbuilds/x64/Debug"
                        defines="NOMINMAX&#10;_USE_MATH_DEFINES&#10;HAVE_KISSFFT&#10;USE_SPEEX"/>

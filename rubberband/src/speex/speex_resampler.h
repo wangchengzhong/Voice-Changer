@@ -97,7 +97,6 @@ enum {
    RESAMPLER_ERR_BAD_STATE       = 2,
    RESAMPLER_ERR_INVALID_ARG     = 3,
    RESAMPLER_ERR_PTR_OVERLAP     = 4,
-   
    RESAMPLER_ERR_MAX_ERROR
 };
 
@@ -132,7 +131,7 @@ SpeexResamplerState *speex_resampler_init(spx_uint32_t nb_channels,
  * @return Newly created resampler state
  * @retval NULL Error: not enough memory
  */
-SpeexResamplerState *speex_resampler_init_frac(spx_uint32_t nb_channels, 
+SpeexResamplerState *speex_resampler_init_frac(spx_uint32_t  nb_channels, 
                                                spx_uint32_t ratio_num, 
                                                spx_uint32_t ratio_den, 
                                                spx_uint32_t in_rate, 

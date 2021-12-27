@@ -13,8 +13,9 @@
 
 #define USE_3rdPARTYPITCHSHIFT true
 #if USE_3rdPARTYPITCHSHIFT
-#define USE_RUBBERBAND false
-#define USE_SOUNDTOUCH true
+#define USE_RUBBERBAND true
+#define USE_SOUNDTOUCH false
+
 #endif
 
 #endif

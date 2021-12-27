@@ -111,6 +111,7 @@ RubberBandStretcher::Impl::Impl(size_t sampleRate,
     m_freq2(12000),
     m_baseFftSize(m_defaultFftSize)
 {
+    // DBG("run here");
     if (!_initialised) 
     {
         system_specific_initialise();
@@ -125,7 +126,7 @@ RubberBandStretcher::Impl::Impl(size_t sampleRate,
     m_rateMultiple = float(m_sampleRate) / 48000.f;
 //    if (m_rateMultiple < 1.f) m_rateMultiple = 1.f;
     m_baseFftSize = roundUp(int(m_defaultFftSize * m_rateMultiple));
-
+    //DBG(m_baseFftSize);
     if ((options & OptionWindowShort) || (options & OptionWindowLong)) 
     {
         if ((options & OptionWindowShort) && (options & OptionWindowLong)) 
@@ -670,7 +671,7 @@ void RubberBandStretcher::Impl::configure()
     }
 
     calculateSizes();
-
+    // DBG("run here");
     bool fftSizeChanged = (prevFftSize != m_fftSize);
     bool windowSizeChanged = ((prevAWindowSize != m_aWindowSize) ||
                               (prevSWindowSize != m_sWindowSize));
@@ -772,7 +773,7 @@ void RubberBandStretcher::Impl::configure()
             
             params.maxBufferSize = 4096 * 16;
             params.debugLevel = (m_debugLevel > 0 ? m_debugLevel-1 : 0);
-            
+            // DBG("run here");
             m_channelData[c]->resampler = new Resampler(params, 1);
 
             // rbs is the amount of buffer space we think we'll need

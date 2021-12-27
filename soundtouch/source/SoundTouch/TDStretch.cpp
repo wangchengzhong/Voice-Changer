@@ -541,6 +541,7 @@ void TDStretch::calcSeqParameters()
     
     if (bAutoSeqSetting)
     {
+        // DBG("have run here");
         seq = AUTOSEQ_C + AUTOSEQ_K * tempo;
         seq = CHECK_LIMITS(seq, AUTOSEQ_AT_MAX, AUTOSEQ_AT_MIN);
         sequenceMs = (int)(seq + 0.5);
@@ -548,6 +549,7 @@ void TDStretch::calcSeqParameters()
 
     if (bAutoSeekSetting)
     {
+        // DBG("have run here");
         seek = AUTOSEEK_C + AUTOSEEK_K * tempo;
         seek = CHECK_LIMITS(seek, AUTOSEEK_AT_MAX, AUTOSEEK_AT_MIN);
         seekWindowMs = (int)(seek + 0.5);
@@ -574,7 +576,7 @@ void TDStretch::setTempo(double newTempo)
 
     // Calculate new sequence duration
     calcSeqParameters();
-
+    // DBG(newTempo);
     // Calculate ideal skip length (according to tempo value) 
     nominalSkip = tempo * (seekWindowLength - overlapLength);
     intskip = (int)(nominalSkip + 0.5);
@@ -715,6 +717,7 @@ void TDStretch::processSamples()
             skipFract -= skip;
             
             // DBG(nominalSkip);//3569.87
+            // DBG(skipFract);//-1099, -1250
             if (skipFract <= -nominalSkip)
             {
                 // never run here
@@ -751,6 +754,8 @@ void TDStretch::processSamples()
         ovlSkip = (int)skipFract;   // rounded to integer skip
         skipFract -= ovlSkip;       // maintain the fraction part, i.e. real vs. integer skip
         inputBuffer.receiveSamples((uint)ovlSkip);
+        // DBG(ovlSkip);// 1554 or 1555
+        // DBG(skipFract);// just fraction part of the loop. ranging from 0 to 1
     }
 }
 
@@ -1056,7 +1061,7 @@ void TDStretch::overlapMulti(float *pOutput, const float *pInput) const
         f1 += fScale;
         f2 -= fScale;
     }
-}
+} 
 
 
 /// Calculates overlapInMsec period length in samples.

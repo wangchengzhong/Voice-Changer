@@ -249,8 +249,8 @@ public:
                 if (output.getAvailableSampleNum(channel) > 0)
                 {
                     // DBG(availableOutputSamples);
-                    //if (availableOutputSamples < buffer.getNumSamples())
-                    //    DBG("available<numSamples!");// only begin at the beginning several
+                    // if (availableOutputSamples < buffer.getNumSamples())
+                    // DBG("available<numSamples!");// only begin at the beginning several
                     buffer.setSample(channel, ((availableOutputSamples >= buffer.getNumSamples()) ?
                         sample : sample + buffer.getNumSamples() - availableOutputSamples), output.popSample(channel));
                 }

@@ -651,7 +651,7 @@ void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRef,
             isSilent = (m_silentAudioCurve->processFloat((float *)cd.mag, m_inbufJumpSampleNum) > 0.f);
             // DBG("df: " << df << "isSilent:\n\n"); //not run here at all
         }
-    } 
+    }
     else 
     {
         process_t *tmp = (process_t *)alloca(hs * sizeof(process_t));
@@ -741,7 +741,7 @@ void RubberBandStretcher::Impl::calculateIncrements(size_t &phaseIncrementRef,
 
     if (isSilent) 
         ++m_silentHistory;
-    else 
+    else
         m_silentHistory = 0;
 
     if (m_silentHistory >= int(m_aWindowSize / m_inbufJumpSampleNum) && !shouldResetPhase) 
