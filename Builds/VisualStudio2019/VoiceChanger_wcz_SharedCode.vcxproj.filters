@@ -2,6 +2,12 @@
 
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="VoiceChanger_wcz\world\world">
+      <UniqueIdentifier>{89C342B2-9DD5-163C-5C69-381359A1A163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\world">
+      <UniqueIdentifier>{54AE6C0C-7459-40EF-0A46-128B31BF8D6B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="VoiceChanger_wcz\soundtouch\include">
       <UniqueIdentifier>{B58BDA64-BB42-E404-02B5-02B77FF9D63C}</UniqueIdentifier>
     </Filter>
@@ -529,6 +535,39 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\world\cheaptrick.cpp">
+      <Filter>VoiceChanger_wcz\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\world\codec.cpp">
+      <Filter>VoiceChanger_wcz\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\world\common.cpp">
+      <Filter>VoiceChanger_wcz\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\world\d4c.cpp">
+      <Filter>VoiceChanger_wcz\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\world\dio.cpp">
+      <Filter>VoiceChanger_wcz\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\world\fft.cpp">
+      <Filter>VoiceChanger_wcz\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\world\harvest.cpp">
+      <Filter>VoiceChanger_wcz\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\world\matlabfunctions.cpp">
+      <Filter>VoiceChanger_wcz\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\world\stonemask.cpp">
+      <Filter>VoiceChanger_wcz\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\world\synthesis.cpp">
+      <Filter>VoiceChanger_wcz\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\world\synthesisrealtime.cpp">
+      <Filter>VoiceChanger_wcz\world</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\soundtouch\source\SoundTouch\AAFilter.cpp">
       <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
     </ClCompile>
@@ -2871,6 +2910,45 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\world\world\cheaptrick.h">
+      <Filter>VoiceChanger_wcz\world\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\world\world\codec.h">
+      <Filter>VoiceChanger_wcz\world\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\world\world\common.h">
+      <Filter>VoiceChanger_wcz\world\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\world\world\constantnumbers.h">
+      <Filter>VoiceChanger_wcz\world\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\world\world\d4c.h">
+      <Filter>VoiceChanger_wcz\world\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\world\world\dio.h">
+      <Filter>VoiceChanger_wcz\world\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\world\world\fft.h">
+      <Filter>VoiceChanger_wcz\world\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\world\world\harvest.h">
+      <Filter>VoiceChanger_wcz\world\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\world\world\macrodefinitions.h">
+      <Filter>VoiceChanger_wcz\world\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\world\world\matlabfunctions.h">
+      <Filter>VoiceChanger_wcz\world\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\world\world\stonemask.h">
+      <Filter>VoiceChanger_wcz\world\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\world\world\synthesis.h">
+      <Filter>VoiceChanger_wcz\world\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\world\world\synthesisrealtime.h">
+      <Filter>VoiceChanger_wcz\world\world</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\soundtouch\include\BPMDetect.h">
       <Filter>VoiceChanger_wcz\soundtouch\include</Filter>
     </ClInclude>

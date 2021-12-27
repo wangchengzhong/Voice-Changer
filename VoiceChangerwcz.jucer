@@ -4,6 +4,40 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
               cppLanguageStandard="17" pluginFormats="buildStandalone,buildVST3">
   <MAINGROUP id="PQHAjN" name="VoiceChanger_wcz">
+    <GROUP id="{A5DD1CB4-D585-7A6B-FBE9-86AFAB6CE59B}" name="world">
+      <GROUP id="{DA292529-3CB3-7A8F-164E-05CA0E538FD6}" name="world">
+        <FILE id="t9vC4z" name="cheaptrick.h" compile="0" resource="0" file="world/world/cheaptrick.h"/>
+        <FILE id="ai5nhj" name="codec.h" compile="0" resource="0" file="world/world/codec.h"/>
+        <FILE id="lyF5Rh" name="common.h" compile="0" resource="0" file="world/world/common.h"/>
+        <FILE id="bAXtIq" name="constantnumbers.h" compile="0" resource="0"
+              file="world/world/constantnumbers.h"/>
+        <FILE id="tsWt2t" name="d4c.h" compile="0" resource="0" file="world/world/d4c.h"/>
+        <FILE id="WWgECv" name="dio.h" compile="0" resource="0" file="world/world/dio.h"/>
+        <FILE id="wbY9Hu" name="fft.h" compile="0" resource="0" file="world/world/fft.h"/>
+        <FILE id="oFIR8H" name="harvest.h" compile="0" resource="0" file="world/world/harvest.h"/>
+        <FILE id="FL1DDC" name="macrodefinitions.h" compile="0" resource="0"
+              file="world/world/macrodefinitions.h"/>
+        <FILE id="b8vPbn" name="matlabfunctions.h" compile="0" resource="0"
+              file="world/world/matlabfunctions.h"/>
+        <FILE id="CcKnvC" name="stonemask.h" compile="0" resource="0" file="world/world/stonemask.h"/>
+        <FILE id="NLgjuQ" name="synthesis.h" compile="0" resource="0" file="world/world/synthesis.h"/>
+        <FILE id="hduivv" name="synthesisrealtime.h" compile="0" resource="0"
+              file="world/world/synthesisrealtime.h"/>
+      </GROUP>
+      <FILE id="Yl779R" name="cheaptrick.cpp" compile="1" resource="0" file="world/cheaptrick.cpp"/>
+      <FILE id="rA2BaT" name="codec.cpp" compile="1" resource="0" file="world/codec.cpp"/>
+      <FILE id="CLOG7K" name="common.cpp" compile="1" resource="0" file="world/common.cpp"/>
+      <FILE id="WVQ3YT" name="d4c.cpp" compile="1" resource="0" file="world/d4c.cpp"/>
+      <FILE id="SUXn0S" name="dio.cpp" compile="1" resource="0" file="world/dio.cpp"/>
+      <FILE id="VL7V6J" name="fft.cpp" compile="1" resource="0" file="world/fft.cpp"/>
+      <FILE id="e9WCXm" name="harvest.cpp" compile="1" resource="0" file="world/harvest.cpp"/>
+      <FILE id="bGGzNb" name="matlabfunctions.cpp" compile="1" resource="0"
+            file="world/matlabfunctions.cpp"/>
+      <FILE id="oP3hsK" name="stonemask.cpp" compile="1" resource="0" file="world/stonemask.cpp"/>
+      <FILE id="uojnJc" name="synthesis.cpp" compile="1" resource="0" file="world/synthesis.cpp"/>
+      <FILE id="lz9TLO" name="synthesisrealtime.cpp" compile="1" resource="0"
+            file="world/synthesisrealtime.cpp"/>
+    </GROUP>
     <GROUP id="{117B0783-DB41-E650-9DC0-68B0582B1CC3}" name="soundtouch">
       <GROUP id="{1FE769D5-8B11-F8D9-7100-469A623D33C3}" name="include">
         <FILE id="FEcoGB" name="BPMDetect.h" compile="0" resource="0" file="soundtouch/include/BPMDetect.h"/>

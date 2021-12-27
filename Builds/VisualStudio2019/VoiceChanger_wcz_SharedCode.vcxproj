@@ -137,6 +137,17 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\world\cheaptrick.cpp"/>
+    <ClCompile Include="..\..\world\codec.cpp"/>
+    <ClCompile Include="..\..\world\common.cpp"/>
+    <ClCompile Include="..\..\world\d4c.cpp"/>
+    <ClCompile Include="..\..\world\dio.cpp"/>
+    <ClCompile Include="..\..\world\fft.cpp"/>
+    <ClCompile Include="..\..\world\harvest.cpp"/>
+    <ClCompile Include="..\..\world\matlabfunctions.cpp"/>
+    <ClCompile Include="..\..\world\stonemask.cpp"/>
+    <ClCompile Include="..\..\world\synthesis.cpp"/>
+    <ClCompile Include="..\..\world\synthesisrealtime.cpp"/>
     <ClCompile Include="..\..\soundtouch\source\SoundTouch\AAFilter.cpp"/>
     <ClCompile Include="..\..\soundtouch\source\SoundTouch\BPMDetect.cpp"/>
     <ClCompile Include="..\..\soundtouch\source\SoundTouch\cpu_detect_x86.cpp"/>
@@ -2246,6 +2257,19 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\world\world\cheaptrick.h"/>
+    <ClInclude Include="..\..\world\world\codec.h"/>
+    <ClInclude Include="..\..\world\world\common.h"/>
+    <ClInclude Include="..\..\world\world\constantnumbers.h"/>
+    <ClInclude Include="..\..\world\world\d4c.h"/>
+    <ClInclude Include="..\..\world\world\dio.h"/>
+    <ClInclude Include="..\..\world\world\fft.h"/>
+    <ClInclude Include="..\..\world\world\harvest.h"/>
+    <ClInclude Include="..\..\world\world\macrodefinitions.h"/>
+    <ClInclude Include="..\..\world\world\matlabfunctions.h"/>
+    <ClInclude Include="..\..\world\world\stonemask.h"/>
+    <ClInclude Include="..\..\world\world\synthesis.h"/>
+    <ClInclude Include="..\..\world\world\synthesisrealtime.h"/>
     <ClInclude Include="..\..\soundtouch\include\BPMDetect.h"/>
     <ClInclude Include="..\..\soundtouch\include\FIFOSampleBuffer.h"/>
     <ClInclude Include="..\..\soundtouch\include\FIFOSamplePipe.h"/>

@@ -759,7 +759,7 @@ static void update_filter(SpeexResamplerState *st)
         else if (st->sinc_table_alloc < st->filt_len*st->oversample + 8) 
         {
 		//fprintf(stderr,"sinc_table=%p\n",st->sinc_table);
-            st->sinc_table = (float *)speex_realloc
+            st->sinc_table  = (float *)speex_realloc
                 (st->sinc_table, st->sinc_table_alloc,
                  (st->filt_len * st->oversample + 8), sizeof(float));
             st->sinc_table_alloc = st->filt_len * st->oversample + 8;
