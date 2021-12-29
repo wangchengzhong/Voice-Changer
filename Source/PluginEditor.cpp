@@ -324,20 +324,20 @@ void VoiceChanger_wczAudioProcessorEditor::comboBoxChanged(juce::ComboBox* combo
 
 void VoiceChanger_wczAudioProcessorEditor::ljButtonClicked()
 {
-    audioProcessor.setPitchShift(0.6);
+    audioProcessor.setPitchShift(-5);
     // audioProcessor.updateBackendFilterControls();
 }
 void VoiceChanger_wczAudioProcessorEditor::xjjButtonClicked()
 {
-    audioProcessor.setPitchShift(1.2);
+    audioProcessor.setPitchShift(2);
 }
 void VoiceChanger_wczAudioProcessorEditor::mmButtonClicked()
 {
-    audioProcessor.setPitchShift(1.5);
+    audioProcessor.setPitchShift(4);
 }
 void VoiceChanger_wczAudioProcessorEditor::xpyButtonClicked()
 {
-    audioProcessor.setPitchShift(1.99f);
+    audioProcessor.setPitchShift(6);
 }
 
 

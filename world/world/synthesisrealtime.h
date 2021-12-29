@@ -18,59 +18,59 @@ WORLD_BEGIN_C_DECLS
 // This synthesizer uses a ring buffer.
 //-----------------------------------------------------------------------------
 typedef struct {
-  // Basic parameters
-  int fs;
-  double frame_period;
-  int buffer_size;
-  int number_of_pointers;
-  int fft_size;
+	// Basic parameters
+	int fs;
+	double frame_period;
+	int buffer_size;
+	int number_of_pointers;
+	int fft_size;
 
-  // Sound buffer for output. The length is buffer_size [sample].
-  double *buffer;
-  int current_pointer;
-  int i;
+	// Sound buffer for output. The length is buffer_size [sample].
+	double* buffer;
+	int current_pointer;
+	int i;
 
-  // For DC removal
-  double *dc_remover;
+	// For DC removal
+	double* dc_remover;
 
-  //---------------------------------------------------------------------------
-  // Followings are internal parameters.
-  // You should not modify them if you are not expert.
+	//---------------------------------------------------------------------------
+	// Followings are internal parameters.
+	// You should not modify them if you are not expert.
 
-  // Speech parameters in each pointer.
-  int *f0_length;
-  int *f0_origin;
-  double ***spectrogram;
-  double ***aperiodicity;
+	// Speech parameters in each pointer.
+	int* f0_length;
+	int* f0_origin;
+	double*** spectrogram;
+	double*** aperiodicity;
 
 
-  // Note:
-  // This is an extremely rough implementation.
-  // I should optimize this implementation.
-  int current_pointer2;
-  int head_pointer;
-  int synthesized_sample;
+	// Note:
+	// This is an extremely rough implementation.
+	// I should optimize this implementation.
+	int current_pointer2;
+	int head_pointer;
+	int synthesized_sample;
 
-  // Internal parameters.
-  int handoff;
-  double handoff_phase;
-  double handoff_f0;
-  int last_location;
+	// Internal parameters.
+	int handoff;
+	double handoff_phase;
+	double handoff_f0;
+	int last_location;
 
-  int cumulative_frame;
-  int current_frame;
+	int cumulative_frame;
+	int current_frame;
 
-  double **interpolated_vuv;
-  double **pulse_locations;
-  int **pulse_locations_index;
-  int *number_of_pulses;
+	double** interpolated_vuv;
+	double** pulse_locations;
+	int** pulse_locations_index;
+	int* number_of_pulses;
 
-  double *impulse_response;
+	double* impulse_response;
 
-  // FFT
-  MinimumPhaseAnalysis minimum_phase;
-  InverseRealFFT inverse_real_fft;
-  ForwardRealFFT forward_real_fft;
+	// FFT
+	MinimumPhaseAnalysis minimum_phase;
+	InverseRealFFT inverse_real_fft;
+	ForwardRealFFT forward_real_fft;
 } WorldSynthesizer;
 
 //-----------------------------------------------------------------------------
