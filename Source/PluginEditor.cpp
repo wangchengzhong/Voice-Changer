@@ -25,7 +25,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     anotherSetup.sampleRate = 44100;
     audioSetupComp.deviceManager.setAudioDeviceSetup(anotherSetup, false);
     setSize(950, 600);
-    addAndMakeVisible(bkg);
+    // addAndMakeVisible(bkg);
     addAndMakeVisible(audioSetupComp);
     //juce::StandalonePluginHolder::getInstance()
     // audioSetupComp
@@ -89,15 +89,6 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
 
     pFilterGainSlider->setBounds(170, 476, 80, 80);
 
-    //pFilterTypeSlider.reset(new juce::Slider("FilterTypeSlider"));
-    //pFilterTypeSlider->setRange(0, 7, 1);
-    //pFilterTypeSlider->setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    //pFilterTypeSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 15);
-    //pFilterTypeSlider->addListener(this);
-    //pFilterTypeSlider->setTooltip(TRANS("filterType"));
-    //addAndMakeVisible(pFilterTypeSlider.get());
-
-
     pFilterTypeComboBox.reset(new juce::ComboBox("FilterTypeComboBox"));
     pFilterTypeComboBox->addItemList(audioProcessor.filterTypeItemsUI, 1);
     pFilterTypeComboBox->onChange = [this] {comboBoxChanged(pFilterTypeComboBox.get()); };
@@ -106,7 +97,6 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     addAndMakeVisible(pFilterTypeComboBox.get());
 
     pFilterTypeComboBox->setBounds(180, 425, 130, 30);
-
 
     pFilterIndexComboBox.reset(new juce::ComboBox("FilterIndexComboBox"));
     pFilterIndexComboBox->addItemList(audioProcessor.filterIndex, 1);
@@ -249,10 +239,26 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     addAndMakeVisible(pPlayPositionSlider.get());
     pPlayPositionSlider->setBounds(545, 320, 370, 30);
     audioProcessor.transportSource.addChangeListener(this);
+
+
+    openTemplateWindowButton.setButtonText(juce::CharPointer_UTF8("\xe5\xbd\x95\xe5\x85\xa5\xe6\xa8\xa1\xe6\x9d\xbf"));
+    openTemplateWindowButton.onClick = [this] { openTemplateWindowButtonClicked(); };
+    openTemplateWindowButton.setColour(juce::TextButton::buttonColourId, juce::Colours::cornflowerblue);
+    openTemplateWindowButton.setEnabled(true);
+    addAndMakeVisible(&openTemplateWindowButton);
+    //recWindow = new TemplateRecordingWindow("TemplateRecording", juce::Colours::grey, juce::DocumentWindow::allButtons);
+    //recWindow->setUsingNativeTitleBar(true);
+    //recWindow->setSize(600, 600);
+    //recWindow->setCentrePosition(600, 600);
+    //recWindow->setContentOwned(new BackgroundComponent(), true);
+    //
+    //// recWindow->centreWithSize(500, 500);
+    //recWindow->setVisible(true);
 }
 VoiceChanger_wczAudioProcessorEditor::~VoiceChanger_wczAudioProcessorEditor()
 {
-
+    if (templateRecordingWindow)
+        delete[] templateRecordingWindow;
 }
 
 //==============================================================================
@@ -294,14 +300,14 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
     resetAllButton.setBounds(340, 290, (getWidth()/6) , 30);
     switchPitchMethodButton.setBounds(245, 510, getWidth() / 8, 20);
 
-    openFileButton.setBounds(570, 360, getWidth() / 5, 40);
-    playFileButton.setBounds(570, 430, getWidth() / 5, 40);
-    stopPlayFileButton.setBounds(570, 500, getWidth() / 5, 40);
-
-
+    openFileButton.setBounds(570, 380, getWidth() / 5, 40);
+    playFileButton.setBounds(570, 450, getWidth() / 5, 40);
+    stopPlayFileButton.setBounds(570, 520, getWidth() / 5, 40);
+    
+    openTemplateWindowButton.setBounds(800, 400, getWidth() / 8, 150);
 
     audioSetupComp.setBounds(545, 20, 400, 100);
-    bkg.setBounds(getLocalBounds());
+    // bkg.setBounds(getLocalBounds());
 
 }
 void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* sliderThatWasMoved)
@@ -355,8 +361,6 @@ void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* slid
     }
 }
 
-
-
 void VoiceChanger_wczAudioProcessorEditor::comboBoxChanged(juce::ComboBox* comboBoxThatWasMoved)
 {
 #if _OPEN_FILTERS
@@ -370,9 +374,6 @@ void VoiceChanger_wczAudioProcessorEditor::comboBoxChanged(juce::ComboBox* combo
     }
 #endif
 }
-
-
-
 
 void VoiceChanger_wczAudioProcessorEditor::ljButtonClicked()
 {
@@ -499,4 +500,20 @@ void VoiceChanger_wczAudioProcessorEditor::switchPitchMethodButtonClicked()
         audioProcessor.useFD = false;
     else
         audioProcessor.useFD = true;
+}
+
+
+void VoiceChanger_wczAudioProcessorEditor::openTemplateWindowButtonClicked()
+{
+    if (templateRecordingWindow)
+    {
+        templateRecordingWindow->broughtToFront();
+    }
+    else
+    {
+        templateRecordingWindow = new TemplateRecordingWindow("TemplateRecording", juce::Colours::grey, juce::DocumentWindow::allButtons);
+        templateRecordingWindow->addToDesktop();
+        templateRecordingWindow->centreWithSize(600, 600);
+        templateRecordingWindow->setVisible(true);
+    }
 }

@@ -11,7 +11,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include"BackgroundComponent.h"
-
+#include"TemplateRecordingWindow.h"
 //==============================================================================
 /**
 */
@@ -56,6 +56,7 @@ private:
     void stopPlayFileButtonClicked();
     void playFileButtonClicked();
     void openFileButtonClicked();
+    void openTemplateWindowButtonClicked();
     // void singModeClicked();
 
 
@@ -90,6 +91,8 @@ private:
     juce::TextButton stopPlayFileButton;
     std::unique_ptr<juce::Slider> pPlayPositionSlider;
 
+    juce::TextButton openTemplateWindowButton;
+
     juce::TextButton resetAllButton;
 
     juce::ToggleButton switchPitchMethodButton;
@@ -98,11 +101,10 @@ private:
 
     BackgroundComponent bkg;
     
-    
-    
     void changeState(TransportState newState);
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
     TransportState state;
-
+    // TemplateRecordingWindow* recWindow;
+    juce::Component::SafePointer<juce::TopLevelWindow> templateRecordingWindow;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VoiceChanger_wczAudioProcessorEditor)
 };
