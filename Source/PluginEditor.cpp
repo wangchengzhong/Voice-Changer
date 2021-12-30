@@ -151,7 +151,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
 
 
     pDynamicsMakeupGainSlider.reset(new juce::Slider("DynamicsMakeupGainSlider"));
-    pDynamicsMakeupGainSlider->setRange(-5.0f, 30.0f, 0.01f);
+    pDynamicsMakeupGainSlider->setRange(-60.0f, 30.0f, 0.01f);
     pDynamicsMakeupGainSlider->setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     pDynamicsMakeupGainSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 15);
     pDynamicsMakeupGainSlider->addListener(this);
@@ -215,18 +215,18 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     addAndMakeVisible(&switchPitchMethodButton);
     switchPitchMethodButton.setEnabled(true);
 
-    openFileButton.setButtonText("Open");
+    openFileButton.setButtonText(juce::CharPointer_UTF8("\xe6\x89\x93\xe5\xbc\x80\xe6\x9c\xac\xe5\x9c\xb0\xe6\x96\x87\xe4\xbb\xb6"));
     openFileButton.onClick = [this] { openFileButtonClicked(); };
     openFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::orange);
     addAndMakeVisible(&openFileButton);
 
-    stopPlayFileButton.setButtonText("STOP");
+    stopPlayFileButton.setButtonText(juce::CharPointer_UTF8("\xe6\x9a\x82\xe5\x81\x9c"));
     stopPlayFileButton.onClick = [this] { stopPlayFileButtonClicked(); };
     stopPlayFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::lightblue);
     stopPlayFileButton.setEnabled(false);
     addAndMakeVisible(&stopPlayFileButton);
 
-    playFileButton.setButtonText("Play");
+    playFileButton.setButtonText(juce::CharPointer_UTF8("\xe6\x92\xad\xe6\x94\xbe"));
     playFileButton.onClick = [this] { playFileButtonClicked(); };
     playFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::hotpink);
     playFileButton.setEnabled(true);
@@ -511,9 +511,10 @@ void VoiceChanger_wczAudioProcessorEditor::openTemplateWindowButtonClicked()
     }
     else
     {
-        templateRecordingWindow = new TemplateRecordingWindow("TemplateRecording", juce::Colours::grey, juce::DocumentWindow::allButtons);
+        templateRecordingWindow = new NewWindow(juce::String("templateRecordingWindow"), juce::Colours::darkslategrey, juce::DocumentWindow::allButtons);// new TemplateRecordingWindow();
+        templateRecordingWindow->setContentOwned(new TemplateRecordingWindow(), true);
         templateRecordingWindow->addToDesktop();
-        templateRecordingWindow->centreWithSize(600, 600);
+        templateRecordingWindow->centreWithSize(600, 300);
         templateRecordingWindow->setVisible(true);
     }
 }

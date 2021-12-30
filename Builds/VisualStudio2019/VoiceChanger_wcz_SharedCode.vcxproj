@@ -2251,6 +2251,9 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\AudioLiveScrollingDisplay.h" />
+    <ClInclude Include="..\..\Source\NewWindow.h" />
+    <ClInclude Include="..\..\Source\TemplateRecording.h" />
     <ClInclude Include="..\..\Source\TemplateRecordingWindow.h" />
     <ClInclude Include="..\..\world\world\cheaptrick.h" />
     <ClInclude Include="..\..\world\world\codec.h" />

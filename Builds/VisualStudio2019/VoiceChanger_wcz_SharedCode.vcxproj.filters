@@ -5483,6 +5483,15 @@
     <ClInclude Include="..\..\Source\TemplateRecordingWindow.h">
       <Filter>VoiceChanger_wcz\Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\TemplateRecording.h">
+      <Filter>VoiceChanger_wcz\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\AudioLiveScrollingDisplay.h">
+      <Filter>VoiceChanger_wcz\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\NewWindow.h">
+      <Filter>VoiceChanger_wcz\Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\soundtouch\include\Makefile.am">
