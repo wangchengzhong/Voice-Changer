@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include"BackgroundComponent.h"
 
 //==============================================================================
 /**
@@ -47,6 +48,7 @@ private:
     void openEffectButtonClicked();
     void closeEffectButtonClicked();
     void resetAllButtonClicked();
+    void switchPitchMethodButtonClicked();
     // void singModeClicked();
 
     std::unique_ptr<juce::Slider> pPitchSlider;
@@ -77,6 +79,8 @@ private:
 
     juce::TextButton resetAllButton;
 
+    juce::ToggleButton switchPitchMethodButton;
+
     juce::AudioDeviceSelectorComponent audioSetupComp;
     //juce::OwnedArray<juce::Slider> sliders;
     //juce::OwnedArray<juce::ToggleButton>toggles;
@@ -92,7 +96,7 @@ private:
 
     //void timerCallback()override;
     //void updateUIComponents();
-    
+    BackgroundComponent bkg;
     
     
     

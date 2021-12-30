@@ -24,12 +24,17 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     anotherSetup.outputDeviceName = juce::CharPointer_UTF8("\xe8\x80\xb3\xe6\x9c\xba (AirPods)");
     anotherSetup.sampleRate = 44100;
     audioSetupComp.deviceManager.setAudioDeviceSetup(anotherSetup, false);
-
+    setSize(950, 600);
+    addAndMakeVisible(bkg);
     addAndMakeVisible(audioSetupComp);
     //juce::StandalonePluginHolder::getInstance()
     // audioSetupComp
     //// = juce::String("VB-Audio VoiceMeeter VAIO");
-    setSize(950, 600);
+    
+
+
+    
+
     startTimerHz(30);
     pPitchSlider.reset(new juce::Slider("PitchShiftSlider"));
     
@@ -52,6 +57,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pPeakSlider->addListener(this);
 
     pPeakSlider->setBounds(90, 376, 80, 80);
+
 
 #if _OPEN_FILTERS
     pFilterFreqSlider.reset(new juce::Slider("FilterFreqSlider"));
@@ -213,6 +219,13 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     resetAllButton.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
     addAndMakeVisible(&resetAllButton);
     resetAllButton.setEnabled(true);
+
+    switchPitchMethodButton.setButtonText("FD Proc.");
+    switchPitchMethodButton.onClick = [this] { switchPitchMethodButtonClicked(); };
+    switchPitchMethodButton.setColour(juce::ToggleButton::ColourIds::tickColourId, juce::Colours::red);
+    switchPitchMethodButton.setColour(juce::ToggleButton::ColourIds::tickDisabledColourId, juce::Colours::green);
+    addAndMakeVisible(&switchPitchMethodButton);
+    switchPitchMethodButton.setEnabled(true);
 }
 VoiceChanger_wczAudioProcessorEditor::~VoiceChanger_wczAudioProcessorEditor()
 {
@@ -251,10 +264,14 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
     xpyButton.setBounds(340, 390, getWidth() / 6, 30);
     ljButton.setBounds(340, 440, getWidth() / 6, 30);
     mmButton.setBounds(340, 490, getWidth() / 6, 30);
-    openEffectButton.setBounds(340,540, (getWidth()) / 12, 30);
+    openEffectButton.setBounds(340, 540, (getWidth()) / 12, 30);
     closeEffectButton.setBounds(340 + (getWidth()) / 12, 540, (getWidth()) / 12, 30);
     resetAllButton.setBounds(340, 290, (getWidth()/6) , 30);
-    audioSetupComp.setBounds(545, 20, 400, 120);
+    switchPitchMethodButton.setBounds(245, 480, getWidth() / 6, 80);
+
+    audioSetupComp.setBounds(545, 20, 400, 100);
+    bkg.setBounds(getLocalBounds());
+
 }
 void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* sliderThatWasMoved)
 {
@@ -386,4 +403,11 @@ void VoiceChanger_wczAudioProcessorEditor::resetAllButtonClicked()
 #endif
     // pFilterTypeSlider->setValue(6);
     // pFilterTypeComboBox->setComponentID("0");
+}
+void VoiceChanger_wczAudioProcessorEditor::switchPitchMethodButtonClicked()
+{
+    if (audioProcessor.useFD)
+        audioProcessor.useFD = false;
+    else
+        audioProcessor.useFD = true;
 }

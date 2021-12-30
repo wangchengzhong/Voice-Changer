@@ -14,7 +14,7 @@
 #define USE_3rdPARTYPITCHSHIFT true
 #if USE_3rdPARTYPITCHSHIFT
 #define USE_RUBBERBAND true
-#define USE_SOUNDTOUCH false
+#define USE_SOUNDTOUCH true
 
 #endif
 
@@ -59,7 +59,7 @@ public:
     //==============================================================================
     juce::AudioProcessorEditor* createEditor() override;
     bool hasEditor() const override;
-
+    
     //==============================================================================
     const juce::String getName() const override;
 
@@ -83,7 +83,7 @@ public:
 
     void setPitchShift(float pitch);
     void setPeakShift(float peak);
-
+    bool useFD{ false };
 
 
     void setDynamicsThresholdShift(float threshold);
@@ -110,7 +110,7 @@ public:
     double getFilterQFactorShift(int filterIndex);
     double getFilterGainShift(int filterIndex);
     int getFilterTypeShift(int filterIndex);
-
+    
     juce::StringArray filterIndex = {
         "1",
         "2",

@@ -252,11 +252,14 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
 #if _OPEN_PEAK_PITCH
 
 #if USE_3rdPARTYPITCHSHIFT
+#if USE_SOUNDTOUCH
+    if (!useFD)
+        sts->processBuffer(buffer);
 #if USE_RUBBERBAND
-    rbs->processBuffer(buffer);
+    if(useFD)
+        rbs->processBuffer(buffer);
+#endif
 
-#elif USE_SOUNDTOUCH
-    sts->processBuffer(buffer);
 #endif
 #endif
 
@@ -740,7 +743,8 @@ void VoiceChanger_wczAudioProcessor::updateUIControls()
 #if USE_3rdPARTYPITCHSHIFT
 #if USE_RUBBERBAND
     rbs->setSemitoneShift(pitchRatio);
-#elif USE_SOUNDTOUCH
+#endif
+#if USE_SOUNDTOUCH
     sts->setSemitoneShift(pitchRatio);
 #endif
 #else

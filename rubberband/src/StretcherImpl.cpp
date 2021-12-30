@@ -393,7 +393,8 @@ RubberBandStretcher::Impl::getFrequencyCutoff(int n) const
 void
 RubberBandStretcher::Impl::setFrequencyCutoff(int n, float f)
 {
-    switch (n) {
+    switch (n)
+    {
     case 0: m_freq0 = f; break;
     case 1: m_freq1 = f; break;
     case 2: m_freq2 = f; break;
@@ -1412,7 +1413,7 @@ void RubberBandStretcher::Impl::process(const float *const *input, size_t sample
 
     bool allConsumed = false;
 
-    size_t *hasBeenPutInto_RB_inBufSampleNum = (size_t *)alloca(m_channels * sizeof(size_t));
+    size_t * hasBeenPutInto_RB_inBufSampleNum = (size_t *)alloca(m_channels * sizeof(size_t));
     // DBG("hasBeenPutInto_RB_inBufSampleNum:" << *hasBeenPutInto_RB_inBufSampleNum);
     // sometimes low, other times very high
     for (size_t c = 0; c < m_channels; ++c) 
