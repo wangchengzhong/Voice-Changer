@@ -17,7 +17,6 @@
 #define USE_SOUNDTOUCH true
 
 #endif
-
 #endif
 
 
@@ -55,6 +54,7 @@ public:
    #endif
 
     void processBlock (juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
+    void overallProcess(juce::AudioBuffer<float>& buffer);
 
     //==============================================================================
     juce::AudioProcessorEditor* createEditor() override;
@@ -84,7 +84,7 @@ public:
     void setPitchShift(float pitch);
     void setPeakShift(float peak);
     bool useFD{ false };
-
+    
 
     void setDynamicsThresholdShift(float threshold);
     void setDynamicsRatioShift(float ratio);
@@ -110,6 +110,8 @@ public:
     double getFilterQFactorShift(int filterIndex);
     double getFilterGainShift(int filterIndex);
     int getFilterTypeShift(int filterIndex);
+    
+
     
     juce::StringArray filterIndex = {
         "1",
@@ -152,6 +154,21 @@ public:
     //    filterTypePeakingNotch,
     //    filterTypeResonantLowPass
     //};
+
+    enum TransportState
+    {
+        Stopped,
+        Starting,
+        Playing,
+        Stopping
+    };
+    bool realtimeMode{ true };
+    juce::AudioFormatManager formatManager;
+    std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
+    juce::AudioTransportSource transportSource;
+
+
+
 private:
     juce::AudioParameterFloat* nFilterQFactor;
     juce::AudioParameterFloat* nFilterFreq;

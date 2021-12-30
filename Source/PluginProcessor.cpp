@@ -24,6 +24,7 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
 
 #endif
 {
+    formatManager.registerBasicFormats();
     addParameter(nPitchShift = new juce::AudioParameterFloat("PitchShift", "pitchShift", -12.0f, 12.0f, 0.0f));
     addParameter(nPeakShift = new juce::AudioParameterFloat("PeakShift", "peakShift", 0.5f, 2.0f, 1.f));
 #if _OPEN_FILTERS
@@ -111,6 +112,7 @@ void VoiceChanger_wczAudioProcessor::changeProgramName (int index, const juce::S
 //==============================================================================
 void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    transportSource.prepareToPlay(samplesPerBlock, sampleRate);
 #if USE_3rdPARTYPITCHSHIFT
 #if USE_RUBBERBAND
     rbs = std::make_unique<PitchShifterRubberband>(getTotalNumInputChannels(), sampleRate, samplesPerBlock);
@@ -215,6 +217,17 @@ bool VoiceChanger_wczAudioProcessor::isBusesLayoutSupported (const BusesLayout& 
 
 void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
+    if (realtimeMode)
+        overallProcess(buffer);
+    else
+    {
+        transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+    }
+    
+}
+void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& buffer)
+{
+    
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
@@ -227,9 +240,9 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
     updateUIControls();
     // DBG(rbs->getPitchScale());
 #if _OPEN_DYNAMICS
-    
-    processDynamics(buffer, false ,getDynamicsThresholdShift(), 
-        getDynamicsRatioShift(), getDynamicsAttackShift(), 
+
+    processDynamics(buffer, false, getDynamicsThresholdShift(),
+        getDynamicsRatioShift(), getDynamicsAttackShift(),
         getDynamicsReleaseShift(), getDynamicsMakeupGainShift());
 #endif
 #if _OPEN_WAHWAH
@@ -256,7 +269,7 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
     if (!useFD)
         sts->processBuffer(buffer);
 #if USE_RUBBERBAND
-    if(useFD)
+    if (useFD)
         rbs->processBuffer(buffer);
 #endif
 
@@ -283,9 +296,8 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
 
     }
 #endif
-  
-}
     
+}
 
 //==============================================================================
 bool VoiceChanger_wczAudioProcessor::hasEditor() const

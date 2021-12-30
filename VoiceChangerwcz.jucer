@@ -101,6 +101,10 @@
       <FILE id="Skcgrb" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="JeZ6al" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="wey4R5" name="BackgroundComponent.cpp" compile="1" resource="0"
+            file="Source/BackgroundComponent.cpp"/>
+      <FILE id="B8CDaT" name="BackgroundComponent.h" compile="0" resource="0"
+            file="Source/BackgroundComponent.h"/>
       <FILE id="Ah9nLj" name="AutoCorr.h" compile="0" resource="0" file="Source/AutoCorr.h"/>
       <FILE id="ey4qzk" name="BlockCircularBuffer.h" compile="0" resource="0"
             file="Source/BlockCircularBuffer.h"/>

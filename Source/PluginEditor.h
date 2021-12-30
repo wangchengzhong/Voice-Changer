@@ -17,6 +17,7 @@
 */
 class VoiceChanger_wczAudioProcessorEditor  : public juce::AudioProcessorEditor
     ,public juce::Slider::Listener,public juce::ComboBox::Listener, private juce::Timer
+    , public juce::ChangeListener
     //,public juce::AudioAppComponent
     //,private juce::Timer
 {
@@ -34,10 +35,12 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     // int currentFilterIndex{ audioProcessor.currentFilterIndex };
-    enum TelephoneTransportState
+    enum TransportState
     {
-        close,
-        open
+        Stopped,
+        Starting,
+        Playing,
+        Stopping
     };
     VoiceChanger_wczAudioProcessor& audioProcessor;
 
@@ -49,7 +52,12 @@ private:
     void closeEffectButtonClicked();
     void resetAllButtonClicked();
     void switchPitchMethodButtonClicked();
+
+    void stopPlayFileButtonClicked();
+    void playFileButtonClicked();
+    void openFileButtonClicked();
     // void singModeClicked();
+
 
     std::unique_ptr<juce::Slider> pPitchSlider;
     std::unique_ptr<juce::Slider> pPeakSlider;
@@ -76,32 +84,23 @@ private:
     juce::TextButton openEffectButton;
     juce::TextButton closeEffectButton;
 
+    juce::TextButton openFileButton;
+    juce::TextButton playFileButton;
+    juce::TextButton stopPlayFileButton;
 
     juce::TextButton resetAllButton;
 
     juce::ToggleButton switchPitchMethodButton;
 
     juce::AudioDeviceSelectorComponent audioSetupComp;
-    //juce::OwnedArray<juce::Slider> sliders;
-    //juce::OwnedArray<juce::ToggleButton>toggles;
-    //juce::OwnedArray<juce::ComboBox>comboBoxes;
 
-    //typedef juce::AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
-    //typedef juce::AudioProcessorValueTreeState::ButtonAttachment ButtonAttachment;
-    //typedef juce::AudioProcessorValueTreeState::ComboBoxAttachment ComboBoxAttachment;
-
-    //juce::OwnedArray<SliderAttachment> sliderAttachments;
-    //juce::OwnedArray<ButtonAttachment> buttonAttachments;
-    //juce::OwnedArray<ComboBoxAttachment> comboBoxAttachments;
-
-    //void timerCallback()override;
-    //void updateUIComponents();
     BackgroundComponent bkg;
     
     
     
-    void changeState(TelephoneTransportState newState);
-    TelephoneTransportState state;
+    void changeState(TransportState newState);
+    void changeListenerCallback(juce::ChangeBroadcaster* source) override;
+    TransportState state;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VoiceChanger_wczAudioProcessorEditor)
 };

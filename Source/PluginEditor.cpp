@@ -226,6 +226,25 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     switchPitchMethodButton.setColour(juce::ToggleButton::ColourIds::tickDisabledColourId, juce::Colours::green);
     addAndMakeVisible(&switchPitchMethodButton);
     switchPitchMethodButton.setEnabled(true);
+
+    openFileButton.setButtonText("Open");
+    openFileButton.onClick = [this] { openFileButtonClicked(); };
+    openFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::orange);
+    addAndMakeVisible(&openFileButton);
+
+    stopPlayFileButton.setButtonText("STOP");
+    stopPlayFileButton.onClick = [this] { stopPlayFileButtonClicked(); };
+    stopPlayFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::lightblue);
+    stopPlayFileButton.setEnabled(false);
+    addAndMakeVisible(&stopPlayFileButton);
+
+    playFileButton.setButtonText("Play");
+    playFileButton.onClick = [this] { playFileButtonClicked(); };
+    playFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::hotpink);
+    playFileButton.setEnabled(true);
+    addAndMakeVisible(&playFileButton);
+
+    audioProcessor.transportSource.addChangeListener(this);
 }
 VoiceChanger_wczAudioProcessorEditor::~VoiceChanger_wczAudioProcessorEditor()
 {
@@ -267,7 +286,11 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
     openEffectButton.setBounds(340, 540, (getWidth()) / 12, 30);
     closeEffectButton.setBounds(340 + (getWidth()) / 12, 540, (getWidth()) / 12, 30);
     resetAllButton.setBounds(340, 290, (getWidth()/6) , 30);
-    switchPitchMethodButton.setBounds(245, 480, getWidth() / 6, 80);
+    switchPitchMethodButton.setBounds(245, 510, getWidth() / 8, 20);
+
+    openFileButton.setBounds(570, 360, getWidth() / 5, 40);
+    playFileButton.setBounds(570, 430, getWidth() / 5, 40);
+    stopPlayFileButton.setBounds(570, 500, getWidth() / 5, 40);
 
     audioSetupComp.setBounds(545, 20, 400, 100);
     bkg.setBounds(getLocalBounds());
@@ -358,37 +381,91 @@ void VoiceChanger_wczAudioProcessorEditor::xpyButtonClicked()
 }
 
 
-void VoiceChanger_wczAudioProcessorEditor::changeState(TelephoneTransportState newState)
+void VoiceChanger_wczAudioProcessorEditor::changeState(TransportState newState)
 {
     if (newState != state)
     {
         state = newState;
         switch (state)
         {
-        case close:
-            //audioProcessor.openPitchPeakEffect = false;
-            //audioProcessor.openWahWahEffect = false;
-            //audioProcessor.openDynamicsEffect = false;
-            //audioProcessor.openBackendEffect = false;
+        case Stopped:
+            stopPlayFileButton.setEnabled(false);
+            playFileButton.setEnabled(true);
+            // audioProcessor.transportSource.setPosition(0.0);
             break;
-        case open:
-            //audioProcessor.openPitchPeakEffect = true;
-            //audioProcessor.openWahWahEffect = false;
-            //audioProcessor.openDynamicsEffect = true;
-            //audioProcessor.openBackendEffect = false;
+        case Playing:
+            stopPlayFileButton.setEnabled(true);
+            break;
+        case Starting:
+            stopPlayFileButton.setEnabled(true);
+            playFileButton.setEnabled(true);
+            audioProcessor.transportSource.start();
+            break;
+        case Stopping:
+            playFileButton.setEnabled(true);
+            stopPlayFileButton.setEnabled(false);
+            audioProcessor.transportSource.stop();
             break;
         default:
             break;
         }
     }
 }
+
+void VoiceChanger_wczAudioProcessorEditor::changeListenerCallback(juce::ChangeBroadcaster* source)
+{
+    if (source == &audioProcessor.transportSource)
+    {
+        if (audioProcessor.transportSource.isPlaying())
+        {
+            changeState(Playing);
+        }
+        else
+        {
+            changeState(Stopped);
+        }
+    }
+}
+
+
+void VoiceChanger_wczAudioProcessorEditor::openFileButtonClicked()
+{
+    juce::FileChooser chooser("choose a WAV or AIFF file",juce::File::getSpecialLocation(juce::File::userDesktopDirectory), "*.wav; *.mp3");
+    if (chooser.browseForFileToOpen())
+    {
+        juce::File myFile;
+        myFile = chooser.getResult();
+        juce::AudioFormatReader* reader = audioProcessor.formatManager.createReaderFor(myFile);
+
+        if (reader != nullptr)
+        {
+            playFileButton.setEnabled(true);
+            std::unique_ptr<juce::AudioFormatReaderSource> tempSource(new juce::AudioFormatReaderSource(reader, true));
+
+            audioProcessor.transportSource.setSource(tempSource.get(), 0, nullptr, reader->sampleRate);
+            audioProcessor.readerSource.reset(tempSource.release());
+        }
+    }
+}
+void VoiceChanger_wczAudioProcessorEditor::stopPlayFileButtonClicked()
+{
+    changeState(Stopping);
+}
+void VoiceChanger_wczAudioProcessorEditor::playFileButtonClicked()
+{
+    changeState(Starting);
+}
+
+
+
 void VoiceChanger_wczAudioProcessorEditor::openEffectButtonClicked()
 {
-    changeState(open);
+    audioProcessor.realtimeMode = true;
+
 }
 void VoiceChanger_wczAudioProcessorEditor::closeEffectButtonClicked()
 {
-    changeState(close);
+    audioProcessor.realtimeMode = false;
 }
 
 void VoiceChanger_wczAudioProcessorEditor::resetAllButtonClicked()
