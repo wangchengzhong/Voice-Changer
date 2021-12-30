@@ -32,10 +32,8 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     //// = juce::String("VB-Audio VoiceMeeter VAIO");
     
 
-
-    
-
     startTimerHz(30);
+
     pPitchSlider.reset(new juce::Slider("PitchShiftSlider"));
     
     addAndMakeVisible(pPitchSlider.get());
@@ -244,10 +242,17 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     playFileButton.setEnabled(true);
     addAndMakeVisible(&playFileButton);
 
+    pPlayPositionSlider.reset(new juce::Slider("PlayPositionSlider"));
+    pPlayPositionSlider->setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
+    pPlayPositionSlider->setRange(0, audioProcessor.inputAudioFileLength, 0.01f);
+    pPlayPositionSlider->addListener(this);
+    addAndMakeVisible(pPlayPositionSlider.get());
+    pPlayPositionSlider->setBounds(545, 320, 370, 30);
     audioProcessor.transportSource.addChangeListener(this);
 }
 VoiceChanger_wczAudioProcessorEditor::~VoiceChanger_wczAudioProcessorEditor()
 {
+
 }
 
 //==============================================================================
@@ -262,6 +267,7 @@ void VoiceChanger_wczAudioProcessorEditor::paint (juce::Graphics& g)
     pFilterTypeComboBox.get()->setSelectedId(audioProcessor.getFilterTypeShift(audioProcessor.currentFilterIndex));
     // pFilterTypeComboBox.get()->setComponentID()
     pFilterGainSlider.get()->setValue(audioProcessor.getFilterGainShift(audioProcessor.currentFilterIndex));
+    // pPlayPositionSlider.get()->setValue(audioProcessor.transportSource.getCurrentPosition());
 #endif
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
@@ -291,6 +297,8 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
     openFileButton.setBounds(570, 360, getWidth() / 5, 40);
     playFileButton.setBounds(570, 430, getWidth() / 5, 40);
     stopPlayFileButton.setBounds(570, 500, getWidth() / 5, 40);
+
+
 
     audioSetupComp.setBounds(545, 20, 400, 100);
     bkg.setBounds(getLocalBounds());
@@ -340,6 +348,10 @@ void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* slid
     else if (sliderThatWasMoved == pDynamicsMakeupGainSlider.get())
     {
         audioProcessor.setDynamicsMakeupGainShift((float)pDynamicsMakeupGainSlider.get()->getValue());
+    }
+    else if (sliderThatWasMoved == pPlayPositionSlider.get())
+    {
+        audioProcessor.transportSource.setPosition(pPlayPositionSlider.get()->getValue());
     }
 }
 

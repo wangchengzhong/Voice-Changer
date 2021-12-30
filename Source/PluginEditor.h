@@ -77,6 +77,7 @@ private:
     std::unique_ptr<juce::Slider> pDynamicsMakeupGainSlider;
 
 
+
     juce::TextButton mmButton;
     juce::TextButton xjjButton;
     juce::TextButton ljButton;
@@ -87,6 +88,7 @@ private:
     juce::TextButton openFileButton;
     juce::TextButton playFileButton;
     juce::TextButton stopPlayFileButton;
+    std::unique_ptr<juce::Slider> pPlayPositionSlider;
 
     juce::TextButton resetAllButton;
 

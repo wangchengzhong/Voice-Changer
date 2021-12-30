@@ -92,6 +92,8 @@ public:
     void setDynamicsReleaseShift(float release);
     void setDynamicsMakeupGainShift(float makeupGain);
 
+    void setPlayAudioFilePosition(float position);
+
     float getPitchShift();
     float getPeakShift();
 
@@ -111,6 +113,7 @@ public:
     double getFilterGainShift(int filterIndex);
     int getFilterTypeShift(int filterIndex);
     
+    float getPlayAudioFilePosition();
 
     
     juce::StringArray filterIndex = {
@@ -166,6 +169,7 @@ public:
     juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
     juce::AudioTransportSource transportSource;
+    float inputAudioFileLength{ 300.0f };
 
 
 
@@ -177,6 +181,8 @@ private:
     juce::AudioParameterInt* nFilterType;
     juce::AudioParameterInt* nFilter2Type;
     juce::AudioParameterInt* nFilterIndex;
+
+    juce::AudioParameterFloat* nPlayAudioFilePosition;
 #endif
 public:
 #if _OPEN_DYNAMICS 

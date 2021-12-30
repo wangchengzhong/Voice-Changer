@@ -41,6 +41,7 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
     addParameter(nDynamicsAttack = new juce::AudioParameterFloat("DynamicsAttack", "dynammicsAttack", 0.00001f, 1.0f, 0.002f));
     addParameter(nDynamicsRelease = new juce::AudioParameterFloat("DynamicsRelease", "dynamicsRelease", 0.001f, 2.0f, 0.1f));
     addParameter(nDynamicsMakeupGain = new juce::AudioParameterFloat("DynamicsMakeupGain", "dynamicsMakeupGain", -5.0f, 30.0f, 0.0f));
+    addParameter(nPlayAudioFilePosition = new juce::AudioParameterFloat("PlayAudioFilePositioin", "playAudioFilePosition", 0, 10000000000, 0.0f));
 }
 
 VoiceChanger_wczAudioProcessor::~VoiceChanger_wczAudioProcessor()
@@ -624,6 +625,10 @@ void VoiceChanger_wczAudioProcessor::setDynamicsMakeupGainShift(float makeupGain
 {
     *nDynamicsMakeupGain = makeupGain;
 }
+void VoiceChanger_wczAudioProcessor::setPlayAudioFilePosition(float position)
+{
+    transportSource.setPosition(position);
+}
 float VoiceChanger_wczAudioProcessor::getPitchShift()
 {
     return *nPitchShift;
@@ -651,6 +656,10 @@ float VoiceChanger_wczAudioProcessor::getDynamicsReleaseShift()
 float VoiceChanger_wczAudioProcessor::getDynamicsMakeupGainShift()
 {
     return *nDynamicsMakeupGain;
+}
+float VoiceChanger_wczAudioProcessor::getPlayAudioFilePosition()
+{
+    return *nPlayAudioFilePosition;
 }
 //bool VoiceChanger_wczAudioProcessor::isUpdateParameter()
 //{
