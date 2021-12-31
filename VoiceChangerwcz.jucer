@@ -116,6 +116,11 @@
             file="Source/ManVoiceFilter.h"/>
       <FILE id="zZCi7l" name="PeakShifter.h" compile="0" resource="0" file="Source/PeakShifter.h"/>
       <FILE id="B0vyvQ" name="PhaseVocoder.h" compile="0" resource="0" file="Source/PhaseVocoder.h"/>
+      <FILE id="QYuZv7" name="NewWindow.h" compile="0" resource="0" file="Source/NewWindow.h"/>
+      <FILE id="rL5NPK" name="TemplateRecording.h" compile="0" resource="0"
+            file="Source/TemplateRecording.h"/>
+      <FILE id="YqVZvk" name="TemplateRecordingWindow.h" compile="0" resource="0"
+            file="Source/TemplateRecordingWindow.h"/>
       <FILE id="JkBjH8" name="phaseVocoderForShapeInvariant.h" compile="0"
             resource="0" file="Source/phaseVocoderForShapeInvariant.h"/>
       <FILE id="XQJfXm" name="RingBuffer.h" compile="0" resource="0" file="Source/RingBuffer.h"/>

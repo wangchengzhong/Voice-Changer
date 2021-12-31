@@ -222,10 +222,50 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
         overallProcess(buffer);
     else
     {
-        transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+        buffer.clear();
+
+        if (fileBuffer.getNumSamples())
+        {
+            if (shouldProcessFile)
+            {
+                getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+                // transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+                overallProcess(buffer);
+            }
+        }
+        else
+            spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
     }
     
 }
+void VoiceChanger_wczAudioProcessor::getNextAudioBlock(juce::AudioSourceChannelInfo& buffer)
+{
+    auto outputSamplesRemaining = buffer.buffer->getNumSamples();
+    auto outputSamplesOffset = buffer.startSample;
+    while (outputSamplesRemaining > 0)
+    {
+        auto bufferSamplesRemaining = fileBuffer.getNumSamples() - readFilePosition;
+        auto samplesThieTime = juce::jmin(outputSamplesRemaining, bufferSamplesRemaining);
+        for (auto channel = 0; channel < getNumOutputChannels(); ++channel)
+        {
+            buffer.buffer->copyFrom(
+                channel,
+                outputSamplesOffset,
+                fileBuffer,
+                channel % getNumInputChannels(),
+                readFilePosition,
+                samplesThieTime
+            );
+        }
+        outputSamplesRemaining -= samplesThieTime;
+        outputSamplesOffset += samplesThieTime;
+        readFilePosition += samplesThieTime;
+        if (readFilePosition == fileBuffer.getNumSamples())
+            readFilePosition = 0;
+
+    }
+}
+
 void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& buffer)
 {
     

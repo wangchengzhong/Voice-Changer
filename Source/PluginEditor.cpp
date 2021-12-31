@@ -188,14 +188,14 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
 
 
 
-    openEffectButton.setButtonText(juce::CharPointer_UTF8("\xe6\x89\x93\xe5\xbc\x80"));
+    openEffectButton.setButtonText(juce::CharPointer_UTF8("\xe5\xae\x9e\xe6\x97\xb6\xe6\xa8\xa1\xe5\xbc\x8f"));
     openEffectButton.onClick = [this] {openEffectButtonClicked(); };
     openEffectButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkslateblue);
     addAndMakeVisible(&openEffectButton);
     openEffectButton.setEnabled(true);
 
 
-    closeEffectButton.setButtonText(juce::CharPointer_UTF8("\xe5\x85\xb3\xe9\x97\xad"));
+    closeEffectButton.setButtonText(juce::CharPointer_UTF8("\xe7\xa6\xbb\xe7\xba\xbf\xe6\xa8\xa1\xe5\xbc\x8f"));
     closeEffectButton.onClick = [this] {closeEffectButtonClicked(); };
     closeEffectButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkred);
     addAndMakeVisible(&closeEffectButton);
@@ -217,13 +217,13 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
 
     openFileButton.setButtonText(juce::CharPointer_UTF8("\xe6\x89\x93\xe5\xbc\x80\xe6\x9c\xac\xe5\x9c\xb0\xe6\x96\x87\xe4\xbb\xb6"));
     openFileButton.onClick = [this] { openFileButtonClicked(); };
-    openFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::orange);
+    openFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::mediumseagreen);
     addAndMakeVisible(&openFileButton);
 
     stopPlayFileButton.setButtonText(juce::CharPointer_UTF8("\xe6\x9a\x82\xe5\x81\x9c"));
     stopPlayFileButton.onClick = [this] { stopPlayFileButtonClicked(); };
-    stopPlayFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::lightblue);
-    stopPlayFileButton.setEnabled(false);
+    stopPlayFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
+    stopPlayFileButton.setEnabled(true);
     addAndMakeVisible(&stopPlayFileButton);
 
     playFileButton.setButtonText(juce::CharPointer_UTF8("\xe6\x92\xad\xe6\x94\xbe"));
@@ -238,6 +238,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pPlayPositionSlider->addListener(this);
     addAndMakeVisible(pPlayPositionSlider.get());
     pPlayPositionSlider->setBounds(545, 320, 370, 30);
+
     audioProcessor.transportSource.addChangeListener(this);
 
 
@@ -404,20 +405,25 @@ void VoiceChanger_wczAudioProcessorEditor::changeState(TransportState newState)
         case Stopped:
             stopPlayFileButton.setEnabled(false);
             playFileButton.setEnabled(true);
+            audioProcessor.shouldProcessFile = false;
             // audioProcessor.transportSource.setPosition(0.0);
             break;
         case Playing:
             stopPlayFileButton.setEnabled(true);
+            audioProcessor.shouldProcessFile = true;
+            
             break;
         case Starting:
             stopPlayFileButton.setEnabled(true);
             playFileButton.setEnabled(true);
-            audioProcessor.transportSource.start();
+            audioProcessor.shouldProcessFile = true;
+            // audioProcessor.transportSource.start();
             break;
         case Stopping:
             playFileButton.setEnabled(true);
             stopPlayFileButton.setEnabled(false);
-            audioProcessor.transportSource.stop();
+            audioProcessor.shouldProcessFile = false;
+            // audioProcessor.transportSource.stop();
             break;
         default:
             break;
@@ -443,22 +449,56 @@ void VoiceChanger_wczAudioProcessorEditor::changeListenerCallback(juce::ChangeBr
 
 void VoiceChanger_wczAudioProcessorEditor::openFileButtonClicked()
 {
+    
     juce::FileChooser chooser("choose a WAV or AIFF file",juce::File::getSpecialLocation(juce::File::userDesktopDirectory), "*.wav; *.mp3");
-    if (chooser.browseForFileToOpen())
+    //auto chooserFlags = juce::FileBrowserComponent::openMode
+    //    | juce::FileBrowserComponent::canSelectFiles;
+    if(chooser.browseForFileToOpen())
+    //chooser.launchAsync(chooserFlags, [this](const juce::FileChooser& fc)
     {
-        juce::File myFile;
-        myFile = chooser.getResult();
-        juce::AudioFormatReader* reader = audioProcessor.formatManager.createReaderFor(myFile);
-
-        if (reader != nullptr)
+        //auto file = fc.getResult();
+        auto file = chooser.getResult();
+        if (file == juce::File{})
+            return;
+        std::unique_ptr<juce::AudioFormatReader>reader(audioProcessor.formatManager.createReaderFor(file));
+        if (reader.get() != nullptr)
         {
-            playFileButton.setEnabled(true);
-            std::unique_ptr<juce::AudioFormatReaderSource> tempSource(new juce::AudioFormatReaderSource(reader, true));
-
-            audioProcessor.transportSource.setSource(tempSource.get(), 0, nullptr, reader->sampleRate);
-            audioProcessor.readerSource.reset(tempSource.release());
+            // playFileButton.setEnabled(true);
+            auto duration = (float)reader->lengthInSamples / reader->sampleRate;
+            if (duration < 1000)
+            {
+                audioProcessor.fileBuffer.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
+                reader->read(
+                    &audioProcessor.fileBuffer,
+                    0,
+                    (int)reader->lengthInSamples,
+                    0,
+                    true,
+                    true
+                );
+                audioProcessor.readFilePosition = 0;
+                
+            }
         }
     }
+
+    //);
+    
+    //if (chooser.browseForFileToOpen())
+    //{
+    //    juce::File myFile;
+    //    myFile = chooser.getResult();
+    //    juce::AudioFormatReader* reader = audioProcessor.formatManager.createReaderFor(myFile);
+
+    //    if (reader != nullptr)
+    //    {
+    //        playFileButton.setEnabled(true);
+    //        std::unique_ptr<juce::AudioFormatReaderSource> tempSource(new juce::AudioFormatReaderSource(reader, true));
+
+    //        audioProcessor.transportSource.setSource(tempSource.get(), 0, nullptr, reader->sampleRate);
+    //        audioProcessor.readerSource.reset(tempSource.release());
+    //    }
+    //}
 }
 void VoiceChanger_wczAudioProcessorEditor::stopPlayFileButtonClicked()
 {

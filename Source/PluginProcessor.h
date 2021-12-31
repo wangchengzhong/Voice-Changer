@@ -38,7 +38,7 @@
 //==============================================================================
 /**
 */
-class VoiceChanger_wczAudioProcessor : public juce::AudioProcessor//,public Filter
+class VoiceChanger_wczAudioProcessor : public juce::AudioProcessor//,public juce::AudioAppComponent//,public Filter
 {
 public:
     //==============================================================================
@@ -169,9 +169,11 @@ public:
     juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
     juce::AudioTransportSource transportSource;
+    juce::AudioSampleBuffer fileBuffer;
     float inputAudioFileLength{ 300.0f };
-
-
+    void getNextAudioBlock(juce::AudioSourceChannelInfo&buffer);
+    int readFilePosition;
+    bool shouldProcessFile;
 
 private:
     juce::AudioParameterFloat* nFilterQFactor;
