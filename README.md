@@ -29,3 +29,6 @@ compression, EQ(with arbitrary number and filter type), wah_wah, high_quality pi
   * the "transient" frame is determined by both "percussive" detector and "high frequency" detector in realtime mode
   * the phase increment is calculated by adjacent frequency bin if there is an increasing phase estimation error, and has the tendency to go into the next freq bin
 - speex resampling method(linear interpolation also works)
+
+2022.1.3
+## add basic "Voice Conversion System" framework
