@@ -478,6 +478,22 @@ void VoiceChanger_wczAudioProcessorEditor::openFileButtonClicked()
         }
     }
     //);
+    
+    //if (chooser.browseForFileToOpen())
+    //{
+    //    juce::File myFile;
+    //    myFile = chooser.getResult();
+    //    juce::AudioFormatReader* reader = audioProcessor.formatManager.createReaderFor(myFile);
+
+    //    if (reader != nullptr)
+    //    {
+    //        playFileButton.setEnabled(true);
+    //        std::unique_ptr<juce::AudioFormatReaderSource> tempSource(new juce::AudioFormatReaderSource(reader, true));
+
+    //        audioProcessor.transportSource.setSource(tempSource.get(), 0, nullptr, reader->sampleRate);
+    //        audioProcessor.readerSource.reset(tempSource.release());
+    //    }
+    //}
 }
 void VoiceChanger_wczAudioProcessorEditor::stopPlayFileButtonClicked()
 {
@@ -491,6 +507,7 @@ void VoiceChanger_wczAudioProcessorEditor::playFileButtonClicked()
     audioProcessor.setState(Starting);
     // changeState(Starting);
 }
+
 
 
 void VoiceChanger_wczAudioProcessorEditor::openEffectButtonClicked()

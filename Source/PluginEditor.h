@@ -105,11 +105,10 @@ private:
    
     // BackgroundComponent bkg;
     // PlayAudioFileComponent playAudioFileComponent;
-    void changeState(TransportState newState);
+
     // void changeListenerCallback(juce::ChangeBroadcaster* source) override;
     // TransportState state;
-    TransportInformation transportInfo{ Stopped,0,&audioProcessor.fileBuffer };
-    TransportState prevState{ transportInfo.state };
+    // juce::AudioSampleBuffer*& pData{ audioProcessor.pPlayBuffer };
     // TemplateRecordingWindow* recWindow;
     juce::Component::SafePointer<juce::DocumentWindow> templateRecordingWindow;
 

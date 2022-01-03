@@ -1,5 +1,3 @@
-
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
@@ -14,10 +12,14 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
         .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
     )
+    , pPlayBuffer(&fileBuffer)
+    , ti(Stopped, Mainpage)
+    , TransportInformation(ti)
     , spectrum(juce::Image::RGB, 512, 256, true)
 #if _OPEN_FILTERS
     , filters(new juce::OwnedArray<Filter>[nFiltersPerChannel])
     , filterIndex(createFilterIndexArray(_FILTER_NUM))
+    
 #endif
     //, updataParamFlag(false)
     // , bandpassFilter(juce::dsp::IIR::Coefficients<float>::makeBandPass(22050, 5000.0f, 0.1))
@@ -226,10 +228,9 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
         
         if (!canReadSampleBuffer)
         {
-            if (fileBuffer.getNumSamples())
-            {
-                canReadSampleBuffer = true;
-            }
+            if (pPlayBuffer)
+                if (pPlayBuffer->getNumSamples())
+                    canReadSampleBuffer = true;
         }
         if (canReadSampleBuffer)
         {
@@ -245,7 +246,6 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
         }
         spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
     }
-    
 }
 void VoiceChanger_wczAudioProcessor::getNextAudioBlock(juce::AudioSourceChannelInfo& buffer)
 {
@@ -253,14 +253,14 @@ void VoiceChanger_wczAudioProcessor::getNextAudioBlock(juce::AudioSourceChannelI
     auto outputSamplesOffset = buffer.startSample;
     while (outputSamplesRemaining > 0)
     {
-        auto bufferSamplesRemaining = fileBuffer.getNumSamples() - nPlayAudioFilePosition;
+        auto bufferSamplesRemaining = pPlayBuffer->getNumSamples() - nPlayAudioFilePosition;// fileBuffer.getNumSamples() - nPlayAudioFilePosition;
         auto samplesThieTime = juce::jmin(outputSamplesRemaining, bufferSamplesRemaining);
         for (auto channel = 0; channel < getNumOutputChannels(); ++channel)
         {
             buffer.buffer->copyFrom(
                 channel,
                 outputSamplesOffset,
-                fileBuffer,
+                *pPlayBuffer,
                 channel % getNumInputChannels(),
                 nPlayAudioFilePosition,
                 samplesThieTime
@@ -269,9 +269,8 @@ void VoiceChanger_wczAudioProcessor::getNextAudioBlock(juce::AudioSourceChannelI
         outputSamplesRemaining -= samplesThieTime;
         outputSamplesOffset += samplesThieTime;
         nPlayAudioFilePosition += samplesThieTime;
-        if (nPlayAudioFilePosition == fileBuffer.getNumSamples())
+        if (nPlayAudioFilePosition == pPlayBuffer->getNumSamples())
             nPlayAudioFilePosition = 0;
-
     }
 }
 
@@ -281,7 +280,6 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
-
 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear(i, 0, buffer.getNumSamples());
@@ -613,12 +611,10 @@ void VoiceChanger_wczAudioProcessor::setFilterFreqShift(float freq, int filterIn
 }
 void VoiceChanger_wczAudioProcessor::setFilterQFactorShift(float q, int filterIndex)
 {
-
     for (int channel = 0; channel < getTotalNumInputChannels(); channel++)
     {
         filters[filterIndex - 1][channel]->qFactor = q;
     }
-
 }
 void VoiceChanger_wczAudioProcessor::setFilterGainShift(float gain,int filterIndex)
 {
@@ -640,9 +636,7 @@ double VoiceChanger_wczAudioProcessor::getFilterFreqShift(int filterIndex)
 }
 double VoiceChanger_wczAudioProcessor::getFilterQFactorShift(int filterIndex)
 {
-
     return filters[filterIndex - 1][0]->qFactor;
-
 }
 double VoiceChanger_wczAudioProcessor::getFilterGainShift(int filterIndex)
 {
@@ -836,4 +830,36 @@ void VoiceChanger_wczAudioProcessor::updateUIControls()
         shapeInvariantPitchShifters[i]->setPitchRatio(pitchRatioTest);
     }
 #endif
+}
+
+void VoiceChanger_wczAudioProcessor::setTarget(TransportFileType st)
+{
+    switch (st)
+    {
+    case Source:
+        pPlayBuffer = &sourceBuffer;
+        break;
+    case Target:
+        pPlayBuffer = &targetBuffer;
+        break;
+    case Mainpage:
+        pPlayBuffer = &fileBuffer;
+        break;
+    default:
+        break;
+    }
+}
+void VoiceChanger_wczAudioProcessor::setState(TransportState newState)
+{
+    switch (newState)
+    {
+    case Starting:
+        shouldProcessFile = true;
+        break;
+    case Stopping:
+        shouldProcessFile = false;
+        break;
+    default:
+        break;
+    }
 }

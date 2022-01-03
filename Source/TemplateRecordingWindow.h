@@ -8,9 +8,8 @@ class TemplateRecordingWindow :public juce::Component//public juce::DocumentWind
 {
 
 public:
-	TemplateRecordingWindow(juce::AudioSampleBuffer& globalAudioFileBufferToPlay, TransportInformation& transportInfo)
-		:pGlobalAudioFileBufferToPlay(globalAudioFileBufferToPlay)
-		, transportInfo(transportInfo)
+	TemplateRecordingWindow( VoiceChanger_wczAudioProcessor& audioProcessor)
+		: audioProcessor(audioProcessor)
 	{
 		
 		setSize(600, 300);
@@ -55,7 +54,6 @@ public:
 		{
 			trainButtonClicked();
 		};
-
 	}
 	~TemplateRecordingWindow() override
 	{
@@ -86,15 +84,14 @@ public:
 		{
 			templateProjectingWindow = new NewWindow(juce::String("templateProjectingWindow"), juce::Colours::darkslategrey, juce::DocumentWindow::allButtons);
 			
-			templateProjectingWindow->setContentOwned(new TemplateProjectingWindow(pGlobalAudioFileBufferToPlay, transportInfo), true);
+			templateProjectingWindow->setContentOwned(new TemplateProjectingWindow(audioProcessor), true);
 			templateProjectingWindow->addToDesktop();
 			templateProjectingWindow->centreWithSize(600, 500);
 			templateProjectingWindow->setVisible(true);
 		}
 	}
 private:
-	juce::AudioSampleBuffer& pGlobalAudioFileBufferToPlay;
-	TransportInformation& transportInfo;
+	VoiceChanger_wczAudioProcessor& audioProcessor;
 	juce::AudioDeviceManager audioDeviceManager;
 	LiveScrollingAudioDisplay liveAudioScroller;
 	RecordingThumbnail recordingThumbnail;

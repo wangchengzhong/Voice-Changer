@@ -34,11 +34,13 @@
 #include"rubberband/rubberband-c.h"
 #include"PitchShifterRubberband.h"
 #include"PitchShifterSoundTouch.h"
+#include"TransportInformation.h"
 
 //==============================================================================
 /**
 */
 class VoiceChanger_wczAudioProcessor : public juce::AudioProcessor//,public juce::AudioAppComponent//,public Filter
+    ,public TransportInformation
 {
 public:
     //==============================================================================
@@ -157,23 +159,18 @@ public:
     //    filterTypePeakingNotch,
     //    filterTypeResonantLowPass
     //};
-
-    enum TransportState
-    {
-        Stopped,
-        Starting,
-        Playing,
-        Stopping
-    };
     bool realtimeMode{ true };
     juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
     juce::AudioTransportSource transportSource;
+    
     juce::AudioSampleBuffer fileBuffer;
     juce::AudioSampleBuffer sourceBuffer;
     juce::AudioSampleBuffer targetBuffer;
-
-
+    juce::AudioSampleBuffer* pPlayBuffer;
+    TransportInformation ti;
+    void setTarget(TransportFileType ft)override;
+    void setState(TransportState newState)override;
     float inputAudioFileLength{ 300.0f };
     void getNextAudioBlock(juce::AudioSourceChannelInfo&buffer);
     // int readFilePosition;

@@ -7,21 +7,19 @@ class TemplateProjectingWindow :public juce::Component,
 {
 public:
 	TemplateProjectingWindow(
-		juce::AudioSampleBuffer& globalAudioFileBufferToPlay,
-		TransportInformation& transportInfo
+		VoiceChanger_wczAudioProcessor& audioProcessor
 	):
-		transportInfo(transportInfo),
 		thumbnailCache(5),
 		thumbnail(512,formatManager,thumbnailCache),
-		globalAudioFileBufferToPlay(globalAudioFileBufferToPlay)
+		audioProcessor(audioProcessor)
 	{
 		setSize(600, 500);
 		setOpaque(true);
 		addAndMakeVisible(&loadSourceButton);
-		loadSourceButton.onClick = [this] { openButtonClicked(); };
+		loadSourceButton.onClick = [this] { openButtonClicked(Source); };
 
 		addAndMakeVisible(&loadTargetButton);
-		loadTargetButton.onClick = [this] { openButtonClicked(); };
+		loadTargetButton.onClick = [this] { openButtonClicked(Target); };
 
 		addAndMakeVisible(&playButton);
 		playButton.setButtonText("play");
@@ -68,8 +66,6 @@ public:
 			paintIfNoFileLoaded(g, thumbnailBounds);
 		else
 			paintIfFileLoaded(g, thumbnailBounds);
-
-
 	}
 	void paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
 	{
@@ -103,50 +99,14 @@ public:
 		projectButton.setBounds(area.removeFromTop(40).reduced(5));
 	}
 
-	void changeState(TransportState newState)
-	{
-		auto state = transportInfo.state;
-		if (state != newState)
-		{
-			state = newState;
-			transportInfo.state = newState;
-			switch (state)
-			{
-			case Stopped:
-				stopButton.setEnabled(false);
-				playButton.setEnabled(true);
-				
-				//transportSource.setPosition(0.0);
-				break;
-			case Starting:
-				playButton.setEnabled(false);
-				//transportSource.start();
-				break;
-			case Playing:
-				stopButton.setEnabled(true);
 
-				break;
-			case Stopping:
-				playButton.setEnabled(true);
-				//transportSource.stop();
-
-				break;
-			default:
-				jassertfalse;
-				break;
-			}
-		}
-	}
-	//void transportSourceChanged()
-	//{
-	//	changeState(transportSource.isPlaying() ? Playing : Stopped);
-	//}
 	void thumbnailChanged()
 	{
 		repaint();
 	}
 
-	void openButtonClicked()
+	//template<typename T>
+	void openButtonClicked(TransportFileType newType)
 	{
 		chooser = std::make_unique<juce::FileChooser>("select file..",
 			juce::File{}, "*.wav; *.flac; *.mp3");
@@ -161,11 +121,14 @@ public:
 					auto duration = (float)reader->lengthInSamples / reader->sampleRate;
 					if (duration < 1000)
 					{
-						changeState(Stopping);
-						globalAudioFileBufferToPlay.clear();
-						globalAudioFileBufferToPlay.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
+						audioProcessor.setState(Stopping);
+						audioProcessor.setTarget(newType);
+						// changeState(Stopping);
+						audioProcessor.pPlayBuffer->clear();
+						
+						audioProcessor.pPlayBuffer->setSize((int)reader->numChannels, (int)reader->lengthInSamples);
 						reader->read(
-							&globalAudioFileBufferToPlay,
+							audioProcessor.pPlayBuffer,
 							0,
 							(int)reader->lengthInSamples,
 							0,
@@ -184,11 +147,13 @@ public:
 	}
 	void playButtonClicked()
 	{
-		changeState(Starting);
+		audioProcessor.setState(Starting);
+		// changeState(Starting);
 	}
 	void stopButtonClicked()
 	{
-		changeState(Stopping);
+		audioProcessor.setState(Stopping);
+		// changeState(Stopping);
 	}
 	void projectButtonClicked()
 	{
@@ -198,10 +163,11 @@ public:
 private:
 
 	// juce::TextButton openButton;
-	juce::AudioSampleBuffer& globalAudioFileBufferToPlay;
+	VoiceChanger_wczAudioProcessor& audioProcessor;
+
+	// juce::AudioSampleBuffer*& buffer;
 	juce::TextButton playButton;
 	juce::TextButton stopButton;
-
 
 	juce::AudioDeviceManager audioDeviceManager;
 	juce::TextButton projectButton{ juce::CharPointer_UTF8("\xe5\xbc\x80\xe5\xa7\x8b\xe8\xae\xad\xe7\xbb\x83") };
@@ -217,7 +183,6 @@ private:
 	//juce::AudioTransportSource transportSource;
 	//juce::AudioTransportSource transportTarget;
 
-	TransportInformation& transportInfo;
 
 	juce::AudioThumbnailCache thumbnailCache;
 	juce::AudioThumbnail thumbnail;
