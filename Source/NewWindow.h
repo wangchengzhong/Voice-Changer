@@ -11,4 +11,6 @@ public:
 	{
 		delete[] this;
 	}
+private:
+	
 };

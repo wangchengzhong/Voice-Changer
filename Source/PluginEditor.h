@@ -13,12 +13,19 @@
 #include"BackgroundComponent.h"
 #include"TemplateRecordingWindow.h"
 #include"NewWindow.h"
+#include"PlayAudioFileComponent.h"
+#include"TransportInformation.h"
 //==============================================================================
 /**
 */
-class VoiceChanger_wczAudioProcessorEditor  : public juce::AudioProcessorEditor
-    ,public juce::Slider::Listener,public juce::ComboBox::Listener, private juce::Timer
-    , public juce::ChangeListener
+class VoiceChanger_wczAudioProcessorEditor
+    : public juce::AudioProcessorEditor
+    ,public juce::Slider::Listener
+    ,public juce::ComboBox::Listener
+    , private juce::Timer
+    // , public juce::ChangeListener
+    //,public juce::ComponentListener
+     //,
     //,public juce::AudioAppComponent
     //,private juce::Timer
 {
@@ -31,18 +38,13 @@ public:
     void resized() override;
     void sliderValueChanged(juce::Slider* sliderThatWasMoved) override;
     void timerCallback() override;
+
     void comboBoxChanged(juce::ComboBox* comboBoxThatWasMoved) override;
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     // int currentFilterIndex{ audioProcessor.currentFilterIndex };
-    enum TransportState
-    {
-        Stopped,
-        Starting,
-        Playing,
-        Stopping
-    };
+
     VoiceChanger_wczAudioProcessor& audioProcessor;
 
     void mmButtonClicked();
@@ -90,7 +92,7 @@ private:
     juce::TextButton openFileButton;
     juce::TextButton playFileButton;
     juce::TextButton stopPlayFileButton;
-    std::unique_ptr<juce::Slider> pPlayPositionSlider;
+    // std::unique_ptr<juce::Slider> pPlayPositionSlider;
 
     juce::TextButton openTemplateWindowButton;
 
@@ -99,14 +101,17 @@ private:
     juce::ToggleButton switchPitchMethodButton;
 
     juce::AudioDeviceSelectorComponent audioSetupComp;
-
-    BackgroundComponent bkg;
-    
+    int duration{ 300 };
+   
+    // BackgroundComponent bkg;
+    // PlayAudioFileComponent playAudioFileComponent;
     void changeState(TransportState newState);
-    void changeListenerCallback(juce::ChangeBroadcaster* source) override;
-    TransportState state;
-    
+    // void changeListenerCallback(juce::ChangeBroadcaster* source) override;
+    // TransportState state;
+    TransportInformation transportInfo{ Stopped,0,&audioProcessor.fileBuffer };
+    TransportState prevState{ transportInfo.state };
     // TemplateRecordingWindow* recWindow;
     juce::Component::SafePointer<juce::DocumentWindow> templateRecordingWindow;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VoiceChanger_wczAudioProcessorEditor)
 };

@@ -41,7 +41,7 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
     addParameter(nDynamicsAttack = new juce::AudioParameterFloat("DynamicsAttack", "dynammicsAttack", 0.00001f, 1.0f, 0.002f));
     addParameter(nDynamicsRelease = new juce::AudioParameterFloat("DynamicsRelease", "dynamicsRelease", 0.001f, 2.0f, 0.1f));
     addParameter(nDynamicsMakeupGain = new juce::AudioParameterFloat("DynamicsMakeupGain", "dynamicsMakeupGain", -60.0f, 30.0f, 0.0f));
-    addParameter(nPlayAudioFilePosition = new juce::AudioParameterFloat("PlayAudioFilePositioin", "playAudioFilePosition", 0, 10000000000, 0.0f));
+    // addParameter(nPlayAudioFilePosition = new juce::AudioParameterFloat("PlayAudioFilePositioin", "playAudioFilePosition", 0, 10000000000, 0.0f));
 }
 
 VoiceChanger_wczAudioProcessor::~VoiceChanger_wczAudioProcessor()
@@ -223,18 +223,27 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
     else
     {
         buffer.clear();
-
-        if (fileBuffer.getNumSamples())
+        
+        if (!canReadSampleBuffer)
+        {
+            if (fileBuffer.getNumSamples())
+            {
+                canReadSampleBuffer = true;
+            }
+        }
+        if (canReadSampleBuffer)
         {
             if (shouldProcessFile)
             {
                 getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
                 // transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
                 overallProcess(buffer);
+                return;
             }
+            else
+                spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
         }
-        else
-            spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
+        spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
     }
     
 }
@@ -244,7 +253,7 @@ void VoiceChanger_wczAudioProcessor::getNextAudioBlock(juce::AudioSourceChannelI
     auto outputSamplesOffset = buffer.startSample;
     while (outputSamplesRemaining > 0)
     {
-        auto bufferSamplesRemaining = fileBuffer.getNumSamples() - readFilePosition;
+        auto bufferSamplesRemaining = fileBuffer.getNumSamples() - nPlayAudioFilePosition;
         auto samplesThieTime = juce::jmin(outputSamplesRemaining, bufferSamplesRemaining);
         for (auto channel = 0; channel < getNumOutputChannels(); ++channel)
         {
@@ -253,15 +262,15 @@ void VoiceChanger_wczAudioProcessor::getNextAudioBlock(juce::AudioSourceChannelI
                 outputSamplesOffset,
                 fileBuffer,
                 channel % getNumInputChannels(),
-                readFilePosition,
+                nPlayAudioFilePosition,
                 samplesThieTime
             );
         }
         outputSamplesRemaining -= samplesThieTime;
         outputSamplesOffset += samplesThieTime;
-        readFilePosition += samplesThieTime;
-        if (readFilePosition == fileBuffer.getNumSamples())
-            readFilePosition = 0;
+        nPlayAudioFilePosition += samplesThieTime;
+        if (nPlayAudioFilePosition == fileBuffer.getNumSamples())
+            nPlayAudioFilePosition = 0;
 
     }
 }
@@ -667,7 +676,8 @@ void VoiceChanger_wczAudioProcessor::setDynamicsMakeupGainShift(float makeupGain
 }
 void VoiceChanger_wczAudioProcessor::setPlayAudioFilePosition(float position)
 {
-    transportSource.setPosition(position);
+    // transportSource.setPosition(position);
+    nPlayAudioFilePosition = position;
 }
 float VoiceChanger_wczAudioProcessor::getPitchShift()
 {
@@ -699,7 +709,7 @@ float VoiceChanger_wczAudioProcessor::getDynamicsMakeupGainShift()
 }
 float VoiceChanger_wczAudioProcessor::getPlayAudioFilePosition()
 {
-    return *nPlayAudioFilePosition;
+    return nPlayAudioFilePosition / nPlayAudioFileSampleNum;
 }
 //bool VoiceChanger_wczAudioProcessor::isUpdateParameter()
 //{
@@ -730,8 +740,7 @@ juce::Image& VoiceChanger_wczAudioProcessor::getSpectrumView()
         spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
         auto level = pitchShifters[0]->getSpectrumInput();
         drawSpectrumGraph(spectrum, level, juce::Colours::hotpink, true);//juce::Colour(0, 255, 0), true);
-        pitchShifters[0]->setProcessFlag(false);
-        
+        pitchShifters[0]->setProcessFlag(false); 
     }
     return spectrum;
 }

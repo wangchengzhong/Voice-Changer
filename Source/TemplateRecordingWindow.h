@@ -1,12 +1,16 @@
 #pragma once
 #include"JuceHeader.h"
 #include"TemplateRecording.h"
-
+#include"TrainingTemplate.h"
+#include"NewWindow.h"
+#include"TemplateProjectingWindow.h"
 class TemplateRecordingWindow :public juce::Component//public juce::DocumentWindow,public juce::Component
 {
 
 public:
-	TemplateRecordingWindow()
+	TemplateRecordingWindow(juce::AudioSampleBuffer& globalAudioFileBufferToPlay, TransportInformation& transportInfo)
+		:pGlobalAudioFileBufferToPlay(globalAudioFileBufferToPlay)
+		, transportInfo(transportInfo)
 	{
 		
 		setSize(600, 300);
@@ -45,6 +49,13 @@ public:
 		audioDeviceManager.addAudioCallback(&liveAudioScroller);
 		audioDeviceManager.addAudioCallback(&recorder);
 		
+		Component::addAndMakeVisible(trainButton);
+		trainButton.setColour(juce::TextButton::buttonColourId, juce::Colours::mediumvioletred);
+		trainButton.onClick = [this]
+		{
+			trainButtonClicked();
+		};
+
 	}
 	~TemplateRecordingWindow() override
 	{
@@ -60,14 +71,30 @@ public:
 		auto area = Component::getLocalBounds();
 		liveAudioScroller.setBounds(area.removeFromTop(80).reduced(8));
 		recordingThumbnail.setBounds(area.removeFromTop(80).reduced(8));
-		recordButton.setBounds(area.removeFromBottom(80).reduced(10));
-		explanationLabel.setBounds(area.reduced(10));
+		recordButton.setBounds(area.removeFromBottom(50).reduced(8));
+		//explanationLabel.setBounds(area.removeFromTop(80).reduced(10));
+		trainButton.setBounds(area.removeFromTop(90).reduced(10));
 	}
-	void closeButtonPressed()
+
+	void trainButtonClicked()
 	{
-		delete this;
+		if (templateProjectingWindow)
+		{
+			templateProjectingWindow->broughtToFront();
+		}
+		else
+		{
+			templateProjectingWindow = new NewWindow(juce::String("templateProjectingWindow"), juce::Colours::darkslategrey, juce::DocumentWindow::allButtons);
+			
+			templateProjectingWindow->setContentOwned(new TemplateProjectingWindow(pGlobalAudioFileBufferToPlay, transportInfo), true);
+			templateProjectingWindow->addToDesktop();
+			templateProjectingWindow->centreWithSize(600, 500);
+			templateProjectingWindow->setVisible(true);
+		}
 	}
 private:
+	juce::AudioSampleBuffer& pGlobalAudioFileBufferToPlay;
+	TransportInformation& transportInfo;
 	juce::AudioDeviceManager audioDeviceManager;
 	LiveScrollingAudioDisplay liveAudioScroller;
 	RecordingThumbnail recordingThumbnail;
@@ -76,8 +103,10 @@ private:
 		juce::CharPointer_UTF8("\xe5\xbd\x95\xe5\x85\xa5\xe6\xa8\xa1\xe6\x9d\xbf\xe8\xbf\x9b\xe8\xa1\x8c\xe8\xae\xad\xe7\xbb\x83\xe6\x8c\x89\xe4\xb8\x8b\xe5\xbd\x95\xe5\x88\xb6\xe9\x94\xae\xe5\xbc\x80\xe5\xa7\x8b\xe5\xbd\x95\xe9\x9f\xb3"))
 	};
 	juce::TextButton recordButton{ juce::CharPointer_UTF8("\xe5\xbd\x95\xe9\x9f\xb3") };
+	juce::TextButton trainButton{ juce::CharPointer_UTF8("\xe8\xae\xad\xe7\xbb\x83\xe6\x98\xa0\xe5\xb0\x84") };
 	juce::File lastRecording;
 
+	juce::Component::SafePointer<juce::DocumentWindow> templateProjectingWindow;
 	void startRecording()
 	{
 		if (!juce::RuntimePermissions::isGranted(juce::RuntimePermissions::writeExternalStorage))
@@ -108,5 +137,6 @@ private:
 		recordButton.setButtonText(juce::CharPointer_UTF8("\xe5\xbd\x95\xe5\x88\xb6"));
 		recordingThumbnail.setDisplayFullThumbnail(true);
 	}
+
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TemplateRecordingWindow)
 };

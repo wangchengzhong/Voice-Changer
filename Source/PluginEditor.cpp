@@ -24,19 +24,20 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     anotherSetup.outputDeviceName = juce::CharPointer_UTF8("\xe8\x80\xb3\xe6\x9c\xba (AirPods)");
     anotherSetup.sampleRate = 44100;
     audioSetupComp.deviceManager.setAudioDeviceSetup(anotherSetup, false);
-    setSize(950, 600);
+    AudioProcessorEditor::setSize(950, 600);
     // addAndMakeVisible(bkg);
-    addAndMakeVisible(audioSetupComp);
+    // addAndMakeVisible(playAudioFileComponent);
+    AudioProcessorEditor::addAndMakeVisible(audioSetupComp);
     //juce::StandalonePluginHolder::getInstance()
     // audioSetupComp
     //// = juce::String("VB-Audio VoiceMeeter VAIO");
     
 
-    startTimerHz(30);
-
+    Timer::startTimerHz(30);
+    
     pPitchSlider.reset(new juce::Slider("PitchShiftSlider"));
     
-    addAndMakeVisible(pPitchSlider.get());
+    AudioProcessorEditor::addAndMakeVisible(pPitchSlider.get());
     pPitchSlider->setRange(-12, 12.0, 0.02);
     pPitchSlider->setTooltip(TRANS("higher"));
     pPitchSlider->setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
@@ -46,7 +47,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pPitchSlider->setBounds(20, 376, 80, 80);
 
     pPeakSlider.reset(new juce::Slider("PeakShiftSlider"));
-    addAndMakeVisible(pPeakSlider.get());
+    AudioProcessorEditor::addAndMakeVisible(pPeakSlider.get());
     pPeakSlider->setRange(0.5, 2.0, 0.02);
     pPeakSlider->setTooltip(TRANS("peaker"));
     
@@ -64,7 +65,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pFilterFreqSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 15);
     pFilterFreqSlider->addListener(this);
     pFilterFreqSlider->setTooltip(TRANS("freq"));
-    addAndMakeVisible(pFilterFreqSlider.get());
+    AudioProcessorEditor::addAndMakeVisible(pFilterFreqSlider.get());
 
     pFilterFreqSlider->setBounds(30, 476, 80, 80);
     
@@ -74,7 +75,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pFilterQFactorSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 15);
     pFilterQFactorSlider->addListener(this);
     pFilterQFactorSlider->setTooltip(TRANS("q"));
-    addAndMakeVisible(pFilterQFactorSlider.get());
+    AudioProcessorEditor::addAndMakeVisible(pFilterQFactorSlider.get());
 
     pFilterQFactorSlider->setBounds(100, 476, 80, 80);
 
@@ -85,7 +86,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pFilterGainSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 15);
     pFilterGainSlider->addListener(this);
     pFilterGainSlider->setTooltip(TRANS("gain"));
-    addAndMakeVisible(pFilterGainSlider.get());
+    AudioProcessorEditor::addAndMakeVisible(pFilterGainSlider.get());
 
     pFilterGainSlider->setBounds(170, 476, 80, 80);
 
@@ -94,7 +95,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pFilterTypeComboBox->onChange = [this] {comboBoxChanged(pFilterTypeComboBox.get()); };
     pFilterTypeComboBox->setSelectedId(6);
     // pFilterTypeComboBox->addListener(this);
-    addAndMakeVisible(pFilterTypeComboBox.get());
+    AudioProcessorEditor::addAndMakeVisible(pFilterTypeComboBox.get());
 
     pFilterTypeComboBox->setBounds(180, 425, 130, 30);
 
@@ -103,7 +104,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pFilterIndexComboBox->onChange = [this] {comboBoxChanged(pFilterIndexComboBox.get()); };
     // pFilterIndexComboBox->setSelectedId(1);
     // pFilterTypeComboBox->addListener(this);
-    addAndMakeVisible(pFilterIndexComboBox.get());
+    AudioProcessorEditor::addAndMakeVisible(pFilterIndexComboBox.get());
 
     pFilterIndexComboBox->setBounds(180, 380, 130, 30);
 #endif
@@ -114,7 +115,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pDynamicsThresholdSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 15);
     pDynamicsThresholdSlider->addListener(this);
     pDynamicsThresholdSlider->setTooltip(TRANS("dynamicsThreshold"));
-    addAndMakeVisible(pDynamicsThresholdSlider.get());
+    AudioProcessorEditor::addAndMakeVisible(pDynamicsThresholdSlider.get());
 
     pDynamicsThresholdSlider->setBounds(30, 276, 70, 70);
 
@@ -124,7 +125,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pDynamicsRatioSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 15);
     pDynamicsRatioSlider->addListener(this);
     pDynamicsRatioSlider->setTooltip(TRANS("dynamicsRatio"));
-    addAndMakeVisible(pDynamicsRatioSlider.get());
+    AudioProcessorEditor::addAndMakeVisible(pDynamicsRatioSlider.get());
 
     pDynamicsRatioSlider->setBounds(85, 276, 70, 70);
 
@@ -135,7 +136,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pDynamicsAttackSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 15);
     pDynamicsAttackSlider->addListener(this);
     pDynamicsAttackSlider->setTooltip(TRANS("dynamicsAttack"));
-    addAndMakeVisible(pDynamicsAttackSlider.get());
+    AudioProcessorEditor::addAndMakeVisible(pDynamicsAttackSlider.get());
 
     pDynamicsAttackSlider->setBounds(140, 276, 70, 70);
 
@@ -145,7 +146,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pDynamicsReleaseSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 15);
     pDynamicsReleaseSlider->addListener(this);
     pDynamicsReleaseSlider->setTooltip(TRANS("dynamicsRelease"));
-    addAndMakeVisible(pDynamicsReleaseSlider.get());
+    AudioProcessorEditor::addAndMakeVisible(pDynamicsReleaseSlider.get());
 
     pDynamicsReleaseSlider->setBounds(195, 276, 70, 70);
 
@@ -156,34 +157,34 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pDynamicsMakeupGainSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 15);
     pDynamicsMakeupGainSlider->addListener(this);
     pDynamicsMakeupGainSlider->setTooltip(TRANS("dynamicsMakeupGain"));
-    addAndMakeVisible(pDynamicsMakeupGainSlider.get());
+    AudioProcessorEditor::addAndMakeVisible(pDynamicsMakeupGainSlider.get());
 
     pDynamicsMakeupGainSlider->setBounds(250, 276, 70, 70);
 
     mmButton.setButtonText(juce::CharPointer_UTF8("\xe5\xa6\xb9\xe5\xa6\xb9"));
     mmButton.onClick = [this] { mmButtonClicked(); };
     mmButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
-    addAndMakeVisible(&mmButton);
+    AudioProcessorEditor::addAndMakeVisible(&mmButton);
     mmButton.setEnabled(true);
 
 
     xjjButton.setButtonText(juce::CharPointer_UTF8 ("\xe5\xb0\x8f\xe5\xa7\x90\xe5\xa7\x90"));
     xjjButton.onClick = [this] { xjjButtonClicked(); };
     xjjButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
-    addAndMakeVisible(&xjjButton);
+    AudioProcessorEditor::addAndMakeVisible(&xjjButton);
     xjjButton.setEnabled(true);
 
     ljButton.setButtonText("giegie");
     ljButton.onClick = [this] {ljButtonClicked(); };
     ljButton.setColour(juce::TextButton::buttonColourId, juce::Colours::blue);
-    addAndMakeVisible(&ljButton);
+    AudioProcessorEditor::addAndMakeVisible(&ljButton);
     ljButton.setEnabled(true);
 
 
     xpyButton.setButtonText(juce::CharPointer_UTF8("\xe5\xb0\x8f\xe6\x9c\x8b\xe5\x8f\x8b"));
     xpyButton.onClick = [this] {xpyButtonClicked(); };
     xpyButton.setColour(juce::TextButton::buttonColourId, juce::Colours::orange);
-    addAndMakeVisible(&xpyButton);
+    AudioProcessorEditor::addAndMakeVisible(&xpyButton);
     xpyButton.setEnabled(true);
 
 
@@ -191,62 +192,62 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     openEffectButton.setButtonText(juce::CharPointer_UTF8("\xe5\xae\x9e\xe6\x97\xb6\xe6\xa8\xa1\xe5\xbc\x8f"));
     openEffectButton.onClick = [this] {openEffectButtonClicked(); };
     openEffectButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkslateblue);
-    addAndMakeVisible(&openEffectButton);
+    AudioProcessorEditor::addAndMakeVisible(&openEffectButton);
     openEffectButton.setEnabled(true);
 
 
     closeEffectButton.setButtonText(juce::CharPointer_UTF8("\xe7\xa6\xbb\xe7\xba\xbf\xe6\xa8\xa1\xe5\xbc\x8f"));
     closeEffectButton.onClick = [this] {closeEffectButtonClicked(); };
     closeEffectButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkred);
-    addAndMakeVisible(&closeEffectButton);
+    AudioProcessorEditor::addAndMakeVisible(&closeEffectButton);
     closeEffectButton.setEnabled(true);
 
 
     resetAllButton.setButtonText("RESET");
     resetAllButton.onClick = [this] {resetAllButtonClicked(); };
     resetAllButton.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
-    addAndMakeVisible(&resetAllButton);
+    AudioProcessorEditor::addAndMakeVisible(&resetAllButton);
     resetAllButton.setEnabled(true);
 
     switchPitchMethodButton.setButtonText("FD Proc.");
     switchPitchMethodButton.onClick = [this] { switchPitchMethodButtonClicked(); };
     switchPitchMethodButton.setColour(juce::ToggleButton::ColourIds::tickColourId, juce::Colours::red);
     switchPitchMethodButton.setColour(juce::ToggleButton::ColourIds::tickDisabledColourId, juce::Colours::green);
-    addAndMakeVisible(&switchPitchMethodButton);
+    AudioProcessorEditor::addAndMakeVisible(&switchPitchMethodButton);
     switchPitchMethodButton.setEnabled(true);
 
     openFileButton.setButtonText(juce::CharPointer_UTF8("\xe6\x89\x93\xe5\xbc\x80\xe6\x9c\xac\xe5\x9c\xb0\xe6\x96\x87\xe4\xbb\xb6"));
     openFileButton.onClick = [this] { openFileButtonClicked(); };
     openFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::mediumseagreen);
-    addAndMakeVisible(&openFileButton);
+    AudioProcessorEditor::addAndMakeVisible(&openFileButton);
 
     stopPlayFileButton.setButtonText(juce::CharPointer_UTF8("\xe6\x9a\x82\xe5\x81\x9c"));
     stopPlayFileButton.onClick = [this] { stopPlayFileButtonClicked(); };
     stopPlayFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
     stopPlayFileButton.setEnabled(true);
-    addAndMakeVisible(&stopPlayFileButton);
+    AudioProcessorEditor::addAndMakeVisible(&stopPlayFileButton);
 
     playFileButton.setButtonText(juce::CharPointer_UTF8("\xe6\x92\xad\xe6\x94\xbe"));
     playFileButton.onClick = [this] { playFileButtonClicked(); };
     playFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::hotpink);
     playFileButton.setEnabled(true);
-    addAndMakeVisible(&playFileButton);
+    AudioProcessorEditor::addAndMakeVisible(&playFileButton);
 
-    pPlayPositionSlider.reset(new juce::Slider("PlayPositionSlider"));
-    pPlayPositionSlider->setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
-    pPlayPositionSlider->setRange(0, audioProcessor.inputAudioFileLength, 0.01f);
-    pPlayPositionSlider->addListener(this);
-    addAndMakeVisible(pPlayPositionSlider.get());
-    pPlayPositionSlider->setBounds(545, 320, 370, 30);
+    // pPlayPositionSlider.reset(new juce::Slider("PlayPositionSlider"));
+    // pPlayPositionSlider->setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
+    // pPlayPositionSlider->setRange(0, duration, 0.01f);
+    // pPlayPositionSlider->addListener(this);
+    // addAndMakeVisible(pPlayPositionSlider.get());
+    // pPlayPositionSlider->setBounds(545, 320, 370, 30);
 
-    audioProcessor.transportSource.addChangeListener(this);
+    // audioProcessor.transportSource.addChangeListener(this);
 
 
     openTemplateWindowButton.setButtonText(juce::CharPointer_UTF8("\xe5\xbd\x95\xe5\x85\xa5\xe6\xa8\xa1\xe6\x9d\xbf"));
     openTemplateWindowButton.onClick = [this] { openTemplateWindowButtonClicked(); };
     openTemplateWindowButton.setColour(juce::TextButton::buttonColourId, juce::Colours::cornflowerblue);
     openTemplateWindowButton.setEnabled(true);
-    addAndMakeVisible(&openTemplateWindowButton);
+    AudioProcessorEditor::addAndMakeVisible(&openTemplateWindowButton);
     //recWindow = new TemplateRecordingWindow("TemplateRecording", juce::Colours::grey, juce::DocumentWindow::allButtons);
     //recWindow->setUsingNativeTitleBar(true);
     //recWindow->setSize(600, 600);
@@ -255,6 +256,8 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     //
     //// recWindow->centreWithSize(500, 500);
     //recWindow->setVisible(true);
+    
+   //  AudioProcessorEditor::addAndMakeVisible(pPlayPositionSlider.get());
 }
 VoiceChanger_wczAudioProcessorEditor::~VoiceChanger_wczAudioProcessorEditor()
 {
@@ -274,41 +277,48 @@ void VoiceChanger_wczAudioProcessorEditor::paint (juce::Graphics& g)
     pFilterTypeComboBox.get()->setSelectedId(audioProcessor.getFilterTypeShift(audioProcessor.currentFilterIndex));
     // pFilterTypeComboBox.get()->setComponentID()
     pFilterGainSlider.get()->setValue(audioProcessor.getFilterGainShift(audioProcessor.currentFilterIndex));
-    // pPlayPositionSlider.get()->setValue(audioProcessor.transportSource.getCurrentPosition());
+    // pPlayPositionSlider.get()->setValue(audioProcessor.nPlayAudioFilePosition / audioProcessor.nPlayAudioFileSampleNum);
 #endif
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+    g.fillAll (AudioProcessorEditor::getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     //g.fillAll(juce::Colours::darkslategrey);
     int x = 12, y = 12, width = 512, height = 256;
 
     g.drawImage(audioProcessor.getSpectrumView(), x, y, width, height, 0, 0, width, height);
+    // readFilePosition = audioProcessor.nPlayAudioFileSampleNum == 0 ? 0 : audioProcessor.nPlayAudioFilePosition / audioProcessor.nPlayAudioFileSampleNum;
+    // pPlayPositionSlider.get()->setValue(readFilePosition);
 }
 void VoiceChanger_wczAudioProcessorEditor::timerCallback()
 {
-    repaint();
+    AudioProcessorEditor::repaint();
+    if (transportInfo.state != prevState)
+    {
+        changeState(transportInfo.state);
+        prevState = transportInfo.state;
+    }
 }
 void VoiceChanger_wczAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
 
-    xjjButton.setBounds(340, 340, getWidth() / 6, 30);
-    xpyButton.setBounds(340, 390, getWidth() / 6, 30);
-    ljButton.setBounds(340, 440, getWidth() / 6, 30);
-    mmButton.setBounds(340, 490, getWidth() / 6, 30);
-    openEffectButton.setBounds(340, 540, (getWidth()) / 12, 30);
-    closeEffectButton.setBounds(340 + (getWidth()) / 12, 540, (getWidth()) / 12, 30);
-    resetAllButton.setBounds(340, 290, (getWidth()/6) , 30);
-    switchPitchMethodButton.setBounds(245, 510, getWidth() / 8, 20);
+    xjjButton.setBounds(340, 340, AudioProcessorEditor::getWidth() / 6, 30);
+    xpyButton.setBounds(340, 390, AudioProcessorEditor::getWidth() / 6, 30);
+    ljButton.setBounds(340, 440, AudioProcessorEditor::getWidth() / 6, 30);
+    mmButton.setBounds(340, 490, AudioProcessorEditor::getWidth() / 6, 30);
+    openEffectButton.setBounds(340, 540, (AudioProcessorEditor::getWidth()) / 12, 30);
+    closeEffectButton.setBounds(340 + (AudioProcessorEditor::getWidth()) / 12, 540, (AudioProcessorEditor::getWidth()) / 12, 30);
+    resetAllButton.setBounds(340, 290, (AudioProcessorEditor::getWidth()/6) , 30);
+    switchPitchMethodButton.setBounds(245, 510, AudioProcessorEditor::getWidth() / 8, 20);
 
-    openFileButton.setBounds(570, 380, getWidth() / 5, 40);
-    playFileButton.setBounds(570, 450, getWidth() / 5, 40);
-    stopPlayFileButton.setBounds(570, 520, getWidth() / 5, 40);
+    openFileButton.setBounds(570, 380, AudioProcessorEditor::getWidth() / 5, 40);
+    playFileButton.setBounds(570, 450, AudioProcessorEditor::getWidth() / 5, 40);
+    stopPlayFileButton.setBounds(570, 520, AudioProcessorEditor::getWidth() / 5, 40);
     
-    openTemplateWindowButton.setBounds(800, 400, getWidth() / 8, 150);
+    openTemplateWindowButton.setBounds(800, 400, AudioProcessorEditor::getWidth() / 8, 150);
 
     audioSetupComp.setBounds(545, 20, 400, 100);
-    // bkg.setBounds(getLocalBounds());
+    //playAudioFileComponent.setBounds(AudioProcessorEditor::getLocalBounds());
 
 }
 void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* sliderThatWasMoved)
@@ -356,9 +366,15 @@ void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* slid
     {
         audioProcessor.setDynamicsMakeupGainShift((float)pDynamicsMakeupGainSlider.get()->getValue());
     }
-    else if (sliderThatWasMoved == pPlayPositionSlider.get())
+    //else if (sliderThatWasMoved == pPlayPositionSlider.get())
     {
-        audioProcessor.transportSource.setPosition(pPlayPositionSlider.get()->getValue());
+        if(&juce::MouseEvent::mouseWasClicked)
+        // audioProcessor.transportSource.setPosition(pPlayPositionSlider.get()->getValue());
+        //if (shouldUpdatePosition)
+        {
+            //audioProcessor.nPlayAudioFilePosition = (int)(pPlayPositionSlider.get()->getValue() * audioProcessor.nPlayAudioFileSampleNum);
+            // shouldUpdatePosition = false;
+        }
     }
 }
 
@@ -397,8 +413,10 @@ void VoiceChanger_wczAudioProcessorEditor::xpyButtonClicked()
 
 void VoiceChanger_wczAudioProcessorEditor::changeState(TransportState newState)
 {
-    if (newState != state)
+    auto state = transportInfo.state;
+    //if (newState != state)
     {
+        // transportInfo.state = newState;
         state = newState;
         switch (state)
         {
@@ -431,26 +449,26 @@ void VoiceChanger_wczAudioProcessorEditor::changeState(TransportState newState)
     }
 }
 
-void VoiceChanger_wczAudioProcessorEditor::changeListenerCallback(juce::ChangeBroadcaster* source)
-{
-    if (source == &audioProcessor.transportSource)
-    {
-        if (audioProcessor.transportSource.isPlaying())
-        {
-            changeState(Playing);
-        }
-        else
-        {
-            changeState(Stopped);
-        }
-    }
-}
+//void VoiceChanger_wczAudioProcessorEditor::changeListenerCallback(juce::ChangeBroadcaster* source)
+//{
+//    if (source == &audioProcessor.transportSource)
+//    {
+//        if (audioProcessor.transportSource.isPlaying())
+//        {
+//            changeState(Playing);
+//        }
+//        else
+//        {
+//            changeState(Stopped);
+//        }
+//    }
+//}
 
 
 void VoiceChanger_wczAudioProcessorEditor::openFileButtonClicked()
 {
     
-    juce::FileChooser chooser("choose a WAV or AIFF file",juce::File::getSpecialLocation(juce::File::userDesktopDirectory), "*.wav; *.mp3");
+    juce::FileChooser chooser("choose a WAV or AIFF file",juce::File::getSpecialLocation(juce::File::userDesktopDirectory), "*.wav; *.mp3; *.flac");
     //auto chooserFlags = juce::FileBrowserComponent::openMode
     //    | juce::FileBrowserComponent::canSelectFiles;
     if(chooser.browseForFileToOpen())
@@ -463,10 +481,17 @@ void VoiceChanger_wczAudioProcessorEditor::openFileButtonClicked()
         std::unique_ptr<juce::AudioFormatReader>reader(audioProcessor.formatManager.createReaderFor(file));
         if (reader.get() != nullptr)
         {
-            // playFileButton.setEnabled(true);
-            auto duration = (float)reader->lengthInSamples / reader->sampleRate;
+            // 
+            duration = (float)reader->lengthInSamples / reader->sampleRate;
+            //pPlayPositionSlider->setRange(0, duration, 0.01f);
+            // playAudioFileComponent.pPlayPositionSlider->setRange(0, duration, 0.01f);
+            audioProcessor.nPlayAudioFileSampleNum = reader->sampleRate;
             if (duration < 1000)
             {
+                
+                changeState(Stopping);
+                
+                audioProcessor.fileBuffer.clear();
                 audioProcessor.fileBuffer.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
                 reader->read(
                     &audioProcessor.fileBuffer,
@@ -476,12 +501,13 @@ void VoiceChanger_wczAudioProcessorEditor::openFileButtonClicked()
                     true,
                     true
                 );
-                audioProcessor.readFilePosition = 0;
+                audioProcessor.nPlayAudioFilePosition = 0;
+                //readFilePosition = 0;
+                audioProcessor.canReadSampleBuffer = true;
                 
             }
         }
     }
-
     //);
     
     //if (chooser.browseForFileToOpen())
@@ -552,7 +578,7 @@ void VoiceChanger_wczAudioProcessorEditor::openTemplateWindowButtonClicked()
     else
     {
         templateRecordingWindow = new NewWindow(juce::String("templateRecordingWindow"), juce::Colours::darkslategrey, juce::DocumentWindow::allButtons);// new TemplateRecordingWindow();
-        templateRecordingWindow->setContentOwned(new TemplateRecordingWindow(), true);
+        templateRecordingWindow->setContentOwned(new TemplateRecordingWindow(audioProcessor.fileBuffer, transportInfo), true);
         templateRecordingWindow->addToDesktop();
         templateRecordingWindow->centreWithSize(600, 300);
         templateRecordingWindow->setVisible(true);

@@ -170,11 +170,15 @@ public:
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
     juce::AudioTransportSource transportSource;
     juce::AudioSampleBuffer fileBuffer;
+    juce::AudioSampleBuffer sourceBuffer;
+    juce::AudioSampleBuffer targetBuffer;
+
+
     float inputAudioFileLength{ 300.0f };
     void getNextAudioBlock(juce::AudioSourceChannelInfo&buffer);
-    int readFilePosition;
-    bool shouldProcessFile;
-
+    // int readFilePosition;
+    bool shouldProcessFile{ false };
+    bool canReadSampleBuffer{ false };
 private:
     juce::AudioParameterFloat* nFilterQFactor;
     juce::AudioParameterFloat* nFilterFreq;
@@ -183,8 +187,9 @@ private:
     juce::AudioParameterInt* nFilterType;
     juce::AudioParameterInt* nFilter2Type;
     juce::AudioParameterInt* nFilterIndex;
-
-    juce::AudioParameterFloat* nPlayAudioFilePosition;
+public:
+    int nPlayAudioFilePosition{ 0 };
+    int nPlayAudioFileSampleNum{ 0 };
 #endif
 public:
 #if _OPEN_DYNAMICS 
@@ -256,7 +261,9 @@ private:
     // bool updataParamFlag;
     void drawSpectrumGraph(juce::Image view, std::shared_ptr<float>level, juce::Colour colour, bool isLog);
     //void syncPluginParameter();
+public:
     juce::Image spectrum;
+private:
 #if USE_3rdPARTYPITCHSHIFT
 #if USE_RUBBERBAND
     std::unique_ptr<PitchShifterRubberband> rbs;
@@ -267,8 +274,6 @@ private:
 #endif
 #endif
 
-    
-    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VoiceChanger_wczAudioProcessor)
 };

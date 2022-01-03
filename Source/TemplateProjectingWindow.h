@@ -1,0 +1,228 @@
+#pragma once
+#include"JuceHeader.h"
+#include"TransportInformation.h"
+class TemplateProjectingWindow :public juce::Component,
+	public juce::ChangeListener, 
+	private juce::Timer
+{
+public:
+	TemplateProjectingWindow(
+		juce::AudioSampleBuffer& globalAudioFileBufferToPlay,
+		TransportInformation& transportInfo
+	):
+		transportInfo(transportInfo),
+		thumbnailCache(5),
+		thumbnail(512,formatManager,thumbnailCache),
+		globalAudioFileBufferToPlay(globalAudioFileBufferToPlay)
+	{
+		setSize(600, 500);
+		setOpaque(true);
+		addAndMakeVisible(&loadSourceButton);
+		loadSourceButton.onClick = [this] { openButtonClicked(); };
+
+		addAndMakeVisible(&loadTargetButton);
+		loadTargetButton.onClick = [this] { openButtonClicked(); };
+
+		addAndMakeVisible(&playButton);
+		playButton.setButtonText("play");
+		playButton.onClick = [this] { playButtonClicked(); };
+		playButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
+
+		addAndMakeVisible(&stopButton);
+		stopButton.setButtonText("stop");
+		stopButton.onClick = [this] { stopButtonClicked(); };
+		stopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
+
+		addAndMakeVisible(&projectButton);
+		projectButton.setColour(juce::TextButton::buttonColourId, juce::Colours::skyblue);
+		projectButton.onClick = [this] { projectButtonClicked(); };
+
+		formatManager.registerBasicFormats();
+		// transportSource.addChangeListener(this);
+		thumbnail.addChangeListener(this);
+
+		startTimer(40);
+	}
+	~TemplateProjectingWindow()override
+	{
+		
+		// audioDeviceManager.removeAudioCallback();
+	}
+	void timerCallback()override
+	{
+		repaint();
+	}
+	void changeListenerCallback(juce::ChangeBroadcaster* source)override
+	{
+		// if (source == &transportSource)
+			//transportSourceChanged();
+		if (source == &thumbnail)
+			thumbnailChanged();
+	}
+
+	void paint(juce::Graphics& g)override
+	{
+		g.fillAll(juce::Colours::black);
+		juce::Rectangle<int>thumbnailBounds(getLocalBounds().removeFromBottom(260).reduced(10));
+		if (thumbnail.getNumChannels() == 0)
+			paintIfNoFileLoaded(g, thumbnailBounds);
+		else
+			paintIfFileLoaded(g, thumbnailBounds);
+
+
+	}
+	void paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
+	{
+		g.setColour(juce::Colours::darkgrey);
+		g.fillRect(thumbnailBounds);
+		g.setColour(juce::Colours::white);
+		g.drawFittedText("NO FILE", thumbnailBounds, juce::Justification::centred, 1);
+	}
+	void paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
+	{
+		g.setColour(juce::Colours::white);
+		g.fillRect(thumbnailBounds);
+		
+		g.setColour(juce::Colours::red);
+
+		auto audioLength = (float)thumbnail.getTotalLength();
+		thumbnail.drawChannels(g, thumbnailBounds, 0.0, thumbnail.getTotalLength(), 1.0f);
+
+		g.setColour(juce::Colours::green);
+		//auto audioPosition = (float)transportSource.getCurrentPosition();
+		//auto drawPosition = (audioPosition / audioLength) * (float)thumbnailBounds.getWidth() + (float)thumbnailBounds.getX();
+		//g.drawLine(drawPosition, (float)thumbnailBounds.getY(), drawPosition, (float)thumbnailBounds.getBottom(), 2.0f);
+	}
+	void resized() override
+	{
+		auto area = getLocalBounds();
+		loadSourceButton.setBounds(area.removeFromTop(40).reduced(5));
+		loadTargetButton.setBounds(area.removeFromTop(40).reduced(5));
+		playButton.setBounds(area.removeFromTop(40).reduced(5));
+		stopButton.setBounds(area.removeFromTop(40).reduced(5));
+		projectButton.setBounds(area.removeFromTop(40).reduced(5));
+	}
+
+	void changeState(TransportState newState)
+	{
+		auto state = transportInfo.state;
+		if (state != newState)
+		{
+			state = newState;
+			transportInfo.state = newState;
+			switch (state)
+			{
+			case Stopped:
+				stopButton.setEnabled(false);
+				playButton.setEnabled(true);
+				
+				//transportSource.setPosition(0.0);
+				break;
+			case Starting:
+				playButton.setEnabled(false);
+				//transportSource.start();
+				break;
+			case Playing:
+				stopButton.setEnabled(true);
+
+				break;
+			case Stopping:
+				playButton.setEnabled(true);
+				//transportSource.stop();
+
+				break;
+			default:
+				jassertfalse;
+				break;
+			}
+		}
+	}
+	//void transportSourceChanged()
+	//{
+	//	changeState(transportSource.isPlaying() ? Playing : Stopped);
+	//}
+	void thumbnailChanged()
+	{
+		repaint();
+	}
+
+	void openButtonClicked()
+	{
+		chooser = std::make_unique<juce::FileChooser>("select file..",
+			juce::File{}, "*.wav; *.flac; *.mp3");
+		if (chooser->browseForFileToOpen())
+		{
+			auto file = chooser->getResult();
+			if (file != juce::File{})
+			{
+				auto* reader = formatManager.createReaderFor(file);
+				if (reader != nullptr)
+				{
+					auto duration = (float)reader->lengthInSamples / reader->sampleRate;
+					if (duration < 1000)
+					{
+						changeState(Stopping);
+						globalAudioFileBufferToPlay.clear();
+						globalAudioFileBufferToPlay.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
+						reader->read(
+							&globalAudioFileBufferToPlay,
+							0,
+							(int)reader->lengthInSamples,
+							0,
+							true,
+							true
+						);
+					}
+					auto newSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
+					// transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
+					playButton.setEnabled(true);
+					thumbnail.setSource(new juce::FileInputSource(file));
+					readerSource.reset(newSource.release());
+				}
+			}
+		}
+	}
+	void playButtonClicked()
+	{
+		changeState(Starting);
+	}
+	void stopButtonClicked()
+	{
+		changeState(Stopping);
+	}
+	void projectButtonClicked()
+	{
+
+	}
+	bool playing{ false };
+private:
+
+	// juce::TextButton openButton;
+	juce::AudioSampleBuffer& globalAudioFileBufferToPlay;
+	juce::TextButton playButton;
+	juce::TextButton stopButton;
+
+
+	juce::AudioDeviceManager audioDeviceManager;
+	juce::TextButton projectButton{ juce::CharPointer_UTF8("\xe5\xbc\x80\xe5\xa7\x8b\xe8\xae\xad\xe7\xbb\x83") };
+	juce::TextButton loadSourceButton{ juce::CharPointer_UTF8("\xe5\x8e\x9f\xe5\xa3\xb0\xe9\x9f\xb3") };
+	juce::TextButton loadTargetButton{ juce::CharPointer_UTF8("\xe6\x83\xb3\xe5\x8f\x98\xe6\x88\x90\xe7\x9a\x84\xe5\xa3\xb0\xe9\x9f\xb3") };
+
+
+	std::unique_ptr<juce::FileChooser> chooser;
+
+	juce::AudioFormatManager formatManager;
+	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
+
+	//juce::AudioTransportSource transportSource;
+	//juce::AudioTransportSource transportTarget;
+
+	TransportInformation& transportInfo;
+
+	juce::AudioThumbnailCache thumbnailCache;
+	juce::AudioThumbnail thumbnail;
+
+
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TemplateProjectingWindow)
+
+};
