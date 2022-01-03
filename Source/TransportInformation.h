@@ -76,3 +76,19 @@ public:
 //        }
 //    }
 //}
+
+
+//void VoiceChanger_wczAudioProcessorEditor::changeListenerCallback(juce::ChangeBroadcaster* source)
+//{
+//    if (source == &audioProcessor.transportSource)
+//    {
+//        if (audioProcessor.transportSource.isPlaying())
+//        {
+//            changeState(Playing);
+//        }
+//        else
+//        {
+//            changeState(Stopped);
+//        }
+//    }
+//}

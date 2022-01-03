@@ -167,6 +167,8 @@ public:
     juce::AudioSampleBuffer fileBuffer;
     juce::AudioSampleBuffer sourceBuffer;
     juce::AudioSampleBuffer targetBuffer;
+    juce::AudioSampleBuffer sourceBufferAligned;
+    juce::AudioSampleBuffer targetBufferAligned;
     juce::AudioSampleBuffer* pPlayBuffer;
     TransportInformation ti;
     void setTarget(TransportFileType ft)override;

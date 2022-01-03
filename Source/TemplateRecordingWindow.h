@@ -86,7 +86,7 @@ public:
 			
 			templateProjectingWindow->setContentOwned(new TemplateProjectingWindow(audioProcessor), true);
 			templateProjectingWindow->addToDesktop();
-			templateProjectingWindow->centreWithSize(600, 500);
+			templateProjectingWindow->centreWithSize(600, 750);
 			templateProjectingWindow->setVisible(true);
 		}
 	}

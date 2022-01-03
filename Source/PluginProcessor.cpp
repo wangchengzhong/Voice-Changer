@@ -229,17 +229,20 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
         if (!canReadSampleBuffer)
         {
             if (pPlayBuffer)
-                if (pPlayBuffer->getNumSamples())
+                if (pPlayBuffer->getNumChannels())
                     canReadSampleBuffer = true;
         }
         if (canReadSampleBuffer)
         {
-            if (shouldProcessFile)
+            if (pPlayBuffer->getNumChannels())
             {
-                getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
-                // transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
-                overallProcess(buffer);
-                return;
+                if (shouldProcessFile)
+                {
+                    getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+                    // transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+                    overallProcess(buffer);
+                    return;
+                }
             }
             else
                 spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));

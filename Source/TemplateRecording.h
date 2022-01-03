@@ -99,10 +99,6 @@ private:
 
 
 
-
-
-
-
 class RecordingThumbnail :public juce::Component,
 	private juce::ChangeListener
 {

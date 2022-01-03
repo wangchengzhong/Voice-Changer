@@ -10,10 +10,11 @@ public:
 		VoiceChanger_wczAudioProcessor& audioProcessor
 	):
 		thumbnailCache(5),
-		thumbnail(512,formatManager,thumbnailCache),
+		sourceThumbnail(512,formatManager,thumbnailCache),
+		targetThumbnail(512,formatManager,thumbnailCache),
 		audioProcessor(audioProcessor)
 	{
-		setSize(600, 500);
+		setSize(600, 750);
 		setOpaque(true);
 		addAndMakeVisible(&loadSourceButton);
 		loadSourceButton.onClick = [this] { openButtonClicked(Source); };
@@ -37,7 +38,8 @@ public:
 
 		formatManager.registerBasicFormats();
 		// transportSource.addChangeListener(this);
-		thumbnail.addChangeListener(this);
+		sourceThumbnail.addChangeListener(this);
+		targetThumbnail.addChangeListener(this);
 
 		startTimer(40);
 	}
@@ -54,35 +56,44 @@ public:
 	{
 		// if (source == &transportSource)
 			//transportSourceChanged();
-		if (source == &thumbnail)
+		if (source == &sourceThumbnail || source == &targetThumbnail)
 			thumbnailChanged();
 	}
 
 	void paint(juce::Graphics& g)override
 	{
 		g.fillAll(juce::Colours::black);
-		juce::Rectangle<int>thumbnailBounds(getLocalBounds().removeFromBottom(260).reduced(10));
-		if (thumbnail.getNumChannels() == 0)
-			paintIfNoFileLoaded(g, thumbnailBounds);
-		else
-			paintIfFileLoaded(g, thumbnailBounds);
+		auto area = getLocalBounds();
+		juce::Rectangle<int>targetThumbnailBounds(area.removeFromBottom(260).reduced(10));
+		juce::Rectangle<int>sourceThumbnailBounds(area.removeFromBottom(260).reduced(10));
+		if (sourceThumbnail.getNumChannels() == 0 || targetThumbnail.getNumChannels() == 0)
+			paintIfNoFileLoaded(g, sourceThumbnailBounds, targetThumbnailBounds);
+		if (sourceThumbnail.getNumChannels() != 0)
+		{
+			paintIfFileLoaded(g, sourceThumbnail, sourceThumbnailBounds);
+		}
+		if (targetThumbnail.getNumChannels() != 0)
+			paintIfFileLoaded(g, targetThumbnail, targetThumbnailBounds);
 	}
-	void paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
+	void paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& sourceThumbnailBounds,
+												const juce::Rectangle<int>& targetThumbnailBounds)
 	{
 		g.setColour(juce::Colours::darkgrey);
-		g.fillRect(thumbnailBounds);
+		g.fillRect(sourceThumbnailBounds);
+		g.fillRect(targetThumbnailBounds);
 		g.setColour(juce::Colours::white);
-		g.drawFittedText("NO FILE", thumbnailBounds, juce::Justification::centred, 1);
+		g.drawFittedText(juce::CharPointer_UTF8("\xe6\xb2\xa1\xe6\x9c\x89\xe5\x8e\x9f\xe5\xa3\xb0\xe9\x9f\xb3\xe5\x8a\xa0\xe8\xbd\xbd"), sourceThumbnailBounds, juce::Justification::centred, 1);
+		g.drawFittedText(juce::CharPointer_UTF8("\xe6\xb2\xa1\xe6\x9c\x89\xe7\x9b\xae\xe6\xa0\x87\xe5\xa3\xb0\xe9\x9f\xb3\xe5\x8a\xa0\xe8\xbd\xbd"), targetThumbnailBounds, juce::Justification::centred, 1);
 	}
-	void paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
+	void paintIfFileLoaded(juce::Graphics& g, juce::AudioThumbnail& thumbnail, const juce::Rectangle<int>& thumbnailBounds)
 	{
 		g.setColour(juce::Colours::white);
 		g.fillRect(thumbnailBounds);
 		
 		g.setColour(juce::Colours::red);
-
-		auto audioLength = (float)thumbnail.getTotalLength();
-		thumbnail.drawChannels(g, thumbnailBounds, 0.0, thumbnail.getTotalLength(), 1.0f);
+		
+		auto audioLength = (float)sourceThumbnail.getTotalLength();
+		sourceThumbnail.drawChannels(g, thumbnailBounds, 0.0, thumbnail.getTotalLength(), 1.0f);
 
 		g.setColour(juce::Colours::green);
 		//auto audioPosition = (float)transportSource.getCurrentPosition();
@@ -139,8 +150,11 @@ public:
 					auto newSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
 					// transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
 					playButton.setEnabled(true);
-					thumbnail.setSource(new juce::FileInputSource(file));
-					readerSource.reset(newSource.release());
+					if (newType == Source)
+						sourceThumbnail.setSource(new juce::FileInputSource(file));
+					else
+						targetThumbnail.setSource(new juce::FileInputSource(file));
+					// readerSource.reset(newSource.release());
 				}
 			}
 		}
@@ -161,11 +175,8 @@ public:
 	}
 	bool playing{ false };
 private:
-
-	// juce::TextButton openButton;
 	VoiceChanger_wczAudioProcessor& audioProcessor;
 
-	// juce::AudioSampleBuffer*& buffer;
 	juce::TextButton playButton;
 	juce::TextButton stopButton;
 
@@ -178,16 +189,10 @@ private:
 	std::unique_ptr<juce::FileChooser> chooser;
 
 	juce::AudioFormatManager formatManager;
-	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
-
-	//juce::AudioTransportSource transportSource;
-	//juce::AudioTransportSource transportTarget;
-
 
 	juce::AudioThumbnailCache thumbnailCache;
-	juce::AudioThumbnail thumbnail;
-
+	juce::AudioThumbnail sourceThumbnail;
+	juce::AudioThumbnail targetThumbnail;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TemplateProjectingWindow)
-
 };
