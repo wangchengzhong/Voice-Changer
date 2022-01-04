@@ -522,5 +522,6 @@ void VoiceChanger_wczAudioProcessorEditor::openTemplateWindowButtonClicked()
         templateRecordingWindow->addToDesktop();
         templateRecordingWindow->centreWithSize(600, 300);
         templateRecordingWindow->setVisible(true);
+        // templateRecordingWindow->setName(juce::CharPointer_UTF8("\xe6\xa8\xa1\xe6\x9d\xbf"));
     }
 }

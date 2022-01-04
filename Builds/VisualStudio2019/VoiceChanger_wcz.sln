@@ -1,4 +1,4 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
+﻿Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2019
 
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VoiceChanger_wcz - Standalone Plugin", "VoiceChanger_wcz_StandalonePlugin.vcxproj", "{C72117A5-68B6-CD77-F9C1-B30701FB4D56}"
