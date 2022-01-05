@@ -37,9 +37,6 @@ public:
 			}
 		}
 	}
-
-
-
 	void stop()
 	{
 		const juce::ScopedLock sl(writerLock);

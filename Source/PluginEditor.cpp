@@ -33,7 +33,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     //// = juce::String("VB-Audio VoiceMeeter VAIO");
     
 
-    Timer::startTimerHz(30);
+    Timer::startTimerHz(120);
     
     pPitchSlider.reset(new juce::Slider("PitchShiftSlider"));
     
@@ -248,6 +248,12 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     openTemplateWindowButton.setColour(juce::TextButton::buttonColourId, juce::Colours::cornflowerblue);
     openTemplateWindowButton.setEnabled(true);
     AudioProcessorEditor::addAndMakeVisible(&openTemplateWindowButton);
+
+    openCameraButton.setButtonText(juce::CharPointer_UTF8("\xe6\x89\x93\xe5\xbc\x80\xe6\x91\x84\xe5\x83\x8f\xe5\xa4\xb4"));
+    openCameraButton.onClick = [this] { openCameraButtonClicked(); };
+    openCameraButton.setColour(juce::TextButton::buttonColourId, juce::Colours::yellowgreen);
+    openCameraButton.setEnabled(true);
+    addAndMakeVisible(&openCameraButton);
     //recWindow = new TemplateRecordingWindow("TemplateRecording", juce::Colours::grey, juce::DocumentWindow::allButtons);
     //recWindow->setUsingNativeTitleBar(true);
     //recWindow->setSize(600, 600);
@@ -321,8 +327,8 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
     playFileButton.setBounds(570, 450, AudioProcessorEditor::getWidth() / 5, 40);
     stopPlayFileButton.setBounds(570, 520, AudioProcessorEditor::getWidth() / 5, 40);
     
-    openTemplateWindowButton.setBounds(800, 400, AudioProcessorEditor::getWidth() / 8, 150);
-
+    openTemplateWindowButton.setBounds(800, 390, AudioProcessorEditor::getWidth() / 8, 70);
+    openCameraButton.setBounds(800, 480, getWidth() / 8, 70);
     audioSetupComp.setBounds(545, 20, 400, 100);
     //playAudioFileComponent.setBounds(AudioProcessorEditor::getLocalBounds());
 
@@ -523,5 +529,21 @@ void VoiceChanger_wczAudioProcessorEditor::openTemplateWindowButtonClicked()
         templateRecordingWindow->centreWithSize(600, 300);
         templateRecordingWindow->setVisible(true);
         // templateRecordingWindow->setName(juce::CharPointer_UTF8("\xe6\xa8\xa1\xe6\x9d\xbf"));
+    }
+}
+
+void VoiceChanger_wczAudioProcessorEditor::openCameraButtonClicked()
+{
+    if (cameraWindow)
+    {
+        cameraWindow->broughtToFront();
+    }
+    else
+    {
+        cameraWindow = new NewWindow(juce::String("cameraWindow"), juce::Colours::darkslategrey, juce::DocumentWindow::allButtons);
+        cameraWindow->setContentOwned(new CameraWindow(), true);
+        cameraWindow->addToDesktop();
+        cameraWindow->centreWithSize(500, 500);
+        cameraWindow->setVisible(true);
     }
 }

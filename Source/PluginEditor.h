@@ -15,6 +15,7 @@
 #include"NewWindow.h"
 #include"PlayAudioFileComponent.h"
 #include"TransportInformation.h"
+#include"CameraWindow.h"
 //==============================================================================
 /**
 */
@@ -60,6 +61,7 @@ private:
     void playFileButtonClicked();
     void openFileButtonClicked();
     void openTemplateWindowButtonClicked();
+    void openCameraButtonClicked();
     // void singModeClicked();
 
 
@@ -100,6 +102,8 @@ private:
 
     juce::ToggleButton switchPitchMethodButton;
 
+    juce::TextButton openCameraButton;
+
     juce::AudioDeviceSelectorComponent audioSetupComp;
     int duration{ 300 };
    
@@ -111,6 +115,7 @@ private:
     // juce::AudioSampleBuffer*& pData{ audioProcessor.pPlayBuffer };
     // TemplateRecordingWindow* recWindow;
     juce::Component::SafePointer<juce::DocumentWindow> templateRecordingWindow;
+    juce::Component::SafePointer<juce::DocumentWindow> cameraWindow;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VoiceChanger_wczAudioProcessorEditor)
 };

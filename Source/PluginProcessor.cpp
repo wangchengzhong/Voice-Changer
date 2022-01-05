@@ -866,3 +866,11 @@ void VoiceChanger_wczAudioProcessor::setState(TransportState newState)
         break;
     }
 }
+void VoiceChanger_wczAudioProcessor::alignBuffer(juce::AudioSampleBuffer& s, juce::AudioSampleBuffer& t)
+{
+    if(s.getNumChannels()>=2)
+        if (s.getNumChannels() == t.getNumChannels())
+        {
+        
+        }
+}

@@ -64,7 +64,7 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format_types\VST3_SDK;D:\Steinberg SDK\VST_SDK;..\..\JuceLibraryCode;..\..\..\..\tools\tracktion_engine\modules\juce\modules;..\..\..\..\tools\tracktion_engine\modules;D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HTKLib;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMLib;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMTools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;JUCE_DISPLAY_SPLASH_SCREEN=1;JUCE_USE_DARK_SPLASH_SCREEN=1;JUCE_PROJUCER_VERSION=0x60102;JUCE_MODULE_AVAILABLE_juce_analytics=1;JUCE_MODULE_AVAILABLE_juce_audio_basics=1;JUCE_MODULE_AVAILABLE_juce_audio_devices=1;JUCE_MODULE_AVAILABLE_juce_audio_formats=1;JUCE_MODULE_AVAILABLE_juce_audio_plugin_client=1;JUCE_MODULE_AVAILABLE_juce_audio_processors=1;JUCE_MODULE_AVAILABLE_juce_audio_utils=1;JUCE_MODULE_AVAILABLE_juce_core=1;JUCE_MODULE_AVAILABLE_juce_data_structures=1;JUCE_MODULE_AVAILABLE_juce_dsp=1;JUCE_MODULE_AVAILABLE_juce_events=1;JUCE_MODULE_AVAILABLE_juce_graphics=1;JUCE_MODULE_AVAILABLE_juce_gui_basics=1;JUCE_MODULE_AVAILABLE_juce_gui_extra=1;JUCE_MODULE_AVAILABLE_juce_osc=1;JUCE_MODULE_AVAILABLE_tracktion_engine=1;JUCE_MODULE_AVAILABLE_tracktion_graph=1;JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1;JUCE_VST3_CAN_REPLACE_VST2=0;JUCE_STRICT_REFCOUNTEDPOINTER=1;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=1;JucePlugin_Build_Unity=0;JucePlugin_Enable_IAA=0;JucePlugin_Name=&quot;VoiceChanger_wcz&quot;;JucePlugin_Desc=&quot;VoiceChanger_wcz&quot;;JucePlugin_Manufacturer=&quot;yourcompany&quot;;JucePlugin_ManufacturerWebsite=&quot;&quot;;JucePlugin_ManufacturerEmail=&quot;&quot;;JucePlugin_ManufacturerCode=0x4d616e75;JucePlugin_PluginCode=0x46616937;JucePlugin_IsSynth=0;JucePlugin_WantsMidiInput=0;JucePlugin_ProducesMidiOutput=0;JucePlugin_IsMidiEffect=0;JucePlugin_EditorRequiresKeyboardFocus=0;JucePlugin_Version=1.0.0;JucePlugin_VersionCode=0x10000;JucePlugin_VersionString=&quot;1.0.0&quot;;JucePlugin_VSTUniqueID=JucePlugin_PluginCode;JucePlugin_VSTCategory=kPlugCategEffect;JucePlugin_Vst3Category=&quot;Fx&quot;;JucePlugin_AUMainType='aufx';JucePlugin_AUSubType=JucePlugin_PluginCode;JucePlugin_AUExportPrefix=VoiceChanger_wczAU;JucePlugin_AUExportPrefixQuoted=&quot;VoiceChanger_wczAU&quot;;JucePlugin_AUManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_CFBundleIdentifier=com.yourcompany.VoiceChanger_wcz;JucePlugin_RTASCategory=0;JucePlugin_RTASManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_RTASProductId=JucePlugin_PluginCode;JucePlugin_RTASDisableBypass=0;JucePlugin_RTASDisableMultiMono=0;JucePlugin_AAXIdentifier=com.yourcompany.VoiceChanger_wcz;JucePlugin_AAXManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_AAXProductId=JucePlugin_PluginCode;JucePlugin_AAXCategory=0;JucePlugin_AAXDisableBypass=0;JucePlugin_AAXDisableMultiMono=0;JucePlugin_IAAType=0x61757278;JucePlugin_IAASubType=JucePlugin_PluginCode;JucePlugin_IAAName=&quot;yourcompany: VoiceChanger_wcz&quot;;JucePlugin_VSTNumMidiInputs=16;JucePlugin_VSTNumMidiOutputs=16;JUCE_STANDALONE_APPLICATION=JucePlugin_Build_Standalone;NOMINMAX;_USE_MATH_DEFINES;HAVE_KISSFFT;USE_SPEEX;JUCE_MODAL_LOOPS_PERMITTED=1;JUCER_VS2019_78A5026=1;JUCE_APP_VERSION=1.0.0;JUCE_APP_VERSION_HEX=0x10000;JUCE_SHARED_CODE=1;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;JUCE_DISPLAY_SPLASH_SCREEN=1;JUCE_USE_DARK_SPLASH_SCREEN=1;JUCE_PROJUCER_VERSION=0x60102;JUCE_MODULE_AVAILABLE_juce_analytics=1;JUCE_MODULE_AVAILABLE_juce_audio_basics=1;JUCE_MODULE_AVAILABLE_juce_audio_devices=1;JUCE_MODULE_AVAILABLE_juce_audio_formats=1;JUCE_MODULE_AVAILABLE_juce_audio_plugin_client=1;JUCE_MODULE_AVAILABLE_juce_audio_processors=1;JUCE_MODULE_AVAILABLE_juce_audio_utils=1;JUCE_MODULE_AVAILABLE_juce_box2d=1;JUCE_MODULE_AVAILABLE_juce_core=1;JUCE_MODULE_AVAILABLE_juce_data_structures=1;JUCE_MODULE_AVAILABLE_juce_dsp=1;JUCE_MODULE_AVAILABLE_juce_events=1;JUCE_MODULE_AVAILABLE_juce_graphics=1;JUCE_MODULE_AVAILABLE_juce_gui_basics=1;JUCE_MODULE_AVAILABLE_juce_gui_extra=1;JUCE_MODULE_AVAILABLE_juce_opengl=1;JUCE_MODULE_AVAILABLE_juce_osc=1;JUCE_MODULE_AVAILABLE_juce_video=1;JUCE_MODULE_AVAILABLE_tracktion_engine=1;JUCE_MODULE_AVAILABLE_tracktion_graph=1;JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1;JUCE_VST3_CAN_REPLACE_VST2=0;JUCE_STRICT_REFCOUNTEDPOINTER=1;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=1;JucePlugin_Build_Unity=0;JucePlugin_Enable_IAA=0;JucePlugin_Name=&quot;VoiceChanger_wcz&quot;;JucePlugin_Desc=&quot;VoiceChanger_wcz&quot;;JucePlugin_Manufacturer=&quot;yourcompany&quot;;JucePlugin_ManufacturerWebsite=&quot;&quot;;JucePlugin_ManufacturerEmail=&quot;&quot;;JucePlugin_ManufacturerCode=0x4d616e75;JucePlugin_PluginCode=0x46616937;JucePlugin_IsSynth=0;JucePlugin_WantsMidiInput=0;JucePlugin_ProducesMidiOutput=0;JucePlugin_IsMidiEffect=0;JucePlugin_EditorRequiresKeyboardFocus=0;JucePlugin_Version=1.0.0;JucePlugin_VersionCode=0x10000;JucePlugin_VersionString=&quot;1.0.0&quot;;JucePlugin_VSTUniqueID=JucePlugin_PluginCode;JucePlugin_VSTCategory=kPlugCategEffect;JucePlugin_Vst3Category=&quot;Fx&quot;;JucePlugin_AUMainType='aufx';JucePlugin_AUSubType=JucePlugin_PluginCode;JucePlugin_AUExportPrefix=VoiceChanger_wczAU;JucePlugin_AUExportPrefixQuoted=&quot;VoiceChanger_wczAU&quot;;JucePlugin_AUManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_CFBundleIdentifier=com.yourcompany.VoiceChanger_wcz;JucePlugin_RTASCategory=0;JucePlugin_RTASManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_RTASProductId=JucePlugin_PluginCode;JucePlugin_RTASDisableBypass=0;JucePlugin_RTASDisableMultiMono=0;JucePlugin_AAXIdentifier=com.yourcompany.VoiceChanger_wcz;JucePlugin_AAXManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_AAXProductId=JucePlugin_PluginCode;JucePlugin_AAXCategory=0;JucePlugin_AAXDisableBypass=0;JucePlugin_AAXDisableMultiMono=0;JucePlugin_IAAType=0x61757278;JucePlugin_IAASubType=JucePlugin_PluginCode;JucePlugin_IAAName=&quot;yourcompany: VoiceChanger_wcz&quot;;JucePlugin_VSTNumMidiInputs=16;JucePlugin_VSTNumMidiOutputs=16;JUCE_STANDALONE_APPLICATION=JucePlugin_Build_Standalone;NOMINMAX;_USE_MATH_DEFINES;HAVE_KISSFFT;USE_SPEEX;JUCE_MODAL_LOOPS_PERMITTED=1;JUCE_USE_CAMERA;JUCER_VS2019_78A5026=1;JUCE_APP_VERSION=1.0.0;JUCE_APP_VERSION_HEX=0x10000;JUCE_SHARED_CODE=1;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -104,7 +104,7 @@
     <ClCompile>
       <Optimization>Full</Optimization>
       <AdditionalIncludeDirectories>..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format_types\VST3_SDK;D:\Steinberg SDK\VST_SDK;..\..\JuceLibraryCode;..\..\..\..\tools\tracktion_engine\modules\juce\modules;..\..\..\..\tools\tracktion_engine\modules;D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source;D:\1a\voice_changer@wcz\VoiceChanger@wcz\world;D:\1a\voice_changer@wcz\VoiceChanger@wcz\world\world;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;JUCE_DISPLAY_SPLASH_SCREEN=1;JUCE_USE_DARK_SPLASH_SCREEN=1;JUCE_PROJUCER_VERSION=0x60102;JUCE_MODULE_AVAILABLE_juce_analytics=1;JUCE_MODULE_AVAILABLE_juce_audio_basics=1;JUCE_MODULE_AVAILABLE_juce_audio_devices=1;JUCE_MODULE_AVAILABLE_juce_audio_formats=1;JUCE_MODULE_AVAILABLE_juce_audio_plugin_client=1;JUCE_MODULE_AVAILABLE_juce_audio_processors=1;JUCE_MODULE_AVAILABLE_juce_audio_utils=1;JUCE_MODULE_AVAILABLE_juce_core=1;JUCE_MODULE_AVAILABLE_juce_data_structures=1;JUCE_MODULE_AVAILABLE_juce_dsp=1;JUCE_MODULE_AVAILABLE_juce_events=1;JUCE_MODULE_AVAILABLE_juce_graphics=1;JUCE_MODULE_AVAILABLE_juce_gui_basics=1;JUCE_MODULE_AVAILABLE_juce_gui_extra=1;JUCE_MODULE_AVAILABLE_juce_osc=1;JUCE_MODULE_AVAILABLE_tracktion_engine=1;JUCE_MODULE_AVAILABLE_tracktion_graph=1;JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1;JUCE_VST3_CAN_REPLACE_VST2=0;JUCE_STRICT_REFCOUNTEDPOINTER=1;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=1;JucePlugin_Build_Unity=0;JucePlugin_Enable_IAA=0;JucePlugin_Name=&quot;VoiceChanger_wcz&quot;;JucePlugin_Desc=&quot;VoiceChanger_wcz&quot;;JucePlugin_Manufacturer=&quot;yourcompany&quot;;JucePlugin_ManufacturerWebsite=&quot;&quot;;JucePlugin_ManufacturerEmail=&quot;&quot;;JucePlugin_ManufacturerCode=0x4d616e75;JucePlugin_PluginCode=0x46616937;JucePlugin_IsSynth=0;JucePlugin_WantsMidiInput=0;JucePlugin_ProducesMidiOutput=0;JucePlugin_IsMidiEffect=0;JucePlugin_EditorRequiresKeyboardFocus=0;JucePlugin_Version=1.0.0;JucePlugin_VersionCode=0x10000;JucePlugin_VersionString=&quot;1.0.0&quot;;JucePlugin_VSTUniqueID=JucePlugin_PluginCode;JucePlugin_VSTCategory=kPlugCategEffect;JucePlugin_Vst3Category=&quot;Fx&quot;;JucePlugin_AUMainType='aufx';JucePlugin_AUSubType=JucePlugin_PluginCode;JucePlugin_AUExportPrefix=VoiceChanger_wczAU;JucePlugin_AUExportPrefixQuoted=&quot;VoiceChanger_wczAU&quot;;JucePlugin_AUManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_CFBundleIdentifier=com.yourcompany.VoiceChanger_wcz;JucePlugin_RTASCategory=0;JucePlugin_RTASManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_RTASProductId=JucePlugin_PluginCode;JucePlugin_RTASDisableBypass=0;JucePlugin_RTASDisableMultiMono=0;JucePlugin_AAXIdentifier=com.yourcompany.VoiceChanger_wcz;JucePlugin_AAXManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_AAXProductId=JucePlugin_PluginCode;JucePlugin_AAXCategory=0;JucePlugin_AAXDisableBypass=0;JucePlugin_AAXDisableMultiMono=0;JucePlugin_IAAType=0x61757278;JucePlugin_IAASubType=JucePlugin_PluginCode;JucePlugin_IAAName=&quot;yourcompany: VoiceChanger_wcz&quot;;JucePlugin_VSTNumMidiInputs=16;JucePlugin_VSTNumMidiOutputs=16;JUCE_STANDALONE_APPLICATION=JucePlugin_Build_Standalone;NOMINMAX;_USE_MATH_DEFINES;HAVE_KISSFFT;USE_SPEEX;JUCER_VS2019_78A5026=1;JUCE_APP_VERSION=1.0.0;JUCE_APP_VERSION_HEX=0x10000;JUCE_SHARED_CODE=1;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;JUCE_DISPLAY_SPLASH_SCREEN=1;JUCE_USE_DARK_SPLASH_SCREEN=1;JUCE_PROJUCER_VERSION=0x60102;JUCE_MODULE_AVAILABLE_juce_analytics=1;JUCE_MODULE_AVAILABLE_juce_audio_basics=1;JUCE_MODULE_AVAILABLE_juce_audio_devices=1;JUCE_MODULE_AVAILABLE_juce_audio_formats=1;JUCE_MODULE_AVAILABLE_juce_audio_plugin_client=1;JUCE_MODULE_AVAILABLE_juce_audio_processors=1;JUCE_MODULE_AVAILABLE_juce_audio_utils=1;JUCE_MODULE_AVAILABLE_juce_box2d=1;JUCE_MODULE_AVAILABLE_juce_core=1;JUCE_MODULE_AVAILABLE_juce_data_structures=1;JUCE_MODULE_AVAILABLE_juce_dsp=1;JUCE_MODULE_AVAILABLE_juce_events=1;JUCE_MODULE_AVAILABLE_juce_graphics=1;JUCE_MODULE_AVAILABLE_juce_gui_basics=1;JUCE_MODULE_AVAILABLE_juce_gui_extra=1;JUCE_MODULE_AVAILABLE_juce_opengl=1;JUCE_MODULE_AVAILABLE_juce_osc=1;JUCE_MODULE_AVAILABLE_juce_video=1;JUCE_MODULE_AVAILABLE_tracktion_engine=1;JUCE_MODULE_AVAILABLE_tracktion_graph=1;JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1;JUCE_VST3_CAN_REPLACE_VST2=0;JUCE_STRICT_REFCOUNTEDPOINTER=1;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=1;JucePlugin_Build_Unity=0;JucePlugin_Enable_IAA=0;JucePlugin_Name=&quot;VoiceChanger_wcz&quot;;JucePlugin_Desc=&quot;VoiceChanger_wcz&quot;;JucePlugin_Manufacturer=&quot;yourcompany&quot;;JucePlugin_ManufacturerWebsite=&quot;&quot;;JucePlugin_ManufacturerEmail=&quot;&quot;;JucePlugin_ManufacturerCode=0x4d616e75;JucePlugin_PluginCode=0x46616937;JucePlugin_IsSynth=0;JucePlugin_WantsMidiInput=0;JucePlugin_ProducesMidiOutput=0;JucePlugin_IsMidiEffect=0;JucePlugin_EditorRequiresKeyboardFocus=0;JucePlugin_Version=1.0.0;JucePlugin_VersionCode=0x10000;JucePlugin_VersionString=&quot;1.0.0&quot;;JucePlugin_VSTUniqueID=JucePlugin_PluginCode;JucePlugin_VSTCategory=kPlugCategEffect;JucePlugin_Vst3Category=&quot;Fx&quot;;JucePlugin_AUMainType='aufx';JucePlugin_AUSubType=JucePlugin_PluginCode;JucePlugin_AUExportPrefix=VoiceChanger_wczAU;JucePlugin_AUExportPrefixQuoted=&quot;VoiceChanger_wczAU&quot;;JucePlugin_AUManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_CFBundleIdentifier=com.yourcompany.VoiceChanger_wcz;JucePlugin_RTASCategory=0;JucePlugin_RTASManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_RTASProductId=JucePlugin_PluginCode;JucePlugin_RTASDisableBypass=0;JucePlugin_RTASDisableMultiMono=0;JucePlugin_AAXIdentifier=com.yourcompany.VoiceChanger_wcz;JucePlugin_AAXManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_AAXProductId=JucePlugin_PluginCode;JucePlugin_AAXCategory=0;JucePlugin_AAXDisableBypass=0;JucePlugin_AAXDisableMultiMono=0;JucePlugin_IAAType=0x61757278;JucePlugin_IAASubType=JucePlugin_PluginCode;JucePlugin_IAAName=&quot;yourcompany: VoiceChanger_wcz&quot;;JucePlugin_VSTNumMidiInputs=16;JucePlugin_VSTNumMidiOutputs=16;JUCE_STANDALONE_APPLICATION=JucePlugin_Build_Standalone;NOMINMAX;_USE_MATH_DEFINES;HAVE_KISSFFT;USE_SPEEX;JUCE_MODAL_LOOPS_PERMITTED=1;JUCE_USE_CAMERA;JUCER_VS2019_78A5026=1;JUCE_APP_VERSION=1.0.0;JUCE_APP_VERSION_HEX=0x10000;JUCE_SHARED_CODE=1;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -928,6 +928,147 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\juce_audio_utils.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\Shapes\b2ChainShape.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\Shapes\b2CircleShape.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\Shapes\b2EdgeShape.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\Shapes\b2PolygonShape.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\b2BroadPhase.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\b2CollideCircle.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\b2CollideEdge.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\b2CollidePolygon.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\b2Collision.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\b2Distance.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\b2DynamicTree.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\b2TimeOfImpact.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Common\b2BlockAllocator.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Common\b2Draw.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Common\b2Math.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Common\b2Settings.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Common\b2StackAllocator.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Common\b2Timer.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2ChainAndCircleContact.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2ChainAndPolygonContact.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2CircleContact.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2Contact.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2ContactSolver.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2EdgeAndCircleContact.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2PolygonAndCircleContact.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2PolygonContact.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2DistanceJoint.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2FrictionJoint.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2GearJoint.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2Joint.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2MouseJoint.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2PrismaticJoint.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2PulleyJoint.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2RevoluteJoint.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2RopeJoint.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2WeldJoint.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2WheelJoint.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\b2Body.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\b2ContactManager.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\b2Fixture.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\b2Island.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\b2World.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\b2WorldCallbacks.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Rope\b2Rope.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\utils\juce_Box2DRenderer.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\juce_box2d.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\containers\juce_AbstractFifo.cpp">
@@ -2247,6 +2388,42 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\juce_gui_extra.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_gl.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_gles2.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLContext.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLFrameBuffer.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLGraphicsContext.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLHelpers.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLImage.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLPixelFormat.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLShaderProgram.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLTexture.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\utils\juce_OpenGLAppComponent.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\juce_opengl.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_osc\osc\juce_OSCAddress.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -2272,6 +2449,15 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_osc\juce_osc.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\capture\juce_CameraDevice.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\playback\juce_VideoComponent.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\juce_video.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\airwindows\Acceleration\Acceleration.cpp">
@@ -4274,6 +4460,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_plugin_client_utils.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_processors.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_utils.cpp"/>
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_box2d.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_core.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_data_structures.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_dsp.cpp"/>
@@ -4283,7 +4470,9 @@
       <AdditionalOptions> /bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_opengl.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_osc.cpp"/>
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_video.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\include_tracktion_engine_airwindows.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\include_tracktion_engine_audio_files.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\include_tracktion_engine_model_1.cpp"/>
@@ -4330,6 +4519,7 @@
     <ClInclude Include="..\..\Source\AutoCorr.h"/>
     <ClInclude Include="..\..\Source\BlockCircularBuffer.h"/>
     <ClInclude Include="..\..\Source\CircularBuffer.h"/>
+    <ClInclude Include="..\..\Source\CameraWindow.h"/>
     <ClInclude Include="..\..\Source\ManVoiceExtract.h"/>
     <ClInclude Include="..\..\Source\ManVoiceFilter.h"/>
     <ClInclude Include="..\..\Source\PeakShifter.h"/>
@@ -4752,6 +4942,54 @@
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\players\juce_AudioProcessorPlayer.h"/>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\players\juce_SoundPlayer.h"/>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\juce_audio_utils.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\Shapes\b2ChainShape.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\Shapes\b2CircleShape.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\Shapes\b2EdgeShape.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\Shapes\b2PolygonShape.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\Shapes\b2Shape.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\b2BroadPhase.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\b2Collision.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\b2Distance.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\b2DynamicTree.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\b2TimeOfImpact.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Common\b2BlockAllocator.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Common\b2Draw.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Common\b2GrowableStack.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Common\b2Math.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Common\b2Settings.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Common\b2StackAllocator.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Common\b2Timer.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2ChainAndCircleContact.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2ChainAndPolygonContact.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2CircleContact.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2Contact.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2ContactSolver.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2EdgeAndCircleContact.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2EdgeAndPolygonContact.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2PolygonAndCircleContact.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Contacts\b2PolygonContact.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2DistanceJoint.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2FrictionJoint.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2GearJoint.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2Joint.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2MouseJoint.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2PrismaticJoint.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2PulleyJoint.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2RevoluteJoint.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2RopeJoint.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2WeldJoint.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\Joints\b2WheelJoint.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\b2Body.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\b2ContactManager.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\b2Fixture.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\b2Island.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\b2TimeStep.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\b2World.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Dynamics\b2WorldCallbacks.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Rope\b2Rope.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Box2D.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\utils\juce_Box2DRenderer.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\juce_box2d.h"/>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\containers\juce_AbstractFifo.h"/>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\containers\juce_Array.h"/>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\containers\juce_ArrayAllocationBase.h"/>
@@ -5237,6 +5475,31 @@
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\misc\juce_WebBrowserComponent.h"/>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_mac_CarbonViewWrapperComponent.h"/>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\juce_gui_extra.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\geometry\juce_Draggable3DOrientation.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\geometry\juce_Matrix3D.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\geometry\juce_Quaternion.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\geometry\juce_Vector3D.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\native\juce_OpenGL_android.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\native\juce_OpenGL_ios.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\native\juce_OpenGL_linux_X11.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\native\juce_OpenGL_osx.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\native\juce_OpenGL_win32.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\native\juce_OpenGLExtensions.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_gl.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_gles2.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_khrplatform.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLContext.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLFrameBuffer.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLGraphicsContext.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLHelpers.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLImage.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLPixelFormat.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLRenderer.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLShaderProgram.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_OpenGLTexture.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_wgl.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\utils\juce_OpenGLAppComponent.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\juce_opengl.h"/>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_osc\osc\juce_OSCAddress.h"/>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_osc\osc\juce_OSCArgument.h"/>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_osc\osc\juce_OSCBundle.h"/>
@@ -5246,6 +5509,16 @@
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_osc\osc\juce_OSCTimeTag.h"/>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_osc\osc\juce_OSCTypes.h"/>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_osc\juce_osc.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\capture\juce_CameraDevice.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\native\juce_android_CameraDevice.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\native\juce_android_Video.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\native\juce_ios_CameraDevice.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\native\juce_mac_CameraDevice.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\native\juce_mac_Video.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\native\juce_win32_CameraDevice.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\native\juce_win32_Video.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\playback\juce_VideoComponent.h"/>
+    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\juce_video.h"/>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\airwindows\Acceleration\Acceleration.h"/>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\airwindows\ADClip7\ADClip7.h"/>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\airwindows\ADT\ADT.h"/>
@@ -5807,6 +6080,7 @@
     <None Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format_types\VST3_SDK\JUCE_README.md"/>
     <None Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format_types\VST3_SDK\LICENSE.txt"/>
     <None Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format_types\VST3_SDK\README.md"/>
+    <None Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\README.txt"/>
     <None Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\native\java\README.txt"/>
     <None Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\image_formats\jpglib\changes to libjpeg for JUCE.txt"/>
     <None Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\image_formats\pnglib\libpng_readme.txt"/>

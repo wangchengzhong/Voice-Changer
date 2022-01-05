@@ -178,6 +178,7 @@ public:
     // int readFilePosition;
     bool shouldProcessFile{ false };
     bool canReadSampleBuffer{ false };
+    void alignBuffer(juce::AudioSampleBuffer& s, juce::AudioSampleBuffer& t);
 private:
     juce::AudioParameterFloat* nFilterQFactor;
     juce::AudioParameterFloat* nFilterFreq;
