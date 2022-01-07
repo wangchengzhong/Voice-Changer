@@ -115,7 +115,6 @@ private:
 				{
 					if (granted)
 						safeThis->startRecording();
-
 				}
 			);
 			return;

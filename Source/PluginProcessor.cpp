@@ -25,7 +25,22 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
     // , bandpassFilter(juce::dsp::IIR::Coefficients<float>::makeBandPass(22050, 5000.0f, 0.1))
 
 #endif
+
+
+    , parameters(*this, nullptr, "LevelMeter", juce::AudioProcessorValueTreeState::ParameterLayout{
+            std::make_unique<juce::AudioParameterFloat>("left","Left",-60.f,12.f,0.f),
+            std::make_unique<juce::AudioParameterFloat>("right","Right",-60.f,12.f,0.f),
+            std::make_unique<juce::AudioParameterInt>("rmsPeriod","Period",1,500,50),
+            std::make_unique<juce::AudioParameterBool>("smooth","Enable Smoothing",true)
+        })
 {
+
+    parameters.addParameterListener("left", this);
+    parameters.addParameterListener("right", this);
+    parameters.addParameterListener("rmsPeriod", this);
+    parameters.addParameterListener("smoothing", this);
+
+
     formatManager.registerBasicFormats();
     addParameter(nPitchShift = new juce::AudioParameterFloat("PitchShift", "pitchShift", -12.0f, 12.0f, 0.0f));
     addParameter(nPeakShift = new juce::AudioParameterFloat("PeakShift", "peakShift", 0.5f, 2.0f, 1.f));
@@ -48,6 +63,10 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
 
 VoiceChanger_wczAudioProcessor::~VoiceChanger_wczAudioProcessor()
 {
+    parameters.removeParameterListener("left", this);
+    parameters.removeParameterListener("right", this);
+    parameters.removeParameterListener("rmsPeriod", this);
+    parameters.removeParameterListener("smoothing", this);
 }
 
 //==============================================================================
@@ -115,6 +134,29 @@ void VoiceChanger_wczAudioProcessor::changeProgramName (int index, const juce::S
 //==============================================================================
 void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    const auto numberOfChannels = getTotalNumInputChannels();
+    rmsLevels.clear();
+    for (auto i = 0; i < numberOfChannels; i++)
+    {
+        juce::LinearSmoothedValue<float> rms{ -100.0f };
+        rms.reset(sampleRate, 0.5);
+        rmsLevels.emplace_back(std::move(rms));
+    }
+    rmsFifo.reset(numberOfChannels, static_cast<int>(sampleRate) + 1);
+    rmsCalculationBuffer.clear();
+    rmsCalculationBuffer.setSize(numberOfChannels, static_cast<int>(sampleRate + 1));
+
+    gainLeft.reset(sampleRate, 0.2);;
+    gainLeft.setCurrentAndTargetValue(juce::Decibels::decibelsToGain(parameters.getRawParameterValue("left")->load()));
+
+    gainRight.reset(sampleRate, 0.2);
+    gainRight.setCurrentAndTargetValue(juce::Decibels::decibelsToGain(parameters.getRawParameterValue("right")->load()));
+
+    rmsWindowSize = static_cast<int>(sampleRate * parameters.getRawParameterValue("rmsPeriod")->load()) / 1000;
+    isSmoothed = false; static_cast<bool>(parameters.getRawParameterValue("smooth")->load());
+
+
+
     transportSource.prepareToPlay(samplesPerBlock, sampleRate);
 #if USE_3rdPARTYPITCHSHIFT
 #if USE_RUBBERBAND
@@ -220,8 +262,12 @@ bool VoiceChanger_wczAudioProcessor::isBusesLayoutSupported (const BusesLayout& 
 
 void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
+
     if (realtimeMode)
+    {
         overallProcess(buffer);
+        processLevelInfo(buffer);
+    }
     else
     {
         buffer.clear();
@@ -350,6 +396,75 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
     
 }
 
+
+void VoiceChanger_wczAudioProcessor::processLevelInfo(juce::AudioBuffer<float>& buffer)
+{
+    const auto numSamples = buffer.getNumSamples();
+    {
+        const auto startGain = gainLeft.getCurrentValue();
+        gainLeft.skip(numSamples);
+
+        const auto endGain = gainLeft.getCurrentValue();
+        buffer.applyGainRamp(0, 0, numSamples, startGain, endGain);
+    }
+    {
+        const auto startGain = gainRight.getCurrentValue();
+        gainRight.skip(numSamples);
+        const auto endGain = gainRight.getCurrentValue();
+        buffer.applyGainRamp(1, 0, numSamples, startGain, endGain);
+    }
+    for (auto& rmsLevel : rmsLevels)
+        rmsLevel.skip(numSamples);
+    rmsFifo.push(buffer);
+
+}
+void VoiceChanger_wczAudioProcessor::parameterChanged(const juce::String& parameterID, float newValue)
+{
+    if (parameterID.equalsIgnoreCase("left"))
+        gainLeft.setTargetValue(juce::Decibels::decibelsToGain(newValue));
+    if (parameterID.equalsIgnoreCase("right"))
+    {
+        gainRight.setTargetValue(juce::Decibels::decibelsToGain(newValue));
+    }
+    if (parameterID.equalsIgnoreCase("rmsPeriod"))
+    {
+        rmsWindowSize = static_cast<int>(getSampleRate() * newValue) / 1000;
+
+    }
+    if (parameterID.equalsIgnoreCase("smoothing"))
+    {
+        isSmoothed = static_cast<bool>(newValue);
+    }
+}
+std::vector<float> VoiceChanger_wczAudioProcessor::getRmsLevels()
+{
+    rmsFifo.pull(rmsCalculationBuffer, rmsWindowSize);
+    std::vector<float>levels;
+    for (auto channel = 0; channel < rmsCalculationBuffer.getNumChannels(); channel++)
+    {
+        processLevelValue(rmsLevels[channel], juce::Decibels::gainToDecibels(rmsCalculationBuffer.getRMSLevel(channel, 0, rmsWindowSize)));
+        levels.push_back(rmsLevels[channel].getCurrentValue());
+    }
+    return levels;
+}
+float VoiceChanger_wczAudioProcessor::getRmsLevel(const int channel)
+{
+    rmsFifo.pull(rmsCalculationBuffer.getWritePointer(channel), channel, rmsWindowSize);
+    processLevelValue(rmsLevels[channel], juce::Decibels::gainToDecibels(rmsCalculationBuffer.getRMSLevel(channel, 0, rmsWindowSize)));
+    return rmsLevels[channel].getCurrentValue();
+}
+void VoiceChanger_wczAudioProcessor::processLevelValue(juce::LinearSmoothedValue<float>& smoothedValue, const float value)const
+{
+    if (isSmoothed)
+    {
+        if (value < smoothedValue.getCurrentValue())
+        {
+            smoothedValue.setTargetValue(value);
+            return;
+        }
+    }
+    smoothedValue.setCurrentAndTargetValue(value);
+}
 //==============================================================================
 bool VoiceChanger_wczAudioProcessor::hasEditor() const
 {

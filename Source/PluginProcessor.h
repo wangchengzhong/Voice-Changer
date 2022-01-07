@@ -35,12 +35,13 @@
 #include"PitchShifterRubberband.h"
 #include"PitchShifterSoundTouch.h"
 #include"TransportInformation.h"
-
+#include"FIFO.h"
 //==============================================================================
 /**
 */
 class VoiceChanger_wczAudioProcessor : public juce::AudioProcessor//,public juce::AudioAppComponent//,public Filter
     ,public TransportInformation
+    ,public juce::AudioProcessorValueTreeState::Listener
 {
 public:
     //==============================================================================
@@ -274,6 +275,23 @@ private:
 #endif
 #endif
 
+    juce::AudioProcessorValueTreeState parameters;
+    juce::LinearSmoothedValue<float> gainLeft, gainRight;
+
+    std::vector<juce::LinearSmoothedValue<float>>rmsLevels;
+    Utility::Fifo rmsFifo;
+    juce::AudioBuffer<float>rmsCalculationBuffer;
+
+    int rmsWindowSize = 50;
+
+    int isSmoothed = true;
+public:
+    void parameterChanged(const juce::String& parameterID, float newValue) override;
+    juce::AudioProcessorValueTreeState& getApvts() { return parameters; }
+    std::vector<float>getRmsLevels();
+    float getRmsLevel(const int level);
+    void processLevelValue(juce::LinearSmoothedValue<float>&, const float value)const;
+    void processLevelInfo(juce::AudioBuffer<float>& buffer);
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VoiceChanger_wczAudioProcessor)
 };

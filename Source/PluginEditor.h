@@ -16,6 +16,8 @@
 #include"PlayAudioFileComponent.h"
 #include"TransportInformation.h"
 #include"CameraWindow.h"
+#include"CircularMeter.h"
+#include"HorizontalMeter.h"
 //==============================================================================
 /**
 */
@@ -117,5 +119,10 @@ private:
     juce::Component::SafePointer<juce::DocumentWindow> templateRecordingWindow;
     juce::Component::SafePointer<juce::DocumentWindow> cameraWindow;
 
+    Gui::CicularMeter circularMeterL, circularMeterR;
+    Gui::HorizontalMeter horizontalMeterL, horizontalMeterR;
+    int framesElapsed = 0;
+    float maxRmsLeft{}, maxRmsRight{};
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VoiceChanger_wczAudioProcessorEditor)
 };

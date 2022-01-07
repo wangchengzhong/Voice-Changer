@@ -12,7 +12,13 @@
 VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(VoiceChanger_wczAudioProcessor& p)
     : AudioProcessorEditor(&p), audioProcessor(p)
     , audioSetupComp(juce::StandalonePluginHolder::getInstance()->deviceManager,0,4,0,4,false,false,false,false)
+    , circularMeterL([&]() { return audioProcessor.getRmsLevel(0); },juce::Colours::violet)
+    , circularMeterR([&]() { return audioProcessor.getRmsLevel(1); },juce::Colours::cyan)
 {
+    addAndMakeVisible(circularMeterL);
+    addAndMakeVisible(circularMeterR);
+    addAndMakeVisible(horizontalMeterL);
+    addAndMakeVisible(horizontalMeterR);
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     
@@ -24,7 +30,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     anotherSetup.outputDeviceName = juce::CharPointer_UTF8("\xe8\x80\xb3\xe6\x9c\xba (AirPods)");
     anotherSetup.sampleRate = 44100;
     audioSetupComp.deviceManager.setAudioDeviceSetup(anotherSetup, false);
-    AudioProcessorEditor::setSize(950, 600);
+    AudioProcessorEditor::setSize(1400, 600);
     // addAndMakeVisible(bkg);
     // addAndMakeVisible(playAudioFileComponent);
     AudioProcessorEditor::addAndMakeVisible(audioSetupComp);
@@ -33,7 +39,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     //// = juce::String("VB-Audio VoiceMeeter VAIO");
     
 
-    Timer::startTimerHz(120);
+    Timer::startTimerHz(30);
     
     pPitchSlider.reset(new juce::Slider("PitchShiftSlider"));
     
@@ -269,11 +275,13 @@ VoiceChanger_wczAudioProcessorEditor::~VoiceChanger_wczAudioProcessorEditor()
 {
     if (templateRecordingWindow)
         delete[] templateRecordingWindow;
+    stopTimer();
 }
 
 //==============================================================================
 void VoiceChanger_wczAudioProcessorEditor::paint (juce::Graphics& g)
 {
+    g.setGradientFill(juce::ColourGradient{ juce::Colours::darkgrey,getLocalBounds().toFloat().getCentre(), juce::Colours::darkgrey.darker(0.7f), {}, true });
     pPitchSlider.get()->setValue(audioProcessor.getPitchShift());
     pPeakSlider.get()->setValue(audioProcessor.getPeakShift());
 #if _OPEN_FILTERS
@@ -286,11 +294,15 @@ void VoiceChanger_wczAudioProcessorEditor::paint (juce::Graphics& g)
     // pPlayPositionSlider.get()->setValue(audioProcessor.nPlayAudioFilePosition / audioProcessor.nPlayAudioFileSampleNum);
 #endif
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (AudioProcessorEditor::getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+    //g.fillAll (AudioProcessorEditor::getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     //g.fillAll(juce::Colours::darkslategrey);
+    
     int x = 12, y = 12, width = 512, height = 256;
 
     g.drawImage(audioProcessor.getSpectrumView(), x, y, width, height, 0, 0, width, height);
+
+    g.setColour(juce::Colours::black);
+    g.fillEllipse(circularMeterL.getBounds().toFloat());
     // readFilePosition = audioProcessor.nPlayAudioFileSampleNum == 0 ? 0 : audioProcessor.nPlayAudioFilePosition / audioProcessor.nPlayAudioFileSampleNum;
     // pPlayPositionSlider.get()->setValue(readFilePosition);
 }
@@ -306,32 +318,47 @@ bool operator!=(const TransportInformation A, const TransportInformation B)
 }
 void VoiceChanger_wczAudioProcessorEditor::timerCallback()
 {
+    const auto leftGain = audioProcessor.getRmsLevel(0);
+    const auto rightGain = audioProcessor.getRmsLevel(1);
+
+    horizontalMeterL.setLevel(leftGain);
+    horizontalMeterR.setLevel(rightGain);
     AudioProcessorEditor::repaint();
+    horizontalMeterL.repaint();
+    horizontalMeterR.repaint();
+    
+
 }
 
 void VoiceChanger_wczAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
+    auto a = getWidth() / 8;
+    auto b = getWidth() / 16;
+    xjjButton.setBounds(340, 340, a, 30);
+    xpyButton.setBounds(340, 390, a, 30);
+    ljButton.setBounds(340, 440, a, 30);
+    mmButton.setBounds(340, 490, a, 30);
+    openEffectButton.setBounds(340, 540, b, 30);
+    closeEffectButton.setBounds(340 + b, 540, b, 30);
+    resetAllButton.setBounds(340, 290, a , 30);
+    switchPitchMethodButton.setBounds(245, 510, AudioProcessorEditor::getWidth() / 12, 20);
 
-    xjjButton.setBounds(340, 340, AudioProcessorEditor::getWidth() / 6, 30);
-    xpyButton.setBounds(340, 390, AudioProcessorEditor::getWidth() / 6, 30);
-    ljButton.setBounds(340, 440, AudioProcessorEditor::getWidth() / 6, 30);
-    mmButton.setBounds(340, 490, AudioProcessorEditor::getWidth() / 6, 30);
-    openEffectButton.setBounds(340, 540, (AudioProcessorEditor::getWidth()) / 12, 30);
-    closeEffectButton.setBounds(340 + (AudioProcessorEditor::getWidth()) / 12, 540, (AudioProcessorEditor::getWidth()) / 12, 30);
-    resetAllButton.setBounds(340, 290, (AudioProcessorEditor::getWidth()/6) , 30);
-    switchPitchMethodButton.setBounds(245, 510, AudioProcessorEditor::getWidth() / 8, 20);
-
-    openFileButton.setBounds(570, 380, AudioProcessorEditor::getWidth() / 5, 40);
-    playFileButton.setBounds(570, 450, AudioProcessorEditor::getWidth() / 5, 40);
-    stopPlayFileButton.setBounds(570, 520, AudioProcessorEditor::getWidth() / 5, 40);
+    openFileButton.setBounds(570, 380, a, 40);
+    playFileButton.setBounds(570, 450, a, 40);
+    stopPlayFileButton.setBounds(570, 520, a, 40);
     
-    openTemplateWindowButton.setBounds(800, 390, AudioProcessorEditor::getWidth() / 8, 70);
-    openCameraButton.setBounds(800, 480, getWidth() / 8, 70);
+    openTemplateWindowButton.setBounds(800, 390, AudioProcessorEditor::getWidth() / 12, 70);
+    openCameraButton.setBounds(800, 480, getWidth() / 12, 70);
     audioSetupComp.setBounds(545, 20, 400, 100);
     //playAudioFileComponent.setBounds(AudioProcessorEditor::getLocalBounds());
 
+    circularMeterL.setBounds(970, 20, 400, 400);
+    circularMeterR.setBounds(970, 20, 400, 400);
+
+    horizontalMeterL.setBounds(970, 460, 400, 12);
+    horizontalMeterR.setBounds(970, 510, 400, 12);
 }
 void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* sliderThatWasMoved)
 {
@@ -421,7 +448,6 @@ void VoiceChanger_wczAudioProcessorEditor::xpyButtonClicked()
 {
     audioProcessor.setPitchShift(6);
 }
-
 
 
 
