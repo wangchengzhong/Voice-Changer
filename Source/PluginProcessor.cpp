@@ -19,7 +19,7 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
 #if _OPEN_FILTERS
     , filters(new juce::OwnedArray<Filter>[nFiltersPerChannel])
     , filterIndex(createFilterIndexArray(_FILTER_NUM))
-    
+
 #endif
     //, updataParamFlag(false)
     // , bandpassFilter(juce::dsp::IIR::Coefficients<float>::makeBandPass(22050, 5000.0f, 0.1))
@@ -33,6 +33,7 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
             std::make_unique<juce::AudioParameterInt>("rmsPeriod","Period",1,500,50),
             std::make_unique<juce::AudioParameterBool>("smooth","Enable Smoothing",true)
         })
+    , trainingTemplate(sourceBufferAligned, targetBufferAligned, voiceChangerParameter)
 {
 
     parameters.addParameterListener("left", this);

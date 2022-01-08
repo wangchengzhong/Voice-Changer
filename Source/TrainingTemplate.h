@@ -3,7 +3,8 @@
 class TrainingTemplate
 {
 public:
-	TrainingTemplate()
+	TrainingTemplate(juce::AudioSampleBuffer a, juce::AudioSampleBuffer b, std::vector<float>& voiceChangerParameter)
+		:sourceBuffer(a), targetBuffer(b), voiceChangerParameter(voiceChangerParameter)
 	{
 
 	}
@@ -20,9 +21,10 @@ private:
 	const juce::File filePath{ juce::File::getCurrentWorkingDirectory() };
 
 	const juce::File templateDirPath = filePath.getChildFile("template.wav");
-	juce::AudioSampleBuffer source1Buffer;
-	juce::AudioSampleBuffer source2Buffer;
-	juce::AudioFormatManager formatManager;
+	juce::AudioSampleBuffer& sourceBuffer;
+	juce::AudioSampleBuffer& targetBuffer;
+	std::vector<float>& voiceChangerParameter;
+	// juce::AudioFormatManager formatManager;
 
 	
 };

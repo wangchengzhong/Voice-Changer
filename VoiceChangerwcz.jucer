@@ -148,6 +148,10 @@
             file="Source/PlayAudioFileComponent.h"/>
       <FILE id="IXb8Kg" name="PlayAudioFileComponent.cpp" compile="1" resource="0"
             file="Source/PlayAudioFileComponent.cpp"/>
+      <FILE id="nyby3L" name="FIFO.h" compile="0" resource="0" file="Source/FIFO.h"/>
+      <FILE id="vHrukP" name="HorizontalMeter.h" compile="0" resource="0"
+            file="Source/HorizontalMeter.h"/>
+      <FILE id="mdDpbe" name="CircularMeter.h" compile="0" resource="0" file="Source/CircularMeter.h"/>
     </GROUP>
     <GROUP id="{F3F4013B-8233-0097-0A2B-200A842EEE30}" name="rubberband">
       <GROUP id="{9EDC7BCB-2F07-CC2D-1ABE-086C0B4A6B60}" name="rubberband">

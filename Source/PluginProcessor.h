@@ -36,6 +36,7 @@
 #include"PitchShifterSoundTouch.h"
 #include"TransportInformation.h"
 #include"FIFO.h"
+#include"TrainingTemplate.h"
 //==============================================================================
 /**
 */
@@ -170,6 +171,9 @@ public:
     juce::AudioSampleBuffer targetBuffer;
     juce::AudioSampleBuffer sourceBufferAligned;
     juce::AudioSampleBuffer targetBufferAligned;
+
+    TrainingTemplate trainingTemplate;
+    std::vector<float> voiceChangerParameter;
     juce::AudioSampleBuffer* pPlayBuffer;
     TransportInformation ti;
     void setTarget(TransportFileType ft)override;

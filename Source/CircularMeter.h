@@ -6,7 +6,7 @@ class CicularMeter :public juce::Component, public juce::Timer
 {
 public:
 	CicularMeter(std::function<float()>&& valueFunction, const juce::Colour& c)
-		:valueSupplier(std::move(valueFunction)), colour(c)
+		: valueSupplier(std::move(valueFunction)), colour(c)
 	{
 		startTimerHz(24);
 	}

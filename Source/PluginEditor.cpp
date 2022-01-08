@@ -12,8 +12,8 @@
 VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(VoiceChanger_wczAudioProcessor& p)
     : AudioProcessorEditor(&p), audioProcessor(p)
     , audioSetupComp(juce::StandalonePluginHolder::getInstance()->deviceManager,0,4,0,4,false,false,false,false)
-    , circularMeterL([&]() { return audioProcessor.getRmsLevel(0); },juce::Colours::violet)
-    , circularMeterR([&]() { return audioProcessor.getRmsLevel(1); },juce::Colours::cyan)
+    , circularMeterL([&]() { return audioProcessor.getRmsLevel(0); },juce::Colours::darkcyan)
+    , circularMeterR([&]() { return audioProcessor.getRmsLevel(1); },juce::Colours::violet)
 {
     addAndMakeVisible(circularMeterL);
     addAndMakeVisible(circularMeterR);
