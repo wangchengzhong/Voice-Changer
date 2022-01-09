@@ -20,8 +20,29 @@ namespace BinaryData
     extern const char*   COPYING2;
     const int            COPYING2Size = 1774;
 
+    extern const char*   __init___py;
+    const int            __init___pySize = 0;
+
+    extern const char*   flatfileparser_py;
+    const int            flatfileparser_pySize = 187;
+
+    extern const char*   stockmarketparser_py;
+    const int            stockmarketparser_pySize = 2168;
+
+    extern const char*   syntheticdata_py;
+    const int            syntheticdata_pySize = 4978;
+
+    extern const char*   LICENSE_txt;
+    const int            LICENSE_txtSize = 11357;
+
+    extern const char*   Makefile;
+    const int            MakefileSize = 736;
+
+    extern const char*   README_md;
+    const int            README_mdSize = 1247;
+
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 4;
+    const int namedResourceListSize = 11;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];
