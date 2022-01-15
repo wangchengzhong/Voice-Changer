@@ -50,36 +50,36 @@ public:
     /*
     * hardcoded l1 norm (for speed)
     */
-    inline double fastdynamic(const vector<double> &v, const vector<double> &w) {
-    if (!fast)
-        return dynamic(v, w, mConstraint, 1);
-    assert(static_cast<int>(v.size()) == mN);
-    assert(static_cast<int>(w.size()) == mN);
-    assert(static_cast<int>(mGamma.size()) == mN);
-    double Best(INF);
-    for (int i = 0; i < mN; ++i) 
+    inline double fastdynamic(const vector<double>& v, const vector<double>& w)
     {
-        assert(static_cast<int>(mGamma[i].size()) == mN);
-        for (int j = max(0, i - mConstraint); j < min(mN, i + mConstraint + 1);
-            ++j)
+        if (!fast)
+            return dynamic(v, w, mConstraint, 1);
+        assert(static_cast<int>(v.size()) == mN);
+        assert(static_cast<int>(w.size()) == mN);
+        assert(static_cast<int>(mGamma.size()) == mN);
+        double Best(INF);
+        for (int i = 0; i < mN; ++i)
         {
-            Best = INF;
-            if (i > 0)
-                Best = mGamma[i - 1][j];
-            if (j > 0)
-                Best = min(Best, mGamma[i][j - 1]);
-            if ((i > 0) && (j > 0))
-                Best = min(Best, mGamma[i - 1][j - 1]);
-            if ((i == 0) && (j == 0))
-                mGamma[i][j] = fabs(v[i] - w[j]);
-            else
-                mGamma[i][j] = Best + fabs(v[i] - w[j]);
+            assert(static_cast<int>(mGamma[i].size()) == mN);
+            for (int j = max(0, i - mConstraint); j < min(mN, i + mConstraint + 1); ++j)
+            {
+                Best = INF;
+                if (i > 0)
+                    Best = mGamma[i - 1][j];
+                if (j > 0)
+                    Best = min(Best, mGamma[i][j - 1]);
+                if ((i > 0) && (j > 0))
+                    Best = min(Best, mGamma[i - 1][j - 1]);
+                if ((i == 0) && (j == 0))
+                    mGamma[i][j] = fabs(v[i] - w[j]);
+                else
+                    mGamma[i][j] = Best + fabs(v[i] - w[j]);
+            }
         }
-    }
-    return mGamma[mN - 1][mN - 1];
+        return mGamma[mN - 1][mN - 1];
     }
 
-    vector<vector<double> > mGamma;
+    vector<vector<double>> mGamma;
 
     int mN, mConstraint;
 
@@ -88,7 +88,7 @@ public:
     {
         assert(v.size() == w.size());
         int n(v.size());
-        vector<vector<double> > gamma(n, vector<double>(n, 0.0));
+        vector<vector<double>> gamma(n, vector<double>(n, 0.0));
         for (int i = 0; i < n; ++i) 
         {
             for (int j = 0; j < n; ++j)
@@ -137,7 +137,9 @@ void computeEnvelope(const vector<floattype>& array, uint constraint,
             maxvalues[i - constraint - 1] = array[maxfifo.front()];
             minvalues[i - constraint - 1] = array[minfifo.front()];
         }
-        if (array[i] > array[i - 1]) { // overshoot
+        if (array[i] > array[i - 1]) 
+        { 
+            // overshoot
             maxfifo.pop_back();
             while (maxfifo.size() > 0) 
             {
@@ -251,7 +253,7 @@ public:
     double justlb(const vector<double>& candidate) 
     {
         double error(0.0);
-        for (uint i = 0; i < V.size(); ++i) 
+        for (uint i = 0; i < V.size(); ++i)
         {
             if (candidate[i] > U[i])
                 error += candidate[i] - U[i];
@@ -288,7 +290,8 @@ public:
 
     double getLowestCost() { return bestsofar; }
 
-    void resetStatistics() {
+    void resetStatistics() 
+    {
         lb_keogh = 0;
         full_dtw = 0;
     }

@@ -30,19 +30,13 @@ namespace BinaryData
     const int            stockmarketparser_pySize = 2168;
 
     extern const char*   syntheticdata_py;
-    const int            syntheticdata_pySize = 4978;
-
-    extern const char*   LICENSE_txt;
-    const int            LICENSE_txtSize = 11357;
-
-    extern const char*   Makefile;
-    const int            MakefileSize = 736;
+    const int            syntheticdata_pySize = 5156;
 
     extern const char*   README_md;
-    const int            README_mdSize = 1247;
+    const int            README_mdSize = 706;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 11;
+    const int namedResourceListSize = 9;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

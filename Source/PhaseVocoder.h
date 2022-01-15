@@ -136,7 +136,7 @@ public:
 		//DBG("Callback: " << ++callbackCount << ", SampleCount: " << incomingSampleCount <<
 		//	", (+ incoming): " << audioBufferSize);
 		//////////////////
-		// Only write enough samples into the analysis buffer to complete a processing
+		// Only write enough  samples into the analysis buffer to complete a processing
 		// frame. Likewise, only write enough into the synthesis buffer to generate the 
 		// next output audio frame. 
 		for (auto internalOffset = 0, internalBufferSize = 0;

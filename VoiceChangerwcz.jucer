@@ -295,8 +295,6 @@
         <FILE id="w2czkG" name="vector_test.cpp" compile="1" resource="0" file="dtw/vector_dtw/vector_test.cpp"/>
         <FILE id="k22JBB" name="vectordtw.h" compile="0" resource="0" file="dtw/vector_dtw/vectordtw.h"/>
       </GROUP>
-      <FILE id="MFx7oA" name="LICENSE.txt" compile="0" resource="1" file="dtw/LICENSE.txt"/>
-      <FILE id="Wk7v82" name="Makefile" compile="0" resource="1" file="dtw/Makefile"/>
       <FILE id="Rh5l0E" name="README.md" compile="0" resource="1" file="dtw/README.md"/>
     </GROUP>
   </MAINGROUP>
