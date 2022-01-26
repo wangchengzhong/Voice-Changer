@@ -25,7 +25,7 @@ public:
 		addAndMakeVisible(lastSnapshot);
 
 		cameraSelectorComboBox.setSelectedId(2);
-		
+		 
 	}
 	void paint(juce::Graphics& g)override
 	{

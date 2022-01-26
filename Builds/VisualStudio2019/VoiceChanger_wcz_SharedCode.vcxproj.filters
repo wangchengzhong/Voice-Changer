@@ -1366,26 +1366,59 @@
     <Filter Include="JUCE Library Code">
       <UniqueIdentifier>{7ED5A90E-41AF-A1EF-659B-37CEEAB9BA61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VoiceChanger_wcz\Source\dawComponents">
+    <Filter Include="VoiceChanger_wcz\Source\PhaseVocoder">
+      <UniqueIdentifier>{be4de21b-3ca5-43e6-bfed-cc01194f2297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\Source\Core">
+      <UniqueIdentifier>{15fdf41f-94c1-422c-9807-5cfcb54bc871}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\Source\DataStructures">
+      <UniqueIdentifier>{37983862-0dbc-41e3-97f7-a9b33e28c4a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\Source\Components">
+      <UniqueIdentifier>{2c80f354-0657-41c4-bf82-a6ed2fdfee72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\Source\Components\Meters">
+      <UniqueIdentifier>{65b78e5b-17bf-41ce-8412-cb960f89e471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\Source\Components\Recording">
+      <UniqueIdentifier>{ff657190-241e-4f7a-a3fb-04d46c88711d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\Source\Components\Cameras">
+      <UniqueIdentifier>{f830cfb9-e9ef-48e6-a427-354d8cb92805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\Source\Components\Daw">
+      <UniqueIdentifier>{0b5e9d51-41dd-44ee-9a15-be23c9c27f54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\Source\Components\PlayAudioFile">
+      <UniqueIdentifier>{7388a2e8-df4b-4b67-b0ea-20e476a1fbd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\Source\Components\Daw\dawComponents">
       <UniqueIdentifier>{13416bbf-cea6-44c8-962e-561fe936b25e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VoiceChanger_wcz\Source\dawComponents\Arrange">
+    <Filter Include="VoiceChanger_wcz\Source\Components\Daw\dawComponents\Arrange">
       <UniqueIdentifier>{410040b2-2c9f-4c17-9a6a-e49ee16a541b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VoiceChanger_wcz\Source\dawComponents\Utilities">
+    <Filter Include="VoiceChanger_wcz\Source\Components\Daw\dawComponents\Utilities">
       <UniqueIdentifier>{5806126a-9cdb-4372-be53-ee2836ee8a73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VoiceChanger_wcz\Source\dawComponents\Track">
+    <Filter Include="VoiceChanger_wcz\Source\Components\Daw\dawComponents\Track">
       <UniqueIdentifier>{00e12f46-df63-4beb-a3e7-52ed59ae13ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VoiceChanger_wcz\Source\dawComponents\Edits">
+    <Filter Include="VoiceChanger_wcz\Source\Components\Daw\dawComponents\Edits">
       <UniqueIdentifier>{ea70f9c0-6614-4536-9803-f908b9ad67ea}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VoiceChanger_wcz\Source\dawComponents\Clips">
+    <Filter Include="VoiceChanger_wcz\Source\Components\Daw\dawComponents\Clips">
       <UniqueIdentifier>{95ab17ee-a2d1-4cc1-ae36-f1fef392c9d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VoiceChanger_wcz\Source\dawComponents\Plugins">
+    <Filter Include="VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins">
       <UniqueIdentifier>{07759578-6d6f-4689-9fa6-bcdbcae61db3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\Source\Components\Daw\dawComponents\Widgets">
+      <UniqueIdentifier>{979799c5-99eb-411d-9f25-d0526d989ad3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets">
+      <UniqueIdentifier>{fa032d0e-efe0-4d4f-8b10-346ec5d5022a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1463,18 +1496,6 @@
     </ClCompile>
     <ClCompile Include="..\..\soundtouch\source\SoundTouch\TDStretch.cpp">
       <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\PluginProcessor.cpp">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\PluginEditor.cpp">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\BackgroundComponent.cpp">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\PlayAudioFileComponent.cpp">
-      <Filter>VoiceChanger_wcz\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\rubberband\src\audiocurves\CompoundAudioCurve.cpp">
       <Filter>VoiceChanger_wcz\rubberband\src\audiocurves</Filter>
@@ -5911,43 +5932,55 @@
       <Filter>JUCE Library Code</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\PlayHeadComponent.cpp">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Arrange</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Arrange</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ClipComponent.cpp">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Clips</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Clips</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\RecordingClipComponent.cpp">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Clips</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Clips</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\TrackHeaderComponent.cpp">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Track</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Track</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\EngineHelpers.cpp">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Utilities</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\PluginComponent.cpp">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Plugins</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\TrackFooterComponent.cpp">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Track</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Track</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\AudioClipComponent.cpp">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Clips</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Clips</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\PluginTreeGroup.cpp">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Plugins</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\PluginTreeItem.cpp">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Plugins</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\TrackComponent.cpp">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Track</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Track</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\MidiClipComponent.cpp">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Clips</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Clips</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\EditComponent.cpp">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Edits</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Edits</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PluginEditor.cpp">
+      <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PluginProcessor.cpp">
+      <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\DawComponent.cpp">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PluginWindow.cpp">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -6034,93 +6067,6 @@
     </ClInclude>
     <ClInclude Include="..\..\soundtouch\source\SoundTouch\TDStretch.h">
       <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\PluginProcessor.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\PluginEditor.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\AudioLiveScrollingDisplay.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\BackgroundComponent.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\AutoCorr.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\BlockCircularBuffer.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\CircularBuffer.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\CameraWindow.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\PeakShifter.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\PhaseVocoder.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\NewWindow.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\TemplateRecording.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\TemplateRecordingWindow.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\phaseVocoderForShapeInvariant.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\RingBuffer.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\PitchShifterRubberband.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\PitchShifterSoundTouch.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\TemplateProjectingWindow.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\PitchShifter.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\PluginFilter.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\PluginParameter.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Resample.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ShapeInvariantPitchShifter.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\TransportInformation.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\TrainingTemplate.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\PlayAudioFileComponent.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\FIFO.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\HorizontalMeter.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\CircularMeter.h">
-      <Filter>VoiceChanger_wcz\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\rubberband\rubberband\rubberband-c.h">
       <Filter>VoiceChanger_wcz\rubberband\rubberband</Filter>
@@ -10689,61 +10635,163 @@
       <Filter>JUCE Library Code</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PlayHeadComponent.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Arrange</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Arrange</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\EditViewState.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Utilities</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\IDs.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Utilities</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\TrackComponent.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Track</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Track</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\EditComponent.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Edits</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Edits</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Utilities.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Utilities</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ClipComponent.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Clips</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Clips</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\RecordingClipComponent.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Clips</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Clips</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\TrackHeaderComponent.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Track</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Track</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\EngineHelpers.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Utilities</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\TrackFooterComponent.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Track</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Track</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PluginComponent.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Plugins</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AudioClipComponent.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Clips</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Clips</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PluginMenu.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Plugins</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PluginTreeGroup.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Plugins</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PluginTreeBase.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Plugins</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PluginTreeItem.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Plugins</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PluginDefinitions.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Plugins</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\MidiClipComponent.h">
-      <Filter>VoiceChanger_wcz\Source\dawComponents\Clips</Filter>
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Clips</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\TransportToolbarFactory.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ToolbarSlider.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ExtendedUIBehaviour.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PluginWindow.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DawPluginEditor.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PhaseVocoder.h">
+      <Filter>VoiceChanger_wcz\Source\PhaseVocoder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\phaseVocoderForShapeInvariant.h">
+      <Filter>VoiceChanger_wcz\Source\PhaseVocoder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PitchShifter.h">
+      <Filter>VoiceChanger_wcz\Source\PhaseVocoder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PeakShifter.h">
+      <Filter>VoiceChanger_wcz\Source\PhaseVocoder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PluginEditor.h">
+      <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PluginProcessor.h">
+      <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ShapeInvariantPitchShifter.h">
+      <Filter>VoiceChanger_wcz\Source\PhaseVocoder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Resample.h">
+      <Filter>VoiceChanger_wcz\Source\PhaseVocoder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\NewWindow.h">
+      <Filter>VoiceChanger_wcz\Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PitchShifterRubberband.h">
+      <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PitchShifterSoundTouch.h">
+      <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\TransportInformation.h">
+      <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\RingBuffer.h">
+      <Filter>VoiceChanger_wcz\Source\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\FIFO.h">
+      <Filter>VoiceChanger_wcz\Source\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CircularBuffer.h">
+      <Filter>VoiceChanger_wcz\Source\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PluginParameter.h">
+      <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PluginFilter.h">
+      <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\BlockCircularBuffer.h">
+      <Filter>VoiceChanger_wcz\Source\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\AutoCorr.h">
+      <Filter>VoiceChanger_wcz\Source\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CircularMeter.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Meters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\HorizontalMeter.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Meters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\TemplateRecordingWindow.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Recording</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\TemplateRecording.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Recording</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CameraWindow.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\AudioLiveScrollingDisplay.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Recording</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DawComponent.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\TemplateProjectingWindow.h">
+      <Filter>VoiceChanger_wcz\Source\Components\PlayAudioFile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\TrainingTemplate.h">
+      <Filter>VoiceChanger_wcz\Source\Components\PlayAudioFile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\AudioProcessorEditorComp.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -10872,6 +10920,69 @@
     </None>
     <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_graph\docs\tracktion_graph_part_3_nodeplayer.md">
       <Filter>JUCE Modules\tracktion_graph\docs</Filter>
+    </None>
+    <None Include="..\..\Source\Assets\res_icons.zip">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\document-new.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\document-open.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\document-print.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\document-save.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\document-save-as.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\edit-copy.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\edit-cut.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\edit-delete.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\edit-find.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\edit-paste.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\edit-redo.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\edit-undo.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\media-playback-pause.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\media-playback-start.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\media-playback-stop.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\media-record.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\media-seek-backward.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\media-seek-forward.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\preferences-system.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
+    </None>
+    <None Include="..\..\Source\res_icons_zip\system-log-out.svg">
+      <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets</Filter>
     </None>
   </ItemGroup>
 </Project>

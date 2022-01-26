@@ -10,14 +10,14 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include"BackgroundComponent.h"
 #include"TemplateRecordingWindow.h"
 #include"NewWindow.h"
-#include"PlayAudioFileComponent.h"
+//#include"PlayAudioFileComponent.h"
 #include"TransportInformation.h"
 #include"CameraWindow.h"
 #include"CircularMeter.h"
 #include"HorizontalMeter.h"
+#include"DawComponent.h"
 //==============================================================================
 /**
 */
@@ -64,6 +64,7 @@ private:
     void openFileButtonClicked();
     void openTemplateWindowButtonClicked();
     void openCameraButtonClicked();
+    void openDawButtonClicked();
     // void singModeClicked();
 
 
@@ -106,6 +107,8 @@ private:
 
     juce::TextButton openCameraButton;
 
+    juce::TextButton openDawButton;
+
     juce::AudioDeviceSelectorComponent audioSetupComp;
     int duration{ 300 };
    
@@ -118,6 +121,7 @@ private:
     // TemplateRecordingWindow* recWindow;
     juce::Component::SafePointer<juce::DocumentWindow> templateRecordingWindow;
     juce::Component::SafePointer<juce::DocumentWindow> cameraWindow;
+    juce::Component::SafePointer<juce::DocumentWindow> dawWindow;
 
     Gui::CicularMeter circularMeterL, circularMeterR;
     Gui::HorizontalMeter horizontalMeterL, horizontalMeterR;

@@ -26,7 +26,7 @@ public:
 		playButton.setButtonText("play");
 		playButton.onClick = [this] { playButtonClicked(); };
 		playButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
-
+		
 		addAndMakeVisible(&stopButton);
 		stopButton.setButtonText("stop");
 		stopButton.onClick = [this] { stopButtonClicked(); };

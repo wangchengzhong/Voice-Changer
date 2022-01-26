@@ -1,161 +1,182 @@
+/*
+ * This file is part of the DAWn distribution (https://github.com/GroovemanAndCo/DAWn).
+ * Copyright (c) 2020 Fabien (https://github.com/fab672000)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+#include "RecordingClipComponent.h"
 
-#include"RecordingClipComponent.h"
 using namespace juce;
+
+//==============================================================================
 RecordingClipComponent::RecordingClipComponent(tracktion_engine::Track::Ptr t, EditViewState& evs)
-	:track(t),editViewState(evs)
+    : track(t), editViewState(evs)
 {
-	startTimerHz(10);
-	initialiseThumnailAndPunchTime();
+    startTimerHz(10);
+    initialiseThumbnailAndPunchTime();
 }
-void RecordingClipComponent::initialiseThumnailAndPunchTime()
+
+void RecordingClipComponent::initialiseThumbnailAndPunchTime()
 {
-	if(auto at = dynamic_cast<tracktion_engine::AudioTrack*>(track.get()))
-	{
-		for(auto* idi :at->edit.getEditInputDevices().getDevicesForTargetTrack(*at))
-		{
-			punchInTime = idi->getPunchInTime();
-			if(idi->getRecordingFile().exists())
-			{
-				thumbnail = at->edit.engine.getRecordingThumbnailManager().getThumbnailFor(idi->getRecordingFile());
-			}
-		}
-	}
+    if (auto at = dynamic_cast<tracktion_engine::AudioTrack*> (track.get()))
+    {
+        for (auto* idi : at->edit.getEditInputDevices().getDevicesForTargetTrack(*at))
+        {
+            punchInTime = idi->getPunchInTime();
+
+            if (idi->getRecordingFile().exists())
+                thumbnail = at->edit.engine.getRecordingThumbnailManager().getThumbnailFor(idi->getRecordingFile());
+        }
+    }
 }
+
 void RecordingClipComponent::paint(Graphics& g)
 {
-	g.fillAll(juce::Colours::red.withAlpha(0.5f));
-	g.setColour(Colours::black);
-	g.drawRect(getLocalBounds());
+    g.fillAll(Colours::red.withAlpha(0.5f));
+    g.setColour(Colours::black);
+    g.drawRect(getLocalBounds());
 
-	if(editViewState.drawWaveforms)
-	{
-		drawThumbnail(g, Colours::black.withAlpha(0.5f));
-	}
+    if (editViewState.drawWaveforms)
+        drawThumbnail(g, Colours::black.withAlpha(0.5f));
 }
-void RecordingClipComponent::drawThumbnail(Graphics&g,Colour waveformColour)const
+
+void RecordingClipComponent::drawThumbnail(Graphics& g, Colour waveformColour) const
 {
-	if (thumbnail == nullptr)
-		return;
-	Rectangle<int>bounds;
-	Range<double> times;
-	getBoundsAndTime(bounds, times);
-	auto w = bounds.getWidth();
-	if(w>0&&w<100000)
-	{
-		g.setColour(waveformColour);
-		thumbnail->thumb.drawChannels(g, bounds, w, times, 1.0f);
-	}
+    if (thumbnail == nullptr)
+        return;
+
+    Rectangle<int> bounds;
+    Range<double> times;
+    getBoundsAndTime(bounds, times);
+    auto w = bounds.getWidth();
+
+    if (w > 0 && w < 10000)
+    {
+        g.setColour(waveformColour);
+        thumbnail->thumb.drawChannels(g, bounds, w, times, 1.0f);
+    }
 }
-bool RecordingClipComponent::getBoundsAndTime(juce::Rectangle<int>& bounds, juce::Range<double>& times) const
+
+bool RecordingClipComponent::getBoundsAndTime(Rectangle<int>& bounds, Range<double>& times) const
 {
-	auto editTimeToX = [this](double t)
-	{
-		if (auto p = getParentComponent())
-			return editViewState.timeToXPosition(t, p->getWidth());
-		return 0;
-	};
-	auto xToEditTime = [this](int x)
-	{
-		if(auto p = getParentComponent())
-		{
-			return editViewState.xPositionToTime(x + getX(), p->getWidth());
+    auto editTimeToX = [this](double t)
+    {
+        if (auto p = getParentComponent())
+            return editViewState.timeToXPosition(t, p->getWidth()) - getX();
+        return 0;
+    };
 
-		}
-		return 0.0;
-	};
+    auto xToEditTime = [this](int x)
+    {
+        if (auto p = getParentComponent())
+            return editViewState.xPositionToTime(x + getX(), p->getWidth());
+        return 0.0;
+    };
 
-	bool hasLooped = false;
-	auto& edit = track->edit;
+    bool hasLooped = false;
+    auto& edit = track->edit;
 
-	if(auto* playHead = edit.getTransport().getCurrentPlaybackContext())
-	{
-		auto localBounds = getLocalBounds();
-		auto timeStarted = thumbnail->punchInTime;
-		auto unloopedPos = timeStarted + thumbnail->thumb.getTotalLength();
+    if (auto* playhead = edit.getTransport().getCurrentPlaybackContext())//.getCurrentPlayhead())
+    {
+        auto localBounds = getLocalBounds();
 
-		auto t1 = timeStarted;
-		auto t2 = unloopedPos;
-		if (playHead->isLooping() && t2 >= playHead->getLoopTimes().end)
-		{
-			hasLooped = true;
-			t1 = jmin(t1, playHead->getLoopTimes().start);
-			t2 = playHead->getPosition();
+        auto timeStarted = thumbnail->punchInTime;
+        auto unloopedPos = timeStarted + thumbnail->thumb.getTotalLength();
 
-			t1 = jmax(editViewState.viewX1.get(), t1);
-			t2 = jmin(editViewState.viewX2.get(), t2);
-		
-		}
-		else if(edit.recordingPunchInOut)
-		{
-			const double in = thumbnail->punchInTime;
-			const double out = edit.getTransport().getLoopRange().getEnd();
-			t1 = jlimit(in, out, t1);
-			t2 = jlimit(in, out, t2);
-		}
+        auto t1 = timeStarted;
+        auto t2 = unloopedPos;
 
-		bounds = localBounds.withX(jmax(localBounds.getX(),
-			editTimeToX(t1))).withRight(jmin(localBounds.getRight(), editTimeToX(t2)));
+        if (playhead->isLooping() && t2 >= playhead->getLoopTimes().end)
+        {
+            hasLooped = true;
 
-		auto loopRange = playHead->getLoopTimes();
-		const double recordedTime = unloopedPos - playHead->getLoopTimes().start;
+            t1 = jmin(t1, playhead->getLoopTimes().start);
+            t2 = playhead->getPosition();
 
-		const int numLoops = (int)(recordedTime / loopRange.getLength());
+            t1 = jmax(editViewState.viewX1.get(), t1);
+            t2 = jmin(editViewState.viewX2.get(), t2);
+        }
+        else if (edit.recordingPunchInOut)
+        {
+            const double in = thumbnail->punchInTime;
+            const double out = edit.getTransport().getLoopRange().getEnd();
 
-		const Range<double> editTimes(xToEditTime(bounds.getX()),
-			xToEditTime(bounds.getRight()));
+            t1 = jlimit(in, out, t1);
+            t2 = jlimit(in, out, t2);
+        }
 
-		times = editTimes + numLoops * loopRange.getLength() - timeStarted;
-	}
-	return hasLooped;
+        bounds = localBounds.withX(jmax(localBounds.getX(), editTimeToX(t1)))
+            .withRight(jmin(localBounds.getRight(), editTimeToX(t2)));
+
+        auto loopRange = playhead->getLoopTimes();
+        const double recordedTime = unloopedPos - playhead->getLoopTimes().start;
+        const int numLoops = (int)(recordedTime / loopRange.getLength());
+
+        const Range<double> editTimes(xToEditTime(bounds.getX()),
+            xToEditTime(bounds.getRight()));
+
+        times = (editTimes + (numLoops * loopRange.getLength())) - timeStarted;
+    }
+
+    return hasLooped;
 }
+
 void RecordingClipComponent::timerCallback()
 {
-	updatePosition();
+    updatePosition();
 }
 
 void RecordingClipComponent::updatePosition()
 {
-	auto& edit = track->edit;
-	if(auto playHead = edit.getTransport().getCurrentPlaybackContext())
-	{
-		double t1 = punchInTime >= 0 ? punchInTime : edit.getTransport().getTimeWhenStarted();
-		double t2 = jmax(t1, playHead->getUnloopedPosition());
+    auto& edit = track->edit;
 
-		if(playHead->isLooping())
-		{
-			auto loopTimes = playHead->getLoopTimes();
-			if(t2>=loopTimes.end)
-			{
-				t1 = jmin(t1, loopTimes.start);
-				t2 = loopTimes.end;
-			}
+    if (auto playhead = edit.getTransport().getCurrentPlaybackContext())//.getCurrentPlayhead())
+    {
+        double t1 = punchInTime >= 0 ? punchInTime : edit.getTransport().getTimeWhenStarted();
+        double t2 = jmax(t1, playhead->getUnloopedPosition());
 
-		}
-		else if(edit.recordingPunchInOut)
-		{
-			auto mr = edit.getTransport().getLoopRange();
-			auto in = mr.getStart();
-			auto out = mr.getEnd();
+        if (playhead->isLooping())
+        {
+            auto loopTimes = playhead->getLoopTimes();
 
-			t1 = jlimit(in, out, t1);
-			t2 = jlimit(in, out, t2);
-		}
-		t1 = jmax(t1, editViewState.viewX1.get());
-		t2 = jmin(t2, editViewState.viewX2.get());
+            if (t2 >= loopTimes.end)
+            {
+                t1 = jmin(t1, loopTimes.start);
+                t2 = loopTimes.end;
+            }
+        }
+        else if (edit.recordingPunchInOut)
+        {
+            auto mr = edit.getTransport().getLoopRange();
+            auto in = mr.getStart();
+            auto out = mr.getEnd();
 
-		if(auto p = getParentComponent())
-		{
-			int x1 = editViewState.timeToXPosition(t1, p->getWidth());
-			int x2 = editViewState.timeToXPosition(t2, p->getWidth());
+            t1 = jlimit(in, out, t1);
+            t2 = jlimit(in, out, t2);
+        }
 
-			setBounds(x1, 0, x2 - x1, p->getHeight());
-			return;
-		}
-	}
-	setBounds({});
+        t1 = jmax(t1, editViewState.viewX1.get());
+        t2 = jmin(t2, editViewState.viewX2.get());
+
+        if (auto p = getParentComponent())
+        {
+            int x1 = editViewState.timeToXPosition(t1, p->getWidth());
+            int x2 = editViewState.timeToXPosition(t2, p->getWidth());
+
+            setBounds(x1, 0, x2 - x1, p->getHeight());
+            return;
+        }
+    }
+
+    setBounds({});
 }
-
-
-
-
-

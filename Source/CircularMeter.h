@@ -45,7 +45,7 @@ public:
 		g.setGradientFill(gradient);
 		g.strokePath(ellipse, juce::PathStrokeType{ 8.f * level,juce::PathStrokeType::JointStyle::curved,juce::PathStrokeType::rounded });
 	}
-	void timerCallback()override
+	void timerCallback() override
 	{
 		repaint();
 	}

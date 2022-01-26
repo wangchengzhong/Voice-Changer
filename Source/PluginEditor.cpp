@@ -269,7 +269,12 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     //// recWindow->centreWithSize(500, 500);
     //recWindow->setVisible(true);
     
-   //  AudioProcessorEditor::addAndMakeVisible(pPlayPositionSlider.get());
+    //  AudioProcessorEditor::addAndMakeVisible(pPlayPositionSlider.get());
+    openDawButton.setButtonText(juce::CharPointer_UTF8("\xe6\x89\x93\xe5\xbc\x80\xe9\x9f\xb3\xe9\xa2\x91\xe7\xbc\x96\xe8\xbe\x91\xe5\x99\xa8"));
+    openDawButton.onClick = [this] {openDawButtonClicked(); };
+    openDawButton.setColour(juce::TextButton::buttonColourId, juce::Colours::pink);
+    openDawButton.setEnabled(true);
+    addAndMakeVisible(&openDawButton);
 }
 VoiceChanger_wczAudioProcessorEditor::~VoiceChanger_wczAudioProcessorEditor()
 {
@@ -358,7 +363,10 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
     circularMeterR.setBounds(970, 20, 400, 400);
 
     horizontalMeterL.setBounds(970, 460, 400, 12);
-    horizontalMeterR.setBounds(970, 510, 400, 12);
+    horizontalMeterR.setBounds(970, 500, 400, 12);
+
+
+    openDawButton.setBounds(1075, 530, 200, 50);
 }
 void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* sliderThatWasMoved)
 {
@@ -571,5 +579,22 @@ void VoiceChanger_wczAudioProcessorEditor::openCameraButtonClicked()
         cameraWindow->addToDesktop();
         cameraWindow->centreWithSize(500, 500);
         cameraWindow->setVisible(true);
+    }
+}
+
+void VoiceChanger_wczAudioProcessorEditor::openDawButtonClicked()
+{
+    if (dawWindow)
+    {
+        dawWindow->broughtToFront();
+    }
+    else
+    {
+        dawWindow = new NewWindow(juce::String("dawWindow"), juce::Colours::darkslategrey, juce::DocumentWindow::allButtons);// new TemplateRecordingWindow();
+        dawWindow->setContentOwned(new DawComponent(*this), true);
+        dawWindow->addToDesktop();
+        dawWindow->centreWithSize(800, 600);
+        dawWindow->setVisible(true);
+        // templateRecordingWindow->setName(juce::CharPointer_UTF8("\xe6\xa8\xa1\xe6\x9d\xbf"));
     }
 }

@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\AudioClipComponent.cpp" />
     <ClCompile Include="..\..\Source\ClipComponent.cpp" />
+    <ClCompile Include="..\..\Source\DawComponent.cpp" />
     <ClCompile Include="..\..\Source\EditComponent.cpp" />
     <ClCompile Include="..\..\Source\EngineHelpers.cpp" />
     <ClCompile Include="..\..\Source\MidiClipComponent.cpp" />
@@ -139,6 +140,7 @@
     <ClCompile Include="..\..\Source\PluginComponent.cpp" />
     <ClCompile Include="..\..\Source\PluginTreeGroup.cpp" />
     <ClCompile Include="..\..\Source\PluginTreeItem.cpp" />
+    <ClCompile Include="..\..\Source\PluginWindow.cpp" />
     <ClCompile Include="..\..\Source\RecordingClipComponent.cpp" />
     <ClCompile Include="..\..\Source\TrackComponent.cpp" />
     <ClCompile Include="..\..\Source\TrackFooterComponent.cpp" />
@@ -170,8 +172,6 @@
     <ClCompile Include="..\..\soundtouch\source\SoundTouch\TDStretch.cpp" />
     <ClCompile Include="..\..\Source\PluginProcessor.cpp" />
     <ClCompile Include="..\..\Source\PluginEditor.cpp" />
-    <ClCompile Include="..\..\Source\BackgroundComponent.cpp" />
-    <ClCompile Include="..\..\Source\PlayAudioFileComponent.cpp" />
     <ClCompile Include="..\..\rubberband\src\audiocurves\CompoundAudioCurve.cpp" />
     <ClCompile Include="..\..\rubberband\src\audiocurves\ConstantAudioCurve.cpp" />
     <ClCompile Include="..\..\rubberband\src\audiocurves\HighFrequencyAudioCurve.cpp" />
@@ -4495,10 +4495,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\AudioClipComponent.h" />
+    <ClInclude Include="..\..\Source\AudioProcessorEditorComp.h" />
     <ClInclude Include="..\..\Source\ClipComponent.h" />
+    <ClInclude Include="..\..\Source\DawComponent.h" />
+    <ClInclude Include="..\..\Source\DawPluginEditor.h" />
     <ClInclude Include="..\..\Source\EditComponent.h" />
     <ClInclude Include="..\..\Source\EditViewState.h" />
     <ClInclude Include="..\..\Source\EngineHelpers.h" />
+    <ClInclude Include="..\..\Source\ExtendedUIBehaviour.h" />
     <ClInclude Include="..\..\Source\IDs.h" />
     <ClInclude Include="..\..\Source\MidiClipComponent.h" />
     <ClInclude Include="..\..\Source\PlayHeadComponent.h" />
@@ -4508,10 +4512,13 @@
     <ClInclude Include="..\..\Source\PluginTreeBase.h" />
     <ClInclude Include="..\..\Source\PluginTreeGroup.h" />
     <ClInclude Include="..\..\Source\PluginTreeItem.h" />
+    <ClInclude Include="..\..\Source\PluginWindow.h" />
     <ClInclude Include="..\..\Source\RecordingClipComponent.h" />
+    <ClInclude Include="..\..\Source\ToolbarSlider.h" />
     <ClInclude Include="..\..\Source\TrackComponent.h" />
     <ClInclude Include="..\..\Source\TrackFooterComponent.h" />
     <ClInclude Include="..\..\Source\TrackHeaderComponent.h" />
+    <ClInclude Include="..\..\Source\TransportToolbarFactory.h" />
     <ClInclude Include="..\..\Source\Utilities.h" />
     <ClInclude Include="..\..\world\world\cheaptrick.h" />
     <ClInclude Include="..\..\world\world\codec.h" />
@@ -4544,7 +4551,6 @@
     <ClInclude Include="..\..\Source\PluginProcessor.h" />
     <ClInclude Include="..\..\Source\PluginEditor.h" />
     <ClInclude Include="..\..\Source\AudioLiveScrollingDisplay.h" />
-    <ClInclude Include="..\..\Source\BackgroundComponent.h" />
     <ClInclude Include="..\..\Source\AutoCorr.h" />
     <ClInclude Include="..\..\Source\BlockCircularBuffer.h" />
     <ClInclude Include="..\..\Source\CircularBuffer.h" />
@@ -4566,7 +4572,6 @@
     <ClInclude Include="..\..\Source\ShapeInvariantPitchShifter.h" />
     <ClInclude Include="..\..\Source\TransportInformation.h" />
     <ClInclude Include="..\..\Source\TrainingTemplate.h" />
-    <ClInclude Include="..\..\Source\PlayAudioFileComponent.h" />
     <ClInclude Include="..\..\Source\FIFO.h" />
     <ClInclude Include="..\..\Source\HorizontalMeter.h" />
     <ClInclude Include="..\..\Source\CircularMeter.h" />
@@ -6136,6 +6141,27 @@
     <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_graph\docs\tracktion_graph_part_1_introduction.md" />
     <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_graph\docs\tracktion_graph_part_2_node.md" />
     <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_graph\docs\tracktion_graph_part_3_nodeplayer.md" />
+    <None Include="..\..\Source\Assets\res_icons.zip" />
+    <None Include="..\..\Source\res_icons_zip\document-new.svg" />
+    <None Include="..\..\Source\res_icons_zip\document-open.svg" />
+    <None Include="..\..\Source\res_icons_zip\document-print.svg" />
+    <None Include="..\..\Source\res_icons_zip\document-save-as.svg" />
+    <None Include="..\..\Source\res_icons_zip\document-save.svg" />
+    <None Include="..\..\Source\res_icons_zip\edit-copy.svg" />
+    <None Include="..\..\Source\res_icons_zip\edit-cut.svg" />
+    <None Include="..\..\Source\res_icons_zip\edit-delete.svg" />
+    <None Include="..\..\Source\res_icons_zip\edit-find.svg" />
+    <None Include="..\..\Source\res_icons_zip\edit-paste.svg" />
+    <None Include="..\..\Source\res_icons_zip\edit-redo.svg" />
+    <None Include="..\..\Source\res_icons_zip\edit-undo.svg" />
+    <None Include="..\..\Source\res_icons_zip\media-playback-pause.svg" />
+    <None Include="..\..\Source\res_icons_zip\media-playback-start.svg" />
+    <None Include="..\..\Source\res_icons_zip\media-playback-stop.svg" />
+    <None Include="..\..\Source\res_icons_zip\media-record.svg" />
+    <None Include="..\..\Source\res_icons_zip\media-seek-backward.svg" />
+    <None Include="..\..\Source\res_icons_zip\media-seek-forward.svg" />
+    <None Include="..\..\Source\res_icons_zip\preferences-system.svg" />
+    <None Include="..\..\Source\res_icons_zip\system-log-out.svg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
