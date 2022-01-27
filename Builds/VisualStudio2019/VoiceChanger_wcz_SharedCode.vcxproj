@@ -135,6 +135,9 @@
     <ClCompile Include="..\..\Source\DawComponent.cpp" />
     <ClCompile Include="..\..\Source\EditComponent.cpp" />
     <ClCompile Include="..\..\Source\EngineHelpers.cpp" />
+    <ClCompile Include="..\..\Source\EqualizerComponent.cpp" />
+    <ClCompile Include="..\..\Source\EqualizerEditor.cpp" />
+    <ClCompile Include="..\..\Source\EqualizerProcessor.cpp" />
     <ClCompile Include="..\..\Source\MidiClipComponent.cpp" />
     <ClCompile Include="..\..\Source\PlayHeadComponent.cpp" />
     <ClCompile Include="..\..\Source\PluginComponent.cpp" />
@@ -4494,6 +4497,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_tracktion_graph.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Analyser.h" />
     <ClInclude Include="..\..\Source\AudioClipComponent.h" />
     <ClInclude Include="..\..\Source\AudioProcessorEditorComp.h" />
     <ClInclude Include="..\..\Source\ClipComponent.h" />
@@ -4502,7 +4506,10 @@
     <ClInclude Include="..\..\Source\EditComponent.h" />
     <ClInclude Include="..\..\Source\EditViewState.h" />
     <ClInclude Include="..\..\Source\EngineHelpers.h" />
+    <ClInclude Include="..\..\Source\EqualizerComponent.h" />
+    <ClInclude Include="..\..\Source\EqualizerProcessor.h" />
     <ClInclude Include="..\..\Source\ExtendedUIBehaviour.h" />
+    <ClInclude Include="..\..\Source\EqualizerEditor.h" />
     <ClInclude Include="..\..\Source\IDs.h" />
     <ClInclude Include="..\..\Source\MidiClipComponent.h" />
     <ClInclude Include="..\..\Source\PlayHeadComponent.h" />
@@ -4514,6 +4521,7 @@
     <ClInclude Include="..\..\Source\PluginTreeItem.h" />
     <ClInclude Include="..\..\Source\PluginWindow.h" />
     <ClInclude Include="..\..\Source\RecordingClipComponent.h" />
+    <ClInclude Include="..\..\Source\SocialButtons.h" />
     <ClInclude Include="..\..\Source\ToolbarSlider.h" />
     <ClInclude Include="..\..\Source\TrackComponent.h" />
     <ClInclude Include="..\..\Source\TrackFooterComponent.h" />

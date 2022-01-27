@@ -1420,6 +1420,9 @@
     <Filter Include="VoiceChanger_wcz\Source\Components\Daw\dawComponents\Assets">
       <UniqueIdentifier>{fa032d0e-efe0-4d4f-8b10-346ec5d5022a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="VoiceChanger_wcz\Source\Components\Equalizer">
+      <UniqueIdentifier>{36b26dd5-35b0-41b4-8f85-97a54dd40ce3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\world\cheaptrick.cpp">
@@ -5981,6 +5984,15 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\PluginWindow.cpp">
       <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EqualizerComponent.cpp">
+      <Filter>VoiceChanger_wcz\Source\Components\Equalizer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EqualizerEditor.cpp">
+      <Filter>VoiceChanger_wcz\Source\Components\Equalizer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EqualizerProcessor.cpp">
+      <Filter>VoiceChanger_wcz\Source\Components\Equalizer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -10792,6 +10804,21 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\AudioProcessorEditorComp.h">
       <Filter>VoiceChanger_wcz\Source\Components\Daw\dawComponents\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EqualizerComponent.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Equalizer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Analyser.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Equalizer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EqualizerEditor.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Equalizer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EqualizerProcessor.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Equalizer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SocialButtons.h">
+      <Filter>VoiceChanger_wcz\Source\Components\Equalizer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -122,11 +122,15 @@ private:
     juce::Component::SafePointer<juce::DocumentWindow> templateRecordingWindow;
     juce::Component::SafePointer<juce::DocumentWindow> cameraWindow;
     juce::Component::SafePointer<juce::DocumentWindow> dawWindow;
+    juce::Component::SafePointer<juce::DocumentWindow> eqWindow;
+
 
     Gui::CicularMeter circularMeterL, circularMeterR;
     Gui::HorizontalMeter horizontalMeterL, horizontalMeterR;
     int framesElapsed = 0;
     float maxRmsLeft{}, maxRmsRight{};
+
+public:
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VoiceChanger_wczAudioProcessorEditor)
 };
