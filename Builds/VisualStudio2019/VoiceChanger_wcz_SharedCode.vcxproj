@@ -45,6 +45,9 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VoiceChangerwcz</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>D:\1a\voice_changer%40wcz\VoiceChanger%40wcz\VC\CppAlgo\external\Eigen;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -56,7 +59,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format_types\VST3_SDK;..\..\JuceLibraryCode;..\..\..\..\tools\tracktion_engine\modules\juce\modules;..\..\..\..\tools\tracktion_engine\modules;D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HTKLib;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMLib;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMTools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format_types\VST3_SDK;D:\1a\tools\VST2SDK\vstsdk2_4;..\..\JuceLibraryCode;..\..\..\..\tools\tracktion_engine\modules\juce\modules;..\..\..\..\tools\tracktion_engine\modules;D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HTKLib;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMLib;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMTools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;JUCE_DISPLAY_SPLASH_SCREEN=1;JUCE_USE_DARK_SPLASH_SCREEN=1;JUCE_PROJUCER_VERSION=0x60102;JUCE_MODULE_AVAILABLE_juce_analytics=1;JUCE_MODULE_AVAILABLE_juce_audio_basics=1;JUCE_MODULE_AVAILABLE_juce_audio_devices=1;JUCE_MODULE_AVAILABLE_juce_audio_formats=1;JUCE_MODULE_AVAILABLE_juce_audio_plugin_client=1;JUCE_MODULE_AVAILABLE_juce_audio_processors=1;JUCE_MODULE_AVAILABLE_juce_audio_utils=1;JUCE_MODULE_AVAILABLE_juce_box2d=1;JUCE_MODULE_AVAILABLE_juce_core=1;JUCE_MODULE_AVAILABLE_juce_data_structures=1;JUCE_MODULE_AVAILABLE_juce_dsp=1;JUCE_MODULE_AVAILABLE_juce_events=1;JUCE_MODULE_AVAILABLE_juce_graphics=1;JUCE_MODULE_AVAILABLE_juce_gui_basics=1;JUCE_MODULE_AVAILABLE_juce_gui_extra=1;JUCE_MODULE_AVAILABLE_juce_opengl=1;JUCE_MODULE_AVAILABLE_juce_osc=1;JUCE_MODULE_AVAILABLE_juce_video=1;JUCE_MODULE_AVAILABLE_tracktion_engine=1;JUCE_MODULE_AVAILABLE_tracktion_graph=1;JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1;JUCE_VST3_CAN_REPLACE_VST2=0;JUCE_STRICT_REFCOUNTEDPOINTER=1;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=1;JucePlugin_Build_Unity=0;JucePlugin_Enable_IAA=0;JucePlugin_Name="VoiceChanger_wcz";JucePlugin_Desc="VoiceChanger_wcz";JucePlugin_Manufacturer="yourcompany";JucePlugin_ManufacturerWebsite="";JucePlugin_ManufacturerEmail="";JucePlugin_ManufacturerCode=0x4d616e75;JucePlugin_PluginCode=0x46616937;JucePlugin_IsSynth=0;JucePlugin_WantsMidiInput=0;JucePlugin_ProducesMidiOutput=0;JucePlugin_IsMidiEffect=0;JucePlugin_EditorRequiresKeyboardFocus=0;JucePlugin_Version=1.0.0;JucePlugin_VersionCode=0x10000;JucePlugin_VersionString="1.0.0";JucePlugin_VSTUniqueID=JucePlugin_PluginCode;JucePlugin_VSTCategory=kPlugCategEffect;JucePlugin_Vst3Category="Fx";JucePlugin_AUMainType='aufx';JucePlugin_AUSubType=JucePlugin_PluginCode;JucePlugin_AUExportPrefix=VoiceChanger_wczAU;JucePlugin_AUExportPrefixQuoted="VoiceChanger_wczAU";JucePlugin_AUManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_CFBundleIdentifier=com.yourcompany.VoiceChanger_wcz;JucePlugin_RTASCategory=0;JucePlugin_RTASManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_RTASProductId=JucePlugin_PluginCode;JucePlugin_RTASDisableBypass=0;JucePlugin_RTASDisableMultiMono=0;JucePlugin_AAXIdentifier=com.yourcompany.VoiceChanger_wcz;JucePlugin_AAXManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_AAXProductId=JucePlugin_PluginCode;JucePlugin_AAXCategory=0;JucePlugin_AAXDisableBypass=0;JucePlugin_AAXDisableMultiMono=0;JucePlugin_IAAType=0x61757278;JucePlugin_IAASubType=JucePlugin_PluginCode;JucePlugin_IAAName="yourcompany: VoiceChanger_wcz";JucePlugin_VSTNumMidiInputs=16;JucePlugin_VSTNumMidiOutputs=16;JUCE_STANDALONE_APPLICATION=JucePlugin_Build_Standalone;NOMINMAX;_USE_MATH_DEFINES;HAVE_KISSFFT;USE_SPEEX;JUCE_MODAL_LOOPS_PERMITTED=1;JUCE_USE_CAMERA;JUCER_VS2019_78A5026=1;JUCE_APP_VERSION=1.0.0;JUCE_APP_VERSION_HEX=0x10000;JUCE_SHARED_CODE=1;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -96,7 +99,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format_types\VST3_SDK;..\..\JuceLibraryCode;..\..\..\..\tools\tracktion_engine\modules\juce\modules;..\..\..\..\tools\tracktion_engine\modules;D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source;D:\1a\voice_changer@wcz\VoiceChanger@wcz\world;D:\1a\voice_changer@wcz\VoiceChanger@wcz\world\world;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format_types\VST3_SDK;D:\1a\tools\VST2SDK\vstsdk2_4;..\..\JuceLibraryCode;..\..\..\..\tools\tracktion_engine\modules\juce\modules;..\..\..\..\tools\tracktion_engine\modules;D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source;D:\1a\voice_changer@wcz\VoiceChanger@wcz\world;D:\1a\voice_changer@wcz\VoiceChanger@wcz\world\world;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;JUCE_DISPLAY_SPLASH_SCREEN=1;JUCE_USE_DARK_SPLASH_SCREEN=1;JUCE_PROJUCER_VERSION=0x60102;JUCE_MODULE_AVAILABLE_juce_analytics=1;JUCE_MODULE_AVAILABLE_juce_audio_basics=1;JUCE_MODULE_AVAILABLE_juce_audio_devices=1;JUCE_MODULE_AVAILABLE_juce_audio_formats=1;JUCE_MODULE_AVAILABLE_juce_audio_plugin_client=1;JUCE_MODULE_AVAILABLE_juce_audio_processors=1;JUCE_MODULE_AVAILABLE_juce_audio_utils=1;JUCE_MODULE_AVAILABLE_juce_box2d=1;JUCE_MODULE_AVAILABLE_juce_core=1;JUCE_MODULE_AVAILABLE_juce_data_structures=1;JUCE_MODULE_AVAILABLE_juce_dsp=1;JUCE_MODULE_AVAILABLE_juce_events=1;JUCE_MODULE_AVAILABLE_juce_graphics=1;JUCE_MODULE_AVAILABLE_juce_gui_basics=1;JUCE_MODULE_AVAILABLE_juce_gui_extra=1;JUCE_MODULE_AVAILABLE_juce_opengl=1;JUCE_MODULE_AVAILABLE_juce_osc=1;JUCE_MODULE_AVAILABLE_juce_video=1;JUCE_MODULE_AVAILABLE_tracktion_engine=1;JUCE_MODULE_AVAILABLE_tracktion_graph=1;JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1;JUCE_VST3_CAN_REPLACE_VST2=0;JUCE_STRICT_REFCOUNTEDPOINTER=1;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=1;JucePlugin_Build_Unity=0;JucePlugin_Enable_IAA=0;JucePlugin_Name="VoiceChanger_wcz";JucePlugin_Desc="VoiceChanger_wcz";JucePlugin_Manufacturer="yourcompany";JucePlugin_ManufacturerWebsite="";JucePlugin_ManufacturerEmail="";JucePlugin_ManufacturerCode=0x4d616e75;JucePlugin_PluginCode=0x46616937;JucePlugin_IsSynth=0;JucePlugin_WantsMidiInput=0;JucePlugin_ProducesMidiOutput=0;JucePlugin_IsMidiEffect=0;JucePlugin_EditorRequiresKeyboardFocus=0;JucePlugin_Version=1.0.0;JucePlugin_VersionCode=0x10000;JucePlugin_VersionString="1.0.0";JucePlugin_VSTUniqueID=JucePlugin_PluginCode;JucePlugin_VSTCategory=kPlugCategEffect;JucePlugin_Vst3Category="Fx";JucePlugin_AUMainType='aufx';JucePlugin_AUSubType=JucePlugin_PluginCode;JucePlugin_AUExportPrefix=VoiceChanger_wczAU;JucePlugin_AUExportPrefixQuoted="VoiceChanger_wczAU";JucePlugin_AUManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_CFBundleIdentifier=com.yourcompany.VoiceChanger_wcz;JucePlugin_RTASCategory=0;JucePlugin_RTASManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_RTASProductId=JucePlugin_PluginCode;JucePlugin_RTASDisableBypass=0;JucePlugin_RTASDisableMultiMono=0;JucePlugin_AAXIdentifier=com.yourcompany.VoiceChanger_wcz;JucePlugin_AAXManufacturerCode=JucePlugin_ManufacturerCode;JucePlugin_AAXProductId=JucePlugin_PluginCode;JucePlugin_AAXCategory=0;JucePlugin_AAXDisableBypass=0;JucePlugin_AAXDisableMultiMono=0;JucePlugin_IAAType=0x61757278;JucePlugin_IAASubType=JucePlugin_PluginCode;JucePlugin_IAAName="yourcompany: VoiceChanger_wcz";JucePlugin_VSTNumMidiInputs=16;JucePlugin_VSTNumMidiOutputs=16;JUCE_STANDALONE_APPLICATION=JucePlugin_Build_Standalone;NOMINMAX;_USE_MATH_DEFINES;HAVE_KISSFFT;USE_SPEEX;JUCE_MODAL_LOOPS_PERMITTED=1;JUCE_USE_CAMERA;JUCER_VS2019_78A5026=1;JUCE_APP_VERSION=1.0.0;JUCE_APP_VERSION_HEX=0x10000;JUCE_SHARED_CODE=1;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -130,24 +133,41 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\AudioClipComponent.cpp" />
-    <ClCompile Include="..\..\Source\ClipComponent.cpp" />
-    <ClCompile Include="..\..\Source\DawComponent.cpp" />
-    <ClCompile Include="..\..\Source\EditComponent.cpp" />
-    <ClCompile Include="..\..\Source\EngineHelpers.cpp" />
-    <ClCompile Include="..\..\Source\EqualizerComponent.cpp" />
-    <ClCompile Include="..\..\Source\EqualizerEditor.cpp" />
-    <ClCompile Include="..\..\Source\EqualizerProcessor.cpp" />
-    <ClCompile Include="..\..\Source\MidiClipComponent.cpp" />
-    <ClCompile Include="..\..\Source\PlayHeadComponent.cpp" />
-    <ClCompile Include="..\..\Source\PluginComponent.cpp" />
-    <ClCompile Include="..\..\Source\PluginTreeGroup.cpp" />
-    <ClCompile Include="..\..\Source\PluginTreeItem.cpp" />
-    <ClCompile Include="..\..\Source\PluginWindow.cpp" />
-    <ClCompile Include="..\..\Source\RecordingClipComponent.cpp" />
-    <ClCompile Include="..\..\Source\TrackComponent.cpp" />
-    <ClCompile Include="..\..\Source\TrackFooterComponent.cpp" />
-    <ClCompile Include="..\..\Source\TrackHeaderComponent.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\example\main.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\aaalsf.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\automaticth2wfw.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\bylevdurb.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\bymcaquat.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\clustkmeans.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\comp_delta.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\conv.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\convert_C.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\decomposephase.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\detalsf.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\DynamicTimeWarping.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\extractmfcc.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\f0analysisbyboersma.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\harmonicanalysis.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\HSManalyze.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\HSManalyze_mfcc.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\HSMptraining.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\HSMsynthesize.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\HSMwfwconvert.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\linphaseterm.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\lsfadap.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\mfcc.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\modelSerialization.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\polarityanalysis.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\polytseb.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\PrepareParallelData.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\RealTimeConverter.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\stochalsf.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\stochasticanalysis.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\sumcos.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\train_C.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\trifbank.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\vec2frames.cpp" />
+    <ClCompile Include="..\..\VC\CppAlgo\src\WavRW.cpp" />
     <ClCompile Include="..\..\world\cheaptrick.cpp" />
     <ClCompile Include="..\..\world\codec.cpp" />
     <ClCompile Include="..\..\world\common.cpp" />
@@ -175,6 +195,24 @@
     <ClCompile Include="..\..\soundtouch\source\SoundTouch\TDStretch.cpp" />
     <ClCompile Include="..\..\Source\PluginProcessor.cpp" />
     <ClCompile Include="..\..\Source\PluginEditor.cpp" />
+    <ClCompile Include="..\..\Source\DawComponent.cpp" />
+    <ClCompile Include="..\..\Source\PlayHeadComponent.cpp" />
+    <ClCompile Include="..\..\Source\TrackHeaderComponent.cpp" />
+    <ClCompile Include="..\..\Source\TrackFooterComponent.cpp" />
+    <ClCompile Include="..\..\Source\TrackComponent.cpp" />
+    <ClCompile Include="..\..\Source\RecordingClipComponent.cpp" />
+    <ClCompile Include="..\..\Source\MidiClipComponent.cpp" />
+    <ClCompile Include="..\..\Source\ClipComponent.cpp" />
+    <ClCompile Include="..\..\Source\AudioClipComponent.cpp" />
+    <ClCompile Include="..\..\Source\EditComponent.cpp" />
+    <ClCompile Include="..\..\Source\PluginWindow.cpp" />
+    <ClCompile Include="..\..\Source\PluginTreeItem.cpp" />
+    <ClCompile Include="..\..\Source\PluginTreeGroup.cpp" />
+    <ClCompile Include="..\..\Source\PluginComponent.cpp" />
+    <ClCompile Include="..\..\Source\DawPluginEditor.cpp" />
+    <ClCompile Include="..\..\Source\EngineHelpers.cpp" />
+    <ClCompile Include="..\..\Source\EqualizerEditor.cpp" />
+    <ClCompile Include="..\..\Source\EqComponent.cpp" />
     <ClCompile Include="..\..\rubberband\src\audiocurves\CompoundAudioCurve.cpp" />
     <ClCompile Include="..\..\rubberband\src\audiocurves\ConstantAudioCurve.cpp" />
     <ClCompile Include="..\..\rubberband\src\audiocurves\HighFrequencyAudioCurve.cpp" />
@@ -4497,37 +4535,64 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_tracktion_graph.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Analyser.h" />
-    <ClInclude Include="..\..\Source\AudioClipComponent.h" />
-    <ClInclude Include="..\..\Source\AudioProcessorEditorComp.h" />
-    <ClInclude Include="..\..\Source\ClipComponent.h" />
-    <ClInclude Include="..\..\Source\DawComponent.h" />
-    <ClInclude Include="..\..\Source\DawPluginEditor.h" />
-    <ClInclude Include="..\..\Source\EditComponent.h" />
-    <ClInclude Include="..\..\Source\EditViewState.h" />
-    <ClInclude Include="..\..\Source\EngineHelpers.h" />
-    <ClInclude Include="..\..\Source\EqualizerComponent.h" />
-    <ClInclude Include="..\..\Source\EqualizerProcessor.h" />
-    <ClInclude Include="..\..\Source\ExtendedUIBehaviour.h" />
-    <ClInclude Include="..\..\Source\EqualizerEditor.h" />
-    <ClInclude Include="..\..\Source\IDs.h" />
-    <ClInclude Include="..\..\Source\MidiClipComponent.h" />
-    <ClInclude Include="..\..\Source\PlayHeadComponent.h" />
-    <ClInclude Include="..\..\Source\PluginComponent.h" />
-    <ClInclude Include="..\..\Source\PluginDefinitions.h" />
-    <ClInclude Include="..\..\Source\PluginMenu.h" />
-    <ClInclude Include="..\..\Source\PluginTreeBase.h" />
-    <ClInclude Include="..\..\Source\PluginTreeGroup.h" />
-    <ClInclude Include="..\..\Source\PluginTreeItem.h" />
-    <ClInclude Include="..\..\Source\PluginWindow.h" />
-    <ClInclude Include="..\..\Source\RecordingClipComponent.h" />
-    <ClInclude Include="..\..\Source\SocialButtons.h" />
-    <ClInclude Include="..\..\Source\ToolbarSlider.h" />
-    <ClInclude Include="..\..\Source\TrackComponent.h" />
-    <ClInclude Include="..\..\Source\TrackFooterComponent.h" />
-    <ClInclude Include="..\..\Source\TrackHeaderComponent.h" />
-    <ClInclude Include="..\..\Source\TransportToolbarFactory.h" />
-    <ClInclude Include="..\..\Source\Utilities.h" />
+    <ClInclude Include="..\..\Source\VoiceConversion.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\include\vchsm\convert_C.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\include\vchsm\C_Swift_bridge_header.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\include\vchsm\train_C.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\aaalsf.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\almostEqual.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\angle.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\automaticth2wfw.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\bylevdurb.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\bymcaquat.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\clustkmeans.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\comp_delta.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\concat.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\constants.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\conv.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\decomposephase.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\detalsf.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\DynamicTimeWarping.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\EigenSerialization.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\extractmfcc.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\f0analysisbyboersma.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\FFT.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\filter.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\find.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\hamming.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\harmonicanalysis.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\HSManalyze.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\HSManalyze_mfcc.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\HSMptraining.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\HSMsynthesize.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\HSMwfwconvert.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\linphaseterm.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\lsfadap.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\mfcc.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\modelSerialization.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\pdist2squared.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\PicosElement.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\pinv.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\polarityanalysis.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\poly.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\polyeval.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\polytseb.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\pow2roundup.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\PrepareParallelData.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\readWritePicosStructArray.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\RealTimeConverter.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\roots.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\seq.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\sliceByIndices.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\stochalsf.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\stochasticanalysis.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\StructDefinitions.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\sumcos.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\trifbank.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\types.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\vec2frames.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\WavHeader.h" />
+    <ClInclude Include="..\..\VC\CppAlgo\src\WavRW.h" />
     <ClInclude Include="..\..\world\world\cheaptrick.h" />
     <ClInclude Include="..\..\world\world\codec.h" />
     <ClInclude Include="..\..\world\world\common.h" />
@@ -4556,33 +4621,63 @@
     <ClInclude Include="..\..\soundtouch\source\SoundTouch\PeakFinder.h" />
     <ClInclude Include="..\..\soundtouch\source\SoundTouch\RateTransposer.h" />
     <ClInclude Include="..\..\soundtouch\source\SoundTouch\TDStretch.h" />
-    <ClInclude Include="..\..\Source\PluginProcessor.h" />
-    <ClInclude Include="..\..\Source\PluginEditor.h" />
-    <ClInclude Include="..\..\Source\AudioLiveScrollingDisplay.h" />
-    <ClInclude Include="..\..\Source\AutoCorr.h" />
-    <ClInclude Include="..\..\Source\BlockCircularBuffer.h" />
-    <ClInclude Include="..\..\Source\CircularBuffer.h" />
-    <ClInclude Include="..\..\Source\CameraWindow.h" />
-    <ClInclude Include="..\..\Source\PeakShifter.h" />
-    <ClInclude Include="..\..\Source\PhaseVocoder.h" />
-    <ClInclude Include="..\..\Source\NewWindow.h" />
-    <ClInclude Include="..\..\Source\TemplateRecording.h" />
-    <ClInclude Include="..\..\Source\TemplateRecordingWindow.h" />
-    <ClInclude Include="..\..\Source\phaseVocoderForShapeInvariant.h" />
-    <ClInclude Include="..\..\Source\RingBuffer.h" />
-    <ClInclude Include="..\..\Source\PitchShifterRubberband.h" />
-    <ClInclude Include="..\..\Source\PitchShifterSoundTouch.h" />
-    <ClInclude Include="..\..\Source\TemplateProjectingWindow.h" />
-    <ClInclude Include="..\..\Source\PitchShifter.h" />
-    <ClInclude Include="..\..\Source\PluginFilter.h" />
-    <ClInclude Include="..\..\Source\PluginParameter.h" />
-    <ClInclude Include="..\..\Source\Resample.h" />
-    <ClInclude Include="..\..\Source\ShapeInvariantPitchShifter.h" />
     <ClInclude Include="..\..\Source\TransportInformation.h" />
-    <ClInclude Include="..\..\Source\TrainingTemplate.h" />
+    <ClInclude Include="..\..\Source\PluginProcessor.h" />
+    <ClInclude Include="..\..\Source\PluginParameter.h" />
+    <ClInclude Include="..\..\Source\PluginFilter.h" />
+    <ClInclude Include="..\..\Source\PluginEditor.h" />
+    <ClInclude Include="..\..\Source\PitchShifterSoundTouch.h" />
+    <ClInclude Include="..\..\Source\PitchShifterRubberband.h" />
+    <ClInclude Include="..\..\Source\NewWindow.h" />
+    <ClInclude Include="..\..\Source\DawComponent.h" />
+    <ClInclude Include="..\..\Source\PlayHeadComponent.h" />
+    <ClInclude Include="..\..\Source\TrackHeaderComponent.h" />
+    <ClInclude Include="..\..\Source\TrackFooterComponent.h" />
+    <ClInclude Include="..\..\Source\TrackComponent.h" />
+    <ClInclude Include="..\..\Source\RecordingClipComponent.h" />
+    <ClInclude Include="..\..\Source\MidiClipComponent.h" />
+    <ClInclude Include="..\..\Source\ClipComponent.h" />
+    <ClInclude Include="..\..\Source\AudioClipComponent.h" />
+    <ClInclude Include="..\..\Source\EditComponent.h" />
+    <ClInclude Include="..\..\Source\PluginWindow.h" />
+    <ClInclude Include="..\..\Source\PluginTreeItem.h" />
+    <ClInclude Include="..\..\Source\PluginTreeGroup.h" />
+    <ClInclude Include="..\..\Source\PluginTreeBase.h" />
+    <ClInclude Include="..\..\Source\PluginMenu.h" />
+    <ClInclude Include="..\..\Source\PluginDefinitions.h" />
+    <ClInclude Include="..\..\Source\PluginComponent.h" />
+    <ClInclude Include="..\..\Source\DawPluginEditor.h" />
+    <ClInclude Include="..\..\Source\AudioProcessorEditorComp.h" />
+    <ClInclude Include="..\..\Source\TransportToolbarFactory.h" />
+    <ClInclude Include="..\..\Source\ToolbarSlider.h" />
+    <ClInclude Include="..\..\Source\Utilities.h" />
+    <ClInclude Include="..\..\Source\IDs.h" />
+    <ClInclude Include="..\..\Source\EngineHelpers.h" />
+    <ClInclude Include="..\..\Source\ExtendedUIBehaviour.h" />
+    <ClInclude Include="..\..\Source\EditViewState.h" />
+    <ClInclude Include="..\..\Source\SocialButtons.h" />
+    <ClInclude Include="..\..\Source\EqualizerEditor.h" />
+    <ClInclude Include="..\..\Source\EqComponent.h" />
+    <ClInclude Include="..\..\Source\Analyser.h" />
+    <ClInclude Include="..\..\Source\Resample.h" />
+    <ClInclude Include="..\..\Source\PitchShifter.h" />
+    <ClInclude Include="..\..\Source\phaseVocoderForShapeInvariant.h" />
+    <ClInclude Include="..\..\Source\PhaseVocoder.h" />
+    <ClInclude Include="..\..\Source\PeakShifter.h" />
+    <ClInclude Include="..\..\Source\RingBuffer.h" />
+    <ClInclude Include="..\..\Source\BlockCircularBuffer.h" />
+    <ClInclude Include="..\..\Source\AutoCorr.h" />
+    <ClInclude Include="..\..\Source\CircularBuffer.h" />
     <ClInclude Include="..\..\Source\FIFO.h" />
-    <ClInclude Include="..\..\Source\HorizontalMeter.h" />
+    <ClInclude Include="..\..\Source\TrainingTemplate.h" />
+    <ClInclude Include="..\..\Source\TemplateRecordingWindow.h" />
+    <ClInclude Include="..\..\Source\TemplateRecording.h" />
+    <ClInclude Include="..\..\Source\TemplateProjectingWindow.h" />
+    <ClInclude Include="..\..\Source\AudioLiveScrollingDisplay.h" />
     <ClInclude Include="..\..\Source\CircularMeter.h" />
+    <ClInclude Include="..\..\Source\HorizontalMeter.h" />
+    <ClInclude Include="..\..\Source\CameraWindow.h" />
+    <ClInclude Include="..\..\Source\PrintDebug.h" />
     <ClInclude Include="..\..\rubberband\rubberband\rubberband-c.h" />
     <ClInclude Include="..\..\rubberband\rubberband\RubberBandStretcher.h" />
     <ClInclude Include="..\..\rubberband\src\audiocurves\CompoundAudioCurve.h" />
@@ -6109,6 +6204,8 @@
   <ItemGroup>
     <None Include="..\..\soundtouch\include\Makefile.am" />
     <None Include="..\..\soundtouch\include\soundtouch_config.h.in" />
+    <None Include="..\..\Source\res_icons.zip" />
+    <None Include="..\..\Source\README.md" />
     <None Include="..\..\rubberband\src\kissfft\COPYING" />
     <None Include="..\..\rubberband\src\speex\COPYING" />
     <None Include="..\..\dtw\data\__init__.py" />
@@ -6149,27 +6246,6 @@
     <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_graph\docs\tracktion_graph_part_1_introduction.md" />
     <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_graph\docs\tracktion_graph_part_2_node.md" />
     <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_graph\docs\tracktion_graph_part_3_nodeplayer.md" />
-    <None Include="..\..\Source\Assets\res_icons.zip" />
-    <None Include="..\..\Source\res_icons_zip\document-new.svg" />
-    <None Include="..\..\Source\res_icons_zip\document-open.svg" />
-    <None Include="..\..\Source\res_icons_zip\document-print.svg" />
-    <None Include="..\..\Source\res_icons_zip\document-save-as.svg" />
-    <None Include="..\..\Source\res_icons_zip\document-save.svg" />
-    <None Include="..\..\Source\res_icons_zip\edit-copy.svg" />
-    <None Include="..\..\Source\res_icons_zip\edit-cut.svg" />
-    <None Include="..\..\Source\res_icons_zip\edit-delete.svg" />
-    <None Include="..\..\Source\res_icons_zip\edit-find.svg" />
-    <None Include="..\..\Source\res_icons_zip\edit-paste.svg" />
-    <None Include="..\..\Source\res_icons_zip\edit-redo.svg" />
-    <None Include="..\..\Source\res_icons_zip\edit-undo.svg" />
-    <None Include="..\..\Source\res_icons_zip\media-playback-pause.svg" />
-    <None Include="..\..\Source\res_icons_zip\media-playback-start.svg" />
-    <None Include="..\..\Source\res_icons_zip\media-playback-stop.svg" />
-    <None Include="..\..\Source\res_icons_zip\media-record.svg" />
-    <None Include="..\..\Source\res_icons_zip\media-seek-backward.svg" />
-    <None Include="..\..\Source\res_icons_zip\media-seek-forward.svg" />
-    <None Include="..\..\Source\res_icons_zip\preferences-system.svg" />
-    <None Include="..\..\Source\res_icons_zip\system-log-out.svg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

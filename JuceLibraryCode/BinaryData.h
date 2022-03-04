@@ -14,6 +14,12 @@ namespace BinaryData
     extern const char*   soundtouch_config_h_in;
     const int            soundtouch_config_h_inSize = 188;
 
+    extern const char*   res_icons_zip;
+    const int            res_icons_zipSize = 86071;
+
+    extern const char*   README_md;
+    const int            README_mdSize = 463;
+
     extern const char*   COPYING;
     const int            COPYINGSize = 246;
 
@@ -32,11 +38,11 @@ namespace BinaryData
     extern const char*   syntheticdata_py;
     const int            syntheticdata_pySize = 5156;
 
-    extern const char*   README_md;
-    const int            README_mdSize = 706;
+    extern const char*   README_md2;
+    const int            README_md2Size = 706;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 9;
+    const int namedResourceListSize = 11;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

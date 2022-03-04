@@ -17,6 +17,7 @@
 #include"CameraWindow.h"
 #include"CircularMeter.h"
 #include"HorizontalMeter.h"
+#include"EqualizerEditor.h"
 #include"DawComponent.h"
 //==============================================================================
 /**
@@ -43,6 +44,8 @@ public:
     void timerCallback() override;
 
     void comboBoxChanged(juce::ComboBox* comboBoxThatWasMoved) override;
+
+
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
@@ -65,6 +68,7 @@ private:
     void openTemplateWindowButtonClicked();
     void openCameraButtonClicked();
     void openDawButtonClicked();
+    void openEqButtonClicked();
     // void singModeClicked();
 
 
@@ -109,6 +113,7 @@ private:
 
     juce::TextButton openDawButton;
 
+    juce::TextButton openEqButton;
     juce::AudioDeviceSelectorComponent audioSetupComp;
     int duration{ 300 };
    
@@ -123,7 +128,7 @@ private:
     juce::Component::SafePointer<juce::DocumentWindow> cameraWindow;
     juce::Component::SafePointer<juce::DocumentWindow> dawWindow;
     juce::Component::SafePointer<juce::DocumentWindow> eqWindow;
-
+    std::unique_ptr<FrequalizerAudioProcessorEditor> pEqEditor;
 
     Gui::CicularMeter circularMeterL, circularMeterR;
     Gui::HorizontalMeter horizontalMeterL, horizontalMeterR;

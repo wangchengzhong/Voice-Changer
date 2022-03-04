@@ -1,6 +1,8 @@
 #pragma once
 #include"JuceHeader.h"
 #include"TransportInformation.h"
+#include"D:\1a\voice_changer@wcz\VoiceChanger@wcz\VC\CppAlgo\include\vchsm\train_C.h"
+#define VERBOSE_TRUE 1
 class TemplateProjectingWindow :public juce::Component,
 	public juce::ChangeListener, 
 	private juce::Timer
@@ -129,12 +131,14 @@ public:
 				auto* reader = formatManager.createReaderFor(file);
 				if (reader != nullptr)
 				{
+					//DBG("SammpleRate: " << reader->sampleRate);
 					auto duration = (float)reader->lengthInSamples / reader->sampleRate;
 					if (duration < 1000)
 					{
 						audioProcessor.setState(Stopping);
 						audioProcessor.setTarget(newType);
 						// changeState(Stopping);
+						//DBG("numChannels: " << (int)reader->numChannels);
 						audioProcessor.pPlayBuffer->clear();
 						
 						audioProcessor.pPlayBuffer->setSize((int)reader->numChannels, (int)reader->lengthInSamples);
@@ -171,10 +175,32 @@ public:
 	}
 	void projectButtonClicked()
 	{
-
+		const int n = 1;
+		const char* sourceAudioList[n];
+		const char* targetAudioList[n];
+		for(int i = 0; i < n; ++i)
+		{
+			char* buff = new char[100];
+			std::sprintf(buff, "%s%d.wav", sourceAudioDir, i + 1);
+			sourceAudioList[i] = buff;
+			buff = new char[100];
+			std::sprintf(buff, "%s%d.wav", targetAudioDir, i + 1);
+			targetAudioList[i] = buff;
+		}
+		const char* modelFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/ModelsModel.dat";
+		trainHSMModel(sourceAudioList, targetAudioList, n, 4, modelFile, VERBOSE_TRUE);
+		for(int i = 0; i < n; ++i)
+		{
+			delete[] sourceAudioList[i];
+			delete[] targetAudioList[i];
+		}
 	}
 	bool playing{ false };
 private:
+	const char* sourceAudioDir = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/source_train/";
+	const char* targetAudioDir = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/target_train/";
+	const int numTrainSamples = 20;
+
 	VoiceChanger_wczAudioProcessor& audioProcessor;
 
 	juce::TextButton playButton;

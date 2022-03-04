@@ -61,6 +61,8 @@ RateTransposer::RateTransposer() : FIFOProcessor(&outputBuffer)
     // Instantiates the anti-alias filter
     pAAFilter = new AAFilter(64);
     pTransposer = TransposerBase::newInstance();
+    //leftVCBuffer = new float[(int)(numSamples() / 2)];
+    //rightVCBuffer = new float[(int)(numSamples() / 2)];
     clear();
 }
 
@@ -135,8 +137,23 @@ void RateTransposer::processSamples(const SAMPLETYPE *src, uint nSamples)
 
     if (nSamples == 0) return;
 
+
+
     // Store samples to input buffer
     inputBuffer.putSamples(src, nSamples);
+    
+    // inputBuffer.numSamples();
+
+
+
+
+
+
+
+
+
+
+
 
     // If anti-alias filter is turned off, simply transpose without applying
     // the filter

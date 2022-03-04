@@ -112,6 +112,10 @@ protected:
     /// Output sample buffer
     FIFOSampleBuffer outputBuffer;
 
+    float* leftVCBuffer;
+
+    float* rightVCBuffer;
+
     bool bUseAAFilter;
 
 
@@ -157,6 +161,9 @@ public:
 
     /// Return approximate initial input-output latency
     int getLatency() const;
+
+
+
 };
 
 }

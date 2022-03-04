@@ -56,14 +56,14 @@ public:
 		spectralBuffer.resize(spectralBufferSize);
 		
 		std::fill(spectralBuffer.data(), spectralBuffer.data() + spectralBufferSize, 0.f);
-#if USE_3rdPARTYPITCHSHIFT==false
+//#if USE_3rdPARTYPITCHSHIFT==false
 		// Calculate maximium size resample signal can be
 		const auto maxResampleSize = (int)std::ceil(std::max(this->windowSize * MaxPitchRatio,
 			this->windowSize / MinPitchRatio));
 
 		resampleBuffer.resize(maxResampleSize);
 		std::fill(resampleBuffer.data(), resampleBuffer.data() + maxResampleSize, 0.f);
-#endif
+//#endif
 	}
 
 	juce::SpinLock& getParamLock() { return paramLock; }
@@ -199,7 +199,7 @@ public:
 
 				
 				copyFromSpectralToFft(spectralBufferData,fftBufferIn);
-#if USE_3rdPARTYPITCHSHIFT==false
+#//if USE_3rdPARTYPITCHSHIFT == false
 				processCallback(spectralBufferData, spectralBufferSize);
 
 				fft->performRealOnlyInverseTransform(spectralBufferData);
@@ -219,10 +219,10 @@ public:
 				////////////////////////////////////////////////////
 				//DBG("Synthesis Write Index: " << synthesisBuffer.getWriteIndex());
 				////////////////////////////////////////////////////
-#endif
+//#endif
 				setProcessFlag(true);
 			}
-#if USE_3rdPARTYPITCHSHIFT == false
+//#if USE_3rdPARTYPITCHSHIFT == false
 			// Emit silence until we start producing output
 			if (!isProcessing)
 			{
@@ -235,7 +235,7 @@ public:
 
 			const auto previousSynthesisReadIndex = synthesisBuffer.getReadIndex();
 			synthesisBuffer.read(audioBuffer + internalOffset, internalBufferSize);
-#endif
+//#endif
 
 			//DBG("Synthesis Read Index: " << previousSynthesisReadIndex << " -> " << synthesisBuffer.getReadIndex());
 		}
@@ -348,10 +348,10 @@ private:
 	BlockCircularBuffer<FloatType> analysisBuffer;
 	
 	std::vector<FloatType> spectralBuffer;
-#if USE_3rdPARTYPITCHSHIFT==false
+#//if USE_3rdPARTYPITCHSHIFT==false
 	std::vector<FloatType> resampleBuffer;
 	BlockCircularBuffer<FloatType> synthesisBuffer;
-#endif
+//#endif
 	// Misc state
 	long incomingSampleCount = 0;
 	int spectralBufferSize = 0;

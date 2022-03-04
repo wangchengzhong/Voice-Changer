@@ -1,5 +1,3 @@
-#include "Analyser.h"
-#include "EqualizerProcessor.h"
 #include "SocialButtons.h"
 #include "EqualizerEditor.h"
 
@@ -7,7 +5,7 @@ static int   clickRadius = 4;
 static float maxDB = 24.0f;
 
 //==============================================================================
-FrequalizerAudioProcessorEditor::FrequalizerAudioProcessorEditor(FrequalizerAudioProcessor& p)
+FrequalizerAudioProcessorEditor::FrequalizerAudioProcessorEditor(VoiceChanger_wczAudioProcessor& p)
     : juce::AudioProcessorEditor(&p), freqProcessor(p)
 {
     tooltipWindow->setMillisecondsBeforeTipAppears(1000);
@@ -23,7 +21,7 @@ FrequalizerAudioProcessorEditor::FrequalizerAudioProcessorEditor(FrequalizerAudi
     frame.setTextLabelPosition(juce::Justification::centred);
     addAndMakeVisible(frame);
     addAndMakeVisible(output);
-    attachments.add(new juce::AudioProcessorValueTreeState::SliderAttachment(freqProcessor.getPluginState(), FrequalizerAudioProcessor::paramOutput, output));
+    attachments.add(new juce::AudioProcessorValueTreeState::SliderAttachment(freqProcessor.getPluginState(), VoiceChanger_wczAudioProcessor::paramOutput, output));
     output.setTooltip(TRANS("Overall Gain"));
 
     auto size = freqProcessor.getSavedSize();
@@ -166,7 +164,7 @@ void FrequalizerAudioProcessorEditor::mouseDown(const juce::MouseEvent& e)
                 - e.position.getX()) < clickRadius)
             {
                 contextMenu.clear();
-                const auto& names = FrequalizerAudioProcessor::getFilterTypeNames();
+                const auto& names = VoiceChanger_wczAudioProcessor::getFilterTypeNames();
                 for (int t = 0; t < names.size(); ++t)
                     contextMenu.addItem(t + 1, names[t], true, band->type == t);
 
@@ -295,7 +293,7 @@ float FrequalizerAudioProcessorEditor::getGainForPosition(float pos, float top, 
 
 
 //==============================================================================
-FrequalizerAudioProcessorEditor::BandEditor::BandEditor(size_t i, FrequalizerAudioProcessor& p)
+FrequalizerAudioProcessorEditor::BandEditor::BandEditor(size_t i, VoiceChanger_wczAudioProcessor& p)
     : index(i),
     processor(p)
 {
@@ -356,44 +354,44 @@ void FrequalizerAudioProcessorEditor::BandEditor::resized()
     gain.setBounds(bounds);
 }
 
-void FrequalizerAudioProcessorEditor::BandEditor::updateControls(FrequalizerAudioProcessor::FilterType type)
+void FrequalizerAudioProcessorEditor::BandEditor::updateControls(VoiceChanger_wczAudioProcessor::FilterType type)
 {
     switch (type) {
-    case FrequalizerAudioProcessor::LowPass:
+    case VoiceChanger_wczAudioProcessor::LowPass:
         frequency.setEnabled(true); quality.setEnabled(true); gain.setEnabled(false);
         break;
-    case FrequalizerAudioProcessor::LowPass1st:
+    case VoiceChanger_wczAudioProcessor::LowPass1st:
         frequency.setEnabled(true); quality.setEnabled(false); gain.setEnabled(false);
         break;
-    case FrequalizerAudioProcessor::LowShelf:
+    case VoiceChanger_wczAudioProcessor::LowShelf:
         frequency.setEnabled(true); quality.setEnabled(false); gain.setEnabled(true);
         break;
-    case FrequalizerAudioProcessor::BandPass:
+    case VoiceChanger_wczAudioProcessor::BandPass:
         frequency.setEnabled(true); quality.setEnabled(true); gain.setEnabled(false);
         break;
-    case FrequalizerAudioProcessor::AllPass:
+    case VoiceChanger_wczAudioProcessor::AllPass:
         frequency.setEnabled(true); quality.setEnabled(false); gain.setEnabled(false);
         break;
-    case FrequalizerAudioProcessor::AllPass1st:
+    case VoiceChanger_wczAudioProcessor::AllPass1st:
         frequency.setEnabled(true); quality.setEnabled(false); gain.setEnabled(false);
         break;
-    case FrequalizerAudioProcessor::Notch:
+    case VoiceChanger_wczAudioProcessor::Notch:
         frequency.setEnabled(true); quality.setEnabled(true); gain.setEnabled(false);
         break;
-    case FrequalizerAudioProcessor::Peak:
+    case VoiceChanger_wczAudioProcessor::Peak:
         frequency.setEnabled(true); quality.setEnabled(true); gain.setEnabled(true);
         break;
-    case FrequalizerAudioProcessor::HighShelf:
+    case VoiceChanger_wczAudioProcessor::HighShelf:
         frequency.setEnabled(true); quality.setEnabled(true); gain.setEnabled(true);
         break;
-    case FrequalizerAudioProcessor::HighPass1st:
+    case VoiceChanger_wczAudioProcessor::HighPass1st:
         frequency.setEnabled(true); quality.setEnabled(false); gain.setEnabled(false);
         break;
-    case FrequalizerAudioProcessor::HighPass:
+    case VoiceChanger_wczAudioProcessor::HighPass:
         frequency.setEnabled(true); quality.setEnabled(true); gain.setEnabled(false);
         break;
-    case FrequalizerAudioProcessor::LastFilterID:
-    case FrequalizerAudioProcessor::NoFilter:
+    case VoiceChanger_wczAudioProcessor::LastFilterID:
+    case VoiceChanger_wczAudioProcessor::NoFilter:
     default:
         frequency.setEnabled(true);
         quality.setEnabled(true);

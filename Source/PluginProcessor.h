@@ -5,8 +5,7 @@
 #define _OPEN_WAHWAH false
 #define _OPEN_DYNAMICS true
 #define _OPEN_TEST false
-#define _FILTER_NUM 5
-#define _FILTER_PROCESS false
+#define _FILTER_PROCESS true
 
 #if _OPEN_PEAK_PITCH
 #define _SHOW_SPEC true
@@ -19,17 +18,15 @@
 #endif
 #endif
 
-
+#include<juce_audio_processors/juce_audio_processors.h>
 #include <JuceHeader.h>
 #include"juce_audio_plugin_client//Standalone//juce_StandaloneFilterWindow.h"
 #include"SoundTouch.h"
 #include"PitchShifter.h"
 #include"PeakShifter.h"
 //#include"PluginFilter.h"
-#include<cmath>
-#include "PluginFilter.h"
 // #include "ManVoiceFilter.h"
-#include "ShapeInvariantPitchShifter.h"
+//#include "ShapeInvariantPitchShifter.h"
 #include"rubberband/RubberBandStretcher.h"
 #include"rubberband/rubberband-c.h"
 #include"PitchShifterRubberband.h"
@@ -37,13 +34,48 @@
 #include"TransportInformation.h"
 #include"FIFO.h"
 #include"TrainingTemplate.h"
+#include"Analyser.h"
+#include"SocialButtons.h"
+#include"D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/CppAlgo/include/vchsm/convert_C.h"
 //==============================================================================
 /**
 */
-class VoiceChanger_wczAudioProcessor : public juce::AudioProcessor//,public juce::AudioAppComponent//,public Filter
+class VoiceChanger_wczAudioProcessor :
+	 public juce::AudioProcessor//,public juce::AudioAppComponent//,public Filter
     ,public TransportInformation
     ,public juce::AudioProcessorValueTreeState::Listener
+	,public juce::ChangeBroadcaster
 {
+public:
+    enum FilterType
+    {
+        NoFilter = 0,
+        HighPass,
+        HighPass1st,
+        LowShelf,
+        BandPass,
+        AllPass,
+        AllPass1st,
+        Notch,
+        Peak,
+        HighShelf,
+        LowPass1st,
+        LowPass,
+        LastFilterID
+    };
+    static juce::String paramOutput;
+    static juce::String paramType;
+    static juce::String paramFrequency;
+    static juce::String paramQuality;
+    static juce::String paramGain;
+    static juce::String paramActive;
+
+    static juce::String getBandID(size_t index);
+    static juce::String getTypeParamName(size_t index);
+    static juce::String getFrequencyParamName(size_t index);
+    static juce::String getQualityParamName(size_t index);
+    static juce::String getGainParamName(size_t index);
+    static juce::String getActiveParamName(size_t index);
 public:
     //==============================================================================
     VoiceChanger_wczAudioProcessor();
@@ -60,10 +92,34 @@ public:
     void processBlock (juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
     void overallProcess(juce::AudioBuffer<float>& buffer);
 
+    void parameterChanged(const juce::String& parameterID, float newValue) override;
     //==============================================================================
-    juce::AudioProcessorEditor* createEditor() override;
-    bool hasEditor() const override;
-    
+
+    juce::AudioProcessorValueTreeState& getPluginState();
+#if _OPEN_FILTERS
+    size_t getNumBands() const;
+    juce::String getBandName(size_t index) const;
+    juce::Colour getBandColour(size_t index) const;
+
+    void setBandSolo(int index);
+    bool getBandSolo(int index) const;
+
+    static juce::StringArray getFilterTypeNames();
+
+	juce::AudioProcessorEditor* createEditor() override;
+
+
+	bool hasEditor() const override;
+
+
+
+    const std::vector<double>& getMagnitudes();
+
+    void createFrequencyPlot(juce::Path& p, const std::vector<double>& mags, const juce::Rectangle<int> bounds, float pixelsPerDouble);
+
+    void createAnalyserPlot(juce::Path& p, const juce::Rectangle<int> bounds, float minFreq, bool input);
+
+    bool checkForNewAnalyserData();
     //==============================================================================
     const juce::String getName() const override;
 
@@ -80,8 +136,12 @@ public:
     void changeProgramName (int index, const juce::String& newName) override;
 
     //==============================================================================
-    void getStateInformation (juce::MemoryBlock& destData) override;
+    void  getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+
+    juce::Point<int> getSavedSize() const;
+    void setSavedSize(const juce::Point<int>& size);
+
 
     juce::Image& getSpectrumView();
 
@@ -107,50 +167,116 @@ public:
     float getDynamicsReleaseShift();
     float getDynamicsMakeupGainShift();
 #if _OPEN_FILTERS
-    void setFilterFreqShift(float freq, int filterIndex);
-    void setFilterQFactorShift(float q, int filterIndex);
-    void setFilterTypeShift(int filterType, int filterIndex);
-    void setFilterGainShift(float gain, int filterIndex);
+    //void setFilterFreqShift(float freq, int filterIndex);
+    //void setFilterQFactorShift(float q, int filterIndex);
+    //void setFilterTypeShift(int filterType, int filterIndex);
+    //void setFilterGainShift(float gain, int filterIndex);
 
-    double getFilterFreqShift(int filterIndex);
-    double getFilterQFactorShift(int filterIndex);
-    double getFilterGainShift(int filterIndex);
-    int getFilterTypeShift(int filterIndex);
-    
-    float getPlayAudioFilePosition();
+    //double getFilterFreqShift(int filterIndex);
+    //double getFilterQFactorShift(int filterIndex);
+    //double getFilterGainShift(int filterIndex);
+    //int getFilterTypeShift(int filterIndex);
 
-    
-    juce::StringArray filterIndex = {
-        "1",
-        "2",
-        //"3",
-        //"4",
-        //"5",
-        //"6",
-        //"7",
+    //juce::StringArray filterIndex = {
+    //    "1",
+    //    "2",
+    //    //"3",
+    //    //"4",
+    //    //"5",
+    //    //"6",
+    //    //"7",
+    //};
+    //juce::StringArray createFilterIndexArray(int filterNum)
+    //{
+    //    juce::StringArray filterIndex;
+    //    for (int i = 1; i <= filterNum; i++)
+    //    {
+    //        filterIndex.add(juce::String(i));
+    //    }
+    //    return filterIndex;
+    //}
+    //const int nFiltersPerChannel{ _FILTER_NUM };
+    //int currentFilterIndex{ 1 };
+    //juce::StringArray filterTypeItemsUI = {
+    //    "low-pass",
+    //    "High-pass",
+    //    "Low-shelf",
+    //    "High-shelf",
+    //    "Band-pass",
+    //    "Band-stop",
+    //    "Peaking&Notch",
+    //    "ResonantLowPass"
+    //};
+#endif
+
+
+
+    //==============================================================================
+    struct Band {
+        Band(const juce::String& nameToUse, juce::Colour colourToUse, FilterType typeToUse,
+            float frequencyToUse, float qualityToUse, float gainToUse = 1.0f, bool shouldBeActive = true)
+            : name(nameToUse),
+            colour(colourToUse),
+            type(typeToUse),
+            frequency(frequencyToUse),
+            quality(qualityToUse),
+            gain(gainToUse),
+            active(shouldBeActive)
+        {}
+
+        juce::String name;
+        juce::Colour colour;
+        FilterType   type = BandPass;
+        float        frequency = 1000.0f;
+        float        quality = 1.0f;
+        float        gain = 1.0f;
+        bool         active = true;
+        std::vector<double> magnitudes;
     };
-    juce::StringArray createFilterIndexArray(int filterNum)
-    {
-        juce::StringArray filterIndex;
-        for (int i = 1; i <= filterNum; i++)
-        {
-            filterIndex.add(juce::String(i));
-        }
-        return filterIndex;
-    }
-    const int nFiltersPerChannel{ _FILTER_NUM };
-    int currentFilterIndex{ 1 };
-    juce::StringArray filterTypeItemsUI = {
-        "low-pass",
-        "High-pass",
-        "Low-shelf",
-        "High-shelf",
-        "Band-pass",
-        "Band-stop",
-        "Peaking&Notch",
-        "ResonantLowPass"
-    };
-    juce::OwnedArray<Filter>* filters;
+
+    Band* getBand(size_t index);
+    int getBandIndexFromID(juce::String paramID);
+
+
+
+private:
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(VoiceChanger_wczAudioProcessor);
+    void updateBand(const size_t index);
+
+    void updateBypassedStates();
+
+    void updatePlots();
+
+    juce::UndoManager                  undo;
+#endif
+
+    juce::AudioProcessorValueTreeState state;
+#if _OPEN_FILTERS
+    std::vector<Band>    bands;
+
+    std::vector<double> frequencies;
+    std::vector<double> magnitudes;
+
+    bool wasBypassed = true;
+
+    using FilterBand = juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>>;
+    using Gain = juce::dsp::Gain<float>;
+    juce::dsp::ProcessorChain<FilterBand, FilterBand, FilterBand, FilterBand, FilterBand, FilterBand, Gain> filter;
+
+    double sampleRate = 44100;
+
+    int soloed = -1;
+
+    Analyser<float> inputAnalyser;
+    Analyser<float> outputAnalyser;
+
+
+    juce::Point<int> editorSize = { 900, 500 };
+
+
+//public:
+//
+//    juce::OwnedArray<Filter>* filters;
     //enum filterTypeIndex {
     //    filterTypeLowPass = 1,
     //    filterTypeHighPass,
@@ -161,40 +287,16 @@ public:
     //    filterTypePeakingNotch,
     //    filterTypeResonantLowPass
     //};
-    bool realtimeMode{ true };
-    juce::AudioFormatManager formatManager;
-    std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
-    juce::AudioTransportSource transportSource;
-    
-    juce::AudioSampleBuffer fileBuffer;
-    juce::AudioSampleBuffer sourceBuffer;
-    juce::AudioSampleBuffer targetBuffer;
-    juce::AudioSampleBuffer sourceBufferAligned;
-    juce::AudioSampleBuffer targetBufferAligned;
 
-    TrainingTemplate trainingTemplate;
-    std::vector<float> voiceChangerParameter;
-    juce::AudioSampleBuffer* pPlayBuffer;
-    TransportInformation ti;
-    void setTarget(TransportFileType ft)override;
-    void setState(TransportState newState)override;
-    float inputAudioFileLength{ 300.0f };
-    void getNextAudioBlock(juce::AudioSourceChannelInfo&buffer);
-    // int readFilePosition;
-    bool shouldProcessFile{ false };
-    bool canReadSampleBuffer{ false };
-    void alignBuffer(juce::AudioSampleBuffer& s, juce::AudioSampleBuffer& t);
-private:
-    juce::AudioParameterFloat* nFilterQFactor;
-    juce::AudioParameterFloat* nFilterFreq;
-    juce::AudioParameterFloat* nFilterGain;
+//private:
+//    juce::AudioParameterFloat* nFilterQFactor;
+//    juce::AudioParameterFloat* nFilterFreq;
+//    juce::AudioParameterFloat* nFilterGain;
+//
+//    juce::AudioParameterInt* nFilterType;
+//    juce::AudioParameterInt* nFilter2Type;
+//    juce::AudioParameterInt* nFilterIndex;
 
-    juce::AudioParameterInt* nFilterType;
-    juce::AudioParameterInt* nFilter2Type;
-    juce::AudioParameterInt* nFilterIndex;
-public:
-    int nPlayAudioFilePosition{ 0 };
-    int nPlayAudioFileSampleNum{ 0 };
 #endif
 public:
 #if _OPEN_DYNAMICS 
@@ -219,7 +321,35 @@ public:
         ,float makeupGain
     );
 #endif
-    
+public:
+    int nPlayAudioFilePosition{ 0 };
+    int nPlayAudioFileSampleNum{ 0 };
+    bool realtimeMode{ true };
+    juce::AudioFormatManager formatManager;
+    std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
+    juce::AudioTransportSource transportSource;
+
+    juce::AudioSampleBuffer fileBuffer;
+    juce::AudioSampleBuffer sourceBuffer;
+    juce::AudioSampleBuffer targetBuffer;
+    juce::AudioSampleBuffer sourceBufferAligned;
+    juce::AudioSampleBuffer targetBufferAligned;
+
+    TrainingTemplate trainingTemplate;
+    std::vector<float> voiceChangerParameter;
+    juce::AudioSampleBuffer* pPlayBuffer;
+    TransportInformation ti;
+    void setTarget(TransportFileType ft)override;
+    void setState(TransportState newState)override;
+    float inputAudioFileLength{ 300.0f };
+    void getNextAudioBlock(juce::AudioSourceChannelInfo& buffer);
+    // int readFilePosition;
+    bool shouldProcessFile{ false };
+    bool canReadSampleBuffer{ false };
+    void alignBuffer(juce::AudioSampleBuffer& s, juce::AudioSampleBuffer& t);
+    float getPlayAudioFilePosition();
+
+
 #if _OPEN_WAHWAH
     juce::OwnedArray<Filter> filtersForWahWah;
     void processWahwah(juce::AudioBuffer<float>& buffer,
@@ -279,7 +409,7 @@ private:
 #endif
 #endif
 
-    juce::AudioProcessorValueTreeState parameters;
+    // juce::AudioProcessorValueTreeState parameters;
     juce::LinearSmoothedValue<float> gainLeft, gainRight;
 
     std::vector<juce::LinearSmoothedValue<float>>rmsLevels;
@@ -290,12 +420,12 @@ private:
 
     int isSmoothed = true;
 public:
-    void parameterChanged(const juce::String& parameterID, float newValue) override;
-    juce::AudioProcessorValueTreeState& getApvts() { return parameters; }
+
+    // juce::AudioProcessorValueTreeState& getApvts() { return parameters; }
     std::vector<float>getRmsLevels();
     float getRmsLevel(const int level);
     void processLevelValue(juce::LinearSmoothedValue<float>&, const float value)const;
     void processLevelInfo(juce::AudioBuffer<float>& buffer);
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VoiceChanger_wczAudioProcessor)
+    //JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VoiceChanger_wczAudioProcessor)
 };

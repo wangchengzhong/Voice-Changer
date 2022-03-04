@@ -1,15 +1,6 @@
 #pragma once
-/*
-  ==============================================================================
 
- This is the Frequalizer UI editor
-
-  ==============================================================================
-*/
-
-#pragma once
-
-#include "EqualizerProcessor.h"
+#include "PluginProcessor.h"
 #include <juce_audio_processors/juce_audio_processors.h>
 #include <juce_opengl/juce_opengl.h>
 
@@ -22,7 +13,7 @@ class FrequalizerAudioProcessorEditor : public juce::AudioProcessorEditor,
     public juce::Timer
 {
 public:
-    FrequalizerAudioProcessorEditor(FrequalizerAudioProcessor&);
+    FrequalizerAudioProcessorEditor(VoiceChanger_wczAudioProcessor&);
     ~FrequalizerAudioProcessorEditor() override;
 
     //==============================================================================
@@ -45,11 +36,11 @@ public:
         public juce::Button::Listener
     {
     public:
-        BandEditor(size_t i, FrequalizerAudioProcessor& processor);
+        BandEditor(size_t i, VoiceChanger_wczAudioProcessor& processor);
 
         void resized() override;
 
-        void updateControls(FrequalizerAudioProcessor::FilterType type);
+        void updateControls(VoiceChanger_wczAudioProcessor::FilterType type);
 
         void updateSoloState(bool isSolo);
 
@@ -65,8 +56,8 @@ public:
     private:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BandEditor)
 
-            size_t index;
-        FrequalizerAudioProcessor& processor;
+    	size_t index;
+        VoiceChanger_wczAudioProcessor& processor;
 
         juce::GroupComponent      frame;
         juce::ComboBox            filterType;
@@ -94,7 +85,7 @@ private:
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    FrequalizerAudioProcessor& freqProcessor;
+    VoiceChanger_wczAudioProcessor& freqProcessor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FrequalizerAudioProcessorEditor)
 

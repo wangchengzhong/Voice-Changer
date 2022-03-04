@@ -8,13 +8,16 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "EqualizerEditor.h"
 //==============================================================================
 VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(VoiceChanger_wczAudioProcessor& p)
     : AudioProcessorEditor(&p), audioProcessor(p)
     , audioSetupComp(juce::StandalonePluginHolder::getInstance()->deviceManager,0,4,0,4,false,false,false,false)
     , circularMeterL([&]() { return audioProcessor.getRmsLevel(0); },juce::Colours::darkcyan)
     , circularMeterR([&]() { return audioProcessor.getRmsLevel(1); },juce::Colours::violet)
+	, pEqEditor(std::make_unique<FrequalizerAudioProcessorEditor>(p))
 {
+    
     addAndMakeVisible(circularMeterL);
     addAndMakeVisible(circularMeterR);
     addAndMakeVisible(horizontalMeterL);
@@ -23,17 +26,19 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     // editor's size to whatever you need it to be.
     
     //addAndMakeVisible(audioSetupComp);
+
     auto pluginHolder = juce::StandalonePluginHolder::getInstance();
     juce::AudioDeviceManager::AudioDeviceSetup anotherSetup = pluginHolder->deviceManager.getAudioDeviceSetup();
-    // DBG(audioSetupComp.deviceManager.getAudioDeviceSetup().outputDeviceName);
-    anotherSetup.inputDeviceName = juce::String("VoiceMeeter Output (VB-Audio VoiceMeeter VAIO)");
-    anotherSetup.outputDeviceName = juce::CharPointer_UTF8("\xe8\x80\xb3\xe6\x9c\xba (AirPods)");
+    //// DBG(audioSetupComp.deviceManager.getAudioDeviceSetup().outputDeviceName);
+    //anotherSetup.inputDeviceName = juce::String("VoiceMeeter Output (VB-Audio VoiceMeeter VAIO)");
+    //anotherSetup.outputDeviceName = juce::CharPointer_UTF8("\xe8\x80\xb3\xe6\x9c\xba (AirPods)");
     anotherSetup.sampleRate = 44100;
-    audioSetupComp.deviceManager.setAudioDeviceSetup(anotherSetup, false);
-    AudioProcessorEditor::setSize(1400, 600);
-    // addAndMakeVisible(bkg);
-    // addAndMakeVisible(playAudioFileComponent);
+    //audioSetupComp.deviceManager.setAudioDeviceSetup(anotherSetup, false);
+    setSize(1400, 600);
+    //// addAndMakeVisible(bkg);
+    //// addAndMakeVisible(playAudioFileComponent);
     AudioProcessorEditor::addAndMakeVisible(audioSetupComp);
+
     //juce::StandalonePluginHolder::getInstance()
     // audioSetupComp
     //// = juce::String("VB-Audio VoiceMeeter VAIO");
@@ -64,56 +69,56 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pPeakSlider->setBounds(90, 376, 80, 80);
 
 
-#if _OPEN_FILTERS
-    pFilterFreqSlider.reset(new juce::Slider("FilterFreqSlider"));
-    pFilterFreqSlider->setRange(80, 8000, 1);
-    pFilterFreqSlider->setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    pFilterFreqSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 15);
-    pFilterFreqSlider->addListener(this);
-    pFilterFreqSlider->setTooltip(TRANS("freq"));
-    AudioProcessorEditor::addAndMakeVisible(pFilterFreqSlider.get());
-
-    pFilterFreqSlider->setBounds(30, 476, 80, 80);
-    
-    pFilterQFactorSlider.reset(new juce::Slider("FilterQFactorSlider"));
-    pFilterQFactorSlider->setRange(0.01, 5, 0.01);
-    pFilterQFactorSlider->setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    pFilterQFactorSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 15);
-    pFilterQFactorSlider->addListener(this);
-    pFilterQFactorSlider->setTooltip(TRANS("q"));
-    AudioProcessorEditor::addAndMakeVisible(pFilterQFactorSlider.get());
-
-    pFilterQFactorSlider->setBounds(100, 476, 80, 80);
-
-
-    pFilterGainSlider.reset(new juce::Slider("FilterGainSlider"));
-    pFilterGainSlider->setRange(-50, 0, 0.1);
-    pFilterGainSlider->setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    pFilterGainSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 15);
-    pFilterGainSlider->addListener(this);
-    pFilterGainSlider->setTooltip(TRANS("gain"));
-    AudioProcessorEditor::addAndMakeVisible(pFilterGainSlider.get());
-
-    pFilterGainSlider->setBounds(170, 476, 80, 80);
-
-    pFilterTypeComboBox.reset(new juce::ComboBox("FilterTypeComboBox"));
-    pFilterTypeComboBox->addItemList(audioProcessor.filterTypeItemsUI, 1);
-    pFilterTypeComboBox->onChange = [this] {comboBoxChanged(pFilterTypeComboBox.get()); };
-    pFilterTypeComboBox->setSelectedId(6);
-    // pFilterTypeComboBox->addListener(this);
-    AudioProcessorEditor::addAndMakeVisible(pFilterTypeComboBox.get());
-
-    pFilterTypeComboBox->setBounds(180, 425, 130, 30);
-
-    pFilterIndexComboBox.reset(new juce::ComboBox("FilterIndexComboBox"));
-    pFilterIndexComboBox->addItemList(audioProcessor.filterIndex, 1);
-    pFilterIndexComboBox->onChange = [this] {comboBoxChanged(pFilterIndexComboBox.get()); };
-    // pFilterIndexComboBox->setSelectedId(1);
-    // pFilterTypeComboBox->addListener(this);
-    AudioProcessorEditor::addAndMakeVisible(pFilterIndexComboBox.get());
-
-    pFilterIndexComboBox->setBounds(180, 380, 130, 30);
-#endif
+//#if _OPEN_FILTERS
+//    pFilterFreqSlider.reset(new juce::Slider("FilterFreqSlider"));
+//    pFilterFreqSlider->setRange(80, 8000, 1);
+//    pFilterFreqSlider->setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+//    pFilterFreqSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 15);
+//    pFilterFreqSlider->addListener(this);
+//    pFilterFreqSlider->setTooltip(TRANS("freq"));
+//    AudioProcessorEditor::addAndMakeVisible(pFilterFreqSlider.get());
+//
+//    pFilterFreqSlider->setBounds(30, 476, 80, 80);
+//    
+//    pFilterQFactorSlider.reset(new juce::Slider("FilterQFactorSlider"));
+//    pFilterQFactorSlider->setRange(0.01, 5, 0.01);
+//    pFilterQFactorSlider->setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+//    pFilterQFactorSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 15);
+//    pFilterQFactorSlider->addListener(this);
+//    pFilterQFactorSlider->setTooltip(TRANS("q"));
+//    AudioProcessorEditor::addAndMakeVisible(pFilterQFactorSlider.get());
+//
+//    pFilterQFactorSlider->setBounds(100, 476, 80, 80);
+//
+//
+//    pFilterGainSlider.reset(new juce::Slider("FilterGainSlider"));
+//    pFilterGainSlider->setRange(-50, 0, 0.1);
+//    pFilterGainSlider->setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+//    pFilterGainSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 15);
+//    pFilterGainSlider->addListener(this);
+//    pFilterGainSlider->setTooltip(TRANS("gain"));
+//    AudioProcessorEditor::addAndMakeVisible(pFilterGainSlider.get());
+//
+//    pFilterGainSlider->setBounds(170, 476, 80, 80);
+//
+//    pFilterTypeComboBox.reset(new juce::ComboBox("FilterTypeComboBox"));
+//    pFilterTypeComboBox->addItemList(audioProcessor.filterTypeItemsUI, 1);
+//    pFilterTypeComboBox->onChange = [this] {comboBoxChanged(pFilterTypeComboBox.get()); };
+//    pFilterTypeComboBox->setSelectedId(6);
+//    // pFilterTypeComboBox->addListener(this);
+//    AudioProcessorEditor::addAndMakeVisible(pFilterTypeComboBox.get());
+//
+//    pFilterTypeComboBox->setBounds(180, 425, 130, 30);
+//
+//    pFilterIndexComboBox.reset(new juce::ComboBox("FilterIndexComboBox"));
+//    pFilterIndexComboBox->addItemList(audioProcessor.filterIndex, 1);
+//    pFilterIndexComboBox->onChange = [this] {comboBoxChanged(pFilterIndexComboBox.get()); };
+//    // pFilterIndexComboBox->setSelectedId(1);
+//    // pFilterTypeComboBox->addListener(this);
+//    AudioProcessorEditor::addAndMakeVisible(pFilterIndexComboBox.get());
+//
+//    pFilterIndexComboBox->setBounds(180, 380, 130, 30);
+//#endif
 
     pDynamicsThresholdSlider.reset(new juce::Slider("DynamicsThresholdSlider"));
     pDynamicsThresholdSlider->setRange(-50, 0, 0.001f);
@@ -275,6 +280,13 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     openDawButton.setColour(juce::TextButton::buttonColourId, juce::Colours::pink);
     openDawButton.setEnabled(true);
     addAndMakeVisible(&openDawButton);
+
+    openEqButton.setButtonText(juce::CharPointer_UTF8("\xe5\x9d\x87\xe8\xa1\xa1\xe5\x99\xa8"));
+    openEqButton.onClick = [this] { openEqButtonClicked(); };
+    openEqButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
+    openEqButton.setEnabled(true);
+    addAndMakeVisible(&openEqButton);
+
 }
 VoiceChanger_wczAudioProcessorEditor::~VoiceChanger_wczAudioProcessorEditor()
 {
@@ -289,15 +301,15 @@ void VoiceChanger_wczAudioProcessorEditor::paint (juce::Graphics& g)
     g.setGradientFill(juce::ColourGradient{ juce::Colours::darkgrey,getLocalBounds().toFloat().getCentre(), juce::Colours::darkgrey.darker(0.7f), {}, true });
     pPitchSlider.get()->setValue(audioProcessor.getPitchShift());
     pPeakSlider.get()->setValue(audioProcessor.getPeakShift());
-#if _OPEN_FILTERS
-    pFilterFreqSlider.get()->setValue(audioProcessor.getFilterFreqShift(audioProcessor.currentFilterIndex));
-    pFilterQFactorSlider.get()->setValue(audioProcessor.getFilterQFactorShift(audioProcessor.currentFilterIndex));
-
-    pFilterTypeComboBox.get()->setSelectedId(audioProcessor.getFilterTypeShift(audioProcessor.currentFilterIndex));
-    // pFilterTypeComboBox.get()->setComponentID()
-    pFilterGainSlider.get()->setValue(audioProcessor.getFilterGainShift(audioProcessor.currentFilterIndex));
-    // pPlayPositionSlider.get()->setValue(audioProcessor.nPlayAudioFilePosition / audioProcessor.nPlayAudioFileSampleNum);
-#endif
+//#if _OPEN_FILTERS
+//    pFilterFreqSlider.get()->setValue(audioProcessor.getFilterFreqShift(audioProcessor.currentFilterIndex));
+//    pFilterQFactorSlider.get()->setValue(audioProcessor.getFilterQFactorShift(audioProcessor.currentFilterIndex));
+//
+//    pFilterTypeComboBox.get()->setSelectedId(audioProcessor.getFilterTypeShift(audioProcessor.currentFilterIndex));
+//    // pFilterTypeComboBox.get()->setComponentID()
+//    pFilterGainSlider.get()->setValue(audioProcessor.getFilterGainShift(audioProcessor.currentFilterIndex));
+//    // pPlayPositionSlider.get()->setValue(audioProcessor.nPlayAudioFilePosition / audioProcessor.nPlayAudioFileSampleNum);
+//#endif
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     //g.fillAll (AudioProcessorEditor::getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     //g.fillAll(juce::Colours::darkslategrey);
@@ -366,7 +378,8 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
     horizontalMeterR.setBounds(970, 500, 400, 12);
 
 
-    openDawButton.setBounds(1075, 530, 200, 50);
+    openDawButton.setBounds(1075, 530, 100, 50);
+    openEqButton.setBounds(1175, 530, 100, 50);
 }
 void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* sliderThatWasMoved)
 {
@@ -378,21 +391,21 @@ void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* slid
     {
         audioProcessor.setPeakShift((float)pPeakSlider.get()->getValue());
     }
-#if _OPEN_FILTERS
-    else if (sliderThatWasMoved == pFilterFreqSlider.get())
-    {
-        audioProcessor.setFilterFreqShift((float)pFilterFreqSlider.get()->getValue(), audioProcessor.currentFilterIndex);
-    }
-    else if (sliderThatWasMoved == pFilterQFactorSlider.get())
-    {
-        audioProcessor.setFilterQFactorShift((float)pFilterQFactorSlider.get()->getValue(), audioProcessor.currentFilterIndex);
-    }
-    else if (sliderThatWasMoved == pFilterGainSlider.get())
-    {
-        audioProcessor.setFilterGainShift((float)pFilterGainSlider.get()->getValue(), audioProcessor.currentFilterIndex);
-    }
-
-#endif
+//#if _OPEN_FILTERS
+//    else if (sliderThatWasMoved == pFilterFreqSlider.get())
+//    {
+//        audioProcessor.setFilterFreqShift((float)pFilterFreqSlider.get()->getValue(), audioProcessor.currentFilterIndex);
+//    }
+//    else if (sliderThatWasMoved == pFilterQFactorSlider.get())
+//    {
+//        audioProcessor.setFilterQFactorShift((float)pFilterQFactorSlider.get()->getValue(), audioProcessor.currentFilterIndex);
+//    }
+//    else if (sliderThatWasMoved == pFilterGainSlider.get())
+//    {
+//        audioProcessor.setFilterGainShift((float)pFilterGainSlider.get()->getValue(), audioProcessor.currentFilterIndex);
+//    }
+//
+//#endif
     else if (sliderThatWasMoved == pDynamicsThresholdSlider.get())
     {
         audioProcessor.setDynamicsThresholdShift((float)pDynamicsThresholdSlider.get()->getValue());
@@ -427,7 +440,7 @@ void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* slid
 
 void VoiceChanger_wczAudioProcessorEditor::comboBoxChanged(juce::ComboBox* comboBoxThatWasMoved)
 {
-#if _OPEN_FILTERS
+/*#if _OPEN_FILTERS
     if (comboBoxThatWasMoved == pFilterTypeComboBox.get())
     {
         audioProcessor.setFilterTypeShift((int)pFilterTypeComboBox.get()->getSelectedId(), audioProcessor.currentFilterIndex);
@@ -436,7 +449,7 @@ void VoiceChanger_wczAudioProcessorEditor::comboBoxChanged(juce::ComboBox* combo
     {
         audioProcessor.currentFilterIndex = round(pFilterIndexComboBox.get()->getSelectedId());
     }
-#endif
+#endif*/
 }
 
 void VoiceChanger_wczAudioProcessorEditor::ljButtonClicked()
@@ -532,13 +545,6 @@ void VoiceChanger_wczAudioProcessorEditor::resetAllButtonClicked()
     // changeState(close);
     pPitchSlider->setValue(0.0);
     pPeakSlider->setValue(1.0);
-#if _OPEN_FILTERS
-    pFilterFreqSlider->setValue(800.0);
-    pFilterQFactorSlider->setValue(1.0);
-    pFilterGainSlider->setValue(0.0);
-#endif
-    // pFilterTypeSlider->setValue(6);
-    // pFilterTypeComboBox->setComponentID("0");
 }
 void VoiceChanger_wczAudioProcessorEditor::switchPitchMethodButtonClicked()
 {
@@ -597,4 +603,22 @@ void VoiceChanger_wczAudioProcessorEditor::openDawButtonClicked()
         dawWindow->setVisible(true);
         // templateRecordingWindow->setName(juce::CharPointer_UTF8("\xe6\xa8\xa1\xe6\x9d\xbf"));
     }
+}
+
+void VoiceChanger_wczAudioProcessorEditor::openEqButtonClicked()
+{
+	if(eqWindow)
+	{
+        eqWindow->broughtToFront();
+	}
+	else
+	{
+        eqWindow = new NewWindow(juce::String("eqWindow"), juce::Colours::darkslategrey, juce::DocumentWindow::allButtons);
+#if _OPEN_FILTERS
+		eqWindow->setContentOwned(pEqEditor.get(), true);
+#endif
+		eqWindow->centreWithSize(900, 500);
+		eqWindow->addToDesktop();
+        eqWindow->setVisible(true);
+	}
 }

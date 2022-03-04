@@ -94,64 +94,169 @@
       </GROUP>
     </GROUP>
     <GROUP id="{2B23833A-41C0-04F9-78E4-035161AB1CFF}" name="Source">
-      <FILE id="GlqlwJ" name="PluginProcessor.cpp" compile="1" resource="0"
-            file="Source/PluginProcessor.cpp"/>
-      <FILE id="SmcnAU" name="PluginProcessor.h" compile="0" resource="0"
-            file="Source/PluginProcessor.h"/>
-      <FILE id="Skcgrb" name="PluginEditor.cpp" compile="1" resource="0"
-            file="Source/PluginEditor.cpp"/>
-      <FILE id="JeZ6al" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
-      <FILE id="VJYxBo" name="AudioLiveScrollingDisplay.h" compile="0" resource="0"
-            file="Source/AudioLiveScrollingDisplay.h"/>
-      <FILE id="wey4R5" name="BackgroundComponent.cpp" compile="1" resource="0"
-            file="Source/BackgroundComponent.cpp"/>
-      <FILE id="B8CDaT" name="BackgroundComponent.h" compile="0" resource="0"
-            file="Source/BackgroundComponent.h"/>
-      <FILE id="Ah9nLj" name="AutoCorr.h" compile="0" resource="0" file="Source/AutoCorr.h"/>
-      <FILE id="ey4qzk" name="BlockCircularBuffer.h" compile="0" resource="0"
-            file="Source/BlockCircularBuffer.h"/>
-      <FILE id="Thk304" name="CircularBuffer.h" compile="0" resource="0"
-            file="Source/CircularBuffer.h"/>
-      <FILE id="Zw1wvA" name="CameraWindow.h" compile="0" resource="0" file="Source/CameraWindow.h"/>
-      <FILE id="xQUCa4" name="ManVoiceExtract.h" compile="0" resource="0"
-            file="Source/ManVoiceExtract.h"/>
-      <FILE id="qcvpjf" name="ManVoiceFilter.h" compile="0" resource="0"
-            file="Source/ManVoiceFilter.h"/>
-      <FILE id="zZCi7l" name="PeakShifter.h" compile="0" resource="0" file="Source/PeakShifter.h"/>
-      <FILE id="B0vyvQ" name="PhaseVocoder.h" compile="0" resource="0" file="Source/PhaseVocoder.h"/>
-      <FILE id="QYuZv7" name="NewWindow.h" compile="0" resource="0" file="Source/NewWindow.h"/>
-      <FILE id="rL5NPK" name="TemplateRecording.h" compile="0" resource="0"
-            file="Source/TemplateRecording.h"/>
-      <FILE id="YqVZvk" name="TemplateRecordingWindow.h" compile="0" resource="0"
-            file="Source/TemplateRecordingWindow.h"/>
-      <FILE id="JkBjH8" name="phaseVocoderForShapeInvariant.h" compile="0"
-            resource="0" file="Source/phaseVocoderForShapeInvariant.h"/>
-      <FILE id="XQJfXm" name="RingBuffer.h" compile="0" resource="0" file="Source/RingBuffer.h"/>
-      <FILE id="GTFmWa" name="PitchShifterRubberband.h" compile="0" resource="0"
-            file="Source/PitchShifterRubberband.h"/>
-      <FILE id="g4FdSn" name="PitchShifterSoundTouch.h" compile="0" resource="0"
-            file="Source/PitchShifterSoundTouch.h"/>
-      <FILE id="e0cqD0" name="TemplateProjectingWindow.h" compile="0" resource="0"
-            file="Source/TemplateProjectingWindow.h"/>
-      <FILE id="hq1uv0" name="PitchShifter.h" compile="0" resource="0" file="Source/PitchShifter.h"/>
-      <FILE id="ME6liW" name="PluginFilter.h" compile="0" resource="0" file="Source/PluginFilter.h"/>
-      <FILE id="DPnGTU" name="PluginParameter.h" compile="0" resource="0"
-            file="Source/PluginParameter.h"/>
-      <FILE id="La9dYM" name="Resample.h" compile="0" resource="0" file="Source/Resample.h"/>
-      <FILE id="chhvmw" name="ShapeInvariantPitchShifter.h" compile="0" resource="0"
-            file="Source/ShapeInvariantPitchShifter.h"/>
-      <FILE id="Sz8Q3e" name="TransportInformation.h" compile="0" resource="0"
-            file="Source/TransportInformation.h"/>
-      <FILE id="SP0gTG" name="TrainingTemplate.h" compile="0" resource="0"
-            file="Source/TrainingTemplate.h"/>
-      <FILE id="hM1lyM" name="PlayAudioFileComponent.h" compile="0" resource="0"
-            file="Source/PlayAudioFileComponent.h"/>
-      <FILE id="IXb8Kg" name="PlayAudioFileComponent.cpp" compile="1" resource="0"
-            file="Source/PlayAudioFileComponent.cpp"/>
-      <FILE id="nyby3L" name="FIFO.h" compile="0" resource="0" file="Source/FIFO.h"/>
-      <FILE id="vHrukP" name="HorizontalMeter.h" compile="0" resource="0"
-            file="Source/HorizontalMeter.h"/>
-      <FILE id="mdDpbe" name="CircularMeter.h" compile="0" resource="0" file="Source/CircularMeter.h"/>
+      <GROUP id="{7FF04DBC-FE96-F97E-4FC1-9A639BB14D89}" name="Core">
+        <FILE id="uqTz3I" name="TransportInformation.h" compile="0" resource="0"
+              file="Source/TransportInformation.h"/>
+        <FILE id="c00NgO" name="PluginProcessor.h" compile="0" resource="0"
+              file="Source/PluginProcessor.h"/>
+        <FILE id="OCEY6H" name="PluginProcessor.cpp" compile="1" resource="0"
+              file="Source/PluginProcessor.cpp"/>
+        <FILE id="yJCepZ" name="PluginParameter.h" compile="0" resource="0"
+              file="Source/PluginParameter.h"/>
+        <FILE id="NxdTn4" name="PluginFilter.h" compile="0" resource="0" file="Source/PluginFilter.h"/>
+        <FILE id="CwoTM5" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+        <FILE id="w6Y9au" name="PluginEditor.cpp" compile="1" resource="0"
+              file="Source/PluginEditor.cpp"/>
+        <FILE id="E01smn" name="PitchShifterSoundTouch.h" compile="0" resource="0"
+              file="Source/PitchShifterSoundTouch.h"/>
+        <FILE id="gjHbyI" name="PitchShifterRubberband.h" compile="0" resource="0"
+              file="Source/PitchShifterRubberband.h"/>
+        <FILE id="Ith6s4" name="NewWindow.h" compile="0" resource="0" file="Source/NewWindow.h"/>
+      </GROUP>
+      <GROUP id="{7C0D0583-003C-5A5B-4F4E-71929D26D0E4}" name="Daw">
+        <FILE id="SL21Mz" name="DawComponent.h" compile="0" resource="0" file="Source/DawComponent.h"/>
+        <FILE id="SZrBhY" name="DawComponent.cpp" compile="1" resource="0"
+              file="Source/DawComponent.cpp"/>
+        <GROUP id="{F129435C-8448-DA37-6FBB-C159E993DD58}" name="Arrange">
+          <FILE id="qaH43T" name="PlayHeadComponent.h" compile="0" resource="0"
+                file="Source/PlayHeadComponent.h"/>
+          <FILE id="gLHAjb" name="PlayHeadComponent.cpp" compile="1" resource="0"
+                file="Source/PlayHeadComponent.cpp"/>
+        </GROUP>
+        <GROUP id="{D269D9C2-1D76-FF41-6880-5D6A765770AE}" name="Tracks">
+          <FILE id="ogfPOt" name="TrackHeaderComponent.h" compile="0" resource="0"
+                file="Source/TrackHeaderComponent.h"/>
+          <FILE id="jmtwQV" name="TrackHeaderComponent.cpp" compile="1" resource="0"
+                file="Source/TrackHeaderComponent.cpp"/>
+          <FILE id="nogAK6" name="TrackFooterComponent.h" compile="0" resource="0"
+                file="Source/TrackFooterComponent.h"/>
+          <FILE id="nMQoSg" name="TrackFooterComponent.cpp" compile="1" resource="0"
+                file="Source/TrackFooterComponent.cpp"/>
+          <FILE id="F6F8V3" name="TrackComponent.h" compile="0" resource="0"
+                file="Source/TrackComponent.h"/>
+          <FILE id="LNmhNF" name="TrackComponent.cpp" compile="1" resource="0"
+                file="Source/TrackComponent.cpp"/>
+        </GROUP>
+        <GROUP id="{AEFEC652-C21E-E987-6736-AB9A4C2DF42F}" name="Clips">
+          <FILE id="ZwnxuK" name="RecordingClipComponent.h" compile="0" resource="0"
+                file="Source/RecordingClipComponent.h"/>
+          <FILE id="PUcqbi" name="RecordingClipComponent.cpp" compile="1" resource="0"
+                file="Source/RecordingClipComponent.cpp"/>
+          <FILE id="yL2DDX" name="MidiClipComponent.h" compile="0" resource="0"
+                file="Source/MidiClipComponent.h"/>
+          <FILE id="kKw3dW" name="MidiClipComponent.cpp" compile="1" resource="0"
+                file="Source/MidiClipComponent.cpp"/>
+          <FILE id="ZKgtMq" name="ClipComponent.h" compile="0" resource="0" file="Source/ClipComponent.h"/>
+          <FILE id="rdL4Wx" name="ClipComponent.cpp" compile="1" resource="0"
+                file="Source/ClipComponent.cpp"/>
+          <FILE id="zUo8ja" name="AudioClipComponent.h" compile="0" resource="0"
+                file="Source/AudioClipComponent.h"/>
+          <FILE id="viBLSe" name="AudioClipComponent.cpp" compile="1" resource="0"
+                file="Source/AudioClipComponent.cpp"/>
+        </GROUP>
+        <GROUP id="{CAB74AF7-2862-8384-DCAE-10B68D8D065E}" name="Edits">
+          <FILE id="YdRUYq" name="EditComponent.h" compile="0" resource="0" file="Source/EditComponent.h"/>
+          <FILE id="EASdIa" name="EditComponent.cpp" compile="1" resource="0"
+                file="Source/EditComponent.cpp"/>
+        </GROUP>
+        <GROUP id="{E6F05A1C-6CAA-87A8-B041-5E623F5FFEDC}" name="Plugins">
+          <FILE id="B1Jsxd" name="PluginWindow.h" compile="0" resource="0" file="Source/PluginWindow.h"/>
+          <FILE id="nJnze0" name="PluginWindow.cpp" compile="1" resource="0"
+                file="Source/PluginWindow.cpp"/>
+          <FILE id="uMngDb" name="PluginTreeItem.h" compile="0" resource="0"
+                file="Source/PluginTreeItem.h"/>
+          <FILE id="UogaAB" name="PluginTreeItem.cpp" compile="1" resource="0"
+                file="Source/PluginTreeItem.cpp"/>
+          <FILE id="f1OtRQ" name="PluginTreeGroup.h" compile="0" resource="0"
+                file="Source/PluginTreeGroup.h"/>
+          <FILE id="EIlmxq" name="PluginTreeGroup.cpp" compile="1" resource="0"
+                file="Source/PluginTreeGroup.cpp"/>
+          <FILE id="uFoEde" name="PluginTreeBase.h" compile="0" resource="0"
+                file="Source/PluginTreeBase.h"/>
+          <FILE id="WTsIvs" name="PluginMenu.h" compile="0" resource="0" file="Source/PluginMenu.h"/>
+          <FILE id="FWjq4T" name="PluginDefinitions.h" compile="0" resource="0"
+                file="Source/PluginDefinitions.h"/>
+          <FILE id="l9YuLJ" name="PluginComponent.h" compile="0" resource="0"
+                file="Source/PluginComponent.h"/>
+          <FILE id="KPNpwq" name="PluginComponent.cpp" compile="1" resource="0"
+                file="Source/PluginComponent.cpp"/>
+          <FILE id="kKQgU6" name="DawPluginEditor.cpp" compile="1" resource="0"
+                file="Source/DawPluginEditor.cpp"/>
+          <FILE id="F9OnmK" name="DawPluginEditor.h" compile="0" resource="0"
+                file="Source/DawPluginEditor.h"/>
+          <FILE id="Vv8Uy8" name="AudioProcessorEditorComp.h" compile="0" resource="0"
+                file="Source/AudioProcessorEditorComp.h"/>
+        </GROUP>
+        <GROUP id="{9CA9B61F-960A-9741-5B29-3C4F8C36BE52}" name="Widgets">
+          <FILE id="Y6T2FK" name="TransportToolbarFactory.h" compile="0" resource="0"
+                file="Source/TransportToolbarFactory.h"/>
+          <FILE id="TPuRXN" name="ToolbarSlider.h" compile="0" resource="0" file="Source/ToolbarSlider.h"/>
+        </GROUP>
+        <GROUP id="{D85CAE9D-764C-A3DA-0D98-0C9B34A3AA0F}" name="Utilities">
+          <FILE id="KAUVGt" name="Utilities.h" compile="0" resource="0" file="Source/Utilities.h"/>
+          <FILE id="FWtgo1" name="IDs.h" compile="0" resource="0" file="Source/IDs.h"/>
+          <FILE id="APBEyg" name="EngineHelpers.h" compile="0" resource="0" file="Source/EngineHelpers.h"/>
+          <FILE id="DbauBU" name="ExtendedUIBehaviour.h" compile="0" resource="0"
+                file="Source/ExtendedUIBehaviour.h"/>
+          <FILE id="tE7TsI" name="EngineHelpers.cpp" compile="1" resource="0"
+                file="Source/EngineHelpers.cpp"/>
+          <FILE id="aEypqw" name="EditViewState.h" compile="0" resource="0" file="Source/EditViewState.h"/>
+        </GROUP>
+        <GROUP id="{4BCB7C6E-BA2B-39B2-15FD-224D3C37671E}" name="Assets">
+          <FILE id="hqH0So" name="res_icons.zip" compile="0" resource="1" file="Source/res_icons.zip"/>
+        </GROUP>
+      </GROUP>
+      <GROUP id="{6523E46D-F7BE-30DC-9483-51E9D0C92372}" name="Eq">
+        <FILE id="Z2fF1O" name="SocialButtons.h" compile="0" resource="0" file="Source/SocialButtons.h"/>
+        <FILE id="w2KqJa" name="EqualizerEditor.h" compile="0" resource="0"
+              file="Source/EqualizerEditor.h"/>
+        <FILE id="Mqrkdy" name="EqualizerEditor.cpp" compile="1" resource="0"
+              file="Source/EqualizerEditor.cpp"/>
+        <FILE id="o3UsK2" name="EqComponent.h" compile="0" resource="0" file="Source/EqComponent.h"/>
+        <FILE id="FnUw13" name="EqComponent.cpp" compile="1" resource="0" file="Source/EqComponent.cpp"/>
+        <FILE id="H8X2TP" name="Analyser.h" compile="0" resource="0" file="Source/Analyser.h"/>
+      </GROUP>
+      <GROUP id="{BFFA24C9-C589-804C-695A-222A18CB8AD6}" name="Vocoder">
+        <FILE id="Xn8WUE" name="Resample.h" compile="0" resource="0" file="Source/Resample.h"/>
+        <FILE id="rKfQ0z" name="PitchShifter.h" compile="0" resource="0" file="Source/PitchShifter.h"/>
+        <FILE id="I7ulYm" name="phaseVocoderForShapeInvariant.h" compile="0"
+              resource="0" file="Source/phaseVocoderForShapeInvariant.h"/>
+        <FILE id="WJdPB9" name="PhaseVocoder.h" compile="0" resource="0" file="Source/PhaseVocoder.h"/>
+        <FILE id="JXZX6j" name="PeakShifter.h" compile="0" resource="0" file="Source/PeakShifter.h"/>
+      </GROUP>
+      <GROUP id="{981E4BA5-4B60-9AF9-A47E-BAEB23EB6066}" name="DataStructure">
+        <FILE id="pKG0YH" name="RingBuffer.h" compile="0" resource="0" file="Source/RingBuffer.h"/>
+        <FILE id="LNTHAB" name="BlockCircularBuffer.h" compile="0" resource="0"
+              file="Source/BlockCircularBuffer.h"/>
+        <FILE id="fopocL" name="AutoCorr.h" compile="0" resource="0" file="Source/AutoCorr.h"/>
+        <FILE id="NxQMYC" name="CircularBuffer.h" compile="0" resource="0"
+              file="Source/CircularBuffer.h"/>
+        <FILE id="DKhaqW" name="FIFO.h" compile="0" resource="0" file="Source/FIFO.h"/>
+      </GROUP>
+      <GROUP id="{05008C80-12B3-C8D6-9558-AC91B431771B}" name="Record">
+        <FILE id="EuQ0qp" name="TrainingTemplate.h" compile="0" resource="0"
+              file="Source/TrainingTemplate.h"/>
+        <FILE id="JWOXu3" name="TemplateRecordingWindow.h" compile="0" resource="0"
+              file="Source/TemplateRecordingWindow.h"/>
+        <FILE id="XA9R2v" name="TemplateRecording.h" compile="0" resource="0"
+              file="Source/TemplateRecording.h"/>
+        <FILE id="s0gTO1" name="TemplateProjectingWindow.h" compile="0" resource="0"
+              file="Source/TemplateProjectingWindow.h"/>
+        <FILE id="jECScG" name="AudioLiveScrollingDisplay.h" compile="0" resource="0"
+              file="Source/AudioLiveScrollingDisplay.h"/>
+      </GROUP>
+      <GROUP id="{7983F47E-EB34-F3AC-C662-23482E9BD6AE}" name="Meter">
+        <FILE id="Xj9Fmb" name="CircularMeter.h" compile="0" resource="0" file="Source/CircularMeter.h"/>
+        <FILE id="wLViGx" name="HorizontalMeter.h" compile="0" resource="0"
+              file="Source/HorizontalMeter.h"/>
+      </GROUP>
+      <GROUP id="{257DC963-13B9-A5C1-F1A2-522EEFA14260}" name="Camera">
+        <FILE id="i10Kh0" name="CameraWindow.h" compile="0" resource="0" file="Source/CameraWindow.h"/>
+      </GROUP>
+      <GROUP id="{4724C889-89EA-1908-82AE-784D29B3E494}" name="Widgets">
+        <FILE id="rA2kPB" name="README.md" compile="0" resource="1" file="Source/README.md"/>
+        <FILE id="H9ALhD" name="PrintDebug.h" compile="0" resource="0" file="Source/PrintDebug.h"/>
+      </GROUP>
     </GROUP>
     <GROUP id="{F3F4013B-8233-0097-0A2B-200A842EEE30}" name="rubberband">
       <GROUP id="{9EDC7BCB-2F07-CC2D-1ABE-086C0B4A6B60}" name="rubberband">
