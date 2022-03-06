@@ -120,7 +120,9 @@ private:
 			return;
 		}
 		auto parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+		
 		lastRecording = parentDir.getNonexistentChildFile("template speech", ".wav");
+		// juce::File lastRecording1("D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/source_train/1a.wav");
 		recorder.startRecording(lastRecording);
 		recordButton.setButtonText(juce::CharPointer_UTF8("\xe5\x81\x9c\xe6\xad\xa2"));
 		recordingThumbnail.setDisplayFullThumbnail(false);
@@ -130,7 +132,7 @@ private:
 	{
 		recorder.stop();
 		lastRecording = juce::File();
-		recordButton.setButtonText(juce::CharPointer_UTF8("\xe5\xbd\x95\xe5\x88\xb6"));
+		recordButton.setButtonText(juce::CharPointer_UTF8("\xe5\xbd\x95\xe9\x9f\xb3"));
 		recordingThumbnail.setDisplayFullThumbnail(true);
 	}
 

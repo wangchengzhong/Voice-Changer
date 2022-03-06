@@ -5,16 +5,14 @@
 #define _OPEN_WAHWAH false
 #define _OPEN_DYNAMICS true
 #define _OPEN_TEST false
-#define _FILTER_PROCESS true
 
 #if _OPEN_PEAK_PITCH
 #define _SHOW_SPEC true
-
 #define USE_3rdPARTYPITCHSHIFT true
+
 #if USE_3rdPARTYPITCHSHIFT
 #define USE_RUBBERBAND true
 #define USE_SOUNDTOUCH true
-
 #endif
 #endif
 
@@ -36,7 +34,7 @@
 #include"TrainingTemplate.h"
 #include"Analyser.h"
 #include"SocialButtons.h"
-#include"D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/CppAlgo/include/vchsm/convert_C.h"
+#include"VocoderForVoiceConversion.h"
 //==============================================================================
 /**
 */
@@ -47,6 +45,9 @@ class VoiceChanger_wczAudioProcessor :
 	,public juce::ChangeBroadcaster
 {
 public:
+    bool openVoiceConversion{ false };
+
+
     enum FilterType
     {
         NoFilter = 0,
@@ -96,6 +97,7 @@ public:
     //==============================================================================
 
     juce::AudioProcessorValueTreeState& getPluginState();
+
 #if _OPEN_FILTERS
     size_t getNumBands() const;
     juce::String getBandName(size_t index) const;
@@ -110,8 +112,6 @@ public:
 
 
 	bool hasEditor() const override;
-
-
 
     const std::vector<double>& getMagnitudes();
 
@@ -166,50 +166,6 @@ public:
     float getDynamicsAttackShift();
     float getDynamicsReleaseShift();
     float getDynamicsMakeupGainShift();
-#if _OPEN_FILTERS
-    //void setFilterFreqShift(float freq, int filterIndex);
-    //void setFilterQFactorShift(float q, int filterIndex);
-    //void setFilterTypeShift(int filterType, int filterIndex);
-    //void setFilterGainShift(float gain, int filterIndex);
-
-    //double getFilterFreqShift(int filterIndex);
-    //double getFilterQFactorShift(int filterIndex);
-    //double getFilterGainShift(int filterIndex);
-    //int getFilterTypeShift(int filterIndex);
-
-    //juce::StringArray filterIndex = {
-    //    "1",
-    //    "2",
-    //    //"3",
-    //    //"4",
-    //    //"5",
-    //    //"6",
-    //    //"7",
-    //};
-    //juce::StringArray createFilterIndexArray(int filterNum)
-    //{
-    //    juce::StringArray filterIndex;
-    //    for (int i = 1; i <= filterNum; i++)
-    //    {
-    //        filterIndex.add(juce::String(i));
-    //    }
-    //    return filterIndex;
-    //}
-    //const int nFiltersPerChannel{ _FILTER_NUM };
-    //int currentFilterIndex{ 1 };
-    //juce::StringArray filterTypeItemsUI = {
-    //    "low-pass",
-    //    "High-pass",
-    //    "Low-shelf",
-    //    "High-shelf",
-    //    "Band-pass",
-    //    "Band-stop",
-    //    "Peaking&Notch",
-    //    "ResonantLowPass"
-    //};
-#endif
-
-
 
     //==============================================================================
     struct Band {
@@ -238,7 +194,6 @@ public:
     int getBandIndexFromID(juce::String paramID);
 
 
-
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(VoiceChanger_wczAudioProcessor);
     void updateBand(const size_t index);
@@ -262,8 +217,10 @@ private:
     using FilterBand = juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>>;
     using Gain = juce::dsp::Gain<float>;
     juce::dsp::ProcessorChain<FilterBand, FilterBand, FilterBand, FilterBand, FilterBand, FilterBand, Gain> filter;
+    
 
-    double sampleRate = 44100;
+
+    double sampleRate = 48000;
 
     int soloed = -1;
 
@@ -272,33 +229,11 @@ private:
 
 
     juce::Point<int> editorSize = { 900, 500 };
-
-
-//public:
-//
-//    juce::OwnedArray<Filter>* filters;
-    //enum filterTypeIndex {
-    //    filterTypeLowPass = 1,
-    //    filterTypeHighPass,
-    //    filterTypeLowShelf,
-    //    filterTypeHighShelf,
-    //    filterTypeBandPass,
-    //    filterTypeBandStop,
-    //    filterTypePeakingNotch,
-    //    filterTypeResonantLowPass
-    //};
-
-//private:
-//    juce::AudioParameterFloat* nFilterQFactor;
-//    juce::AudioParameterFloat* nFilterFreq;
-//    juce::AudioParameterFloat* nFilterGain;
-//
-//    juce::AudioParameterInt* nFilterType;
-//    juce::AudioParameterInt* nFilter2Type;
-//    juce::AudioParameterInt* nFilterIndex;
-
 #endif
+
+
 public:
+
 #if _OPEN_DYNAMICS 
     juce::AudioBuffer<float> mixedDownInputDynamics;
     float xlDynamics;
@@ -327,6 +262,7 @@ public:
     bool realtimeMode{ true };
     juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
+    std::unique_ptr<juce::dsp::Oversampling<float>> pOversample;
     juce::AudioTransportSource transportSource;
 
     juce::AudioSampleBuffer fileBuffer;
@@ -375,6 +311,8 @@ public:
 #if _OPEN_PEAK_PITCH
     juce::OwnedArray<PitchShifter>pitchShifters;
     juce::OwnedArray<PeakShifter>peakShifters;
+    juce::OwnedArray<VocoderForVoiceConversion> vocodersForVoiceConversion;
+
 #endif
 #if _OPEN_TEST
     juce::OwnedArray<ShapeInvariantPitchShifter> shapeInvariantPitchShifters;

@@ -11,9 +11,9 @@ Eigen::TRowVectorX readWav(const std::string & wavFile)
 	// read the header
 	WavHeader header;
 	inFile.read((char*)&header, sizeof(header));
-	assert(header.num_channels == 1);
-	assert(header.sample_rate == 16000);
-	assert(header.bits_per_sample == 16);
+	 assert(header.num_channels == 1);
+	 assert(header.sample_rate == 16000);
+	 assert(header.bits_per_sample == 16);
 	// read the data 
 	auto numSample = header.subchunk2_size / 2; // 2 bytes per sample
 	Eigen::Matrix<std::int16_t, 1, -1> rawData(numSample);

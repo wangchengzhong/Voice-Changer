@@ -165,8 +165,9 @@ public:
 	}
 	void playButtonClicked()
 	{
-		audioProcessor.setState(Starting);
+		// audioProcessor.setState(Starting);
 		// changeState(Starting);
+		convertSingle(modelFile, wavFile, convertedWavFile, 1);
 	}
 	void stopButtonClicked()
 	{
@@ -175,7 +176,7 @@ public:
 	}
 	void projectButtonClicked()
 	{
-		const int n = 1;
+		const int n = 8;
 		const char* sourceAudioList[n];
 		const char* targetAudioList[n];
 		for(int i = 0; i < n; ++i)
@@ -187,7 +188,7 @@ public:
 			std::sprintf(buff, "%s%d.wav", targetAudioDir, i + 1);
 			targetAudioList[i] = buff;
 		}
-		const char* modelFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/ModelsModel.dat";
+		
 		trainHSMModel(sourceAudioList, targetAudioList, n, 4, modelFile, VERBOSE_TRUE);
 		for(int i = 0; i < n; ++i)
 		{
@@ -199,8 +200,12 @@ public:
 private:
 	const char* sourceAudioDir = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/source_train/";
 	const char* targetAudioDir = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/target_train/";
-	const int numTrainSamples = 20;
-
+	const int numTrainSamples = 8;
+	const char* modelFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/ModelsModel.dat";
+	const char* wavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/source_train/1.wav";
+	const char* convertedWavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/target_train/9.wav";
+	// const char*  parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).cappendText("source_train/");
+	// auto sourceAudioDir1 = parentDir.createDirectory();
 	VoiceChanger_wczAudioProcessor& audioProcessor;
 
 	juce::TextButton playButton;
@@ -210,7 +215,7 @@ private:
 	juce::TextButton projectButton{ juce::CharPointer_UTF8("\xe5\xbc\x80\xe5\xa7\x8b\xe8\xae\xad\xe7\xbb\x83") };
 	juce::TextButton loadSourceButton{ juce::CharPointer_UTF8("\xe5\x8e\x9f\xe5\xa3\xb0\xe9\x9f\xb3") };
 	juce::TextButton loadTargetButton{ juce::CharPointer_UTF8("\xe6\x83\xb3\xe5\x8f\x98\xe6\x88\x90\xe7\x9a\x84\xe5\xa3\xb0\xe9\x9f\xb3") };
-
+	
 
 	std::unique_ptr<juce::FileChooser> chooser;
 

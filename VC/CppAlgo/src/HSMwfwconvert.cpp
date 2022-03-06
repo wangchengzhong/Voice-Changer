@@ -159,11 +159,11 @@ void HSMwfwconvert(const HSMModel & model, PicosStructArray & picos)
 		int jjant1 = 1;
 		int jjant2 = 1;
 		Eigen::TFloat scale = 0.0;
-		for (Eigen::Index j = 1; j <= aa2.size(); j++)
+		for (Eigen::Index j = 1; j <= aa2.size()-2; j++)
 		{
 			auto f2j = j * f02s(k - 1);
 			Eigen::Index jj = 0;
-			for (jj = jjant1; jj <= fy.size() - 1; jj++)
+			for (jj = jjant1; jj <= fy.size() - 2; jj++)
 			{
 				if (f2j >= fy(jj - 1) && f2j < fy(jj))
 				{
@@ -174,7 +174,7 @@ void HSMwfwconvert(const HSMModel & model, PicosStructArray & picos)
 			auto f1j = fx(jj - 1) + (fx(jj) - fx(jj-1))*(f2j - fy(jj-1)) / (fy(jj) - fy(jj-1));
 			if (f1j < fmax)
 			{
-				for (jj = jjant2; jj <= ff1.size() - 1; jj++)
+				for (jj = jjant2; jj <= ff1.size() - 2; jj++)
 				{
 					if (f1j >= ff1(jj - 1) && f1j < ff1(jj))
 					{

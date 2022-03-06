@@ -46,7 +46,7 @@
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\1a\voice_changer%40wcz\VoiceChanger%40wcz\VC\CppAlgo\external\Eigen;$(IncludePath)</IncludePath>
+    <IncludePath>D:\1a\voice_changer%40wcz\VoiceChanger%40wcz\speexdsp\libspeex;D:\1a\voice_changer%40wcz\VoiceChanger%40wcz\VC\CppAlgo\external\Eigen;D:\1a\voice_changer%40wcz\VoiceChanger%40wcz\speexdsp\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
@@ -133,6 +133,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\speexdsp\libspeex\global_resample.c" />
     <ClCompile Include="..\..\VC\CppAlgo\example\main.cpp" />
     <ClCompile Include="..\..\VC\CppAlgo\src\aaalsf.cpp" />
     <ClCompile Include="..\..\VC\CppAlgo\src\automaticth2wfw.cpp" />
@@ -4535,7 +4536,14 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_tracktion_graph.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\VoiceConversion.h" />
+    <ClInclude Include="..\..\Source\VocoderForVoiceConversion.h" />
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speexdsp_types.h" />
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_buffer.h" />
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_echo.h" />
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_jitter.h" />
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_preprocess.h" />
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_resampler.h" />
+    <ClInclude Include="..\..\speexdsp\libspeex\global_config.h" />
     <ClInclude Include="..\..\VC\CppAlgo\include\vchsm\convert_C.h" />
     <ClInclude Include="..\..\VC\CppAlgo\include\vchsm\C_Swift_bridge_header.h" />
     <ClInclude Include="..\..\VC\CppAlgo\include\vchsm\train_C.h" />

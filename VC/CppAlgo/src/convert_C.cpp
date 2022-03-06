@@ -8,17 +8,23 @@
 #include <vector>
 #include <iostream>
 #include "types.h"
+#include"JuceHeader.h"
 
 void convertBlock(const char* modelFile, std::vector<double>& origBuffer, std::vector<double>& convertedBuffer, int verbose) noexcept
 {
 	auto numSample = origBuffer.size();
-	Eigen::Matrix<double, 1, -1>x(numSample);
+	// Eigen::Vector3d x(origBuffer.data());
+	Eigen::TRowVectorX x(numSample);
 
+	//for (int i = 0; i < numSample; i++)
+	//{
+	//	x(0,i) = origBuffer[i];
+	//}
 	//rawData(origBuffer.data());
-	memcpy(x.data(), origBuffer.data(), sizeof(double) * numSample);
+	//memcpy(x.data(), origBuffer.data(), sizeof(double) * numSample);
 	// constexpr auto min = std::numeric_limits<>
-
-
+	// x = Eigen::Map<Eigen::TRowVectorX>(origBuffer, 1, -1);
+	// reinterpret_cast<float*>(x.data(), numSample);
 	int L = static_cast<int>(x.size());
 	auto model = deserializeModel(modelFile);
 	int fs = 16000;
@@ -27,15 +33,19 @@ void convertBlock(const char* modelFile, std::vector<double>& origBuffer, std::v
 	auto y = HSMsynthesize(picos, L);
 
 
-	convertedBuffer.resize(y.size());
-	memcpy(convertedBuffer.data(), y.data(), sizeof(double) * y.size());
+	//for(int i = 0; i < numSample; i++)
+	//{
+	//	convertedBuffer[i] = y(0,i);
+	//}
+	// convertedBuffer.resize(y.size());
+	// memcpy(convertedBuffer.data(), y.data(), sizeof(double) * y.size());
 	//std::vector<double> vec(y.data(), y.data() + y.rows() * y.cols());
 	//convertedBuffer.resize(y.size());
 	//memcpy(&convertedBuffer, &vec, sizeof(double) * vec.size());
 }
-void convertSingle(const char * modelFile, const char * wavFile, const char * convertedWavFile, int verbose)
+void convertSingle(const char* modelFile, const char* wavFile, const char* convertedWavFile, int verbose)
 {
-	if (verbose != 0) 
+	if (verbose != 0)
 		std::cout << ">> Converting " << wavFile << "...\n";
 	// 1. read the audio file into a vector
 	auto x = readWav(wavFile);

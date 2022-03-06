@@ -1429,6 +1429,15 @@
     <Filter Include="VoiceChanger_wcz\VC\Test">
       <UniqueIdentifier>{c5cb40e7-79db-460f-9379-5b643d472a61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="VoiceChanger_wcz\GlobalSpeex">
+      <UniqueIdentifier>{9568a595-ab65-4358-ab14-1051e7f6326e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\GlobalSpeex\Public Header">
+      <UniqueIdentifier>{0357c3ab-97de-41a1-9631-938b4b70f680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\GlobalSpeex\Source File">
+      <UniqueIdentifier>{ff778cd2-a8d6-4591-80fc-0060531a829c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\world\cheaptrick.cpp">
@@ -6104,6 +6113,9 @@
     </ClCompile>
     <ClCompile Include="..\..\VC\CppAlgo\example\main.cpp">
       <Filter>VoiceChanger_wcz\VC\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\speexdsp\libspeex\global_resample.c">
+      <Filter>VoiceChanger_wcz\GlobalSpeex\Source File</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -11099,8 +11111,29 @@
     <ClInclude Include="..\..\VC\CppAlgo\src\WavRW.h">
       <Filter>VoiceChanger_wcz\VC\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\VoiceConversion.h">
-      <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    <ClInclude Include="..\..\Source\VocoderForVoiceConversion.h">
+      <Filter>VoiceChanger_wcz\Source\Vocoder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_buffer.h">
+      <Filter>VoiceChanger_wcz\GlobalSpeex\Public Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_echo.h">
+      <Filter>VoiceChanger_wcz\GlobalSpeex\Public Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_jitter.h">
+      <Filter>VoiceChanger_wcz\GlobalSpeex\Public Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_preprocess.h">
+      <Filter>VoiceChanger_wcz\GlobalSpeex\Public Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_resampler.h">
+      <Filter>VoiceChanger_wcz\GlobalSpeex\Public Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speexdsp_types.h">
+      <Filter>VoiceChanger_wcz\GlobalSpeex\Public Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\global_config.h">
+      <Filter>VoiceChanger_wcz\GlobalSpeex\Public Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
