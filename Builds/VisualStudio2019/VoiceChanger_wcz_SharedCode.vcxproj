@@ -4536,6 +4536,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_tracktion_graph.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\ShapeInvariantPitchShifter.h" />
     <ClInclude Include="..\..\Source\VocoderForVoiceConversion.h" />
     <ClInclude Include="..\..\speexdsp\include\speex\global_speexdsp_types.h" />
     <ClInclude Include="..\..\speexdsp\include\speex\global_speex_buffer.h" />

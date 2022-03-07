@@ -4,8 +4,8 @@
 // Resample a signal to a new size using linear interpolation
 // The 'originalSize' is the max size of the original signal
 // The 'newSignalSize' is the size to resample to. The 'newSignal' must be at least as big as this size.
-static void linearResample(const double* const originalSignal, const int originalSize,
-	double* const newSignal, const int newSignalSize)
+static void linearResample(const float* const originalSignal, const int originalSize,
+	float* const newSignal, const int newSignalSize)
 {
 	const auto lerp = [&](double v0, double v1, double t)
 	{

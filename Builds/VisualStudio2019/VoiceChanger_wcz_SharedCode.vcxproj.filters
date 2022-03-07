@@ -11135,6 +11135,9 @@
     <ClInclude Include="..\..\speexdsp\libspeex\global_config.h">
       <Filter>VoiceChanger_wcz\GlobalSpeex\Public Header</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\ShapeInvariantPitchShifter.h">
+      <Filter>VoiceChanger_wcz\Source\Vocoder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\soundtouch\include\Makefile.am">

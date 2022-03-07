@@ -458,6 +458,7 @@ void RubberBandStretcher::Impl::calculateSizes()
         if (r < 1) 
         {
             bool rsb = (m_outputPitchRatio < 1.0 && !resampleBeforeStretching());
+            // if (rsb) DBG("have run here");
             float windowIncrRatio = 4.5;
             if (r == 1.0) windowIncrRatio = 4;
             else if (rsb) windowIncrRatio = 4.5;
