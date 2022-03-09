@@ -189,7 +189,7 @@ public:
 			targetAudioList[i] = buff;
 		}
 		
-		trainHSMModel(sourceAudioList, targetAudioList, n, 4, modelFile, VERBOSE_TRUE);
+		trainHSMModel(sourceAudioList, targetAudioList, n, 10, modelFile, VERBOSE_TRUE);
 		for(int i = 0; i < n; ++i)
 		{
 			delete[] sourceAudioList[i];
@@ -201,9 +201,10 @@ private:
 	const char* sourceAudioDir = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/source_train/";
 	const char* targetAudioDir = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/target_train/";
 	const int numTrainSamples = 8;
-	const char* modelFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/ModelsModel.dat";
-	const char* wavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/source_train/1.wav";
-	const char* convertedWavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/target_train/9.wav";
+	//const char* modelFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/ModelsModel.dat";
+	const char* modelFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Models/Model.dat";
+	const char* wavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios1/source_train/2.wav";
+	const char* convertedWavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/target_train/11.wav";
 	// const char*  parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).cappendText("source_train/");
 	// auto sourceAudioDir1 = parentDir.createDirectory();
 	VoiceChanger_wczAudioProcessor& audioProcessor;

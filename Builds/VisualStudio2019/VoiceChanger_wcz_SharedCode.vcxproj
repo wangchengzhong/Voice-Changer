@@ -213,7 +213,6 @@
     <ClCompile Include="..\..\Source\DawPluginEditor.cpp" />
     <ClCompile Include="..\..\Source\EngineHelpers.cpp" />
     <ClCompile Include="..\..\Source\EqualizerEditor.cpp" />
-    <ClCompile Include="..\..\Source\EqComponent.cpp" />
     <ClCompile Include="..\..\rubberband\src\audiocurves\CompoundAudioCurve.cpp" />
     <ClCompile Include="..\..\rubberband\src\audiocurves\ConstantAudioCurve.cpp" />
     <ClCompile Include="..\..\rubberband\src\audiocurves\HighFrequencyAudioCurve.cpp" />
@@ -4666,7 +4665,6 @@
     <ClInclude Include="..\..\Source\EditViewState.h" />
     <ClInclude Include="..\..\Source\SocialButtons.h" />
     <ClInclude Include="..\..\Source\EqualizerEditor.h" />
-    <ClInclude Include="..\..\Source\EqComponent.h" />
     <ClInclude Include="..\..\Source\Analyser.h" />
     <ClInclude Include="..\..\Source\Resample.h" />
     <ClInclude Include="..\..\Source\PitchShifter.h" />
