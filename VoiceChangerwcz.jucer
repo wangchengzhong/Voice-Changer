@@ -4,6 +4,82 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
               cppLanguageStandard="17" pluginFormats="buildStandalone,buildVST3">
   <MAINGROUP id="PQHAjN" name="VoiceChanger_wcz">
+    <GROUP id="{FBFC0C8E-2EA2-5CBF-5907-5034E541491B}" name="SpeexGlobal">
+      <GROUP id="{754A7C03-0504-17B7-CE5A-E8B08EF756E5}" name="speexdsp">
+        <GROUP id="{621EFDA7-F8F4-8732-1999-44467A17840B}" name="include">
+          <GROUP id="{864602C8-DDA8-2A3D-CB9E-BB7B43845641}" name="speex">
+            <FILE id="cxUPGy" name="global_speex_buffer.h" compile="0" resource="0"
+                  file="speexdsp/include/speex/global_speex_buffer.h"/>
+            <FILE id="wz4hNY" name="global_speex_echo.h" compile="0" resource="0"
+                  file="speexdsp/include/speex/global_speex_echo.h"/>
+            <FILE id="RARBJ3" name="global_speex_jitter.h" compile="0" resource="0"
+                  file="speexdsp/include/speex/global_speex_jitter.h"/>
+            <FILE id="D5AYyu" name="global_speex_preprocess.h" compile="0" resource="0"
+                  file="speexdsp/include/speex/global_speex_preprocess.h"/>
+            <FILE id="ZkROkE" name="global_speex_resampler.h" compile="0" resource="0"
+                  file="speexdsp/include/speex/global_speex_resampler.h"/>
+            <FILE id="HHmIR2" name="global_speexdsp_types.h" compile="0" resource="0"
+                  file="speexdsp/include/speex/global_speexdsp_types.h"/>
+            <FILE id="NI4czZ" name="Makefile.am" compile="0" resource="1" file="speexdsp/include/speex/Makefile.am"/>
+            <FILE id="TTWR4a" name="Makefile.in" compile="0" resource="1" file="speexdsp/include/speex/Makefile.in"/>
+            <FILE id="NPfVxa" name="speexdsp_config_types.h.in" compile="0" resource="1"
+                  file="speexdsp/include/speex/speexdsp_config_types.h.in"/>
+          </GROUP>
+        </GROUP>
+        <GROUP id="{D630A398-C795-DAB3-A06E-BA92C68C7707}" name="lib">
+          <FILE id="qZ7B1W" name="libspeexdsp.lib" compile="0" resource="1" file="speexdsp/lib/libspeexdsp.lib"/>
+        </GROUP>
+        <GROUP id="{767524D0-C92A-E5D7-BDE0-1DC2C7729726}" name="libspeex">
+          <FILE id="G9UoZj" name="_kiss_fft_guts.h" compile="0" resource="0"
+                file="speexdsp/libspeex/_kiss_fft_guts.h"/>
+          <FILE id="VlC8QP" name="arch.h" compile="0" resource="0" file="speexdsp/libspeex/arch.h"/>
+          <FILE id="q0YLtF" name="bfin.h" compile="0" resource="0" file="speexdsp/libspeex/bfin.h"/>
+          <FILE id="tqpSmU" name="buffer.c" compile="1" resource="0" file="speexdsp/libspeex/buffer.c"/>
+          <FILE id="YlQFyu" name="fftwrap.c" compile="1" resource="0" file="speexdsp/libspeex/fftwrap.c"/>
+          <FILE id="qDpTQ0" name="fftwrap.h" compile="0" resource="0" file="speexdsp/libspeex/fftwrap.h"/>
+          <FILE id="wr0jyW" name="filterbank.c" compile="1" resource="0" file="speexdsp/libspeex/filterbank.c"/>
+          <FILE id="pxg3gR" name="filterbank.h" compile="0" resource="0" file="speexdsp/libspeex/filterbank.h"/>
+          <FILE id="qYSffB" name="fixed_arm4.h" compile="0" resource="0" file="speexdsp/libspeex/fixed_arm4.h"/>
+          <FILE id="VSlrzp" name="fixed_arm5e.h" compile="0" resource="0" file="speexdsp/libspeex/fixed_arm5e.h"/>
+          <FILE id="I0TCeP" name="fixed_bfin.h" compile="0" resource="0" file="speexdsp/libspeex/fixed_bfin.h"/>
+          <FILE id="BlKOgp" name="fixed_debug.h" compile="0" resource="0" file="speexdsp/libspeex/fixed_debug.h"/>
+          <FILE id="FVtsw9" name="fixed_generic.h" compile="0" resource="0" file="speexdsp/libspeex/fixed_generic.h"/>
+          <FILE id="mdO571" name="global_config.h" compile="0" resource="0" file="speexdsp/libspeex/global_config.h"/>
+          <FILE id="yfHboC" name="global_resample.c" compile="1" resource="0"
+                file="speexdsp/libspeex/global_resample.c"/>
+          <FILE id="x0ZTMj" name="jitter.c" compile="1" resource="0" file="speexdsp/libspeex/jitter.c"/>
+          <FILE id="j2SFWe" name="kiss_fft.c" compile="1" resource="0" file="speexdsp/libspeex/kiss_fft.c"/>
+          <FILE id="GR51ay" name="kiss_fft.h" compile="0" resource="0" file="speexdsp/libspeex/kiss_fft.h"/>
+          <FILE id="N5i4Sd" name="kiss_fftr.c" compile="1" resource="0" file="speexdsp/libspeex/kiss_fftr.c"/>
+          <FILE id="LXCgjm" name="kiss_fftr.h" compile="0" resource="0" file="speexdsp/libspeex/kiss_fftr.h"/>
+          <FILE id="aTmwqR" name="math_approx.h" compile="0" resource="0" file="speexdsp/libspeex/math_approx.h"/>
+          <FILE id="D6p5JE" name="mdf.c" compile="1" resource="0" file="speexdsp/libspeex/mdf.c"/>
+          <FILE id="obrkKQ" name="misc_bfin.h" compile="0" resource="0" file="speexdsp/libspeex/misc_bfin.h"/>
+          <FILE id="MKU2wQ" name="os_support.h" compile="0" resource="0" file="speexdsp/libspeex/os_support.h"/>
+          <FILE id="kSdbV6" name="preprocess.c" compile="1" resource="0" file="speexdsp/libspeex/preprocess.c"/>
+          <FILE id="dHAOfv" name="pseudofloat.h" compile="0" resource="0" file="speexdsp/libspeex/pseudofloat.h"/>
+          <FILE id="dObDtd" name="resample_neon.h" compile="0" resource="0" file="speexdsp/libspeex/resample_neon.h"/>
+          <FILE id="YB5yRh" name="resample_sse.h" compile="0" resource="0" file="speexdsp/libspeex/resample_sse.h"/>
+          <FILE id="KDnC8x" name="scal.c" compile="1" resource="0" file="speexdsp/libspeex/scal.c"/>
+          <FILE id="MmIeOn" name="smallft.c" compile="1" resource="0" file="speexdsp/libspeex/smallft.c"/>
+          <FILE id="QaEYIN" name="smallft.h" compile="0" resource="0" file="speexdsp/libspeex/smallft.h"/>
+          <FILE id="ZAJIXK" name="stack_alloc.h" compile="0" resource="0" file="speexdsp/libspeex/stack_alloc.h"/>
+          <FILE id="FSYhBA" name="testdenoise.c" compile="1" resource="0" file="speexdsp/libspeex/testdenoise.c"/>
+          <FILE id="bpd9OZ" name="testecho.c" compile="1" resource="0" file="speexdsp/libspeex/testecho.c"/>
+          <FILE id="nRg6nx" name="testjitter.c" compile="1" resource="0" file="speexdsp/libspeex/testjitter.c"/>
+          <FILE id="YkUBpf" name="testresample.c" compile="1" resource="0" file="speexdsp/libspeex/testresample.c"/>
+          <FILE id="SuI62H" name="vorbis_psy.h" compile="0" resource="0" file="speexdsp/libspeex/vorbis_psy.h"/>
+        </GROUP>
+        <GROUP id="{E4B8834D-2C81-83FB-005A-38A40D211DCF}" name="symbian">
+          <FILE id="xEm47j" name="config.h" compile="0" resource="0" file="speexdsp/symbian/config.h"/>
+        </GROUP>
+        <GROUP id="{E6097521-09AC-B0CC-529C-509F69920BDE}" name="ti">
+          <FILE id="UNXkMr" name="config.h" compile="0" resource="0" file="speexdsp/ti/config.h"/>
+          <FILE id="qc7gCy" name="os_support_custom.h" compile="0" resource="0"
+                file="speexdsp/ti/os_support_custom.h"/>
+        </GROUP>
+      </GROUP>
+    </GROUP>
     <GROUP id="{A5DD1CB4-D585-7A6B-FBE9-86AFAB6CE59B}" name="world">
       <GROUP id="{DA292529-3CB3-7A8F-164E-05CA0E538FD6}" name="world">
         <FILE id="t9vC4z" name="cheaptrick.h" compile="0" resource="0" file="world/world/cheaptrick.h"/>
@@ -203,7 +279,7 @@
           <FILE id="aEypqw" name="EditViewState.h" compile="0" resource="0" file="Source/EditViewState.h"/>
         </GROUP>
         <GROUP id="{4BCB7C6E-BA2B-39B2-15FD-224D3C37671E}" name="Assets">
-          <FILE id="hqH0So" name="res_icons.zip" compile="0" resource="1" file="Source/res_icons.zip"/>
+          <FILE id="tGeqpu" name="res_icons.zip" compile="0" resource="1" file="Source/Assets/res_icons.zip"/>
         </GROUP>
       </GROUP>
       <GROUP id="{6523E46D-F7BE-30DC-9483-51E9D0C92372}" name="Eq">
@@ -218,6 +294,8 @@
       </GROUP>
       <GROUP id="{BFFA24C9-C589-804C-695A-222A18CB8AD6}" name="Vocoder">
         <FILE id="Xn8WUE" name="Resample.h" compile="0" resource="0" file="Source/Resample.h"/>
+        <FILE id="hFlPKr" name="VocoderForVoiceConversion.h" compile="0" resource="0"
+              file="Source/VocoderForVoiceConversion.h"/>
         <FILE id="rKfQ0z" name="PitchShifter.h" compile="0" resource="0" file="Source/PitchShifter.h"/>
         <FILE id="I7ulYm" name="phaseVocoderForShapeInvariant.h" compile="0"
               resource="0" file="Source/phaseVocoderForShapeInvariant.h"/>
@@ -254,7 +332,6 @@
         <FILE id="i10Kh0" name="CameraWindow.h" compile="0" resource="0" file="Source/CameraWindow.h"/>
       </GROUP>
       <GROUP id="{4724C889-89EA-1908-82AE-784D29B3E494}" name="Widgets">
-        <FILE id="rA2kPB" name="README.md" compile="0" resource="1" file="Source/README.md"/>
         <FILE id="H9ALhD" name="PrintDebug.h" compile="0" resource="0" file="Source/PrintDebug.h"/>
       </GROUP>
     </GROUP>
@@ -408,9 +485,9 @@
     <VS2019 targetFolder="Builds/VisualStudio2019">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="VoiceChangerwcz" libraryPath="D:\1a\tools\rubberband-2.0.0\otherbuilds\x64\Debug"
-                       defines="NOMINMAX&#10;_USE_MATH_DEFINES&#10;HAVE_KISSFFT&#10;USE_SPEEX&#10;JUCE_MODAL_LOOPS_PERMITTED=1&#10;JUCE_USE_CAMERA"
-                       headerPath="D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HTKLib&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMLib&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMTools&#10;"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="VoiceChangerwcz" headerPath="D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\world&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\world\world"
+                       defines="NOMINMAX&#10;_USE_MATH_DEFINES&#10;HAVE_KISSFFT&#10;USE_SPEEX&#10;JUCE_MODAL_LOOPS_PERMITTED=1&#10;JUCE_USE_CAMERA&#10;HAVE_CONFIG_H"
+                       headerPath="D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband\src&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HTKLib&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMLib&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMTools&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\include\speex&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\libspeex&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\symbian&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\ti"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="VoiceChangerwcz" headerPath="D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\world&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\world\world&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\include"
                        libraryPath="D:/1a/tools/rubberband-2.0.0/otherbuilds/x64/Debug"
                        defines="NOMINMAX&#10;_USE_MATH_DEFINES&#10;HAVE_KISSFFT&#10;USE_SPEEX&#10;JUCE_MODAL_LOOPS_PERMITTED=1&#10;JUCE_USE_CAMERA"/>
       </CONFIGURATIONS>

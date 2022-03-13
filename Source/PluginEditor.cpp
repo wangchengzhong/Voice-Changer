@@ -69,56 +69,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pPeakSlider->setBounds(90, 376, 80, 80);
 
 
-//#if _OPEN_FILTERS
-//    pFilterFreqSlider.reset(new juce::Slider("FilterFreqSlider"));
-//    pFilterFreqSlider->setRange(80, 8000, 1);
-//    pFilterFreqSlider->setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-//    pFilterFreqSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 15);
-//    pFilterFreqSlider->addListener(this);
-//    pFilterFreqSlider->setTooltip(TRANS("freq"));
-//    AudioProcessorEditor::addAndMakeVisible(pFilterFreqSlider.get());
-//
-//    pFilterFreqSlider->setBounds(30, 476, 80, 80);
-//    
-//    pFilterQFactorSlider.reset(new juce::Slider("FilterQFactorSlider"));
-//    pFilterQFactorSlider->setRange(0.01, 5, 0.01);
-//    pFilterQFactorSlider->setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-//    pFilterQFactorSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 15);
-//    pFilterQFactorSlider->addListener(this);
-//    pFilterQFactorSlider->setTooltip(TRANS("q"));
-//    AudioProcessorEditor::addAndMakeVisible(pFilterQFactorSlider.get());
-//
-//    pFilterQFactorSlider->setBounds(100, 476, 80, 80);
-//
-//
-//    pFilterGainSlider.reset(new juce::Slider("FilterGainSlider"));
-//    pFilterGainSlider->setRange(-50, 0, 0.1);
-//    pFilterGainSlider->setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-//    pFilterGainSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 15);
-//    pFilterGainSlider->addListener(this);
-//    pFilterGainSlider->setTooltip(TRANS("gain"));
-//    AudioProcessorEditor::addAndMakeVisible(pFilterGainSlider.get());
-//
-//    pFilterGainSlider->setBounds(170, 476, 80, 80);
-//
-//    pFilterTypeComboBox.reset(new juce::ComboBox("FilterTypeComboBox"));
-//    pFilterTypeComboBox->addItemList(audioProcessor.filterTypeItemsUI, 1);
-//    pFilterTypeComboBox->onChange = [this] {comboBoxChanged(pFilterTypeComboBox.get()); };
-//    pFilterTypeComboBox->setSelectedId(6);
-//    // pFilterTypeComboBox->addListener(this);
-//    AudioProcessorEditor::addAndMakeVisible(pFilterTypeComboBox.get());
-//
-//    pFilterTypeComboBox->setBounds(180, 425, 130, 30);
-//
-//    pFilterIndexComboBox.reset(new juce::ComboBox("FilterIndexComboBox"));
-//    pFilterIndexComboBox->addItemList(audioProcessor.filterIndex, 1);
-//    pFilterIndexComboBox->onChange = [this] {comboBoxChanged(pFilterIndexComboBox.get()); };
-//    // pFilterIndexComboBox->setSelectedId(1);
-//    // pFilterTypeComboBox->addListener(this);
-//    AudioProcessorEditor::addAndMakeVisible(pFilterIndexComboBox.get());
-//
-//    pFilterIndexComboBox->setBounds(180, 380, 130, 30);
-//#endif
+
 
     pDynamicsThresholdSlider.reset(new juce::Slider("DynamicsThresholdSlider"));
     pDynamicsThresholdSlider->setRange(-50, 0, 0.001f);
@@ -301,18 +252,7 @@ void VoiceChanger_wczAudioProcessorEditor::paint (juce::Graphics& g)
     g.setGradientFill(juce::ColourGradient{ juce::Colours::darkgrey,getLocalBounds().toFloat().getCentre(), juce::Colours::darkgrey.darker(0.7f), {}, true });
     pPitchSlider.get()->setValue(audioProcessor.getPitchShift());
     pPeakSlider.get()->setValue(audioProcessor.getPeakShift());
-//#if _OPEN_FILTERS
-//    pFilterFreqSlider.get()->setValue(audioProcessor.getFilterFreqShift(audioProcessor.currentFilterIndex));
-//    pFilterQFactorSlider.get()->setValue(audioProcessor.getFilterQFactorShift(audioProcessor.currentFilterIndex));
-//
-//    pFilterTypeComboBox.get()->setSelectedId(audioProcessor.getFilterTypeShift(audioProcessor.currentFilterIndex));
-//    // pFilterTypeComboBox.get()->setComponentID()
-//    pFilterGainSlider.get()->setValue(audioProcessor.getFilterGainShift(audioProcessor.currentFilterIndex));
-//    // pPlayPositionSlider.get()->setValue(audioProcessor.nPlayAudioFilePosition / audioProcessor.nPlayAudioFileSampleNum);
-//#endif
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    //g.fillAll (AudioProcessorEditor::getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    //g.fillAll(juce::Colours::darkslategrey);
+
     
     int x = 12, y = 12, width = 512, height = 256;
 
@@ -391,21 +331,7 @@ void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* slid
     {
         audioProcessor.setPeakShift((float)pPeakSlider.get()->getValue());
     }
-//#if _OPEN_FILTERS
-//    else if (sliderThatWasMoved == pFilterFreqSlider.get())
-//    {
-//        audioProcessor.setFilterFreqShift((float)pFilterFreqSlider.get()->getValue(), audioProcessor.currentFilterIndex);
-//    }
-//    else if (sliderThatWasMoved == pFilterQFactorSlider.get())
-//    {
-//        audioProcessor.setFilterQFactorShift((float)pFilterQFactorSlider.get()->getValue(), audioProcessor.currentFilterIndex);
-//    }
-//    else if (sliderThatWasMoved == pFilterGainSlider.get())
-//    {
-//        audioProcessor.setFilterGainShift((float)pFilterGainSlider.get()->getValue(), audioProcessor.currentFilterIndex);
-//    }
-//
-//#endif
+
     else if (sliderThatWasMoved == pDynamicsThresholdSlider.get())
     {
         audioProcessor.setDynamicsThresholdShift((float)pDynamicsThresholdSlider.get()->getValue());

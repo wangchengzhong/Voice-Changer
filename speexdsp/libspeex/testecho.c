@@ -2,8 +2,8 @@
 #include "config.h"
 #endif
 
-#include "speex/speex_echo.h"
-#include "speex/speex_preprocess.h"
+#include "speex/global_speex_echo.h"
+#include "speex/global_speex_preprocess.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>

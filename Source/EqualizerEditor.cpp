@@ -17,12 +17,12 @@ FrequalizerAudioProcessorEditor::FrequalizerAudioProcessorEditor(VoiceChanger_wc
         addAndMakeVisible(bandEditor);
     }
 
-    frame.setText(TRANS("Output"));
+    frame.setText(TRANS(juce::CharPointer_UTF8("\xe8\xbe\x93\xe5\x87\xba")));
     frame.setTextLabelPosition(juce::Justification::centred);
     addAndMakeVisible(frame);
     addAndMakeVisible(output);
     attachments.add(new juce::AudioProcessorValueTreeState::SliderAttachment(freqProcessor.getPluginState(), VoiceChanger_wczAudioProcessor::paramOutput, output));
-    output.setTooltip(TRANS("Overall Gain"));
+    output.setTooltip(TRANS(juce::CharPointer_UTF8("\xe6\x95\xb4\xe4\xbd\x93\xe5\xa2\x9e\xe7\x9b\x8a")));
 
     auto size = freqProcessor.getSavedSize();
     setResizable(true, true);
@@ -93,11 +93,11 @@ void FrequalizerAudioProcessorEditor::paint(juce::Graphics& g)
     g.setFont(16.0f);
     freqProcessor.createAnalyserPlot(analyserPath, plotFrame, 20.0f, true);
     g.setColour(inputColour);
-    g.drawFittedText("Input", plotFrame.reduced(8), juce::Justification::topRight, 1);
+    g.drawFittedText(juce::CharPointer_UTF8("\xe8\xbe\x93\xe5\x85\xa5"), plotFrame.reduced(8), juce::Justification::topRight, 1);
     g.strokePath(analyserPath, juce::PathStrokeType(1.0));
     freqProcessor.createAnalyserPlot(analyserPath, plotFrame, 20.0f, false);
     g.setColour(outputColour);
-    g.drawFittedText("Output", plotFrame.reduced(8, 28), juce::Justification::topRight, 1);
+    g.drawFittedText(juce::CharPointer_UTF8("\xe8\xbe\x93\xe5\x87\xba"), plotFrame.reduced(8, 28), juce::Justification::topRight, 1);
     g.strokePath(analyserPath, juce::PathStrokeType(1.0));
 
     for (size_t i = 0; i < freqProcessor.getNumBands(); ++i) {
@@ -311,27 +311,27 @@ FrequalizerAudioProcessorEditor::BandEditor::BandEditor(size_t i, VoiceChanger_w
 
     addAndMakeVisible(frequency);
     attachments.add(new juce::AudioProcessorValueTreeState::SliderAttachment(processor.getPluginState(), processor.getFrequencyParamName(index), frequency));
-    frequency.setTooltip(TRANS("Filter's frequency"));
+    frequency.setTooltip(TRANS(juce::CharPointer_UTF8("\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8\xe9\xa2\x91\xe7\x8e\x87")));
 
     addAndMakeVisible(quality);
     attachments.add(new juce::AudioProcessorValueTreeState::SliderAttachment(processor.getPluginState(), processor.getQualityParamName(index), quality));
-    quality.setTooltip(TRANS("Filter's steepness (Quality)"));
+    quality.setTooltip(TRANS(juce::CharPointer_UTF8("\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8Q\xe5\x80\xbc")));
 
     addAndMakeVisible(gain);
     attachments.add(new juce::AudioProcessorValueTreeState::SliderAttachment(processor.getPluginState(), processor.getGainParamName(index), gain));
-    gain.setTooltip(TRANS("Filter's gain"));
+    gain.setTooltip(TRANS(juce::CharPointer_UTF8("\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8\xe5\xa2\x9e\xe7\x9b\x8a")));
 
     solo.setClickingTogglesState(true);
     solo.addListener(this);
     solo.setColour(juce::TextButton::buttonOnColourId, juce::Colours::yellow);
     addAndMakeVisible(solo);
-    solo.setTooltip(TRANS("Listen only through this filter (solo)"));
+    solo.setTooltip(TRANS(juce::CharPointer_UTF8("\xe4\xbb\x85\xe9\x80\x9a\xe8\xbf\x87\xe8\xaf\xa5\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8\xe7\x9b\x91\xe5\x90\xac")));
 
     activate.setClickingTogglesState(true);
     activate.setColour(juce::TextButton::buttonOnColourId, juce::Colours::green);
     buttonAttachments.add(new juce::AudioProcessorValueTreeState::ButtonAttachment(processor.getPluginState(), processor.getActiveParamName(index), activate));
     addAndMakeVisible(activate);
-    activate.setTooltip(TRANS("Activate or deactivate this filter"));
+    activate.setTooltip(TRANS(juce::CharPointer_UTF8("\xe6\xbf\x80\xe6\xb4\xbb/\xe4\xb8\x8d\xe6\xbf\x80\xe6\xb4\xbb\xe8\xaf\xa5\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8")));
 }
 
 void FrequalizerAudioProcessorEditor::BandEditor::resized()

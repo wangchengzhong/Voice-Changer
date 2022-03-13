@@ -133,7 +133,7 @@ public:
 		else
 		{
 			g.setFont(14.0f);
-			g.drawFittedText("no file recorded", getLocalBounds(), juce::Justification::centred, 2);
+			g.drawFittedText(juce::CharPointer_UTF8("\xe6\x97\xa0\xe5\xbd\x95\xe9\x9f\xb3"), getLocalBounds(), juce::Justification::centred, 2);
 		}
 	}
 private:

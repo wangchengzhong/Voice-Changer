@@ -1,6 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
+
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="VoiceChanger_wcz\SpeexGlobal\speexdsp\include\speex">
+      <UniqueIdentifier>{61B416FA-6F7A-CCBE-B129-6512AE7291B9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\SpeexGlobal\speexdsp\include">
+      <UniqueIdentifier>{D627B844-8B1E-6153-5B06-645B33EC4CF3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\SpeexGlobal\speexdsp\lib">
+      <UniqueIdentifier>{A763EA45-616C-EE1A-663C-C4D1FE90C4FB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex">
+      <UniqueIdentifier>{440B25F5-2343-3874-2C08-E5B8AEC8B671}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\SpeexGlobal\speexdsp\symbian">
+      <UniqueIdentifier>{91AD41BA-25B0-3468-9E34-8B7EF78EA240}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\SpeexGlobal\speexdsp\ti">
+      <UniqueIdentifier>{8ABD9116-A537-1D3E-F00C-5B5309B53A4D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\SpeexGlobal\speexdsp">
+      <UniqueIdentifier>{C0F8F716-55F7-DE5F-A5BB-F780E6C83CEC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\SpeexGlobal">
+      <UniqueIdentifier>{87DC6F87-6B84-E02B-E2C6-F5650D621910}</UniqueIdentifier>
+    </Filter>
     <Filter Include="VoiceChanger_wcz\world\world">
       <UniqueIdentifier>{89C342B2-9DD5-163C-5C69-381359A1A163}</UniqueIdentifier>
     </Filter>
@@ -1417,29 +1442,53 @@
     <Filter Include="JUCE Library Code">
       <UniqueIdentifier>{7ED5A90E-41AF-A1EF-659B-37CEEAB9BA61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VoiceChanger_wcz\VC">
-      <UniqueIdentifier>{b7387b99-7e1f-464e-94a6-b04e7528bae5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="VoiceChanger_wcz\VC\Encapsulate">
-      <UniqueIdentifier>{2b5d0790-6326-4aa2-a605-63df09fa90fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="VoiceChanger_wcz\VC\Source">
-      <UniqueIdentifier>{6bc02ac0-0af4-4092-b25a-0ea6f940d638}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="VoiceChanger_wcz\VC\Test">
-      <UniqueIdentifier>{c5cb40e7-79db-460f-9379-5b643d472a61}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="VoiceChanger_wcz\GlobalSpeex">
-      <UniqueIdentifier>{9568a595-ab65-4358-ab14-1051e7f6326e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="VoiceChanger_wcz\GlobalSpeex\Public Header">
-      <UniqueIdentifier>{0357c3ab-97de-41a1-9631-938b4b70f680}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="VoiceChanger_wcz\GlobalSpeex\Source File">
-      <UniqueIdentifier>{ff778cd2-a8d6-4591-80fc-0060531a829c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\speexdsp\libspeex\buffer.c">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\speexdsp\libspeex\fftwrap.c">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\speexdsp\libspeex\filterbank.c">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\speexdsp\libspeex\global_resample.c">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\speexdsp\libspeex\jitter.c">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\speexdsp\libspeex\kiss_fft.c">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\speexdsp\libspeex\kiss_fftr.c">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\speexdsp\libspeex\mdf.c">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\speexdsp\libspeex\preprocess.c">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\speexdsp\libspeex\scal.c">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\speexdsp\libspeex\smallft.c">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\speexdsp\libspeex\testdenoise.c">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\speexdsp\libspeex\testecho.c">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\speexdsp\libspeex\testjitter.c">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\speexdsp\libspeex\testresample.c">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\world\cheaptrick.cpp">
       <Filter>VoiceChanger_wcz\world</Filter>
     </ClCompile>
@@ -1570,6 +1619,9 @@
       <Filter>VoiceChanger_wcz\Source\Daw\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\EqualizerEditor.cpp">
+      <Filter>VoiceChanger_wcz\Source\Eq</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EqComponent.cpp">
       <Filter>VoiceChanger_wcz\Source\Eq</Filter>
     </ClCompile>
     <ClCompile Include="..\..\rubberband\src\audiocurves\CompoundAudioCurve.cpp">
@@ -1794,6 +1846,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_basics\juce_audio_basics.cpp">
       <Filter>JUCE Modules\juce_audio_basics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_basics\juce_audio_basics.mm">
+      <Filter>JUCE Modules\juce_audio_basics</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_devices\audio_io\juce_AudioDeviceManager.cpp">
       <Filter>JUCE Modules\juce_audio_devices\audio_io</Filter>
     </ClCompile>
@@ -2007,6 +2062,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_devices\native\juce_mac_CoreAudio.cpp">
       <Filter>JUCE Modules\juce_audio_devices\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_devices\native\juce_mac_CoreMidi.mm">
+      <Filter>JUCE Modules\juce_audio_devices\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_devices\native\juce_win32_ASIO.cpp">
       <Filter>JUCE Modules\juce_audio_devices\native</Filter>
     </ClCompile>
@@ -2026,6 +2084,9 @@
       <Filter>JUCE Modules\juce_audio_devices\sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_devices\juce_audio_devices.cpp">
+      <Filter>JUCE Modules\juce_audio_devices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_devices\juce_audio_devices.mm">
       <Filter>JUCE Modules\juce_audio_devices</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_formats\codecs\flac\libFLAC\bitmath.c">
@@ -2199,10 +2260,16 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_formats\juce_audio_formats.cpp">
       <Filter>JUCE Modules\juce_audio_formats</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_formats\juce_audio_formats.mm">
+      <Filter>JUCE Modules\juce_audio_formats</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_plugin_client\utility\juce_PluginUtilities.cpp">
       <Filter>JUCE Modules\juce_audio_plugin_client\utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_plugin_client\juce_audio_plugin_client_utils.cpp">
+      <Filter>JUCE Modules\juce_audio_plugin_client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST_utils.mm">
       <Filter>JUCE Modules\juce_audio_plugin_client</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format\juce_AudioPluginFormat.cpp">
@@ -2280,6 +2347,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format_types\VST3_SDK\public.sdk\source\vst\vstpresetfile.cpp">
       <Filter>JUCE Modules\juce_audio_processors\format_types\VST3_SDK\public.sdk\source\vst</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format_types\juce_AudioUnitPluginFormat.mm">
+      <Filter>JUCE Modules\juce_audio_processors\format_types</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format_types\juce_LADSPAPluginFormat.cpp">
       <Filter>JUCE Modules\juce_audio_processors\format_types</Filter>
     </ClCompile>
@@ -2352,6 +2422,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\juce_audio_processors.cpp">
       <Filter>JUCE Modules\juce_audio_processors</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\juce_audio_processors.mm">
+      <Filter>JUCE Modules\juce_audio_processors</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\audio_cd\juce_AudioCDReader.cpp">
       <Filter>JUCE Modules\juce_audio_utils\audio_cd</Filter>
     </ClCompile>
@@ -2376,10 +2449,22 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_android_BluetoothMidiDevicePairingDialogue.cpp">
       <Filter>JUCE Modules\juce_audio_utils\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_ios_BluetoothMidiDevicePairingDialogue.mm">
+      <Filter>JUCE Modules\juce_audio_utils\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_linux_AudioCDReader.cpp">
       <Filter>JUCE Modules\juce_audio_utils\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_linux_BluetoothMidiDevicePairingDialogue.cpp">
+      <Filter>JUCE Modules\juce_audio_utils\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_mac_AudioCDBurner.mm">
+      <Filter>JUCE Modules\juce_audio_utils\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_mac_AudioCDReader.mm">
+      <Filter>JUCE Modules\juce_audio_utils\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_mac_BluetoothMidiDevicePairingDialogue.mm">
       <Filter>JUCE Modules\juce_audio_utils\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_win_BluetoothMidiDevicePairingDialogue.cpp">
@@ -2398,6 +2483,9 @@
       <Filter>JUCE Modules\juce_audio_utils\players</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\juce_audio_utils.cpp">
+      <Filter>JUCE Modules\juce_audio_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\juce_audio_utils.mm">
       <Filter>JUCE Modules\juce_audio_utils</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\Shapes\b2ChainShape.cpp">
@@ -2676,6 +2764,21 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\native\juce_linux_Threads.cpp">
       <Filter>JUCE Modules\juce_core\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\native\juce_mac_Files.mm">
+      <Filter>JUCE Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\native\juce_mac_Network.mm">
+      <Filter>JUCE Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\native\juce_mac_Strings.mm">
+      <Filter>JUCE Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\native\juce_mac_SystemStats.mm">
+      <Filter>JUCE Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\native\juce_mac_Threads.mm">
+      <Filter>JUCE Modules\juce_core\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\native\juce_posix_NamedPipe.cpp">
       <Filter>JUCE Modules\juce_core\native</Filter>
     </ClCompile>
@@ -2853,6 +2956,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\juce_core.cpp">
       <Filter>JUCE Modules\juce_core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\juce_core.mm">
+      <Filter>JUCE Modules\juce_core</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_data_structures\app_properties\juce_ApplicationProperties.cpp">
       <Filter>JUCE Modules\juce_data_structures\app_properties</Filter>
     </ClCompile>
@@ -2878,6 +2984,9 @@
       <Filter>JUCE Modules\juce_data_structures\values</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_data_structures\juce_data_structures.cpp">
+      <Filter>JUCE Modules\juce_data_structures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_data_structures\juce_data_structures.mm">
       <Filter>JUCE Modules\juce_data_structures</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_dsp\containers\juce_AudioBlock_test.cpp">
@@ -2988,6 +3097,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_dsp\juce_dsp.cpp">
       <Filter>JUCE Modules\juce_dsp</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_dsp\juce_dsp.mm">
+      <Filter>JUCE Modules\juce_dsp</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\broadcasters\juce_ActionBroadcaster.cpp">
       <Filter>JUCE Modules\juce_events\broadcasters</Filter>
     </ClCompile>
@@ -3024,7 +3136,13 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\native\juce_android_Messaging.cpp">
       <Filter>JUCE Modules\juce_events\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\native\juce_ios_MessageManager.mm">
+      <Filter>JUCE Modules\juce_events\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\native\juce_linux_Messaging.cpp">
+      <Filter>JUCE Modules\juce_events\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\native\juce_mac_MessageManager.mm">
       <Filter>JUCE Modules\juce_events\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\native\juce_ScopedLowPowerModeDisabler.cpp">
@@ -3043,6 +3161,9 @@
       <Filter>JUCE Modules\juce_events\timers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\juce_events.cpp">
+      <Filter>JUCE Modules\juce_events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\juce_events.mm">
       <Filter>JUCE Modules\juce_events</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\colour\juce_Colour.cpp">
@@ -3327,6 +3448,12 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\native\juce_linux_IconHelpers.cpp">
       <Filter>JUCE Modules\juce_graphics\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\native\juce_mac_CoreGraphicsContext.mm">
+      <Filter>JUCE Modules\juce_graphics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\native\juce_mac_Fonts.mm">
+      <Filter>JUCE Modules\juce_graphics\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\native\juce_mac_IconHelpers.cpp">
       <Filter>JUCE Modules\juce_graphics\native</Filter>
     </ClCompile>
@@ -3349,6 +3476,9 @@
       <Filter>JUCE Modules\juce_graphics\placement</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\juce_graphics.cpp">
+      <Filter>JUCE Modules\juce_graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\juce_graphics.mm">
       <Filter>JUCE Modules\juce_graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\accessibility\juce_AccessibilityHandler.cpp">
@@ -3609,6 +3739,15 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\accessibility\juce_android_Accessibility.cpp">
       <Filter>JUCE Modules\juce_gui_basics\native\accessibility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\accessibility\juce_ios_Accessibility.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native\accessibility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\accessibility\juce_mac_Accessibility.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native\accessibility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\accessibility\juce_mac_AccessibilitySharedCode.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native\accessibility</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\accessibility\juce_win32_Accessibility.cpp">
       <Filter>JUCE Modules\juce_gui_basics\native\accessibility</Filter>
     </ClCompile>
@@ -3639,10 +3778,34 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_ios_ContentSharer.cpp">
       <Filter>JUCE Modules\juce_gui_basics\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_ios_FileChooser.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_ios_UIViewComponentPeer.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_ios_Windowing.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_linux_FileChooser.cpp">
       <Filter>JUCE Modules\juce_gui_basics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_linux_Windowing.cpp">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_mac_FileChooser.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_mac_MainMenu.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_mac_MouseCursor.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_mac_NSViewComponentPeer.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_mac_Windowing.mm">
       <Filter>JUCE Modules\juce_gui_basics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_win32_DragAndDrop.cpp">
@@ -3768,6 +3931,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\juce_gui_basics.cpp">
       <Filter>JUCE Modules\juce_gui_basics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\juce_gui_basics.mm">
+      <Filter>JUCE Modules\juce_gui_basics</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\code_editor\juce_CodeDocument.cpp">
       <Filter>JUCE Modules\juce_gui_extra\code_editor</Filter>
     </ClCompile>
@@ -3828,6 +3994,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_ios_PushNotifications.cpp">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_ios_UIViewComponent.mm">
+      <Filter>JUCE Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_linux_X11_SystemTrayIcon.cpp">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
@@ -3837,10 +4006,19 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_linux_XEmbedComponent.cpp">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_mac_AppleRemote.mm">
+      <Filter>JUCE Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_mac_NSViewComponent.mm">
+      <Filter>JUCE Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_mac_PushNotifications.cpp">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_mac_SystemTrayIcon.cpp">
+      <Filter>JUCE Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_mac_WebBrowserComponent.mm">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_win32_ActiveXComponent.cpp">
@@ -3856,6 +4034,9 @@
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\juce_gui_extra.cpp">
+      <Filter>JUCE Modules\juce_gui_extra</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\juce_gui_extra.mm">
       <Filter>JUCE Modules\juce_gui_extra</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_gl.cpp">
@@ -3894,6 +4075,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\juce_opengl.cpp">
       <Filter>JUCE Modules\juce_opengl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\juce_opengl.mm">
+      <Filter>JUCE Modules\juce_opengl</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_osc\osc\juce_OSCAddress.cpp">
       <Filter>JUCE Modules\juce_osc\osc</Filter>
     </ClCompile>
@@ -3928,6 +4112,9 @@
       <Filter>JUCE Modules\juce_video\playback</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\juce_video.cpp">
+      <Filter>JUCE Modules\juce_video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\juce_video.mm">
       <Filter>JUCE Modules\juce_video</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\airwindows\Acceleration\Acceleration.cpp">
@@ -6006,116 +6193,101 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_tracktion_graph.cpp">
       <Filter>JUCE Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\aaalsf.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\automaticth2wfw.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\bylevdurb.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\bymcaquat.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\clustkmeans.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\comp_delta.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\conv.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\convert_C.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\decomposephase.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\detalsf.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\DynamicTimeWarping.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\extractmfcc.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\f0analysisbyboersma.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\harmonicanalysis.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\HSManalyze.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\HSManalyze_mfcc.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\HSMptraining.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\HSMsynthesize.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\HSMwfwconvert.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\linphaseterm.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\lsfadap.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\mfcc.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\modelSerialization.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\polarityanalysis.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\polytseb.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\PrepareParallelData.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\RealTimeConverter.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\stochalsf.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\stochasticanalysis.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\sumcos.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\train_C.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\trifbank.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\vec2frames.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\src\WavRW.cpp">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VC\CppAlgo\example\main.cpp">
-      <Filter>VoiceChanger_wcz\VC\Test</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\speexdsp\libspeex\global_resample.c">
-      <Filter>VoiceChanger_wcz\GlobalSpeex\Source File</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_buffer.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\include\speex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_echo.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\include\speex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_jitter.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\include\speex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_preprocess.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\include\speex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_resampler.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\include\speex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\include\speex\global_speexdsp_types.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\include\speex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\_kiss_fft_guts.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\arch.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\bfin.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\fftwrap.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\filterbank.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\fixed_arm4.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\fixed_arm5e.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\fixed_bfin.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\fixed_debug.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\fixed_generic.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\global_config.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\kiss_fft.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\kiss_fftr.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\math_approx.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\misc_bfin.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\os_support.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\pseudofloat.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\resample_neon.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\resample_sse.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\smallft.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\stack_alloc.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\libspeex\vorbis_psy.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\libspeex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\symbian\config.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\symbian</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\ti\config.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\ti</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\speexdsp\ti\os_support_custom.h">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\ti</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\world\world\cheaptrick.h">
       <Filter>VoiceChanger_wcz\world\world</Filter>
     </ClInclude>
@@ -6308,10 +6480,16 @@
     <ClInclude Include="..\..\Source\EqualizerEditor.h">
       <Filter>VoiceChanger_wcz\Source\Eq</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EqComponent.h">
+      <Filter>VoiceChanger_wcz\Source\Eq</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Analyser.h">
       <Filter>VoiceChanger_wcz\Source\Eq</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Resample.h">
+      <Filter>VoiceChanger_wcz\Source\Vocoder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\VocoderForVoiceConversion.h">
       <Filter>VoiceChanger_wcz\Source\Vocoder</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PitchShifter.h">
@@ -10934,217 +11112,28 @@
     <ClInclude Include="..\..\JuceLibraryCode\JucePluginDefines.h">
       <Filter>JUCE Library Code</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\include\vchsm\convert_C.h">
-      <Filter>VoiceChanger_wcz\VC\Encapsulate</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\include\vchsm\C_Swift_bridge_header.h">
-      <Filter>VoiceChanger_wcz\VC\Encapsulate</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\include\vchsm\train_C.h">
-      <Filter>VoiceChanger_wcz\VC\Encapsulate</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\aaalsf.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\almostEqual.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\angle.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\automaticth2wfw.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\bylevdurb.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\bymcaquat.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\clustkmeans.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\comp_delta.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\concat.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\constants.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\conv.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\decomposephase.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\detalsf.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\DynamicTimeWarping.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\EigenSerialization.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\extractmfcc.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\f0analysisbyboersma.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\FFT.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\filter.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\find.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\hamming.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\harmonicanalysis.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\HSManalyze.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\HSManalyze_mfcc.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\HSMptraining.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\HSMsynthesize.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\HSMwfwconvert.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\linphaseterm.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\lsfadap.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\mfcc.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\modelSerialization.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\pdist2squared.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\PicosElement.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\pinv.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\polarityanalysis.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\poly.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\polyeval.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\polytseb.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\pow2roundup.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\PrepareParallelData.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\readWritePicosStructArray.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\RealTimeConverter.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\roots.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\seq.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\sliceByIndices.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\stochalsf.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\stochasticanalysis.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\StructDefinitions.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\sumcos.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\trifbank.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\types.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\vec2frames.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\WavHeader.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\VC\CppAlgo\src\WavRW.h">
-      <Filter>VoiceChanger_wcz\VC\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\VocoderForVoiceConversion.h">
-      <Filter>VoiceChanger_wcz\Source\Vocoder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_buffer.h">
-      <Filter>VoiceChanger_wcz\GlobalSpeex\Public Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_echo.h">
-      <Filter>VoiceChanger_wcz\GlobalSpeex\Public Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_jitter.h">
-      <Filter>VoiceChanger_wcz\GlobalSpeex\Public Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_preprocess.h">
-      <Filter>VoiceChanger_wcz\GlobalSpeex\Public Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\speexdsp\include\speex\global_speex_resampler.h">
-      <Filter>VoiceChanger_wcz\GlobalSpeex\Public Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\speexdsp\include\speex\global_speexdsp_types.h">
-      <Filter>VoiceChanger_wcz\GlobalSpeex\Public Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\speexdsp\libspeex\global_config.h">
-      <Filter>VoiceChanger_wcz\GlobalSpeex\Public Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ShapeInvariantPitchShifter.h">
-      <Filter>VoiceChanger_wcz\Source\Vocoder</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\speexdsp\include\speex\Makefile.am">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\include\speex</Filter>
+    </None>
+    <None Include="..\..\speexdsp\include\speex\Makefile.in">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\include\speex</Filter>
+    </None>
+    <None Include="..\..\speexdsp\include\speex\speexdsp_config_types.h.in">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\include\speex</Filter>
+    </None>
+    <None Include="..\..\speexdsp\lib\libspeexdsp.lib">
+      <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\lib</Filter>
+    </None>
     <None Include="..\..\soundtouch\include\Makefile.am">
       <Filter>VoiceChanger_wcz\soundtouch\include</Filter>
     </None>
     <None Include="..\..\soundtouch\include\soundtouch_config.h.in">
       <Filter>VoiceChanger_wcz\soundtouch\include</Filter>
     </None>
-    <None Include="..\..\Source\res_icons.zip">
+    <None Include="..\..\Source\Assets\res_icons.zip">
       <Filter>VoiceChanger_wcz\Source\Daw\Assets</Filter>
-    </None>
-    <None Include="..\..\Source\README.md">
-      <Filter>VoiceChanger_wcz\Source\Widgets</Filter>
     </None>
     <None Include="..\..\rubberband\src\kissfft\COPYING">
       <Filter>VoiceChanger_wcz\rubberband\src\kissfft</Filter>

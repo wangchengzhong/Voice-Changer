@@ -7,8 +7,9 @@
 #include"BlockCircularBuffer.h"
 #include "Resample.h"
 #include "D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband\src\dsp\Resampler.h"
-#include"D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/CppAlgo/include/vchsm/convert_C.h"
+//#include"D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/CppAlgo/include/vchsm/convert_C.h"
 #include"speex/global_speex_resampler.h"
+
 
 using FloatTypeForConversion = float;
 
@@ -123,7 +124,7 @@ public:
 				std::vector<double> inputDblBuffer(vcInputResampleBuffer.begin(), vcInputResampleBuffer.end());
 
 				std::vector<double> outputDblBuffer(vcOutputResampleBuffer.begin(), vcOutputResampleBuffer.end());
-				convertBlock(modelFile, inputDblBuffer, outputDblBuffer, 1);
+				//convertBlock(modelFile, inputDblBuffer, outputDblBuffer, 1);
 
 
 				// std::vector<double> outputDblBuffer(vcInputResampleBuffer.begin(), vcInputResampleBuffer.end());
@@ -244,7 +245,7 @@ private:
 	int resampleWindowSize = 0;
 	int windowOverlaps = 0;
 
-	const char* modelFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/ModelsModel.dat";
+	const char* modelFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Model.dat";
 
 	SpeexResamplerState* upResampler;
 	SpeexResamplerState* downResampler;

@@ -29,10 +29,10 @@ public:
 		windowSize(windowLength),
 		spectralBufferSize(windowLength * 2),
 		analysisBuffer(windowLength),
-#if USE_3rdPARTYPITCHSHIFT == false
+#//if USE_3rdPARTYPITCHSHIFT == false
 		resampleBufferSize(windowLength),
 		synthesisBuffer(windowLength * 3),
-#endif
+//#endif
 		windowFunction(windowLength),
 		fft(std::make_unique<juce::dsp::FFT>(nearestPower2(fftSize))),
 		fftBufferIn(new float[windowLength]),
@@ -50,20 +50,20 @@ public:
 		// It must be the at least the size of the min pitch ratio
 		// TODO FFT size must be big enough also
 		// 
-		//spectralBufferSize = windowLength * (1 / MinPitchRatio) < spectralBufferSize ?
-		//	(int)ceil(windowLength * (1 / MinPitchRatio)) : spectralBufferSize;
+		spectralBufferSize = windowLength * (1 / MinPitchRatio) < spectralBufferSize ?
+			(int)ceil(windowLength * (1 / MinPitchRatio)) : spectralBufferSize;
 
 		spectralBuffer.resize(spectralBufferSize);
 		
 		std::fill(spectralBuffer.data(), spectralBuffer.data() + spectralBufferSize, 0.f);
-#if USE_3rdPARTYPITCHSHIFT==false
+//#if USE_3rdPARTYPITCHSHIFT==false
 		// Calculate maximium size resample signal can be
 		const auto maxResampleSize = (int)std::ceil(std::max(this->windowSize * MaxPitchRatio,
 			this->windowSize / MinPitchRatio));
 
 		resampleBuffer.resize(maxResampleSize);
 		std::fill(resampleBuffer.data(), resampleBuffer.data() + maxResampleSize, 0.f);
-#endif
+//#endif
 	}
 
 	juce::SpinLock& getParamLock() { return paramLock; }
@@ -200,7 +200,7 @@ public:
 
 				
 				copyFromSpectralToFft(spectralBufferData,fftBufferIn);
-#if USE_3rdPARTYPITCHSHIFT == false
+//#if USE_3rdPARTYPITCHSHIFT == false
 
 				// processCallback(spectralBufferData, spectralBufferSize);
 
@@ -221,10 +221,10 @@ public:
 				////////////////////////////////////////////////////
 				//DBG("Synthesis Write Index: " << synthesisBuffer.getWriteIndex());
 				////////////////////////////////////////////////////
-#endif
+//#endif
 				setProcessFlag(true);
 			}
-#if USE_3rdPARTYPITCHSHIFT == false
+//#if USE_3rdPARTYPITCHSHIFT == false
 			// Emit silence until we start producing output
 			if (!isProcessing)
 			{
@@ -237,14 +237,14 @@ public:
 
 			const auto previousSynthesisReadIndex = synthesisBuffer.getReadIndex();
 			synthesisBuffer.read(audioBuffer + internalOffset, internalBufferSize);
-#endif
+//#endif
 
 			//DBG("Synthesis Read Index: " << previousSynthesisReadIndex << " -> " << synthesisBuffer.getReadIndex());
 		}
-#if USE_3rdPARTYPITCHSHIFT==false
+// #if USE_3rdPARTYPITCHSHIFT==false
 		// Rescale output
 		juce::FloatVectorOperations::multiply(audioBuffer, 1.f / rescalingFactor, audioBufferSize);
-#endif
+// #endif
 	}
 	void copyFromSpectralToFft(FloatType* spectralBufferData,std::shared_ptr<float> fftBuffer)
 	{
@@ -350,10 +350,10 @@ private:
 	BlockCircularBuffer<FloatType> analysisBuffer;
 	
 	std::vector<FloatType> spectralBuffer;
-#if USE_3rdPARTYPITCHSHIFT==false
+//#if USE_3rdPARTYPITCHSHIFT==false
 	std::vector<FloatType> resampleBuffer;
 	BlockCircularBuffer<FloatType> synthesisBuffer;
-#endif
+//#endif
 	// Misc state
 	long incomingSampleCount = 0;
 	int spectralBufferSize = 0;

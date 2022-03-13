@@ -41,7 +41,7 @@
  *  @{
  */
 
-#include "speexdsp_types.h"
+#include "global_speexdsp_types.h"
 
 #ifdef __cplusplus
 extern "C" {

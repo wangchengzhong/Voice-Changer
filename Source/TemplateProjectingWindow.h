@@ -1,7 +1,7 @@
 #pragma once
 #include"JuceHeader.h"
 #include"TransportInformation.h"
-#include"D:\1a\voice_changer@wcz\VoiceChanger@wcz\VC\CppAlgo\include\vchsm\train_C.h"
+//#include"D:\1a\voice_changer@wcz\VoiceChanger@wcz\VC\CppAlgo\include\vchsm\train_C.h"
 #define VERBOSE_TRUE 1
 class TemplateProjectingWindow :public juce::Component,
 	public juce::ChangeListener, 
@@ -167,7 +167,7 @@ public:
 	{
 		// audioProcessor.setState(Starting);
 		// changeState(Starting);
-		convertSingle(modelFile, wavFile, convertedWavFile, 1);
+		// convertSingle(modelFile, wavFile, convertedWavFile, 1);
 	}
 	void stopButtonClicked()
 	{
@@ -189,7 +189,7 @@ public:
 			targetAudioList[i] = buff;
 		}
 		
-		trainHSMModel(sourceAudioList, targetAudioList, n, 10, modelFile, VERBOSE_TRUE);
+		// trainHSMModel(sourceAudioList, targetAudioList, n, 10, modelFile, VERBOSE_TRUE);
 		for(int i = 0; i < n; ++i)
 		{
 			delete[] sourceAudioList[i];
@@ -203,8 +203,8 @@ private:
 	const int numTrainSamples = 8;
 	//const char* modelFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/ModelsModel.dat";
 	const char* modelFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Models/Model.dat";
-	const char* wavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios1/source_train/2.wav";
-	const char* convertedWavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/target_train/11.wav";
+	const char* wavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/test/jal_in_41_3.wav";
+	const char* convertedWavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/test/jal_in_50_3_c.wav";
 	// const char*  parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).cappendText("source_train/");
 	// auto sourceAudioDir1 = parentDir.createDirectory();
 	VoiceChanger_wczAudioProcessor& audioProcessor;

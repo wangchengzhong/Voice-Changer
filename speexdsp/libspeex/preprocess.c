@@ -54,14 +54,14 @@
    of simultaneous non-stationary sources". In Proceedings IEEE International 
    Conference on Acoustics, Speech, and Signal Processing, 2004.
 */
-
+#define HAVE_CONFIG_H
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "global_config.h"
 #endif
 
 #include <math.h>
-#include "speex/speex_preprocess.h"
-#include "speex/speex_echo.h"
+#include "speex/global_speex_preprocess.h"
+#include "speex/global_speex_echo.h"
 #include "arch.h"
 #include "fftwrap.h"
 #include "filterbank.h"

@@ -9,16 +9,25 @@
 namespace BinaryData
 {
     extern const char*   Makefile_am;
-    const int            Makefile_amSize = 1096;
+    const int            Makefile_amSize = 722;
+
+    extern const char*   Makefile_in;
+    const int            Makefile_inSize = 18792;
+
+    extern const char*   speexdsp_config_types_h_in;
+    const int            speexdsp_config_types_h_inSize = 352;
+
+    extern const char*   libspeexdsp_lib;
+    const int            libspeexdsp_libSize = 1254266;
+
+    extern const char*   Makefile_am2;
+    const int            Makefile_am2Size = 1096;
 
     extern const char*   soundtouch_config_h_in;
     const int            soundtouch_config_h_inSize = 188;
 
     extern const char*   res_icons_zip;
     const int            res_icons_zipSize = 86071;
-
-    extern const char*   README_md;
-    const int            README_mdSize = 463;
 
     extern const char*   COPYING;
     const int            COPYINGSize = 246;
@@ -38,11 +47,11 @@ namespace BinaryData
     extern const char*   syntheticdata_py;
     const int            syntheticdata_pySize = 5156;
 
-    extern const char*   README_md2;
-    const int            README_md2Size = 706;
+    extern const char*   README_md;
+    const int            README_mdSize = 706;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 11;
+    const int namedResourceListSize = 14;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

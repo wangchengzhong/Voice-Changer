@@ -1,21 +1,17 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32106.194
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VoiceChanger_wcz_StandalonePlugin", "VoiceChanger_wcz_StandalonePlugin.vcxproj", "{C72117A5-68B6-CD77-F9C1-B30701FB4D56}"
+﻿Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2019
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VoiceChanger_wcz - Standalone Plugin", "VoiceChanger_wcz_StandalonePlugin.vcxproj", "{C72117A5-68B6-CD77-F9C1-B30701FB4D56}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2408E762-7560-741B-EC1D-9F08706F0478} = {2408E762-7560-741B-EC1D-9F08706F0478}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VoiceChanger_wcz_VST3", "VoiceChanger_wcz_VST3.vcxproj", "{2688E799-6F06-2A4D-DD97-0AF7F8352AA1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VoiceChanger_wcz - VST3", "VoiceChanger_wcz_VST3.vcxproj", "{2688E799-6F06-2A4D-DD97-0AF7F8352AA1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2408E762-7560-741B-EC1D-9F08706F0478} = {2408E762-7560-741B-EC1D-9F08706F0478}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VoiceChanger_wcz_SharedCode", "VoiceChanger_wcz_SharedCode.vcxproj", "{2408E762-7560-741B-EC1D-9F08706F0478}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupVoiceChanger_wcz", "..\SetupVoiceChanger_wcz\SetupVoiceChanger_wcz.vdproj", "{4ED91CD9-1D76-46CC-82E4-659B541299D7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VoiceChanger_wcz - Shared Code", "VoiceChanger_wcz_SharedCode.vcxproj", "{2408E762-7560-741B-EC1D-9F08706F0478}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,25 +19,20 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C72117A5-68B6-CD77-F9C1-B30701FB4D56}.Debug|x64.ActiveCfg = Debug|x64
-		{C72117A5-68B6-CD77-F9C1-B30701FB4D56}.Debug|x64.Build.0 = Debug|x64
-		{C72117A5-68B6-CD77-F9C1-B30701FB4D56}.Release|x64.ActiveCfg = Release|x64
-		{C72117A5-68B6-CD77-F9C1-B30701FB4D56}.Release|x64.Build.0 = Release|x64
 		{2688E799-6F06-2A4D-DD97-0AF7F8352AA1}.Debug|x64.ActiveCfg = Debug|x64
 		{2688E799-6F06-2A4D-DD97-0AF7F8352AA1}.Debug|x64.Build.0 = Debug|x64
 		{2688E799-6F06-2A4D-DD97-0AF7F8352AA1}.Release|x64.ActiveCfg = Release|x64
 		{2688E799-6F06-2A4D-DD97-0AF7F8352AA1}.Release|x64.Build.0 = Release|x64
+		{C72117A5-68B6-CD77-F9C1-B30701FB4D56}.Debug|x64.ActiveCfg = Debug|x64
+		{C72117A5-68B6-CD77-F9C1-B30701FB4D56}.Debug|x64.Build.0 = Debug|x64
+		{C72117A5-68B6-CD77-F9C1-B30701FB4D56}.Release|x64.ActiveCfg = Release|x64
+		{C72117A5-68B6-CD77-F9C1-B30701FB4D56}.Release|x64.Build.0 = Release|x64
 		{2408E762-7560-741B-EC1D-9F08706F0478}.Debug|x64.ActiveCfg = Debug|x64
 		{2408E762-7560-741B-EC1D-9F08706F0478}.Debug|x64.Build.0 = Debug|x64
 		{2408E762-7560-741B-EC1D-9F08706F0478}.Release|x64.ActiveCfg = Release|x64
 		{2408E762-7560-741B-EC1D-9F08706F0478}.Release|x64.Build.0 = Release|x64
-		{4ED91CD9-1D76-46CC-82E4-659B541299D7}.Debug|x64.ActiveCfg = Debug
-		{4ED91CD9-1D76-46CC-82E4-659B541299D7}.Release|x64.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {CBE6C659-8185-4049-8028-5FEB75850A6D}
 	EndGlobalSection
 EndGlobal

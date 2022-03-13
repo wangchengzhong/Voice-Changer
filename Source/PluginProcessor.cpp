@@ -21,12 +21,12 @@ juce::String VoiceChanger_wczAudioProcessor::getBandID(size_t index)
 {
     switch (index)
     {
-    case 0: return "Lowest";
-    case 1: return "Low";
-    case 2: return "Low Mids";
-    case 3: return "High Mids";
-    case 4: return "High";
-    case 5: return "Highest";
+    case 0: return juce::CharPointer_UTF8("\xe6\x9e\x81\xe4\xbd\x8e\xe9\xa2\x91");
+    case 1: return juce::CharPointer_UTF8("\xe4\xbd\x8e\xe9\xa2\x91");
+    case 2: return juce::CharPointer_UTF8("\xe4\xb8\xad\xe4\xbd\x8e\xe9\xa2\x91");
+    case 3: return juce::CharPointer_UTF8("\xe4\xb8\xad\xe9\xab\x98\xe9\xa2\x91");
+    case 4: return juce::CharPointer_UTF8("\xe9\xab\x98\xe9\xa2\x91");
+    case 5: return juce::CharPointer_UTF8("\xe6\x9e\x81\xe9\xab\x98\xe9\xa2\x91");
     default: break;
     }
     return "unknown";
@@ -44,12 +44,12 @@ int VoiceChanger_wczAudioProcessor::getBandIndexFromID(juce::String paramID)
 std::vector<VoiceChanger_wczAudioProcessor::Band> createDefaultBands()
 {
     std::vector<VoiceChanger_wczAudioProcessor::Band> defaults;
-    defaults.push_back(VoiceChanger_wczAudioProcessor::Band(TRANS("Lowest"), juce::Colours::blue, VoiceChanger_wczAudioProcessor::HighPass, 20.0f, 0.707f));
-    defaults.push_back(VoiceChanger_wczAudioProcessor::Band(TRANS("Low"), juce::Colours::brown, VoiceChanger_wczAudioProcessor::LowShelf, 250.0f, 0.707f));
-    defaults.push_back(VoiceChanger_wczAudioProcessor::Band(TRANS("Low Mids"), juce::Colours::green, VoiceChanger_wczAudioProcessor::Peak, 500.0f, 0.707f));
-    defaults.push_back(VoiceChanger_wczAudioProcessor::Band(TRANS("High Mids"), juce::Colours::coral, VoiceChanger_wczAudioProcessor::Peak, 1000.0f, 0.707f));
-    defaults.push_back(VoiceChanger_wczAudioProcessor::Band(TRANS("High"), juce::Colours::orange, VoiceChanger_wczAudioProcessor::HighShelf, 5000.0f, 0.707f));
-    defaults.push_back(VoiceChanger_wczAudioProcessor::Band(TRANS("Highest"), juce::Colours::red, VoiceChanger_wczAudioProcessor::LowPass, 12000.0f, 0.707f));
+    defaults.push_back(VoiceChanger_wczAudioProcessor::Band(TRANS(juce::CharPointer_UTF8("\xe6\x9e\x81\xe4\xbd\x8e\xe9\xa2\x91")), juce::Colours::blue, VoiceChanger_wczAudioProcessor::HighPass, 20.0f, 0.707f));
+    defaults.push_back(VoiceChanger_wczAudioProcessor::Band(TRANS(juce::CharPointer_UTF8("\xe4\xbd\x8e\xe9\xa2\x91")), juce::Colours::brown, VoiceChanger_wczAudioProcessor::LowShelf, 250.0f, 0.707f));
+    defaults.push_back(VoiceChanger_wczAudioProcessor::Band(TRANS(juce::CharPointer_UTF8("\xe4\xb8\xad\xe4\xbd\x8e\xe9\xa2\x91")), juce::Colours::green, VoiceChanger_wczAudioProcessor::Peak, 500.0f, 0.707f));
+    defaults.push_back(VoiceChanger_wczAudioProcessor::Band(TRANS(juce::CharPointer_UTF8("\xe4\xb8\xad\xe9\xab\x98\xe9\xa2\x91")), juce::Colours::coral, VoiceChanger_wczAudioProcessor::Peak, 1000.0f, 0.707f));
+    defaults.push_back(VoiceChanger_wczAudioProcessor::Band(TRANS(juce::CharPointer_UTF8("\xe9\xab\x98\xe9\xa2\x91")), juce::Colours::orange, VoiceChanger_wczAudioProcessor::HighShelf, 5000.0f, 0.707f));
+    defaults.push_back(VoiceChanger_wczAudioProcessor::Band(TRANS(juce::CharPointer_UTF8("\xe6\x9e\x81\xe9\xab\x98\xe9\xa2\x91")), juce::Colours::red, VoiceChanger_wczAudioProcessor::LowPass, 12000.0f, 0.707f));
     return defaults;
 }
 #endif
@@ -580,7 +580,7 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
         }
         auto channelDataFlt = buffer.getWritePointer(channel);
         pitchShifters[channel]->process(channelDataFlt, numSamples);
-        // peakShifters[channel]->process(channelData, numSamples);
+        peakShifters[channel]->process(channelDataFlt, numSamples);
     }
 #endif
 #endif
@@ -816,18 +816,18 @@ VoiceChanger_wczAudioProcessor::Band* VoiceChanger_wczAudioProcessor::getBand(si
 juce::StringArray VoiceChanger_wczAudioProcessor::getFilterTypeNames()
 {
     return {
-        TRANS("No Filter"),
-        TRANS("High Pass"),
-        TRANS("1st High Pass"),
-        TRANS("Low Shelf"),
-        TRANS("Band Pass"),
-        TRANS("All Pass"),
-        TRANS("1st All Pass"),
-        TRANS("Notch"),
-        TRANS("Peak"),
-        TRANS("High Shelf"),
-        TRANS("1st Low Pass"),
-        TRANS("Low Pass")
+        TRANS(juce::CharPointer_UTF8("\xe6\x97\xa0\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8")),
+        TRANS(juce::CharPointer_UTF8("\xe9\xab\x98\xe9\x80\x9a\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8")),
+        TRANS(juce::CharPointer_UTF8("\xe4\xb8\x80\xe9\x98\xb6\xe9\xab\x98\xe9\x80\x9a\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8")),
+        TRANS(juce::CharPointer_UTF8("\xe4\xbd\x8e\xe9\xa2\x91\xe6\x90\x81\xe6\x9e\xb6\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8")),
+        TRANS(juce::CharPointer_UTF8("\xe5\xb8\xa6\xe9\x80\x9a\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8")),
+        TRANS(juce::CharPointer_UTF8("\xe5\x85\xa8\xe9\x80\x9a\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8")),
+        TRANS(juce::CharPointer_UTF8("\xe4\xb8\x80\xe9\x98\xb6\xe5\x85\xa8\xe9\x80\x9a\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8")),
+        TRANS(juce::CharPointer_UTF8("\xe9\x99\xb7\xe6\xb3\xa2\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8")),
+        TRANS(juce::CharPointer_UTF8("\xe5\xb3\xb0\xe5\x80\xbc\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8")),
+        TRANS(juce::CharPointer_UTF8("\xe9\xab\x98\xe9\xa2\x91\xe6\x90\x81\xe6\x9e\xb6\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8")),
+        TRANS(juce::CharPointer_UTF8("\xe4\xb8\x80\xe9\x98\xb6\xe4\xbd\x8e\xe9\x80\x9a\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8")),
+        TRANS(juce::CharPointer_UTF8("\xe4\xbd\x8e\xe9\x80\x9a\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8"))
     };
 }
 
@@ -1400,11 +1400,12 @@ void VoiceChanger_wczAudioProcessor::updateUIControls()
         pitchShifters[i]->setPitchRatio(pow(2,(pitchRatio/12)));
         // shapeInvariantPitchShifters[i]->setPitchRatio(pitchRatio);
     }
+#endif
     for (int i = 0; i < peakShifters.size(); ++i)
     {
-        // peakShifters[i]->setPitchRatio(peakRatio);
+        peakShifters[i]->setPitchRatio(peakRatio);
     }
-#endif
+
 #endif
 #if _OPEN_TEST
     float pitchRatioTest = getPitchShift();

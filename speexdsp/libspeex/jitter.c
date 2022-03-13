@@ -50,12 +50,12 @@ TODO:
   + buffering delay
 */
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "global_config.h"
 #endif
 
 
 #include "arch.h"
-#include "speex/speex_jitter.h"
+#include "speex/global_speex_jitter.h"
 #include "os_support.h"
 
 #ifndef NULL

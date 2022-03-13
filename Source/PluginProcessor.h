@@ -1,3 +1,50 @@
+//#include "../include/vchsm/convert_C.h"
+//#include "WavRW.h"
+//#include "modelSerialization.h"
+//#include "HSManalyze.h"
+//#include "HSMwfwconvert.h"
+//#include "HSMsynthesize.h"
+//#include <fstream>
+//#include <vector>
+//#include <iostream>
+//#include "types.h"
+//#include"JuceHeader.h"
+//
+//void convertBlock(const char* modelFile, std::vector<double>& origBuffer, std::vector<double>& convertedBuffer, int verbose) noexcept
+//{
+//    auto numSample = origBuffer.size();
+//    // Eigen::Vector3d x(origBuffer.data());
+//    Eigen::TRowVectorX x(numSample);
+//
+//    //for (int i = 0; i < numSample; i++)
+//    //{
+//    //	x(0,i) = origBuffer[i];
+//    //}
+//    //rawData(origBuffer.data());
+//    //memcpy(x.data(), origBuffer.data(), sizeof(double) * numSample);
+//    // constexpr auto min = std::numeric_limits<>
+//    // x = Eigen::Map<Eigen::TRowVectorX>(origBuffer, 1, -1);
+//    // reinterpret_cast<float*>(x.data(), numSample);
+//    int L = static_cast<int>(x.size());
+//    auto model = deserializeModel(modelFile);
+//    int fs = 16000;
+//    auto picos = HSManalyze(x, fs);
+//    HSMwfwconvert(model, picos);
+//    auto y = HSMsynthesize(picos, L);
+//
+//
+//    //for(int i = 0; i < numSample; i++)
+//    //{
+//    //	convertedBuffer[i] = y(0,i);
+//    //}
+//    // convertedBuffer.resize(y.size());
+//    // memcpy(convertedBuffer.data(), y.data(), sizeof(double) * y.size());
+//    //std::vector<double> vec(y.data(), y.data() + y.rows() * y.cols());
+//    //convertedBuffer.resize(y.size());
+//    //memcpy(&convertedBuffer, &vec, sizeof(double) * vec.size());
+//}
+
+
 #pragma once
 #define _USE_MATH_DEFINES
 #define _OPEN_FILTERS true
@@ -48,7 +95,23 @@ public:
     bool openVoiceConversion{ false };
 
 
-    enum FilterType
+    //enum FilterType
+    //{
+    //    NoFilter = 0,
+    //    HighPass,
+    //    HighPass1st,
+    //    LowShelf,
+    //    BandPass,
+    //    AllPass,
+    //    AllPass1st,
+    //    Notch,
+    //    Peak,
+    //    HighShelf,
+    //    LowPass1st,
+    //    LowPass,
+    //    LastFilterID
+    //};
+	enum FilterType
     {
         NoFilter = 0,
         HighPass,

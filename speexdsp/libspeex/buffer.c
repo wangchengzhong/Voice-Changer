@@ -32,13 +32,13 @@
 */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "global_config.h"
 #endif
 
 
 #include "os_support.h"
 #include "arch.h"
-#include "speex/speex_buffer.h"
+#include "speex/global_speex_buffer.h"
 
 struct SpeexBuffer_ {
    char *data;

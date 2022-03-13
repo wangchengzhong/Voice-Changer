@@ -27,10 +27,10 @@ private:
     std::unique_ptr<EditComponent>editComponent;
 
 
-    juce::TextButton settingsButton{ "Settings" }, pluginsButton{ "Plugins" },
+    juce::TextButton settingsButton{ juce::CharPointer_UTF8("\xe8\xae\xbe\xe7\xbd\xae") }, pluginsButton{ juce::CharPointer_UTF8("\xe6\x8f\x92\xe4\xbb\xb6") },
         newEditButton{ "New" }, playPauseButton{ "Play" }, recordButton{ "Record" },
-        showEditButton{ "Show Project" }, newTrackButton{ "New Track" },
-        deleteButton{ "Delete" }, clearTracksButton{ "Clear Tracks" }, aboutButton{ "?" };
+        showEditButton{ juce::CharPointer_UTF8("\xe6\x98\xbe\xe7\xa4\xba\xe5\xb7\xa5\xe7\xa8\x8b") }, newTrackButton{ juce::CharPointer_UTF8("\xe6\x96\xb0\xe5\xbb\xba\xe8\xbd\xa8\xe9\x81\x93") },
+        deleteButton{ juce::CharPointer_UTF8("\xe5\x88\xa0\xe9\x99\xa4\xe9\x9f\xb3\xe9\xa2\x91\xe5\x9d\x97") }, clearTracksButton{ juce::CharPointer_UTF8("\xe6\xb8\x85\xe9\x99\xa4\xe6\x89\x80\xe6\x9c\x89\xe8\xbd\xa8\xe9\x81\x93") }, aboutButton{ "?" };
 
     juce::Label editNameLabel{ "No Edit Loaded" };
     juce::ToggleButton showWaveformButton{ "Show Waveforms" };

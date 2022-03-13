@@ -25,7 +25,7 @@
 
 #pragma once
 #include <JuceHeader.h>
-
+#include"BinaryData.h"
 //==============================================================================
 namespace Helpers
 {

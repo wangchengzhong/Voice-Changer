@@ -44,7 +44,7 @@ The algorithm implemented here is described in:
 #include "config.h"
 #endif
 
-#include "speex/speex_echo.h"
+#include "speex/global_speex_echo.h"
 #include "vorbis_psy.h"
 #include "arch.h"
 #include "os_support.h"
