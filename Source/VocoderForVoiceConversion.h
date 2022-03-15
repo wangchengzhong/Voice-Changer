@@ -5,8 +5,7 @@
 #include <functional>
 // #include <concepts>
 #include"BlockCircularBuffer.h"
-#include "Resample.h"
-#include "D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband\src\dsp\Resampler.h"
+
 //#include"D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/CppAlgo/include/vchsm/convert_C.h"
 #include"speex/global_speex_resampler.h"
 
