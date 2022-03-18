@@ -6,6 +6,8 @@
 // #include <concepts>
 #include"BlockCircularBuffer.h"
 
+#include "vchsm/convert_C.h"
+#include"vchsm/train_C.h"
 //#include"D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/CppAlgo/include/vchsm/convert_C.h"
 #include"speex/global_speex_resampler.h"
 
@@ -123,7 +125,7 @@ public:
 				std::vector<double> inputDblBuffer(vcInputResampleBuffer.begin(), vcInputResampleBuffer.end());
 
 				std::vector<double> outputDblBuffer(vcOutputResampleBuffer.begin(), vcOutputResampleBuffer.end());
-				//convertBlock(modelFile, inputDblBuffer, outputDblBuffer, 1);
+				convertBlock(modelFile, inputDblBuffer, outputDblBuffer, 1);
 
 
 				// std::vector<double> outputDblBuffer(vcInputResampleBuffer.begin(), vcInputResampleBuffer.end());

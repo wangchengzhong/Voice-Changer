@@ -4,6 +4,137 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
               cppLanguageStandard="17" pluginFormats="buildStandalone,buildVST3">
   <MAINGROUP id="PQHAjN" name="VoiceChanger_wcz">
+    <GROUP id="{8A0336D4-38B0-17D2-A4CC-EA2E8DCCEAEB}" name="VC">
+      <GROUP id="{D0258A41-5B5F-B204-11CE-16211C683C3F}" name="include">
+        <GROUP id="{F245A14F-FF31-3CFE-F9DE-E8AF11582475}" name="vchsm">
+          <FILE id="iJsGgZ" name="C_Swift_bridge_header.h" compile="0" resource="0"
+                file="VC/include/vchsm/C_Swift_bridge_header.h"/>
+          <FILE id="bU72ye" name="convert_C.h" compile="0" resource="0" file="VC/include/vchsm/convert_C.h"/>
+          <FILE id="qfUIze" name="train_C.h" compile="0" resource="0" file="VC/include/vchsm/train_C.h"/>
+          <FILE id="r6o55S" name="train_C.mm" compile="1" resource="0" file="VC/include/vchsm/train_C.mm"/>
+        </GROUP>
+      </GROUP>
+      <GROUP id="{32C2A2CC-201B-5FA0-B3BF-198A8050B7AD}" name="src">
+        <FILE id="JpCr6b" name="aaalsf.cpp" compile="1" resource="0" file="VC/src/aaalsf.cpp"/>
+        <FILE id="VWVLhc" name="aaalsf.h" compile="0" resource="0" file="VC/src/aaalsf.h"/>
+        <FILE id="JL0B3k" name="almostEqual.h" compile="0" resource="0" file="VC/src/almostEqual.h"/>
+        <FILE id="hGmcOe" name="angle.h" compile="0" resource="0" file="VC/src/angle.h"/>
+        <FILE id="g98JLp" name="automaticth2wfw.cpp" compile="1" resource="0"
+              file="VC/src/automaticth2wfw.cpp"/>
+        <FILE id="cwmBzh" name="automaticth2wfw.h" compile="0" resource="0"
+              file="VC/src/automaticth2wfw.h"/>
+        <FILE id="jiMBr1" name="bylevdurb.cpp" compile="1" resource="0" file="VC/src/bylevdurb.cpp"/>
+        <FILE id="MxReJp" name="bylevdurb.h" compile="0" resource="0" file="VC/src/bylevdurb.h"/>
+        <FILE id="ii1Oym" name="bymcaquat.cpp" compile="1" resource="0" file="VC/src/bymcaquat.cpp"/>
+        <FILE id="IRFevP" name="bymcaquat.h" compile="0" resource="0" file="VC/src/bymcaquat.h"/>
+        <FILE id="p1ztjo" name="clustkmeans.cpp" compile="1" resource="0" file="VC/src/clustkmeans.cpp"/>
+        <FILE id="nObPbK" name="clustkmeans.h" compile="0" resource="0" file="VC/src/clustkmeans.h"/>
+        <FILE id="BL9Xo1" name="comp_delta.cpp" compile="1" resource="0" file="VC/src/comp_delta.cpp"/>
+        <FILE id="bHohBp" name="comp_delta.h" compile="0" resource="0" file="VC/src/comp_delta.h"/>
+        <FILE id="Klb29T" name="concat.h" compile="0" resource="0" file="VC/src/concat.h"/>
+        <FILE id="mhYZ7C" name="constants.h" compile="0" resource="0" file="VC/src/constants.h"/>
+        <FILE id="DfNcjl" name="conv.cpp" compile="1" resource="0" file="VC/src/conv.cpp"/>
+        <FILE id="aBYrlj" name="conv.h" compile="0" resource="0" file="VC/src/conv.h"/>
+        <FILE id="iSUSeu" name="convert_C.cpp" compile="1" resource="0" file="VC/src/convert_C.cpp"/>
+        <FILE id="wkrYCV" name="decomposephase.cpp" compile="1" resource="0"
+              file="VC/src/decomposephase.cpp"/>
+        <FILE id="OhBCoC" name="decomposephase.h" compile="0" resource="0"
+              file="VC/src/decomposephase.h"/>
+        <FILE id="BcBWTR" name="detalsf.cpp" compile="1" resource="0" file="VC/src/detalsf.cpp"/>
+        <FILE id="QbaeTH" name="detalsf.h" compile="0" resource="0" file="VC/src/detalsf.h"/>
+        <FILE id="aTT96l" name="DynamicTimeWarping.cpp" compile="1" resource="0"
+              file="VC/src/DynamicTimeWarping.cpp"/>
+        <FILE id="ehLAbM" name="DynamicTimeWarping.h" compile="0" resource="0"
+              file="VC/src/DynamicTimeWarping.h"/>
+        <FILE id="UU7XzH" name="EigenSerialization.h" compile="0" resource="0"
+              file="VC/src/EigenSerialization.h"/>
+        <FILE id="iVtlBX" name="extractmfcc.cpp" compile="1" resource="0" file="VC/src/extractmfcc.cpp"/>
+        <FILE id="RjNeV8" name="extractmfcc.h" compile="0" resource="0" file="VC/src/extractmfcc.h"/>
+        <FILE id="Ts1u74" name="f0analysisbyboersma.cpp" compile="1" resource="0"
+              file="VC/src/f0analysisbyboersma.cpp"/>
+        <FILE id="vyKcu5" name="f0analysisbyboersma.h" compile="0" resource="0"
+              file="VC/src/f0analysisbyboersma.h"/>
+        <FILE id="NWlvti" name="FFT.h" compile="0" resource="0" file="VC/src/FFT.h"/>
+        <FILE id="h01FsN" name="filter.h" compile="0" resource="0" file="VC/src/filter.h"/>
+        <FILE id="v7MRkk" name="find.h" compile="0" resource="0" file="VC/src/find.h"/>
+        <FILE id="qSWZGb" name="hamming.h" compile="0" resource="0" file="VC/src/hamming.h"/>
+        <FILE id="f83rRK" name="harmonicanalysis.cpp" compile="1" resource="0"
+              file="VC/src/harmonicanalysis.cpp"/>
+        <FILE id="sxLkRv" name="harmonicanalysis.h" compile="0" resource="0"
+              file="VC/src/harmonicanalysis.h"/>
+        <FILE id="zYL6DR" name="HSManalyze.cpp" compile="1" resource="0" file="VC/src/HSManalyze.cpp"/>
+        <FILE id="rWBlhk" name="HSManalyze.h" compile="0" resource="0" file="VC/src/HSManalyze.h"/>
+        <FILE id="P17oNG" name="HSManalyze_mfcc.cpp" compile="1" resource="0"
+              file="VC/src/HSManalyze_mfcc.cpp"/>
+        <FILE id="WHgK5D" name="HSManalyze_mfcc.h" compile="0" resource="0"
+              file="VC/src/HSManalyze_mfcc.h"/>
+        <FILE id="Jg1VGz" name="HSMptraining.cpp" compile="1" resource="0"
+              file="VC/src/HSMptraining.cpp"/>
+        <FILE id="dGhgD7" name="HSMptraining.h" compile="0" resource="0" file="VC/src/HSMptraining.h"/>
+        <FILE id="JLpwYo" name="HSMsynthesize.cpp" compile="1" resource="0"
+              file="VC/src/HSMsynthesize.cpp"/>
+        <FILE id="quhY3Y" name="HSMsynthesize.h" compile="0" resource="0" file="VC/src/HSMsynthesize.h"/>
+        <FILE id="TfDcx3" name="HSMwfwconvert.cpp" compile="1" resource="0"
+              file="VC/src/HSMwfwconvert.cpp"/>
+        <FILE id="BNUVAH" name="HSMwfwconvert.h" compile="0" resource="0" file="VC/src/HSMwfwconvert.h"/>
+        <FILE id="XQqzj5" name="linphaseterm.cpp" compile="1" resource="0"
+              file="VC/src/linphaseterm.cpp"/>
+        <FILE id="wVlHa1" name="linphaseterm.h" compile="0" resource="0" file="VC/src/linphaseterm.h"/>
+        <FILE id="NW4OgI" name="lsfadap.cpp" compile="1" resource="0" file="VC/src/lsfadap.cpp"/>
+        <FILE id="bz25MC" name="lsfadap.h" compile="0" resource="0" file="VC/src/lsfadap.h"/>
+        <FILE id="Ojcx0R" name="mfcc.cpp" compile="1" resource="0" file="VC/src/mfcc.cpp"/>
+        <FILE id="cvg4K4" name="mfcc.h" compile="0" resource="0" file="VC/src/mfcc.h"/>
+        <FILE id="CcVBiw" name="modelSerialization.cpp" compile="1" resource="0"
+              file="VC/src/modelSerialization.cpp"/>
+        <FILE id="UsTBHQ" name="modelSerialization.h" compile="0" resource="0"
+              file="VC/src/modelSerialization.h"/>
+        <FILE id="Zubya2" name="pdist2squared.h" compile="0" resource="0" file="VC/src/pdist2squared.h"/>
+        <FILE id="J5pjbz" name="PicosElement.h" compile="0" resource="0" file="VC/src/PicosElement.h"/>
+        <FILE id="xitcfD" name="pinv.h" compile="0" resource="0" file="VC/src/pinv.h"/>
+        <FILE id="EOVSKi" name="polarityanalysis.cpp" compile="1" resource="0"
+              file="VC/src/polarityanalysis.cpp"/>
+        <FILE id="LrQvUY" name="polarityanalysis.h" compile="0" resource="0"
+              file="VC/src/polarityanalysis.h"/>
+        <FILE id="i17Mb4" name="poly.h" compile="0" resource="0" file="VC/src/poly.h"/>
+        <FILE id="HoZp7w" name="polyeval.h" compile="0" resource="0" file="VC/src/polyeval.h"/>
+        <FILE id="NwqP5Z" name="polytseb.cpp" compile="1" resource="0" file="VC/src/polytseb.cpp"/>
+        <FILE id="H09bQh" name="polytseb.h" compile="0" resource="0" file="VC/src/polytseb.h"/>
+        <FILE id="phgOJy" name="pow2roundup.h" compile="0" resource="0" file="VC/src/pow2roundup.h"/>
+        <FILE id="xKc98U" name="PrepareParallelData.cpp" compile="1" resource="0"
+              file="VC/src/PrepareParallelData.cpp"/>
+        <FILE id="erncUr" name="PrepareParallelData.h" compile="0" resource="0"
+              file="VC/src/PrepareParallelData.h"/>
+        <FILE id="hziRp8" name="readWritePicosStructArray.h" compile="0" resource="0"
+              file="VC/src/readWritePicosStructArray.h"/>
+        <FILE id="LiQivJ" name="RealTimeConverter.cpp" compile="1" resource="0"
+              file="VC/src/RealTimeConverter.cpp"/>
+        <FILE id="N79IOa" name="RealTimeConverter.h" compile="0" resource="0"
+              file="VC/src/RealTimeConverter.h"/>
+        <FILE id="TXPXVD" name="roots.h" compile="0" resource="0" file="VC/src/roots.h"/>
+        <FILE id="uDq0v5" name="seq.h" compile="0" resource="0" file="VC/src/seq.h"/>
+        <FILE id="Py7aYa" name="sliceByIndices.h" compile="0" resource="0"
+              file="VC/src/sliceByIndices.h"/>
+        <FILE id="LIRMQT" name="stochalsf.cpp" compile="1" resource="0" file="VC/src/stochalsf.cpp"/>
+        <FILE id="cuScI2" name="stochalsf.h" compile="0" resource="0" file="VC/src/stochalsf.h"/>
+        <FILE id="LFqCSA" name="stochasticanalysis.cpp" compile="1" resource="0"
+              file="VC/src/stochasticanalysis.cpp"/>
+        <FILE id="wFHAVB" name="stochasticanalysis.h" compile="0" resource="0"
+              file="VC/src/stochasticanalysis.h"/>
+        <FILE id="mc5VUs" name="StructDefinitions.h" compile="0" resource="0"
+              file="VC/src/StructDefinitions.h"/>
+        <FILE id="oIcVkS" name="sumcos.cpp" compile="1" resource="0" file="VC/src/sumcos.cpp"/>
+        <FILE id="mHL1qD" name="sumcos.h" compile="0" resource="0" file="VC/src/sumcos.h"/>
+        <FILE id="XiLFPC" name="train_C.cpp" compile="1" resource="0" file="VC/src/train_C.cpp"/>
+        <FILE id="NgXbJj" name="trifbank.cpp" compile="1" resource="0" file="VC/src/trifbank.cpp"/>
+        <FILE id="AFRtfx" name="trifbank.h" compile="0" resource="0" file="VC/src/trifbank.h"/>
+        <FILE id="JnfGJC" name="types.h" compile="0" resource="0" file="VC/src/types.h"/>
+        <FILE id="rkAB7i" name="vec2frames.cpp" compile="1" resource="0" file="VC/src/vec2frames.cpp"/>
+        <FILE id="w0ReHz" name="vec2frames.h" compile="0" resource="0" file="VC/src/vec2frames.h"/>
+        <FILE id="SkJfo5" name="WavHeader.h" compile="0" resource="0" file="VC/src/WavHeader.h"/>
+        <FILE id="KgWdaM" name="WavRW.cpp" compile="1" resource="0" file="VC/src/WavRW.cpp"/>
+        <FILE id="P5zuY7" name="WavRW.h" compile="0" resource="0" file="VC/src/WavRW.h"/>
+      </GROUP>
+    </GROUP>
     <GROUP id="{FBFC0C8E-2EA2-5CBF-5907-5034E541491B}" name="SpeexGlobal">
       <GROUP id="{754A7C03-0504-17B7-CE5A-E8B08EF756E5}" name="speexdsp">
         <GROUP id="{621EFDA7-F8F4-8732-1999-44467A17840B}" name="include">
@@ -486,7 +617,7 @@
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="VoiceChangerwcz" libraryPath="D:\1a\tools\rubberband-2.0.0\otherbuilds\x64\Debug"
                        defines="NOMINMAX&#10;_USE_MATH_DEFINES&#10;HAVE_KISSFFT&#10;USE_SPEEX&#10;JUCE_MODAL_LOOPS_PERMITTED=1&#10;JUCE_USE_CAMERA&#10;HAVE_CONFIG_H"
-                       headerPath="D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband\src&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HTKLib&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMLib&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMTools&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\include\speex&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\libspeex&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\symbian&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\ti&#10;D:\1a\tools\eigen-3.4.0"/>
+                       headerPath="D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband\src&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HTKLib&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMLib&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMTools&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\include\speex&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\libspeex&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\symbian&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\ti&#10;D:\1a\tools\eigen-3.4.0&#10;D:\1a\tools\eigen-3.4.0\Eigen&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\VC&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\VC\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\VC\src"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="VoiceChangerwcz" headerPath="D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\world&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\world\world&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\include"
                        libraryPath="D:/1a/tools/rubberband-2.0.0/otherbuilds/x64/Debug"
                        defines="NOMINMAX&#10;_USE_MATH_DEFINES&#10;HAVE_KISSFFT&#10;USE_SPEEX&#10;JUCE_MODAL_LOOPS_PERMITTED=1&#10;JUCE_USE_CAMERA"/>
