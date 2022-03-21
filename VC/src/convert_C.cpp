@@ -7,10 +7,46 @@
 #include <fstream>
 #include <vector>
 #include <iostream>
-
-void convertBlock(const char* modelFile, std::vector<double>& origBuffer, std::vector<double>& convertedBuffer, int verbose) noexcept
+#include <chrono>
+#include"JuceHeader.h"
+void convertBlock(std::vector<double>& origBuffer, std::vector<double>& convertedBuffer, int verbose, HSMModel& model) noexcept
 {
+	auto numSample = origBuffer.size();
+
+	Eigen::TRowVectorX x(numSample);
+
+	for (int i = 0; i < numSample; i++)
+	{
+		//x(i) = inStart[i];
+		x(i) = origBuffer[i];// +startSample];
+	}
+	//rawData(origBuffer.data());
+	//memcpy(x.data(), origBuffer.data(), sizeof(double) * numSample);
+	// constexpr auto min = std::numeric_limits<>
+	// x = Eigen::Map<Eigen::TRowVectorX>(origBuffer, 1, -1);
+	// reinterpret_cast<float*>(x.data(), numSample);
+	int L = static_cast<int>(x.size());
+	//auto model1 = deserializeModel(modelFile);
+	int fs = 16000;
+
+	auto picos = HSManalyze(x, fs);//6~16
+	// auto start = std::chrono::high_resolution_clock::now();
+
+	HSMwfwconvert(model, picos);//0.7~1.4
 	
+	auto y = HSMsynthesize(picos, L);
+
+
+	for(int i = 0; i < numSample; i++)
+	{
+		//outStart[i] = y(i);
+		convertedBuffer[i] = y(i);
+	}
+	// convertedBuffer.resize(y.size());
+	// memcpy(convertedBuffer.data(), y.data(), sizeof(double) * y.size());
+	//std::vector<double> vec(y.data(), y.data() + y.rows() * y.cols());
+	//convertedBuffer.resize(y.size());
+	//memcpy(&convertedBuffer, &vec, sizeof(double) * vec.size());
 }
 void convertSingle(const char * modelFile, const char * wavFile, const char * convertedWavFile, int verbose)
 {

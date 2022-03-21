@@ -7,8 +7,18 @@
 class TemplateProjectingWindow :public juce::Component,
 	public juce::ChangeListener, 
 	private juce::Timer
+	//private juce::Thread
 {
 public:
+	//void run()override
+	//{
+	//	while (!threadShouldExit())
+	//	{
+	//		//startThread();
+
+	//	}
+	//	wait(500);
+	//}
 	TemplateProjectingWindow(
 		VoiceChanger_wczAudioProcessor& audioProcessor
 	):
@@ -51,6 +61,8 @@ public:
 		
 		// audioDeviceManager.removeAudioCallback();
 	}
+
+
 	void timerCallback()override
 	{
 		repaint();
@@ -190,7 +202,7 @@ public:
 			targetAudioList[i] = buff;
 		}
 		
-		trainHSMModel(sourceAudioList, targetAudioList, n, 10, modelFile, VERBOSE_TRUE);
+		trainHSMModel(sourceAudioList, targetAudioList, n, 4, modelFile, VERBOSE_TRUE);
 		for(int i = 0; i < n; ++i)
 		{
 			delete[] sourceAudioList[i];

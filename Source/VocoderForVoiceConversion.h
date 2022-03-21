@@ -8,11 +8,53 @@
 
 #include "vchsm/convert_C.h"
 #include"vchsm/train_C.h"
-//#include"D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/CppAlgo/include/vchsm/convert_C.h"
 #include"speex/global_speex_resampler.h"
-
+#include"JuceHeader.h"
+#include "ppl.h"
 
 using FloatTypeForConversion = float;
+
+class ProcessOneThread :public Thread
+{
+public:
+	ProcessOneThread(int startSample, int numSample, std::vector<double>& inputDblBuffer,
+		std::vector<double>& outputDblBuffer,HSMModel& model) :
+		Thread("Convert Thread"),
+		startSample(startSample),
+		numSample(numSample),
+		inputDblBuffer(inputDblBuffer),
+		outputDblBuffer(outputDblBuffer),
+		model(model)
+	{
+		startThread(Random::getSystemRandom().nextInt(3) + 6);
+	}
+	~ProcessOneThread()override
+	{
+		stopThread(10);
+	}
+	void run() override
+	{
+		// while (!threadShouldExit())
+		{
+			wait(interval);
+			// const MessageManagerLock mml(Thread::getCurrentThread());
+			//if (!mml.lockWasGained())
+			//	return;
+	
+			convertBlock(inputDblBuffer,outputDblBuffer, 1, model);
+		}
+	}
+private:
+	int startSample;
+	int numSample;
+	int interval = Random::getSystemRandom().nextInt(100) + 6;
+	std::vector<double>& inputDblBuffer;
+	std::vector<double>& outputDblBuffer;
+	HSMModel& model;
+	bool counter;
+	
+
+};
 
 class VocoderForVoiceConversion
 {
@@ -24,8 +66,8 @@ public:
 	};
 
 public:
-	VocoderForVoiceConversion(int windowLength = 18000, 
-		Windows windowType = Windows::hann) :
+	VocoderForVoiceConversion(int windowLength = 48000*50,
+		Windows windowType = Windows::hamming) :
 		samplesTilNextProcess(windowLength),
 		windowSize(windowLength),
 		resampleWindowSize((int)(windowLength/3)),
@@ -37,41 +79,31 @@ public:
 		vcOutputBuffer(windowLength,0),
 		vcInputResampleBuffer((int)(windowLength/3),0),
 		vcOutputResampleBuffer((int)(windowLength/3),0),
-		windowFunction(windowLength)
-
+		model(deserializeModel(modelFile))
+		
 
 	{
+		// model = deserializeModel(modelFile);
 		
 		downResampler = speex_resampler_init(1, 48000, 16000, 3, &err);
 		upResampler = speex_resampler_init(1, 16000, 48000, 3, &err);
 
-		windowOverlaps = getOverlapsRequiredForWindowType(windowType);
-		analysisHopSize = windowLength / windowOverlaps;
-		synthesisHopSize = windowLength / windowOverlaps;
-		// DBG("cur1: " << synthesisHopSize);
+		windowOverlaps = 1;// getOverlapsRequiredForWindowType(windowType);
+		analysisHopSize = windowLength;// / windowOverlaps;
+		synthesisHopSize = windowLength;// / windowOverlaps;
 
-		initialiseWindow(getWindowForEnum(windowType));
 
-		double accum = 0.0;
-		auto windowFunction = getWindowFunction();
-		for(int i = 0; i < getWindowSize(); ++i)
-		{
-			accum += windowFunction[i] * (double)windowFunction[i];
-		}
-		accum /= synthesisHopSize;
-		setRescalingFactor((float)accum);
+		// accum /= synthesisHopSize;
+		// accum = 2;
+		setRescalingFactor((float)6);
 	}
 
-	juce::SpinLock& getParamLock() { return paramLock; }
+	juce::SpinLock& getConvertLock() { return convertLock; }
 
 	int getWindowSize() const { return windowSize; }
 	int getLatencyInSamples() const { return windowSize; }
 	int getWindowOverlapCount() { return windowOverlaps; }
 
-	const FloatTypeForConversion* const getWindowFunction()
-	{
-		return windowFunction.data();
-	}
 
 	float getRescalingFactor() const { return rescalingFactor; }
 
@@ -84,7 +116,7 @@ public:
 	void process(FloatTypeForConversion* const audioBuffer, const int audioBufferSize)
 	{
 		juce::ScopedNoDenormals noDenormals;
-		const juce::SpinLock::ScopedLockType lock(paramLock);
+		const juce::SpinLock::ScopedLockType lock(convertLock);
 
 		static int callbackCount = 0;
 
@@ -123,14 +155,40 @@ public:
 				spxDownSize = (spx_uint32_t)resampleWindowSize;
 				err = speex_resampler_process_float(downResampler, 0, vcInputBuffer.data(), &spxUpSize, vcInputResampleBuffer.data(), &spxDownSize);
 				std::vector<double> inputDblBuffer(vcInputResampleBuffer.begin(), vcInputResampleBuffer.end());
-
 				std::vector<double> outputDblBuffer(vcOutputResampleBuffer.begin(), vcOutputResampleBuffer.end());
-				convertBlock(modelFile, inputDblBuffer, outputDblBuffer, 1);
+				//convertBlock(inputDblBuffer, outputDblBuffer, 1,model);
+				int aa = 10;
+				int t = (int)(resampleWindowSize / aa);
+				//DBG("t is " << t);
+				for(int k = 0; k < aa; k++)
+				{
+					inputDblArray.add(new std::vector<double>(inputDblBuffer.begin() + k * t, inputDblBuffer.begin() + k * t + t - 1));
+					outputDblArray.add(new std::vector<double>(outputDblBuffer.begin() + k * t, outputDblBuffer.begin() + k * t + t - 1));
+				}
+				//for(int k = 0; k < aa; k++)
+				//{
+				//	processThreads.add(new ProcessOneThread(k * t, t, inputDblArray.data()[k][0], outputDblArray.data()[k][0], model));
+				//}
+				concurrency::parallel_for(size_t(0), (size_t)aa, [&](size_t k)
+					{
+						convertBlock(inputDblArray.data()[k][0], outputDblArray.data()[k][0], 1, model);
+					}
+				);
+
+				for(int k = 0; k < aa; k++)
+				{
+					memcpy(outputDblBuffer.data() + k * t, outputDblArray.data()[k][0].data(), t * sizeof(double));
+				}
 
 
-				// std::vector<double> outputDblBuffer(vcInputResampleBuffer.begin(), vcInputResampleBuffer.end());
+				//std::vector<double> outputDblBuffer(vcInputResampleBuffer.begin(), vcInputResampleBuffer.end());
 			
 				std::vector<float> outputFloatBuffer(outputDblBuffer.begin(), outputDblBuffer.end());
+				//outputDblBuffer.clear();
+				inputDblArray.clear();
+				outputDblArray.clear();
+				//processThreads.clear();
+				
 				err = speex_resampler_process_float(upResampler, 0, outputFloatBuffer.data(), &spxDownSize, vcOutputBuffer.data(), &spxUpSize);
 				
 				// memcpy(vcOutputBuffer.data(), vcInputBuffer.data(), sizeof(float) * windowSize);
@@ -171,51 +229,7 @@ public:
 		return processDone;
 	}
 
-private:
-	using JuceWindow = typename juce::dsp::WindowingFunction<FloatTypeForConversion>;
-	using JuceWindowTypes = typename juce::dsp::WindowingFunction<FloatTypeForConversion>::WindowingMethod;
-
-	int getOverlapsRequiredForWindowType(Windows windowType) const
-	{
-		switch (windowType)
-		{
-		case Windows::hann:
-		case Windows::hamming:
-			return 4;
-
-		case Windows::kaiser:
-			return 8;
-
-		default:
-			return -1;
-		}
-	}
-
-	JuceWindowTypes getWindowForEnum(Windows windowType)
-	{
-		switch (windowType)
-		{
-		case Windows::kaiser:
-			return JuceWindow::kaiser;
-
-		case Windows::hamming:
-			return JuceWindow::hamming;
-
-		case Windows::hann:
-		default:
-			return JuceWindow::hann;
-		}
-	}
-
-	void initialiseWindow(JuceWindowTypes window)
-	{
-		JuceWindow::fillWindowingTables(windowFunction.data(), windowSize, window, false);
-	}
-
-protected:
-	std::shared_ptr<float> fftBufferIn, fftBufferOut;
-private:
-	std::unique_ptr<juce::dsp::FFT> fft;
+public:
 
 	// Buffers
 	BlockCircularBuffer<FloatTypeForConversion> analysisBuffer;
@@ -232,12 +246,10 @@ private:
 	int samplesTilNextProcess = 0;
 	bool isProcessing = false;
 
-	juce::SpinLock paramLock;
+	juce::SpinLock convertLock;
 
 	std::mutex flagLock;
 	bool processDone{ true };
-
-	std::vector<FloatTypeForConversion> windowFunction;
 
 	float rescalingFactor = 1.f;
 	int analysisHopSize = 0;
@@ -246,12 +258,19 @@ private:
 	int resampleWindowSize = 0;
 	int windowOverlaps = 0;
 
-	const char* modelFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Model.dat";
+	const char* modelFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Models/Model.dat";
 
 	SpeexResamplerState* upResampler;
 	SpeexResamplerState* downResampler;
 	int err;
 	spx_uint32_t spxUpSize;
 	spx_uint32_t spxDownSize;
+public:
+	HSMModel model;
 
+	juce::OwnedArray<ProcessOneThread> processThreads;
+	juce::OwnedArray<std::vector<double>> inputDblArray;
+	juce::OwnedArray<std::vector<double>> outputDblArray;
 };
+
+

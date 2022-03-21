@@ -1,4 +1,6 @@
 #include "PluginProcessor.h"
+
+#include "modelSerialization.h"
 #include "PluginEditor.h"
 
 
@@ -301,6 +303,7 @@ void VoiceChanger_wczAudioProcessor::changeProgramName (int index, const juce::S
 //==============================================================================
 void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+
     pOversample.reset(new juce::dsp::Oversampling<float>(getTotalNumOutputChannels(), 3,
         juce::dsp::Oversampling<float>::filterHalfBandFIREquiripple, true, true));
 
@@ -559,6 +562,8 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
 #endif
     
 #if _SHOW_SPEC
+    vocodersForVoiceConversion[0]->process(buffer.getWritePointer(0), numSamples);
+
     for (int channel = 0; channel < getNumInputChannels(); ++channel)
     {
         if (openVoiceConversion)
@@ -574,33 +579,34 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
 
         	float* channelDataFlt = buffer.getWritePointer(channel);
         	// double* channelData = dblBuffer.getWritePointer(channel);
-            vocodersForVoiceConversion[channel]->process(channelDataFlt, numSamples);
+            
             // buffer.clear();
 
         }
         auto channelDataFlt = buffer.getWritePointer(channel);
-        pitchShifters[channel]->process(channelDataFlt, numSamples);
-        peakShifters[channel]->process(channelDataFlt, numSamples);
+        //pitchShifters[channel]->process(channelDataFlt, numSamples);
+        //peakShifters[channel]->process(channelDataFlt, numSamples);
     }
 #endif
 #endif
 #if _OPEN_FILTERS
+    if (!openVoiceConversion)
+    {
+        if (getActiveEditor() != nullptr)
+            inputAnalyser.addAudioData(buffer, 0, getTotalNumInputChannels());
 
-    if (getActiveEditor() != nullptr)
-        inputAnalyser.addAudioData(buffer, 0, getTotalNumInputChannels());
+        if (wasBypassed) {
+            filter.reset();
+            wasBypassed = false;
+        }
+        juce::dsp::AudioBlock<float>              ioBuffer(buffer);
+        juce::dsp::ProcessContextReplacing<float> context(ioBuffer);
+        filter.process(context);
 
-    if (wasBypassed) {
-        filter.reset();
-        wasBypassed = false;
+        if (getActiveEditor() != nullptr)
+            outputAnalyser.addAudioData(buffer, 0, getTotalNumOutputChannels());
+
     }
-    juce::dsp::AudioBlock<float>              ioBuffer(buffer);
-    juce::dsp::ProcessContextReplacing<float> context(ioBuffer);
-    filter.process(context);
-
-    if (getActiveEditor() != nullptr)
-        outputAnalyser.addAudioData(buffer, 0, getTotalNumOutputChannels());
-
-
 #endif
 #if _OPEN_TEST
 

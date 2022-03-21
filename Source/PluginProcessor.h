@@ -92,7 +92,7 @@ class VoiceChanger_wczAudioProcessor :
 	,public juce::ChangeBroadcaster
 {
 public:
-    bool openVoiceConversion{ false };
+    bool openVoiceConversion{ true };
 
 
     //enum FilterType

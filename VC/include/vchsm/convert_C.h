@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "modelSerialization.h"
 #include <vector>
 #ifdef __cplusplus
 extern "C" {
@@ -14,7 +14,8 @@ extern "C" {
 	*@param verbose: set a non-zero integer if you want more information displayed during training
 	*@note This algorithm only supports wav audio files with single channel, 16 bits and 16KHz sampling frequency.
 	*/
-	void convertBlock(const char* modelFile, std::vector<double>& origBuffer, std::vector<double>& convertedBuffer, int verbose) noexcept;
+	//void convertBlock(int numSample, int verbose, HSMModel& model, double* inStart, double* outStart) noexcept;
+	void convertBlock(std::vector<double>& origBuffer, std::vector<double>& convertedBuffer, int verbose, HSMModel& model) noexcept;
 	void convertSingle(const char* modelFile, const char* wavFile, const char* convertedWavFile, int verbose);
 
 	/**
