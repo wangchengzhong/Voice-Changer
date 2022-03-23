@@ -39,7 +39,7 @@ The algorithm implemented here is described in:
   http://people.xiph.org/~jm/papers/valin_hscma2008.pdf
 
 */
-
+#include "global_config.h"
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif

@@ -2,7 +2,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-
+using namespace juce;
 namespace Utility
 {
     class AbstractWriter
@@ -95,7 +95,7 @@ namespace Utility
             buffer.setSize(numberOfChannels, capacity, true, false, true);
         }
 
-        void push(const AudioBuffer<float>& data)
+        void push(const juce::AudioBuffer<float>& data)
         {
             const auto numberOfItems = data.getNumSamples();
             jassert(numberOfItems < buffer.getNumSamples());
@@ -113,7 +113,7 @@ namespace Utility
             fifo.finishedWrite(size1 + size2);
         }
 
-        void pull(AudioBuffer<float>& data, int numberOfItems)
+        void pull(juce::AudioBuffer<float>& data, int numberOfItems)
         {
             jassert(numberOfItems < buffer.getNumSamples());
             jassert(data.getNumChannels() == buffer.getNumChannels());

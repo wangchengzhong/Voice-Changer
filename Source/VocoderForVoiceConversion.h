@@ -66,7 +66,7 @@ public:
 	};
 
 public:
-	VocoderForVoiceConversion(int windowLength = 48000*50,
+	VocoderForVoiceConversion(int windowLength = 48000*10,
 		Windows windowType = Windows::hamming) :
 		samplesTilNextProcess(windowLength),
 		windowSize(windowLength),

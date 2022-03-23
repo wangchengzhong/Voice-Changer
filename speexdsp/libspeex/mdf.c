@@ -64,9 +64,9 @@
    instead of having a hard constraint.
    
 */
-
+#include "global_config.h"
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+
 #endif
 
 #include "arch.h"

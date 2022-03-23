@@ -49,6 +49,7 @@ TODO:
   + jitter
   + buffering delay
 */
+#include "global_config.h"
 #ifdef HAVE_CONFIG_H
 #include "global_config.h"
 #endif

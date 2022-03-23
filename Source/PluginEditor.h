@@ -12,7 +12,6 @@
 #include "PluginProcessor.h"
 #include"TemplateRecordingWindow.h"
 #include"NewWindow.h"
-//#include"PlayAudioFileComponent.h"
 #include"TransportInformation.h"
 #include"CameraWindow.h"
 #include"CircularMeter.h"

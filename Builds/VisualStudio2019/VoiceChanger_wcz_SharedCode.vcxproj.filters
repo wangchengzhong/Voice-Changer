@@ -6638,6 +6638,9 @@
     <ClInclude Include="..\..\Source\Resample.h">
       <Filter>VoiceChanger_wcz\Source\Vocoder</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\VocoderForVoiceConversion.h">
+      <Filter>VoiceChanger_wcz\Source\Vocoder</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\PitchShifter.h">
       <Filter>VoiceChanger_wcz\Source\Vocoder</Filter>
     </ClInclude>
@@ -11257,9 +11260,6 @@
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\JucePluginDefines.h">
       <Filter>JUCE Library Code</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\VocoderForVoiceConversion.h">
-      <Filter>VoiceChanger_wcz\Source\Vocoder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

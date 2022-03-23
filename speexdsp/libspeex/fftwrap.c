@@ -31,6 +31,7 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
+#include"global_config.h"
 #define USE_KISS_FFT
 #ifdef HAVE_CONFIG_H
 #include "config.h"

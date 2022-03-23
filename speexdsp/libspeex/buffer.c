@@ -39,6 +39,7 @@
 #include "os_support.h"
 #include "arch.h"
 #include "speex/global_speex_buffer.h"
+#include <global_config.h>
 
 struct SpeexBuffer_ {
    char *data;

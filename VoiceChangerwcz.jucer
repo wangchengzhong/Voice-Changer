@@ -616,10 +616,10 @@
     <VS2019 targetFolder="Builds/VisualStudio2019">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="VoiceChangerwcz" libraryPath="D:\1a\tools\rubberband-2.0.0\otherbuilds\x64\Debug"
-                       defines="NOMINMAX&#10;_USE_MATH_DEFINES&#10;HAVE_KISSFFT&#10;USE_SPEEX&#10;JUCE_MODAL_LOOPS_PERMITTED=1&#10;JUCE_USE_CAMERA&#10;HAVE_CONFIG_H"
+                       defines="NOMINMAX&#10;_USE_MATH_DEFINES&#10;HAVE_KISSFFT&#10;USE_SPEEX&#10;JUCE_MODAL_LOOPS_PERMITTED=1&#10;JUCE_USE_CAMERA&#10;"
                        headerPath="D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband\src&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HTKLib&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMLib&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMTools&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\include\speex&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\libspeex&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\symbian&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\ti&#10;D:\1a\tools\eigen-3.4.0&#10;D:\1a\tools\eigen-3.4.0\Eigen&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\VC&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\VC\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\VC\src"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="VoiceChangerwcz" headerPath="D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\world&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\world\world&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\include"
-                       libraryPath="D:/1a/tools/rubberband-2.0.0/otherbuilds/x64/Debug"
+        <CONFIGURATION isDebug="0" name="Release" targetName="VoiceChangerwcz" headerPath="D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\rubberband\src&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\soundtouch\source&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HTKLib&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMLib&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\htk\HLMTools&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\include\speex&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\libspeex&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\symbian&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\speexdsp\ti&#10;D:\1a\tools\eigen-3.4.0&#10;D:\1a\tools\eigen-3.4.0\Eigen&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\VC&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\VC\include&#10;D:\1a\voice_changer@wcz\VoiceChanger@wcz\VC\src"
+                       libraryPath="D:\1a\tools\rubberband-2.0.0\otherbuilds\x64\Debug"
                        defines="NOMINMAX&#10;_USE_MATH_DEFINES&#10;HAVE_KISSFFT&#10;USE_SPEEX&#10;JUCE_MODAL_LOOPS_PERMITTED=1&#10;JUCE_USE_CAMERA"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
@@ -634,15 +634,15 @@
         <MODULEPATH id="juce_data_structures" path="..\..\tools\tracktion_engine\modules\juce\modules"/>
         <MODULEPATH id="juce_dsp" path="..\..\tools\tracktion_engine\modules\juce\modules"/>
         <MODULEPATH id="juce_events" path="..\..\tools\tracktion_engine\modules\juce\modules"/>
-        <MODULEPATH id="juce_graphics" path="..\..\tools\tracktion_engine\modules\juce\modules"/>
         <MODULEPATH id="juce_gui_basics" path="..\..\tools\tracktion_engine\modules\juce\modules"/>
         <MODULEPATH id="juce_gui_extra" path="..\..\tools\tracktion_engine\modules\juce\modules"/>
-        <MODULEPATH id="tracktion_engine" path="../../tools/tracktion_engine/modules"/>
-        <MODULEPATH id="tracktion_graph" path="../../tools/tracktion_engine/modules"/>
         <MODULEPATH id="juce_osc" path="../../tools/tracktion_engine/modules/juce/modules"/>
         <MODULEPATH id="juce_video" path="../../tools/tracktion_engine/modules/juce/modules"/>
         <MODULEPATH id="juce_opengl" path="../../tools/tracktion_engine/modules/juce/modules"/>
         <MODULEPATH id="juce_box2d" path="../../tools/tracktion_engine/modules/juce/modules"/>
+        <MODULEPATH id="juce_graphics" path="..\..\tools\tracktion_engine\modules\juce\modules"/>
+        <MODULEPATH id="tracktion_engine" path="../../tools/tracktion_engine/modules"/>
+        <MODULEPATH id="tracktion_graph" path="../../tools/tracktion_engine/modules"/>
       </MODULEPATHS>
     </VS2019>
   </EXPORTFORMATS>
