@@ -563,19 +563,11 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
     
 #if _SHOW_SPEC
     vocodersForVoiceConversion[0]->process(buffer.getWritePointer(0), numSamples);
-
+    buffer.copyFrom(1, 0, buffer, 0, 0, numSamples);
     for (int channel = 0; channel < getNumInputChannels(); ++channel)
     {
         if (openVoiceConversion)
         {
-            //pOversample->setUsingIntegerLatency(true);
-            //setLatencySamples(static_cast<int>(pOversample->getLatencyInSamples()));
-            //dsp::AudioBlock<float>downSampleBlock(buffer);
-            //dsp::AudioBlock<float>downSampleRateBlock = pOversample->processSamplesUp(downSampleBlock);
-            //pOversample->processSamplesDown(downSampleBlock);
-
-            // AudioDataConverters::convertFloatToFloat32LE(buffer.getReadPointer(channel), dblBuffer.getReadPointer(channel), buffer.getNumSamples());
-
 
         	float* channelDataFlt = buffer.getWritePointer(channel);
         	// double* channelData = dblBuffer.getWritePointer(channel);

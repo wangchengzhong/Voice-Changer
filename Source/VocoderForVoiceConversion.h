@@ -66,7 +66,7 @@ public:
 	};
 
 public:
-	VocoderForVoiceConversion(int windowLength = 48000*10,
+	VocoderForVoiceConversion(int windowLength = 48000*5,
 		Windows windowType = Windows::hamming) :
 		samplesTilNextProcess(windowLength),
 		windowSize(windowLength),
@@ -95,7 +95,7 @@ public:
 
 		// accum /= synthesisHopSize;
 		// accum = 2;
-		setRescalingFactor((float)6);
+		//setRescalingFactor((float));
 	}
 
 	juce::SpinLock& getConvertLock() { return convertLock; }
@@ -124,7 +124,7 @@ public:
 			internalOffset < audioBufferSize;
 			internalOffset += internalBufferSize)
 		{
-			const auto remainingIncomingSamples = audioBufferSize - internalOffset;
+			const auto remainingIncomingSamples = audioBufferSize - internalOffset;//
 			internalBufferSize = incomingSampleCount + remainingIncomingSamples >= samplesTilNextProcess ?
 				samplesTilNextProcess - incomingSampleCount : remainingIncomingSamples;
 
@@ -157,9 +157,11 @@ public:
 				std::vector<double> inputDblBuffer(vcInputResampleBuffer.begin(), vcInputResampleBuffer.end());
 				std::vector<double> outputDblBuffer(vcOutputResampleBuffer.begin(), vcOutputResampleBuffer.end());
 				//convertBlock(inputDblBuffer, outputDblBuffer, 1,model);
-				int aa = 10;
-				int t = (int)(resampleWindowSize / aa);
-				//DBG("t is " << t);
+
+				 int aa = 5;
+
+				 int t = (int)(resampleWindowSize / aa);
+			
 				for(int k = 0; k < aa; k++)
 				{
 					inputDblArray.add(new std::vector<double>(inputDblBuffer.begin() + k * t, inputDblBuffer.begin() + k * t + t - 1));
@@ -175,14 +177,12 @@ public:
 					}
 				);
 
+
 				for(int k = 0; k < aa; k++)
 				{
 					memcpy(outputDblBuffer.data() + k * t, outputDblArray.data()[k][0].data(), t * sizeof(double));
 				}
 
-
-				//std::vector<double> outputDblBuffer(vcInputResampleBuffer.begin(), vcInputResampleBuffer.end());
-			
 				std::vector<float> outputFloatBuffer(outputDblBuffer.begin(), outputDblBuffer.end());
 				//outputDblBuffer.clear();
 				inputDblArray.clear();
@@ -215,7 +215,7 @@ public:
 		}
 
 		// Rescale output
-		juce::FloatVectorOperations::multiply(audioBuffer, 1.f / rescalingFactor, audioBufferSize);
+		// juce::FloatVectorOperations::multiply(audioBuffer, 1.f / rescalingFactor, audioBufferSize);
 	}
 
 	void setProcessFlag(bool flag)

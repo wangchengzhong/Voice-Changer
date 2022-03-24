@@ -168,7 +168,7 @@ public:
 
     void setBandSolo(int index);
     bool getBandSolo(int index) const;
-
+    
     static juce::StringArray getFilterTypeNames();
 
 	juce::AudioProcessorEditor* createEditor() override;
