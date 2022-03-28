@@ -66,8 +66,11 @@ public:
 	};
 
 public:
-	VocoderForVoiceConversion(int windowLength = 48000*5,
+	VocoderForVoiceConversion(
+		int sampleRate = 44100,
+		int windowLength = 44100*5,
 		Windows windowType = Windows::hamming) :
+		sampleRate(sampleRate),
 		samplesTilNextProcess(windowLength),
 		windowSize(windowLength),
 		resampleWindowSize((int)(windowLength/3)),
@@ -85,8 +88,8 @@ public:
 	{
 		// model = deserializeModel(modelFile);
 		
-		downResampler = speex_resampler_init(1, 48000, 16000, 3, &err);
-		upResampler = speex_resampler_init(1, 16000, 48000, 3, &err);
+		downResampler = speex_resampler_init(1, sampleRate, 16000, 5, &err);
+		upResampler = speex_resampler_init(1, 16000, sampleRate, 5, &err);
 
 		windowOverlaps = 1;// getOverlapsRequiredForWindowType(windowType);
 		analysisHopSize = windowLength;// / windowOverlaps;
@@ -162,21 +165,27 @@ public:
 
 				 int t = (int)(resampleWindowSize / aa);
 			
-				for(int k = 0; k < aa; k++)
-				{
-					inputDblArray.add(new std::vector<double>(inputDblBuffer.begin() + k * t, inputDblBuffer.begin() + k * t + t - 1));
-					outputDblArray.add(new std::vector<double>(outputDblBuffer.begin() + k * t, outputDblBuffer.begin() + k * t + t - 1));
-				}
+				 for (int k = 0; k < aa; k++)
+				 {
+					 inputDblArray.add(new std::vector<double>(inputDblBuffer.begin() + k * t, inputDblBuffer.begin() + k * t + t - 1));
+					 outputDblArray.add(new std::vector<double>(outputDblBuffer.begin() + k * t, outputDblBuffer.begin() + k * t + t - 1));
+				 }
+
 				//for(int k = 0; k < aa; k++)
 				//{
 				//	processThreads.add(new ProcessOneThread(k * t, t, inputDblArray.data()[k][0], outputDblArray.data()[k][0], model));
 				//}
-				concurrency::parallel_for(size_t(0), (size_t)aa, [&](size_t k)
-					{
-						convertBlock(inputDblArray.data()[k][0], outputDblArray.data()[k][0], 1, model);
-					}
-				);
 
+				//concurrency::parallel_for(size_t(0), (size_t)aa, [&](size_t k)
+				//	{
+				//		//convertBlock(inputDblArray.data()[k][0], outputDblArray.data()[k][0], 1, model);
+				//		memcpy(outputDblArray.data()[k][0].data(), inputDblArray.data()[k][0].data(), sizeof(double) * inputDblArray.data()[k][0].size());
+				//	}
+				//);
+				for(int k = 0; k < aa; k++)
+				{
+					memcpy(outputDblArray.data()[k][0].data(), inputDblArray.data()[k][0].data(), sizeof(double) * inputDblArray.data()[k][0].size());
+				}
 
 				for(int k = 0; k < aa; k++)
 				{
@@ -213,6 +222,7 @@ public:
 			const auto previousSynthesisReadIndex = synthesisBuffer.getReadIndex();
 			synthesisBuffer.read(audioBuffer + internalOffset, internalBufferSize);
 		}
+
 
 		// Rescale output
 		// juce::FloatVectorOperations::multiply(audioBuffer, 1.f / rescalingFactor, audioBufferSize);
@@ -267,6 +277,7 @@ public:
 	spx_uint32_t spxDownSize;
 public:
 	HSMModel model;
+	int sampleRate;
 
 	juce::OwnedArray<ProcessOneThread> processThreads;
 	juce::OwnedArray<std::vector<double>> inputDblArray;

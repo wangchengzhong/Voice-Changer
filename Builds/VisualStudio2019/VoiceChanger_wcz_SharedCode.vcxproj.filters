@@ -6171,6 +6171,12 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_tracktion_graph.cpp">
       <Filter>JUCE Library Code</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\MatchBuffer.cpp">
+      <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\VoiceConversion.cpp">
+      <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\VC\include\vchsm\C_Swift_bridge_header.h">
@@ -11260,6 +11266,21 @@
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\JucePluginDefines.h">
       <Filter>JUCE Library Code</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\FIFOSamplePipeForVC.h">
+      <Filter>VoiceChanger_wcz\Source\DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\MatchBuffer.h">
+      <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\FIFOBuffer.h">
+      <Filter>VoiceChanger_wcz\Source\DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\VoiceConversion.h">
+      <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\VoiceConversionBuffer.h">
+      <Filter>VoiceChanger_wcz\Source\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

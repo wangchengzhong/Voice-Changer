@@ -131,6 +131,8 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\MatchBuffer.cpp" />
+    <ClCompile Include="..\..\Source\VoiceConversion.cpp" />
     <ClCompile Include="..\..\VC\src\aaalsf.cpp" />
     <ClCompile Include="..\..\VC\src\automaticth2wfw.cpp" />
     <ClCompile Include="..\..\VC\src\bylevdurb.cpp" />
@@ -4547,6 +4549,11 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_tracktion_graph.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\FIFOBuffer.h" />
+    <ClInclude Include="..\..\Source\FIFOSamplePipeForVC.h" />
+    <ClInclude Include="..\..\Source\MatchBuffer.h" />
+    <ClInclude Include="..\..\Source\VoiceConversion.h" />
+    <ClInclude Include="..\..\Source\VoiceConversionBuffer.h" />
     <ClInclude Include="..\..\VC\include\vchsm\C_Swift_bridge_header.h" />
     <ClInclude Include="..\..\VC\include\vchsm\convert_C.h" />
     <ClInclude Include="..\..\VC\include\vchsm\train_C.h" />

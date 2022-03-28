@@ -401,7 +401,7 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
 
 
         VocoderForVoiceConversion* pVocodersForVoiceConversion;
-        vocodersForVoiceConversion.add(pVocodersForVoiceConversion = new VocoderForVoiceConversion());
+        vocodersForVoiceConversion.add(pVocodersForVoiceConversion = new VocoderForVoiceConversion(sampleRate));
 
         const auto windows = pitchShifters[0]->getLatencyInSamples();
 #endif
@@ -534,7 +534,6 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
     updateUIControls();
 
 #if _OPEN_DYNAMICS
-
     processDynamics(buffer, false, getDynamicsThresholdShift(),
         getDynamicsRatioShift(), getDynamicsAttackShift(),
         getDynamicsReleaseShift(), getDynamicsMakeupGainShift());
@@ -562,9 +561,12 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
 #endif
     
 #if _SHOW_SPEC
-    vocodersForVoiceConversion[0]->process(buffer.getWritePointer(0), numSamples);
-    buffer.copyFrom(1, 0, buffer, 0, 0, numSamples);
-    for (int channel = 0; channel < getNumInputChannels(); ++channel)
+    if (openVoiceConversion)
+    {
+        vocodersForVoiceConversion[0]->process(buffer.getWritePointer(0), numSamples);
+        buffer.copyFrom(1, 0, buffer, 0, 0, numSamples);
+    }
+	for (int channel = 0; channel < getNumInputChannels(); ++channel)
     {
         if (openVoiceConversion)
         {
@@ -576,7 +578,7 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
 
         }
         auto channelDataFlt = buffer.getWritePointer(channel);
-        //pitchShifters[channel]->process(channelDataFlt, numSamples);
+        pitchShifters[channel]->process(channelDataFlt, numSamples);
         //peakShifters[channel]->process(channelDataFlt, numSamples);
     }
 #endif
