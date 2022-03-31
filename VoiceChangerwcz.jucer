@@ -302,6 +302,14 @@
     </GROUP>
     <GROUP id="{2B23833A-41C0-04F9-78E4-035161AB1CFF}" name="Source">
       <GROUP id="{7FF04DBC-FE96-F97E-4FC1-9A639BB14D89}" name="Core">
+        <FILE id="ndH7aQ" name="MatchBuffer.cpp" compile="1" resource="0" file="Source/MatchBuffer.cpp"/>
+        <FILE id="xKcjU9" name="MatchBuffer.h" compile="0" resource="0" file="Source/MatchBuffer.h"/>
+        <FILE id="aQyguG" name="VoiceConversion.cpp" compile="1" resource="0"
+              file="Source/VoiceConversion.cpp"/>
+        <FILE id="kyM2kW" name="VoiceConversion.h" compile="0" resource="0"
+              file="Source/VoiceConversion.h"/>
+        <FILE id="YgDwoD" name="VoiceConversionBuffer.h" compile="0" resource="0"
+              file="Source/VoiceConversionBuffer.h"/>
         <FILE id="uqTz3I" name="TransportInformation.h" compile="0" resource="0"
               file="Source/TransportInformation.h"/>
         <FILE id="c00NgO" name="PluginProcessor.h" compile="0" resource="0"
@@ -434,6 +442,10 @@
         <FILE id="JXZX6j" name="PeakShifter.h" compile="0" resource="0" file="Source/PeakShifter.h"/>
       </GROUP>
       <GROUP id="{981E4BA5-4B60-9AF9-A47E-BAEB23EB6066}" name="DataStructure">
+        <FILE id="mGqSF2" name="FIFOBuffer.cpp" compile="1" resource="0" file="Source/FIFOBuffer.cpp"/>
+        <FILE id="zHjkYh" name="FIFOBuffer.h" compile="0" resource="0" file="Source/FIFOBuffer.h"/>
+        <FILE id="pGt5Or" name="FIFOSamplePipeForVC.h" compile="0" resource="0"
+              file="Source/FIFOSamplePipeForVC.h"/>
         <FILE id="pKG0YH" name="RingBuffer.h" compile="0" resource="0" file="Source/RingBuffer.h"/>
         <FILE id="LNTHAB" name="BlockCircularBuffer.h" compile="0" resource="0"
               file="Source/BlockCircularBuffer.h"/>

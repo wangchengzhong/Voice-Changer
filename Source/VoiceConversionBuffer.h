@@ -2,7 +2,6 @@
 
 #include"JuceHeader.h"
 #include"VoiceConversion.h"
-#include"RingBuffer.h"
 
 class RingBufferForVC
 {
@@ -35,7 +34,7 @@ public:
         }
     }
 
-    float popSample(int channel)
+    double popSample(int channel)
     {
         auto sample = buffer.getSample(channel, readPos[channel]);
 
@@ -58,7 +57,7 @@ public:
         }
     }
 
-    const float* readPointerArray(int reqSamples)
+    const double* readPointerArray(int reqSamples)
     {
         for (int samplePos = 0; samplePos < reqSamples; samplePos++)
         {
@@ -72,7 +71,7 @@ public:
         return pointerBuffer.data();// pointerBuffer.getArrayOfReadPointers();
     }
 
-    void writePointerArray(float* ptrBegin, int writeNum)
+    void writePointerArray(double* ptrBegin, int writeNum)
     {
         for (int i = 0; i < writeNum; i++)
         {
@@ -97,8 +96,8 @@ public:
     }
 
 private:
-    juce::AudioBuffer<float> buffer;// , pointerBuffer;
-    std::vector<float> pointerBuffer;
+    juce::AudioBuffer<double> buffer;// , pointerBuffer;
+    std::vector<double> pointerBuffer;
     std::vector<int> readPos, writePos;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(RingBufferForVC)
 };
@@ -113,18 +112,18 @@ public:
     expense of potential tearing during modulation with a change of the pitch parameter.
      */
     VoiceConversionBuffer(int numChannels, double sampleRate, int samplesPerBlock, bool dryCompensationDelay = false, bool minLatency = false)
-        :samplesPerBlock(samplesPerBlock)
+        :samplesPerBlock(samplesPerBlock),sampleRate((int)sampleRate)
     {
 
-        vc = std::make_unique<VoiceConversion>();
-        vc->setSampleRate(sampleRate);
+        vc = std::make_unique<VoiceConversion>(sampleRate);
+        //vc->setSampleRate(sampleRate);
         vc->setChannels(numChannels);
         // vc->setSetting(SOUNDTOUCH_ALLOW_MMX, 1);
 
         // vc->setSetting(SETTING_USE_QUICKSEEK, 0);
-        vc->setSettings(SETTING_SEQUENCE_MS, 60);
-        vc->setSettings(SETTING_SEEKWINDOW_MS, 25);
-        vc->setSettings(SETTING_OVERLAP_MS, 8);
+        //vc->setSettings(SETTING_SEQUENCE_MS, 60);
+        //vc->setSettings(SETTING_SEEKWINDOW_MS, 25);
+        //vc->setSettings(SETTING_OVERLAP_MS, 8);
 
         maxSamples = 256;
 
@@ -155,21 +154,22 @@ public:
     {
         //dryWet->pushDrySamples(buffer);
 
-
         for (int sample = 0; sample < buffer.getNumSamples(); sample++)
         {
             // Loop to push samples to input buffer.
-            for (int channel = 0; channel < buffer.getNumChannels(); channel++)
+            int channel = 0;
+        	//for (int channel = 0; channel < buffer.getNumChannels(); channel++)
             {
                 input.pushSample(buffer.getSample(channel, sample), channel);
                 buffer.setSample(channel, sample, 0.0);
 
-                if (channel == buffer.getNumChannels() - 1)
+                //if (channel == buffer.getNumChannels() - 1)
                 {
-                    auto reqSamples = 44100 * 5;
-                    
-                    if (reqSamples <= input.getAvailableSampleNum(0))
+                    auto reqSamples = (int) sampleRate/5;
+
+                    if (reqSamples < input.getAvailableSampleNum(0))
                     {
+
                         vc->putSamples(input.readPointerArray((int)reqSamples), static_cast<unsigned int>(reqSamples));
                     }
                 }
@@ -180,7 +180,7 @@ public:
 
         if (availableSamples > 0)
         {
-            float* readSample = vc->ptrBegin();
+            double* readSample = vc->ptrBegin();
             output.writePointerArray(readSample, availableSamples);
             vc->receiveSamples(static_cast<unsigned int>(availableSamples));
             output.copyToBuffer(availableSamples);
@@ -189,8 +189,9 @@ public:
         auto availableOutputSamples = output.getAvailableSampleNum(0);
 
         // Copy samples from output ring buffer to output buffer where available.
-        for (int channel = 0; channel < buffer.getNumChannels(); channel++)
-        {
+        //for (int channel = 0; channel < buffer.getNumChannels(); channel++)
+        int channel = 0;
+    	{
             for (int sample = 0; sample < buffer.getNumSamples(); sample++)
             {
                 if (output.getAvailableSampleNum(channel) > 0)
@@ -216,8 +217,9 @@ public:
     }
 
 private:
+    int sampleRate;
     std::unique_ptr<VoiceConversion> vc;
     RingBufferForVC input, output;
-    juce::AudioBuffer<float> inputBuffer, outputBuffer;
+    juce::AudioBuffer<double> inputBuffer, outputBuffer;
     int maxSamples, initLatency, bufferFail, smallestAcceptableSize, largestAcceptableSize, samplesPerBlock;
 };

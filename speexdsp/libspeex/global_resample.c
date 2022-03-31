@@ -56,7 +56,7 @@
    (e.g. 2/3), and get rid of the rounding operations in the inner loop. 
    The latter both reduces CPU time and makes the algorithm more SIMD-friendly.
 */
-
+typedef double SAMPLETYPE;
 #define HAVE_CONFIG_H
 #ifdef HAVE_CONFIG_H
 #include "global_config.h"
@@ -127,7 +127,7 @@ struct SpeexResamplerState_ {
    spx_uint32_t buffer_size;
    int          int_advance;
    int          frac_advance;
-   float  cutoff;
+   SAMPLETYPE  cutoff;
    spx_uint32_t oversample;
    int          initialised;
    int          started;
@@ -211,8 +211,8 @@ static const struct FuncDef _KAISER6 = {kaiser6_table, 32};
 struct QualityMapping {
    int base_length;
    int oversample;
-   float downsample_bandwidth;
-   float upsample_bandwidth;
+   SAMPLETYPE downsample_bandwidth;
+   SAMPLETYPE upsample_bandwidth;
    const struct FuncDef *window_func;
 };
 
@@ -240,9 +240,9 @@ static const struct QualityMapping quality_map[11] = {
    {256, 32, 0.975f, 0.975f, KAISER12}, /* Q10 */ /* 96.6% cutoff (~100 dB stop) 10 */
 };
 /*8,24,40,56,80,104,128,160,200,256,320*/
-static double compute_func(float x, const struct FuncDef *func)
+static double compute_func(SAMPLETYPE x, const struct FuncDef *func)
 {
-   float y, frac;
+   SAMPLETYPE y, frac;
    double interp[4];
    int ind; 
    y = x*func->oversample;
@@ -275,10 +275,10 @@ int main(int argc, char **argv)
 
 #ifdef FIXED_POINT
 /* The slow way of computing a sinc for the table. Should improve that some day */
-static spx_word16_t sinc(float cutoff, float x, int N, const struct FuncDef *window_func)
+static spx_word16_t sinc(SAMPLETYPE cutoff, SAMPLETYPE x, int N, const struct FuncDef *window_func)
 {
    /*fprintf (stderr, "%f ", x);*/
-   float xx = x * cutoff;
+   SAMPLETYPE xx = x * cutoff;
    if (fabs(x)<1e-6f)
       return WORD2INT(32768.*cutoff);
    else if (fabs(x) > .5f*N)
@@ -288,10 +288,10 @@ static spx_word16_t sinc(float cutoff, float x, int N, const struct FuncDef *win
 }
 #else
 /* The slow way of computing a sinc for the table. Should improve that some day */
-static spx_word16_t sinc(float cutoff, float x, int N, const struct FuncDef *window_func)
+static spx_word16_t sinc(SAMPLETYPE cutoff, SAMPLETYPE x, int N, const struct FuncDef *window_func)
 {
    /*fprintf (stderr, "%f ", x);*/
-   float xx = x * cutoff;
+   SAMPLETYPE xx = x * cutoff;
    if (fabs(x)<1e-6)
       return cutoff;
    else if (fabs(x) > .5*N)
@@ -458,7 +458,7 @@ static int resampler_basic_interpolate_single(SpeexResamplerState *st, spx_uint3
 #ifdef FIXED_POINT
       const spx_word16_t frac = PDIV32(SHL32((samp_frac_num*st->oversample) % st->den_rate,15),st->den_rate);
 #else
-      const spx_word16_t frac = ((float)((samp_frac_num*st->oversample) % st->den_rate))/st->den_rate;
+      const spx_word16_t frac = ((SAMPLETYPE)((samp_frac_num*st->oversample) % st->den_rate))/st->den_rate;
 #endif
       spx_word16_t interp[4];
 
@@ -521,7 +521,7 @@ static int resampler_basic_interpolate_double(SpeexResamplerState *st, spx_uint3
 #ifdef FIXED_POINT
       const spx_word16_t frac = PDIV32(SHL32((samp_frac_num*st->oversample) % st->den_rate,15),st->den_rate);
 #else
-      const spx_word16_t frac = ((float)((samp_frac_num*st->oversample) % st->den_rate))/st->den_rate;
+      const spx_word16_t frac = ((SAMPLETYPE)((samp_frac_num*st->oversample) % st->den_rate))/st->den_rate;
 #endif
       spx_word16_t interp[4];
 
@@ -663,7 +663,7 @@ static int update_filter(SpeexResamplerState *st)
          spx_int32_t j;
          for (j=0;j<st->filt_len;j++)
          {
-            st->sinc_table[i*st->filt_len+j] = sinc(st->cutoff,((j-(spx_int32_t)st->filt_len/2+1)-((float)i)/st->den_rate), st->filt_len, quality_map[st->quality].window_func);
+            st->sinc_table[i*st->filt_len+j] = sinc(st->cutoff,((j-(spx_int32_t)st->filt_len/2+1)-((SAMPLETYPE)i)/st->den_rate), st->filt_len, quality_map[st->quality].window_func);
          }
       }
 #ifdef FIXED_POINT
@@ -678,7 +678,7 @@ static int update_filter(SpeexResamplerState *st)
    } else {
       spx_int32_t i;
       for (i=-4;i<(spx_int32_t)(st->oversample*st->filt_len+4);i++)
-         st->sinc_table[i+4] = sinc(st->cutoff,(i/(float)st->oversample - st->filt_len/2), st->filt_len, quality_map[st->quality].window_func);
+         st->sinc_table[i+4] = sinc(st->cutoff,(i/(SAMPLETYPE)st->oversample - st->filt_len/2), st->filt_len, quality_map[st->quality].window_func);
 #ifdef FIXED_POINT
       st->resampler_ptr = resampler_basic_interpolate_single;
 #else
@@ -906,7 +906,7 @@ static int speex_resampler_magic(SpeexResamplerState *st, spx_uint32_t channel_i
 #ifdef FIXED_POINT
 EXPORT int speex_resampler_process_int(SpeexResamplerState *st, spx_uint32_t channel_index, const spx_int16_t *in, spx_uint32_t *in_len, spx_int16_t *out, spx_uint32_t *out_len)
 #else
-EXPORT int speex_resampler_process_float(SpeexResamplerState *st, spx_uint32_t channel_index, const float *in, spx_uint32_t *in_len, float *out, spx_uint32_t *out_len)
+EXPORT int speex_resampler_process_float(SpeexResamplerState *st, spx_uint32_t channel_index, const SAMPLETYPE *in, spx_uint32_t *in_len, SAMPLETYPE *out, spx_uint32_t *out_len)
 #endif
 {
    int j;
@@ -945,7 +945,7 @@ EXPORT int speex_resampler_process_float(SpeexResamplerState *st, spx_uint32_t c
 }
 
 #ifdef FIXED_POINT
-EXPORT int speex_resampler_process_float(SpeexResamplerState *st, spx_uint32_t channel_index, const float *in, spx_uint32_t *in_len, float *out, spx_uint32_t *out_len)
+EXPORT int speex_resampler_process_float(SpeexResamplerState *st, spx_uint32_t channel_index, const SAMPLETYPE *in, spx_uint32_t *in_len, SAMPLETYPE *out, spx_uint32_t *out_len)
 #else
 EXPORT int speex_resampler_process_int(SpeexResamplerState *st, spx_uint32_t channel_index, const spx_int16_t *in, spx_uint32_t *in_len, spx_int16_t *out, spx_uint32_t *out_len)
 #endif
@@ -1018,7 +1018,7 @@ EXPORT int speex_resampler_process_int(SpeexResamplerState *st, spx_uint32_t cha
    return st->resampler_ptr == resampler_basic_zero ? RESAMPLER_ERR_ALLOC_FAILED : RESAMPLER_ERR_SUCCESS;
 }
 
-EXPORT int speex_resampler_process_interleaved_float(SpeexResamplerState *st, const float *in, spx_uint32_t *in_len, float *out, spx_uint32_t *out_len)
+EXPORT int speex_resampler_process_interleaved_float(SpeexResamplerState *st, const SAMPLETYPE *in, spx_uint32_t *in_len, SAMPLETYPE *out, spx_uint32_t *out_len)
 {
    spx_uint32_t i;
    int istride_save, ostride_save;

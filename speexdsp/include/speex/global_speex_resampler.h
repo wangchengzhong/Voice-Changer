@@ -164,9 +164,9 @@ void speex_resampler_destroy(SpeexResamplerState *st);
  */
 int speex_resampler_process_float(SpeexResamplerState *st, 
                                    spx_uint32_t channel_index, 
-                                   const float *in, 
+                                   const double *in, 
                                    spx_uint32_t *in_len, 
-                                   float *out, 
+                                   double *out, 
                                    spx_uint32_t *out_len);
 
 /** Resample an int array. The input and output buffers must *not* overlap.

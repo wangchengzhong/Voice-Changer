@@ -40,8 +40,9 @@ const short _scanOffsets[5][24] = {
  *****************************************************************************/
 
 
-BufferMatch::BufferMatch() : FIFOProcessor(&outputBuffer)
+BufferMatch::BufferMatch(int sampleRate) : FIFOProcessor(&outputBuffer), model(deserializeModel("D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Models/Model.dat"))
 {
+
     bQuickSeek = false;
     channels = 2;
 
@@ -53,8 +54,9 @@ BufferMatch::BufferMatch() : FIFOProcessor(&outputBuffer)
     bAutoSeekSetting = true;
 
     tempo = 1.0f;
-    setParameters(44100, DEFAULT_SEQUENCE_MS, DEFAULT_SEEKWINDOW_MS, DEFAULT_OVERLAP_MS);
-    setTempo(1.0f);
+    //setParameters(sampleRate, DEFAULT_SEQUENCE_MS, DEFAULT_SEEKWINDOW_MS, DEFAULT_OVERLAP_MS);
+    setParameters(sampleRate, 1000, 5, 5);
+	setTempo(1.0f);
 
     clear();
 }
@@ -83,7 +85,6 @@ void BufferMatch::setParameters(int aSampleRate, int aSequenceMS,
     // accept only positive parameter values - if zero or negative, use old values instead
     if (aSampleRate > 0)
     {
-        if (aSampleRate > 192000) THROW_RT_ERROR("Error: Excessive samplerate");
         this->sampleRate = aSampleRate;
     }
 
@@ -124,28 +125,28 @@ void BufferMatch::setParameters(int aSampleRate, int aSequenceMS,
 /// Get routine control parameters, see setParameters() function.
 /// Any of the parameters to this function can be NULL, in such case corresponding parameter
 /// value isn't returned.
-void BufferMatch::getParameters(int* pSampleRate, int* pSequenceMs, int* pSeekWindowMs, int* pOverlapMs) const
-{
-    if (pSampleRate)
-    {
-        *pSampleRate = sampleRate;
-    }
-
-    if (pSequenceMs)
-    {
-        *pSequenceMs = (bAutoSeqSetting) ? (USE_AUTO_SEQUENCE_LEN) : sequenceMs;
-    }
-
-    if (pSeekWindowMs)
-    {
-        *pSeekWindowMs = (bAutoSeekSetting) ? (USE_AUTO_SEEKWINDOW_LEN) : seekWindowMs;
-    }
-
-    if (pOverlapMs)
-    {
-        *pOverlapMs = overlapMs;
-    }
-}
+//void BufferMatch::getParameters(int* pSampleRate, int* pSequenceMs, int* pSeekWindowMs, int* pOverlapMs) const
+//{
+//    if (pSampleRate)
+//    {
+//        *pSampleRate = sampleRate;
+//    }
+//
+//    if (pSequenceMs)
+//    {
+//        *pSequenceMs = (bAutoSeqSetting) ? (USE_AUTO_SEQUENCE_LEN) : sequenceMs;
+//    }
+//
+//    if (pSeekWindowMs)
+//    {
+//        *pSeekWindowMs = (bAutoSeekSetting) ? (USE_AUTO_SEEKWINDOW_LEN) : seekWindowMs;
+//    }
+//
+//    if (pOverlapMs)
+//    {
+//        *pOverlapMs = overlapMs;
+//    }
+//}
 
 
 // Overlaps samples in 'midBuffer' with the samples in 'pInput'
@@ -466,18 +467,19 @@ void BufferMatch::clearCrossCorrState()
 /// Calculates processing sequence length according to tempo setting
 void BufferMatch::calcSeqParameters()
 {
-    // Adjust tempo param according to tempo, so that variating processing sequence length is used
-    // at various tempo settings, between the given low...top limits
+
+	// Adjust tempo param according to tempo, so that variating processing sequence length is used
+	// at various tempo settings, between the given low...top limits
 #define AUTOSEQ_TEMPO_LOW   0.5     // auto setting low tempo range (-50%)
 #define AUTOSEQ_TEMPO_TOP   2.0     // auto setting top tempo range (+100%)
 
-// sequence-ms setting values at above low & top tempo
+	// sequence-ms setting values at above low & top tempo
 #define AUTOSEQ_AT_MIN      90.0
 #define AUTOSEQ_AT_MAX      40.0
 #define AUTOSEQ_K           ((AUTOSEQ_AT_MAX - AUTOSEQ_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW))
 #define AUTOSEQ_C           (AUTOSEQ_AT_MIN - (AUTOSEQ_K) * (AUTOSEQ_TEMPO_LOW))
 
-// seek-window-ms setting values at above low & top tempoq
+	// seek-window-ms setting values at above low & top tempoq
 #define AUTOSEEK_AT_MIN     20.0
 #define AUTOSEEK_AT_MAX     15.0
 #define AUTOSEEK_K          ((AUTOSEEK_AT_MAX - AUTOSEEK_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW))
@@ -485,31 +487,31 @@ void BufferMatch::calcSeqParameters()
 
 #define CHECK_LIMITS(x, mi, ma) (((x) < (mi)) ? (mi) : (((x) > (ma)) ? (ma) : (x)))
 
-    double seq, seek;
+	double seq, seek;
 
-    if (bAutoSeqSetting)
-    {
-        // DBG("have run here");
-        seq = AUTOSEQ_C + AUTOSEQ_K * tempo;
-        seq = CHECK_LIMITS(seq, AUTOSEQ_AT_MAX, AUTOSEQ_AT_MIN);
-        sequenceMs = (int)(seq + 0.5);
-    }
+	//if (bAutoSeqSetting)
+	//{
+	//	// DBG("have run here");
+	//	seq = AUTOSEQ_C + AUTOSEQ_K * tempo;
+	//	seq = CHECK_LIMITS(seq, AUTOSEQ_AT_MAX, AUTOSEQ_AT_MIN);
+	//	sequenceMs = (int)(seq + 0.5);
+	//}
 
-    if (bAutoSeekSetting)
-    {
-        // DBG("have run here");
-        seek = AUTOSEEK_C + AUTOSEEK_K * tempo;
-        seek = CHECK_LIMITS(seek, AUTOSEEK_AT_MAX, AUTOSEEK_AT_MIN);
-        seekWindowMs = (int)(seek + 0.5);
-    }
+	//if (bAutoSeekSetting)
+	//{
+	//	// DBG("have run here");
+	//	seek = AUTOSEEK_C + AUTOSEEK_K * tempo;
+	//	seek = CHECK_LIMITS(seek, AUTOSEEK_AT_MAX, AUTOSEEK_AT_MIN);
+	//	seekWindowMs = (int)(seek + 0.5);
+	//}
 
-    // Update seek window lengths
-    seekWindowLength = (sampleRate * sequenceMs) / 1000;
-    if (seekWindowLength < 2 * overlapLength)
-    {
-        seekWindowLength = 2 * overlapLength;
-    }
-    seekLength = (sampleRate * seekWindowMs) / 1000;
+	// Update seek window lengths
+	seekWindowLength = (sampleRate * sequenceMs) / 1000;
+	if (seekWindowLength < 2 * overlapLength)
+	{
+		seekWindowLength = 2 * overlapLength;
+	}
+	seekLength = (sampleRate * seekWindowMs) / 1000;
 }
 
 
@@ -523,10 +525,10 @@ void BufferMatch::setTempo(double newTempo)
     tempo = newTempo;
 
     // Calculate new sequence duration
-    calcSeqParameters();
+    // calcSeqParameters();
     // DBG(newTempo);
     // Calculate ideal skip length (according to tempo value) 
-    nominalSkip = tempo * (seekWindowLength - overlapLength);
+    nominalSkip = seekWindowLength - overlapLength;
     intskip = (int)(nominalSkip + 0.5);
 
     // Calculate how many samples are needed in the 'inputBuffer' to 
@@ -545,6 +547,12 @@ void BufferMatch::setTempo(double newTempo)
     // seekWindowLength 3219 3504 2880 to steady
     // intskip 2867 3120 2496 3600 1800 1248 to stead
     sampleReq = max(intskip + overlapLength, seekWindowLength) + seekLength;
+    spxUpSize = (spx_uint32_t)sampleReq;
+    spxDownSize = (spx_uint32_t)(sampleReq / 3);
+    vcOrigBuffer.resize((int)sampleReq / 3);
+    vcConvertedBuffer.resize((int)sampleReq / 3);
+    downResampler = speex_resampler_init(1, sampleRate, 16000, 5, &err);
+	upResampler = speex_resampler_init(1, 16000, sampleRate, 5, &err);
 }
 
 
@@ -560,8 +568,8 @@ void BufferMatch::setChannels(int numChannels)
     outputBuffer.setChannels(channels);
 
     // re-init overlap/buffer
-    overlapLength = 0;
-    setParameters(sampleRate);
+    // overlapLength = 0;
+    // setParameters(sampleRate);
 }
 
 
@@ -621,8 +629,10 @@ void BufferMatch::processSamples()
 
     while ((int)inputBuffer.numSamples() >= sampleReq)
     {
-
-
+        err = speex_resampler_process_float(downResampler, 0, inputBuffer.ptrBegin(), &spxUpSize, vcOrigBuffer.data(), &spxDownSize);
+        convertBlock(vcOrigBuffer, vcConvertedBuffer, 1, model);
+        err = speex_resampler_process_float(upResampler, 0, vcConvertedBuffer.data(), &spxDownSize, inputBuffer.ptrBegin(), &spxUpSize);
+        
         if (isBeginning == false)
         {
             // apart from the very beginning of the track, 
@@ -648,7 +658,7 @@ void BufferMatch::processSamples()
             // only runs when beginning and change samplesPerBlock or sampleRate, when every object is constructed again
             isBeginning = false;
 
-            int skip = (int)(tempo * overlapLength + 0.5 * seekLength + 0.5);
+            int skip = (int)(overlapLength + 0.5 * seekLength + 0.5);
 #ifdef ST_SIMD_AVOID_UNALIGNED
 // in SIMD mode, round the skip amount to value corresponding to aligned memory address
             if (channels == 1)
@@ -741,15 +751,15 @@ void BufferMatch::acceptNewOverlapLength(int newOverlapLength)
 
 // Operator 'new' is overloaded so that it automatically creates a suitable instance 
 // depending on if we've a MMX/SSE/etc-capable CPU available or not.
-void* BufferMatch::operator new(size_t s)
+void* BufferMatch::operator new(size_t s, int sampleRate)
 {
     // Notice! don't use "new BufferMatch" directly, use "newInstance" to create a new instance instead!
     THROW_RT_ERROR("Error in BufferMatch::new: Don't use 'new BufferMatch' directly, use 'newInstance' member instead!");
-    return newInstance();
+    return newInstance(sampleRate);
 }
 
 
-BufferMatch* BufferMatch::newInstance()
+BufferMatch* BufferMatch::newInstance(int sampleRate)
 {
     uint uExtensions;
 
@@ -778,7 +788,7 @@ BufferMatch* BufferMatch::newInstance()
 
         {
             // ISA optimizations not supported, use plain C version
-            return ::new BufferMatch;
+            return ::new BufferMatch(sampleRate);
         }
 }
 
@@ -804,66 +814,165 @@ void BufferMatch::calculateOverlapLength(int overlapInMsec)
 
 
 /// Calculate cross-correlation
-double BufferMatch::calcCrossCorr(const float* mixingPos, const float* compare, double& anorm)
+//double BufferMatch::calcCrossCorr(const SAMPLETYPE* mixingPos, const SAMPLETYPE* compare, double& anorm)
+double BufferMatch::calcCrossCorr(const SAMPLETYPE* pV1, const SAMPLETYPE* pV2, double& anorm)
 {
-    // DBG("have run here");// never run here
-    float corr;
-    float norm;
+//    float corr;
+//    float norm;
+//    int i;
+//
+//#ifdef ST_SIMD_AVOID_UNALIGNED
+//    // in SIMD mode skip 'mixingPos' positions that aren't aligned to 16-byte boundary
+//    if (((ulongptr)mixingPos) & 15) return -1e50;
+//#endif
+//
+//    // hint compiler autovectorization that loop length is divisible by 8
+//    int ilength = (channels * overlapLength) & -8;
+//
+//    corr = norm = 0;
+//    // Same routine for stereo and mono
+//    for (i = 0; i < ilength; i++)
+//    {
+//        corr += mixingPos[i] * compare[i];
+//        norm += mixingPos[i] * mixingPos[i];
+//    }
+//
+//    // DBG(norm);
+//    anorm = norm;
+//    return corr / sqrt((norm < 1e-9 ? 1.0 : norm));
+
+
+
+
+
+
+
+
+
     int i;
+    const float* pVec1;
+    const __m128* pVec2;
+    __m128 vSum, vNorm;
+
+    // Note. It means a major slow-down if the routine needs to tolerate 
+    // unaligned __m128 memory accesses. It's way faster if we can skip 
+    // unaligned slots and use _mm_load_ps instruction instead of _mm_loadu_ps.
+    // This can mean up to ~ 10-fold difference (incl. part of which is
+    // due to skipping every second round for stereo sound though).
+    //
+    // Compile-time define SOUNDTOUCH_ALLOW_NONEXACT_SIMD_OPTIMIZATION is provided
+    // for choosing if this little cheating is allowed.
 
 #ifdef ST_SIMD_AVOID_UNALIGNED
-    // in SIMD mode skip 'mixingPos' positions that aren't aligned to 16-byte boundary
-    if (((ulongptr)mixingPos) & 15) return -1e50;
-#endif
+    // Little cheating allowed, return valid correlation only for 
+    // aligned locations, meaning every second round for stereo sound.
 
-    // hint compiler autovectorization that loop length is divisible by 8
-    int ilength = (channels * overlapLength) & -8;
+#define _MM_LOAD    _mm_load_ps
 
-    corr = norm = 0;
-    // Same routine for stereo and mono
-    for (i = 0; i < ilength; i++)
+    if (((ulongptr)pV1) & 15) return -1e50;    // skip unaligned locations
+
+#else
+    // No cheating allowed, use unaligned load & take the resulting
+    // performance hit.
+#define _MM_LOAD    _mm_loadu_ps
+#endif 
+
+    // ensure overlapLength is divisible by 8
+    assert((overlapLength % 8) == 0);
+
+    // Calculates the cross-correlation value between 'pV1' and 'pV2' vectors
+    // Note: pV2 _must_ be aligned to 16-bit boundary, pV1 need not.
+    pVec1 = (const float*)pV1;
+    pVec2 = (const __m128*)pV2;
+    vSum = vNorm = _mm_setzero_ps();
+
+    // Unroll the loop by factor of 4 * 4 operations. Use same routine for
+    // stereo & mono, for mono it just means twice the amount of unrolling.
+    for (i = 0; i < channels * overlapLength / 16; i++)
     {
-        corr += mixingPos[i] * compare[i];
-        norm += mixingPos[i] * mixingPos[i];
+        __m128 vTemp;
+        // vSum += pV1[0..3] * pV2[0..3]
+        vTemp = _MM_LOAD(pVec1);
+        vSum = _mm_add_ps(vSum, _mm_mul_ps(vTemp, pVec2[0]));
+        vNorm = _mm_add_ps(vNorm, _mm_mul_ps(vTemp, vTemp));
+
+        // vSum += pV1[4..7] * pV2[4..7]
+        vTemp = _MM_LOAD(pVec1 + 4);
+        vSum = _mm_add_ps(vSum, _mm_mul_ps(vTemp, pVec2[1]));
+        vNorm = _mm_add_ps(vNorm, _mm_mul_ps(vTemp, vTemp));
+
+        // vSum += pV1[8..11] * pV2[8..11]
+        vTemp = _MM_LOAD(pVec1 + 8);
+        vSum = _mm_add_ps(vSum, _mm_mul_ps(vTemp, pVec2[2]));
+        vNorm = _mm_add_ps(vNorm, _mm_mul_ps(vTemp, vTemp));
+
+        // vSum += pV1[12..15] * pV2[12..15]
+        vTemp = _MM_LOAD(pVec1 + 12);
+        vSum = _mm_add_ps(vSum, _mm_mul_ps(vTemp, pVec2[3]));
+        vNorm = _mm_add_ps(vNorm, _mm_mul_ps(vTemp, vTemp));
+
+        pVec1 += 16;
+        pVec2 += 4;
     }
 
-    // DBG(norm);
+    // return value = vSum[0] + vSum[1] + vSum[2] + vSum[3]
+    float* pvNorm = (float*)&vNorm;
+    float norm = (pvNorm[0] + pvNorm[1] + pvNorm[2] + pvNorm[3]);
     anorm = norm;
-    return corr / sqrt((norm < 1e-9 ? 1.0 : norm));
+
+    float* pvSum = (float*)&vSum;
+    return (double)(pvSum[0] + pvSum[1] + pvSum[2] + pvSum[3]) / sqrt(norm < 1e-9 ? 1.0 : norm);
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
 /// Update cross-correlation by accumulating "norm" coefficient by previously calculated value
-double BufferMatch::calcCrossCorrAccumulate(const float* mixingPos, const float* compare, double& norm)
+//double BufferMatch::calcCrossCorrAccumulate(const SAMPLETYPE* mixingPos, const SAMPLETYPE* compare, double& norm)
+double BufferMatch::calcCrossCorrAccumulate(const SAMPLETYPE* pV1, const SAMPLETYPE* pV2, double& norm)
 {
-    float corr;
-    int i;
+    //float corr;
+    //int i;
 
-    corr = 0;
+    //corr = 0;
 
-    // cancel first normalizer tap from previous round
-    for (i = 1; i <= channels; i++)
-    {
-        norm -= mixingPos[-i] * mixingPos[-i];
-    }
+    //// cancel first normalizer tap from previous round
+    //for (i = 1; i <= channels; i++)
+    //{
+    //    norm -= mixingPos[-i] * mixingPos[-i];
+    //}
 
-    // hint compiler autovectorization that loop length is divisible by 8
-    int ilength = (channels * overlapLength) & -8;
+    //// hint compiler autovectorization that loop length is divisible by 8
+    //int ilength = (channels * overlapLength) & -8;
 
-    // Same routine for stereo and mono
-    for (i = 0; i < ilength; i++)
-    {
-        corr += mixingPos[i] * compare[i];
-    }
+    //// Same routine for stereo and mono
+    //for (i = 0; i < ilength; i++)
+    //{
+    //    corr += mixingPos[i] * compare[i];
+    //}
 
-    // update normalizer with last samples of this round
-    for (int j = 0; j < channels; j++)
-    {
-        i--;
-        norm += mixingPos[i] * mixingPos[i];
-    }
+    //// update normalizer with last samples of this round
+    //for (int j = 0; j < channels; j++)
+    //{
+    //    i--;
+    //    norm += mixingPos[i] * mixingPos[i];
+    //}
 
-    return corr / sqrt((norm < 1e-9 ? 1.0 : norm));
+    //return corr / sqrt((norm < 1e-9 ? 1.0 : norm));
+
+
+    return calcCrossCorr(pV1, pV2, norm);
 }
 
 

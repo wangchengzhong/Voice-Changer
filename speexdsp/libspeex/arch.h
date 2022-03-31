@@ -130,8 +130,10 @@ typedef float spx_mem_t;
 typedef float spx_coef_t;
 typedef float spx_lsp_t;
 typedef float spx_sig_t;
-typedef float spx_word16_t;
-typedef float spx_word32_t;
+typedef double spx_word16_t;
+//typedef float spx_word16_t;
+typedef double spx_word32_t;
+//typedef float spx_word32_t;
 
 #define Q15ONE 1.0f
 #define LPC_SCALING  1.f

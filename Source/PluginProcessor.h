@@ -82,6 +82,7 @@
 #include"Analyser.h"
 #include"SocialButtons.h"
 #include"VocoderForVoiceConversion.h"
+#include"VoiceConversionBuffer.h"
 //==============================================================================
 /**
 */
@@ -92,7 +93,7 @@ class VoiceChanger_wczAudioProcessor :
 	,public juce::ChangeBroadcaster
 {
 public:
-    bool openVoiceConversion{ false };
+    bool openVoiceConversion{ true };
 
 
     //enum FilterType
@@ -374,7 +375,11 @@ public:
 #if _OPEN_PEAK_PITCH
     juce::OwnedArray<PitchShifter>pitchShifters;
     juce::OwnedArray<PeakShifter>peakShifters;
-    juce::OwnedArray<VocoderForVoiceConversion> vocodersForVoiceConversion;
+
+
+	//juce::OwnedArray<VocoderForVoiceConversion> vocodersForVoiceConversion;
+
+
 
 #endif
 #if _OPEN_TEST
@@ -409,7 +414,7 @@ private:
     std::unique_ptr<PitchShifterSoundTouch> sts;
 #endif
 #endif
-
+    std::unique_ptr<VoiceConversionBuffer> vcb;
     // juce::AudioProcessorValueTreeState parameters;
     juce::LinearSmoothedValue<float> gainLeft, gainRight;
 

@@ -12,15 +12,15 @@ private:
 	class BufferMatch* pBufferMatch;
 	long samplesOutput;
 public:
-	VoiceConversion();
+	VoiceConversion(int sampleRate);
 	~VoiceConversion();
 	void setChannels(uint numChannels);
-	void setSampleRate(uint srate);
+	// void setSampleRate(uint srate);
 	virtual void putSamples(
 		const SAMPLETYPE* samples,
 		uint numSample
 	);
-	bool setSettings(int settingId, int value);
+	// bool setSettings(int settingId, int value);
 	virtual uint receiveSamples(SAMPLETYPE* output, uint maxSample);
 	virtual uint receiveSamples(uint maxSamples);
 	virtual void clear();

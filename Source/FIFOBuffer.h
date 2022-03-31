@@ -1,7 +1,7 @@
+//for vc
+
 #pragma once
 #include "FIFOSamplePipeForVC.h"
-
-
 
 /// Sample buffer working in FIFO (first-in-first-out) principle. The class takes
 /// care of storage size adjustment and data moving during input/output operations.
@@ -51,7 +51,7 @@ public:
 
     /// destructor
     ~FIFOSampleBuffer();
-
+     
     /// Returns a pointer to the beginning of the output samples. 
     /// This function is provided for accessing the output samples directly. 
     /// Please be careful for not to corrupt the book-keeping!

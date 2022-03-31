@@ -1,7 +1,7 @@
 #pragma once
 #include <cassert>
 #include <iostream>
-typedef float SAMPLETYPE;
+typedef double SAMPLETYPE;
 typedef unsigned int uint;
 #define THROW_RT_ERROR(x)    {throw std::runtime_error(x);}
 class FIFOSamplePipe

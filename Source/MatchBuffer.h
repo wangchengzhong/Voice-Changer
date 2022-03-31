@@ -1,5 +1,10 @@
 #pragma once
 
+#include"vchsm/convert_C.h"
+
+#include"speex/global_speex_resampler.h"
+
+#include"ppl.h"
 
 #ifndef TDStretch_H
 #define TDStretch_H
@@ -73,6 +78,17 @@
     class BufferMatch : public FIFOProcessor
     {
     protected:
+
+        SpeexResamplerState* upResampler;
+        SpeexResamplerState* downResampler;
+        int err;
+        spx_uint32_t spxUpSize;
+        spx_uint32_t spxDownSize;
+
+        HSMModel model;
+        const char* modelFile{ "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Models/Model.dat" };
+
+        
         int channels;
         int sampleReq;
 
@@ -105,6 +121,10 @@
         FIFOSampleBuffer outputBuffer;
         FIFOSampleBuffer inputBuffer;
 
+        std::vector<SAMPLETYPE> vcOrigBuffer;
+        std::vector<SAMPLETYPE> vcConvertedBuffer;
+        std::vector<SAMPLETYPE> vcBuffer;
+
         void acceptNewOverlapLength(int newOverlapLength);
 
         virtual void clearCrossCorrState();
@@ -134,17 +154,17 @@
         void processSamples();
 
     public:
-        BufferMatch();
+        BufferMatch(int sampleRate);
         virtual ~BufferMatch();
 
         /// Operator 'new' is overloaded so that it automatically creates a suitable instance 
         /// depending on if we've a MMX/SSE/etc-capable CPU available or not.
-        static void* operator new(size_t s);
+        static void* operator new(size_t s, int sampleRate);
 
         /// Use this function instead of "new" operator to create a new instance of this class. 
         /// This function automatically chooses a correct feature set depending on if the CPU
         /// supports MMX/SSE/etc extensions.
-        static BufferMatch* newInstance();
+        static BufferMatch* newInstance(int sampleRate);
 
         /// Returns the output buffer object
         FIFOSamplePipe* getOutput() { return &outputBuffer; };

@@ -131,8 +131,6 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\MatchBuffer.cpp" />
-    <ClCompile Include="..\..\Source\VoiceConversion.cpp" />
     <ClCompile Include="..\..\VC\src\aaalsf.cpp" />
     <ClCompile Include="..\..\VC\src\automaticth2wfw.cpp" />
     <ClCompile Include="..\..\VC\src\bylevdurb.cpp" />
@@ -207,6 +205,8 @@
     <ClCompile Include="..\..\soundtouch\source\SoundTouch\SoundTouch.cpp" />
     <ClCompile Include="..\..\soundtouch\source\SoundTouch\sse_optimized.cpp" />
     <ClCompile Include="..\..\soundtouch\source\SoundTouch\TDStretch.cpp" />
+    <ClCompile Include="..\..\Source\MatchBuffer.cpp" />
+    <ClCompile Include="..\..\Source\VoiceConversion.cpp" />
     <ClCompile Include="..\..\Source\PluginProcessor.cpp" />
     <ClCompile Include="..\..\Source\PluginEditor.cpp" />
     <ClCompile Include="..\..\Source\DawComponent.cpp" />
@@ -227,6 +227,7 @@
     <ClCompile Include="..\..\Source\EngineHelpers.cpp" />
     <ClCompile Include="..\..\Source\EqualizerEditor.cpp" />
     <ClCompile Include="..\..\Source\EqComponent.cpp" />
+    <ClCompile Include="..\..\Source\FIFOBuffer.cpp" />
     <ClCompile Include="..\..\rubberband\src\audiocurves\CompoundAudioCurve.cpp" />
     <ClCompile Include="..\..\rubberband\src\audiocurves\ConstantAudioCurve.cpp" />
     <ClCompile Include="..\..\rubberband\src\audiocurves\HighFrequencyAudioCurve.cpp" />
@@ -4549,11 +4550,6 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_tracktion_graph.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\FIFOBuffer.h" />
-    <ClInclude Include="..\..\Source\FIFOSamplePipeForVC.h" />
-    <ClInclude Include="..\..\Source\MatchBuffer.h" />
-    <ClInclude Include="..\..\Source\VoiceConversion.h" />
-    <ClInclude Include="..\..\Source\VoiceConversionBuffer.h" />
     <ClInclude Include="..\..\VC\include\vchsm\C_Swift_bridge_header.h" />
     <ClInclude Include="..\..\VC\include\vchsm\convert_C.h" />
     <ClInclude Include="..\..\VC\include\vchsm\train_C.h" />
@@ -4670,6 +4666,9 @@
     <ClInclude Include="..\..\soundtouch\source\SoundTouch\PeakFinder.h" />
     <ClInclude Include="..\..\soundtouch\source\SoundTouch\RateTransposer.h" />
     <ClInclude Include="..\..\soundtouch\source\SoundTouch\TDStretch.h" />
+    <ClInclude Include="..\..\Source\MatchBuffer.h" />
+    <ClInclude Include="..\..\Source\VoiceConversion.h" />
+    <ClInclude Include="..\..\Source\VoiceConversionBuffer.h" />
     <ClInclude Include="..\..\Source\TransportInformation.h" />
     <ClInclude Include="..\..\Source\PluginProcessor.h" />
     <ClInclude Include="..\..\Source\PluginParameter.h" />
@@ -4714,6 +4713,8 @@
     <ClInclude Include="..\..\Source\phaseVocoderForShapeInvariant.h" />
     <ClInclude Include="..\..\Source\PhaseVocoder.h" />
     <ClInclude Include="..\..\Source\PeakShifter.h" />
+    <ClInclude Include="..\..\Source\FIFOBuffer.h" />
+    <ClInclude Include="..\..\Source\FIFOSamplePipeForVC.h" />
     <ClInclude Include="..\..\Source\RingBuffer.h" />
     <ClInclude Include="..\..\Source\BlockCircularBuffer.h" />
     <ClInclude Include="..\..\Source\AutoCorr.h" />

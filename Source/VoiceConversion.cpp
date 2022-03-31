@@ -5,9 +5,9 @@
 
 #define TEST_FLOAT_EQUAL(a, b)  (fabs(a - b) < 1e-10)
 
-VoiceConversion::VoiceConversion()
+VoiceConversion::VoiceConversion(int sampleRate)
 {
-	pBufferMatch = BufferMatch::newInstance();
+	pBufferMatch = BufferMatch::newInstance(sampleRate);
 	setOutPipe(pBufferMatch);
 }
 VoiceConversion::~VoiceConversion()
@@ -20,37 +20,37 @@ void VoiceConversion::setChannels(uint numChannels)
 	pBufferMatch->setChannels((int)numChannels);
 }
 
-void VoiceConversion::setSampleRate(uint srate)
-{
-	pBufferMatch->setParameters((int)srate);
-}
+//void VoiceConversion::setSampleRate(uint srate)
+//{
+//	pBufferMatch->setParameters((int)srate);
+//}
 
 void VoiceConversion::putSamples(const SAMPLETYPE* samples, uint numSample)
 {
 	pBufferMatch->putSamples(samples, numSample);
 }
 
-bool VoiceConversion::setSettings(int settingId, int value)
-{
-	int sampleRate, sequenceMs, seekWindowMs, overlapMs;
-
-	pBufferMatch->getParameters(&sampleRate, &sequenceMs, &seekWindowMs, &overlapMs);
-	switch (settingId)
-	{
-	case SETTING_SEQUENCE_MS:
-		pBufferMatch->setParameters(sampleRate, value, seekWindowMs, overlapMs);
-		return true;
-	case SETTING_SEEKWINDOW_MS:
-		pBufferMatch->setParameters(sampleRate, sequenceMs, value, overlapMs);
-		return true;
-
-	case SETTING_OVERLAP_MS:
-		pBufferMatch->setParameters(sampleRate, sequenceMs, seekWindowMs, value);
-		return true;
-	default:
-		return false;
-	}
-}
+//bool VoiceConversion::setSettings(int settingId, int value)
+//{
+//	int sampleRate, sequenceMs, seekWindowMs, overlapMs;
+//
+//	pBufferMatch->getParameters(&sampleRate, &sequenceMs, &seekWindowMs, &overlapMs);
+//	switch (settingId)
+//	{
+//	case SETTING_SEQUENCE_MS:
+//		pBufferMatch->setParameters(sampleRate, value, seekWindowMs, overlapMs);
+//		return true;
+//	case SETTING_SEEKWINDOW_MS:
+//		pBufferMatch->setParameters(sampleRate, sequenceMs, value, overlapMs);
+//		return true;
+//
+//	case SETTING_OVERLAP_MS:
+//		pBufferMatch->setParameters(sampleRate, sequenceMs, seekWindowMs, value);
+//		return true;
+//	default:
+//		return false;
+//	}
+//}
 void VoiceConversion::clear()
 {
 	pBufferMatch->clear();

@@ -363,6 +363,7 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
     sts = std::make_unique<PitchShifterSoundTouch>(getTotalNumInputChannels(), sampleRate, samplesPerBlock);
 #endif
 #endif
+    vcb = std::make_unique<VoiceConversionBuffer>(1, sampleRate, samplesPerBlock);
 
 #if _OPEN_PEAK_PITCH
     pitchShifters.clear();
@@ -400,8 +401,8 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
         peakShifters.add(pPeakShifter = new PeakShifter());
 
 
-        VocoderForVoiceConversion* pVocodersForVoiceConversion;
-        vocodersForVoiceConversion.add(pVocodersForVoiceConversion = new VocoderForVoiceConversion(sampleRate));
+        //VocoderForVoiceConversion* pVocodersForVoiceConversion;
+        //vocodersForVoiceConversion.add(pVocodersForVoiceConversion = new VocoderForVoiceConversion(sampleRate));
 
         const auto windows = pitchShifters[0]->getLatencyInSamples();
 #endif
@@ -563,7 +564,8 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
 #if _SHOW_SPEC
     if (openVoiceConversion)
     {
-        vocodersForVoiceConversion[0]->process(buffer.getWritePointer(0), numSamples);
+        vcb->processBuffer(buffer);
+    	//vocodersForVoiceConversion[0]->process(buffer.getWritePointer(0), numSamples);
         buffer.copyFrom(1, 0, buffer, 0, 0, numSamples);
     }
 	for (int channel = 0; channel < getNumInputChannels(); ++channel)
@@ -578,8 +580,8 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
 
         }
         auto channelDataFlt = buffer.getWritePointer(channel);
-        pitchShifters[channel]->process(channelDataFlt, numSamples);
-        //peakShifters[channel]->process(channelDataFlt, numSamples);
+        // pitchShifters[channel]->process(channelDataFlt, numSamples);
+        // peakShifters[channel]->process(channelDataFlt, numSamples);
     }
 #endif
 #endif
