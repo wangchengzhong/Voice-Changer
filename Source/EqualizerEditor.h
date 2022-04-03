@@ -4,10 +4,6 @@
 #include <juce_audio_processors/juce_audio_processors.h>
 #include <juce_opengl/juce_opengl.h>
 
-
-//==============================================================================
-/**
-*/
 class FrequalizerAudioProcessorEditor : public juce::AudioProcessorEditor,
     public juce::ChangeListener,
     public juce::Timer

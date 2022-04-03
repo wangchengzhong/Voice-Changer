@@ -44,16 +44,12 @@ BufferMatch::BufferMatch(int sampleRate) : FIFOProcessor(&outputBuffer), model(d
 {
 
     bQuickSeek = false;
-    channels = 2;
+    channels = 1;
 
     pMidBuffer = NULL;
     pMidBufferUnaligned = NULL;
     overlapLength = 0;
 
-    bAutoSeqSetting = true;
-    bAutoSeekSetting = true;
-
-    tempo = 1.0f;
     //setParameters(sampleRate, DEFAULT_SEQUENCE_MS, DEFAULT_SEEKWINDOW_MS, DEFAULT_OVERLAP_MS);
     setParameters(sampleRate, 1000, 5, 5);
 	setTempo(1.0f);
@@ -83,41 +79,14 @@ void BufferMatch::setParameters(int aSampleRate, int aSequenceMS,
     int aSeekWindowMS, int aOverlapMS)
 {
     // accept only positive parameter values - if zero or negative, use old values instead
-    if (aSampleRate > 0)
-    {
-        this->sampleRate = aSampleRate;
-    }
+	this->sampleRate = aSampleRate;
+	this->overlapMs = aOverlapMS;
+	this->sequenceMs = aSequenceMS;
+	this->seekWindowMs = aSeekWindowMS;
 
-    if (aOverlapMS > 0) this->overlapMs = aOverlapMS;
-
-    if (aSequenceMS > 0)
-    {
-        this->sequenceMs = aSequenceMS;
-        bAutoSeqSetting = false;
-    }
-    else if (aSequenceMS == 0)
-    {
-        // if zero, use automatic setting
-        bAutoSeqSetting = true;
-    }
-
-    if (aSeekWindowMS > 0)
-    {
-        this->seekWindowMs = aSeekWindowMS;
-        bAutoSeekSetting = false;
-    }
-    else if (aSeekWindowMS == 0)
-    {
-        // if zero, use automatic setting
-        bAutoSeekSetting = true;
-    }
 
     calcSeqParameters();
-
     calculateOverlapLength(overlapMs);
-
-    // set tempo to recalculate 'sampleReq'
-    setTempo(tempo);
 }
 
 
@@ -468,42 +437,7 @@ void BufferMatch::clearCrossCorrState()
 void BufferMatch::calcSeqParameters()
 {
 
-	// Adjust tempo param according to tempo, so that variating processing sequence length is used
-	// at various tempo settings, between the given low...top limits
-#define AUTOSEQ_TEMPO_LOW   0.5     // auto setting low tempo range (-50%)
-#define AUTOSEQ_TEMPO_TOP   2.0     // auto setting top tempo range (+100%)
-
-	// sequence-ms setting values at above low & top tempo
-#define AUTOSEQ_AT_MIN      90.0
-#define AUTOSEQ_AT_MAX      40.0
-#define AUTOSEQ_K           ((AUTOSEQ_AT_MAX - AUTOSEQ_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW))
-#define AUTOSEQ_C           (AUTOSEQ_AT_MIN - (AUTOSEQ_K) * (AUTOSEQ_TEMPO_LOW))
-
-	// seek-window-ms setting values at above low & top tempoq
-#define AUTOSEEK_AT_MIN     20.0
-#define AUTOSEEK_AT_MAX     15.0
-#define AUTOSEEK_K          ((AUTOSEEK_AT_MAX - AUTOSEEK_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW))
-#define AUTOSEEK_C          (AUTOSEEK_AT_MIN - (AUTOSEEK_K) * (AUTOSEQ_TEMPO_LOW))
-
 #define CHECK_LIMITS(x, mi, ma) (((x) < (mi)) ? (mi) : (((x) > (ma)) ? (ma) : (x)))
-
-	double seq, seek;
-
-	//if (bAutoSeqSetting)
-	//{
-	//	// DBG("have run here");
-	//	seq = AUTOSEQ_C + AUTOSEQ_K * tempo;
-	//	seq = CHECK_LIMITS(seq, AUTOSEQ_AT_MAX, AUTOSEQ_AT_MIN);
-	//	sequenceMs = (int)(seq + 0.5);
-	//}
-
-	//if (bAutoSeekSetting)
-	//{
-	//	// DBG("have run here");
-	//	seek = AUTOSEEK_C + AUTOSEEK_K * tempo;
-	//	seek = CHECK_LIMITS(seek, AUTOSEEK_AT_MAX, AUTOSEEK_AT_MIN);
-	//	seekWindowMs = (int)(seek + 0.5);
-	//}
 
 	// Update seek window lengths
 	seekWindowLength = (sampleRate * sequenceMs) / 1000;
@@ -521,8 +455,6 @@ void BufferMatch::calcSeqParameters()
 void BufferMatch::setTempo(double newTempo)
 {
     int intskip;
-
-    tempo = newTempo;
 
     // Calculate new sequence duration
     // calcSeqParameters();
@@ -547,12 +479,13 @@ void BufferMatch::setTempo(double newTempo)
     // seekWindowLength 3219 3504 2880 to steady
     // intskip 2867 3120 2496 3600 1800 1248 to stead
     sampleReq = max(intskip + overlapLength, seekWindowLength) + seekLength;
+    
     spxUpSize = (spx_uint32_t)sampleReq;
-    spxDownSize = (spx_uint32_t)(sampleReq / 3);
-    vcOrigBuffer.resize((int)sampleReq / 3);
-    vcConvertedBuffer.resize((int)sampleReq / 3);
-    downResampler = speex_resampler_init(1, sampleRate, 16000, 5, &err);
-	upResampler = speex_resampler_init(1, 16000, sampleRate, 5, &err);
+    spxDownSize = (spx_uint32_t)(sampleReq / sampleRate * 16000);
+    vcOrigBuffer.resize((int)sampleReq / sampleRate * 16000);
+    vcConvertedBuffer.resize((int)sampleReq / sampleRate * 16000);
+    downResampler = speex_resampler_init(1, sampleRate, (int)16000, 5, &err);
+	upResampler = speex_resampler_init(1, (int)16000, sampleRate, 5, &err);
 }
 
 
@@ -922,19 +855,6 @@ double BufferMatch::calcCrossCorr(const SAMPLETYPE* pV1, const SAMPLETYPE* pV2, 
 
     float* pvSum = (float*)&vSum;
     return (double)(pvSum[0] + pvSum[1] + pvSum[2] + pvSum[3]) / sqrt(norm < 1e-9 ? 1.0 : norm);
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 

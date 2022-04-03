@@ -7,6 +7,7 @@
 #include "bylevdurb.h"
 #include "almostEqual.h"
 #include <limits>
+#include"ppl.h"
 
 // Clang cannot link Tolerance<double>, which is quite OK in visual studio.
 // Just define it as a macro here
@@ -31,8 +32,52 @@ void stochasticanalysis(Eigen::Ref<const Eigen::TRowVectorX> x, Eigen::TFloat fs
 	Eigen::TRowVectorX seq3 = seq(0, N - 1); // 0: N-1
 	Eigen::TRowVectorX seq4 = seq(1, N).reverse(); // N:-1:1
 	auto seq5 = seq(-N, -1); //-N: -1
-	for (int k = 1; k <= Npm - 1; k++)
+
+	auto a = static_cast<int>(Npm);
+	auto t = (int)(a / 30);
+	concurrency::parallel_for(size_t(0), (size_t)30, [&](size_t m)
+
+		{
+
+			for (int k = m * t; k < (m + 1) * t; k++)
+			{
+				if(k == 0)
+					continue;
+				//for (int k = 1; k <= Npm - 1; k++)
+				
+					auto minSize = std::min(picos[k - 1].a.size(), picos[k].a.size());
+					for (int j = 1; j <= minSize; j++)
+					{
+						auto a1 = picos[k - 1].a(j - 1);
+						auto a2 = picos[k].a(j - 1);
+						Eigen::TFloat c0, c1, c2, c3;
+						std::tie(c0, c1, c2, c3) = bymcaquat(picos[k - 1].p(j - 1), picos[k].p(j - 1), j * picos[k - 1].f0, j * picos[k].f0, N, fs);
+						yd.segment(picos[k - 1].pm - 1, N).array() += (a1 + ((a2 - a1) / N) * seq3.array()) * (c0 + seq3.array() * (c1 + seq3.array() * (c2 + c3 * seq3.array()))).cos();
+					}
+
+
+					for (int j = (int)picos[k].a.size() + 1; j <= picos[k - 1].a.size(); j++)
+					{
+						yd.segment(picos[k - 1].pm - 1, N).array() += (picos[k - 1].a(j - 1) / N * seq4.array())
+							* ((2 * pi * j * picos[k - 1].f0 / fs) * seq3.array() + picos[k - 1].p(j - 1)).cos();
+					}
+
+					for (int j = (int)picos[k - 1].a.size() + 1; j <= picos[k].a.size(); j++)
+					{
+						yd.segment(picos[k].pm - N - 1, N).array() += (picos[k].a(j - 1) / N * seq3).array() * (2 * pi * j * picos[k].f0 / fs * seq5.array() + picos[k].p(j - 1)).cos();
+					}
+
+				}
+		});
+
+
+
+	for (int k = 30 * t; k <= Npm - 1; k++)
 	{
+		if (k == 0)
+			continue;
+		//for (int k = 1; k <= Npm - 1; k++)
+
 		auto minSize = std::min(picos[k - 1].a.size(), picos[k].a.size());
 		for (int j = 1; j <= minSize; j++)
 		{
@@ -44,18 +89,20 @@ void stochasticanalysis(Eigen::Ref<const Eigen::TRowVectorX> x, Eigen::TFloat fs
 		}
 
 
-		for (int j = (int)picos[k].a.size() + 1; j <= picos[k-1].a.size(); j++)
+		for (int j = (int)picos[k].a.size() + 1; j <= picos[k - 1].a.size(); j++)
 		{
-			yd.segment(picos[k - 1].pm - 1, N).array() += (picos[k - 1].a(j - 1) / N * seq4.array()) 
-				* ((2 * pi*j*picos[k - 1].f0 / fs) * seq3.array() + picos[k - 1].p(j - 1)).cos();
+			yd.segment(picos[k - 1].pm - 1, N).array() += (picos[k - 1].a(j - 1) / N * seq4.array())
+				* ((2 * pi * j * picos[k - 1].f0 / fs) * seq3.array() + picos[k - 1].p(j - 1)).cos();
 		}
 
 		for (int j = (int)picos[k - 1].a.size() + 1; j <= picos[k].a.size(); j++)
 		{
-			yd.segment(picos[k].pm - N - 1, N).array() += (picos[k].a(j - 1) / N * seq3).array() * (2 * pi*j*picos[k].f0 / fs * seq5.array() + picos[k].p(j - 1)).cos();
+			yd.segment(picos[k].pm - N - 1, N).array() += (picos[k].a(j - 1) / N * seq3).array() * (2 * pi * j * picos[k].f0 / fs * seq5.array() + picos[k].p(j - 1)).cos();
 		}
 
 	}
+
+
 
 	// to avoid copying ye, we put the following zeros here 
 	Eigen::TRowVectorX ye = concat(x - yd, Eigen::TRowVectorX::Zero(24));
@@ -63,13 +110,53 @@ void stochasticanalysis(Eigen::Ref<const Eigen::TRowVectorX> x, Eigen::TFloat fs
 	// It is found that fs is fixed to be 16000Hz. Therefore fir1(48,500/(0.5*fs),'high') returns a fixed value, which exempts us from implementation of fir1.
 	filter(ye);
 	ye.tail(24).setZero();
+
 	auto ye_ = ye.tail(ye.size() - 24);
 	Eigen::TRowVectorX hnnN = std::sqrt(8.0 / 3.0) * (0.5 - 0.5*(2 * pi*seq1).array().cos());
 
-	// better to allocate the fixed-length matrix outside for-loop
+	//// better to allocate the fixed-length matrix outside for-loop
+	//Eigen::TRowVectorX trama(N);
+	//Eigen::TRowVectorX R(1 + ordenLPC);
+
+
+	concurrency::parallel_for(size_t(0), (size_t)30, [&](size_t m)
+
+		{
+
+
+			// better to allocate the fixed-length matrix outside for-loop
+			Eigen::TRowVectorX trama(N);
+			Eigen::TRowVectorX R(1 + ordenLPC);
+
+			for (int k = m * t + 1; k < (m + 1) * t + 1; k++)
+				// for (int k = 1; k <= Npm; k++)
+				{
+					trama = ye_.segment(picos[k - 1].pm - static_cast<int>(std::floor(N / 2.0)) - 1, N).cwiseProduct(hnnN);
+					if (trama.isZero(Tolerance_double))
+					{
+						picos[k - 1].e = Eigen::TRowVectorX::Zero(ordenLPC + 1);
+						picos[k - 1].e(0) = std::numeric_limits<Eigen::TFloat>::infinity();
+					}
+					else
+					{
+						R.setZero();
+						for (int j = 0; j <= ordenLPC; j++)
+						{
+							R(j) = trama.tail(N - j).dot(trama.head(N - j));
+						}
+						picos[k - 1].e = std::sqrt(N) * bylevdurb(R);
+					}
+
+				}
+		});
+
+
+
 	Eigen::TRowVectorX trama(N);
 	Eigen::TRowVectorX R(1 + ordenLPC);
-	for (int k = 1; k <= Npm; k++)
+
+	for (int k = 30 * t + 1; k <= Npm; k++)
+		// for (int k = 1; k <= Npm; k++)
 	{
 		trama = ye_.segment(picos[k - 1].pm - static_cast<int>(std::floor(N / 2.0)) - 1, N).cwiseProduct(hnnN);
 		if (trama.isZero(Tolerance_double))
@@ -86,7 +173,7 @@ void stochasticanalysis(Eigen::Ref<const Eigen::TRowVectorX> x, Eigen::TFloat fs
 			}
 			picos[k - 1].e = std::sqrt(N) * bylevdurb(R);
 		}
-			
+
 	}
 
 }

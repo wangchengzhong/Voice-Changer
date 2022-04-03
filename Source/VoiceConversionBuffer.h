@@ -61,12 +61,7 @@ public:
     {
         for (int samplePos = 0; samplePos < reqSamples; samplePos++)
         {
-
-            for (int channel = 0; channel < buffer.getNumChannels(); channel++)
-            {
-                pointerBuffer[samplePos] = popSample(channel);
-                // pointerBuffer.setSample(channel, samplePos, popSample(channel));
-            }
+        	pointerBuffer[samplePos] = popSample(0);
         }
         return pointerBuffer.data();// pointerBuffer.getArrayOfReadPointers();
     }
@@ -85,13 +80,10 @@ public:
 
     void copyToBuffer(int numSamples)
     {
-        for (int channel = 0; channel < buffer.getNumChannels(); channel++)
+        for (int sample = 0; sample < numSamples; sample++)
         {
-            for (int sample = 0; sample < numSamples; sample++)
-            {
-                pushSample(pointerBuffer[sample], channel);
-                // pushSample(pointerBuffer.getSample(channel, sample), channel);
-            }
+            pushSample(pointerBuffer[sample], 0);
+            // pushSample(pointerBuffer.getSample(channel, sample), channel);
         }
     }
 
@@ -116,35 +108,11 @@ public:
     {
 
         vc = std::make_unique<VoiceConversion>(sampleRate);
-        //vc->setSampleRate(sampleRate);
         vc->setChannels(numChannels);
-        // vc->setSetting(SOUNDTOUCH_ALLOW_MMX, 1);
-
-        // vc->setSetting(SETTING_USE_QUICKSEEK, 0);
-        //vc->setSettings(SETTING_SEQUENCE_MS, 60);
-        //vc->setSettings(SETTING_SEEKWINDOW_MS, 25);
-        //vc->setSettings(SETTING_OVERLAP_MS, 8);
-
-        maxSamples = 256;
 
         input.initialise(numChannels, sampleRate * 20);
         output.initialise(numChannels, sampleRate * 20);
 
-        juce::dsp::ProcessSpec spec;
-        spec.maximumBlockSize = samplesPerBlock;
-        spec.numChannels = numChannels;
-        spec.sampleRate = sampleRate;
-
-        if (minLatency)
-        {
-            smallestAcceptableSize = maxSamples * 1.0;
-            largestAcceptableSize = maxSamples * 3.0;
-        }
-        else
-        {
-            smallestAcceptableSize = maxSamples * 2.0;
-            largestAcceptableSize = maxSamples * 4.0;
-        }
     }
 
     ~VoiceConversionBuffer()
@@ -152,6 +120,8 @@ public:
     }
     void processBuffer(juce::AudioBuffer<float>& buffer)
     {
+        auto reqSamples = 22050;//  (int)22050;
+        const juce::SpinLock::ScopedLockType lock(paramLock);
         //dryWet->pushDrySamples(buffer);
 
         for (int sample = 0; sample < buffer.getNumSamples(); sample++)
@@ -165,11 +135,9 @@ public:
 
                 //if (channel == buffer.getNumChannels() - 1)
                 {
-                    auto reqSamples = (int) sampleRate/5;
-
+                   
                     if (reqSamples < input.getAvailableSampleNum(0))
                     {
-
                         vc->putSamples(input.readPointerArray((int)reqSamples), static_cast<unsigned int>(reqSamples));
                     }
                 }
@@ -205,21 +173,11 @@ public:
 
     }
 
-    /** Set the wet/dry mix as a % value.
-
-
-    /** Get the estimated latency. This is an average guess of latency with no pitch shifting
-    but can vary by a few buffers. Changing the pitch shift can cause less or more latency.
-     */
-    int getLatencyEstimationInSamples()
-    {
-        return maxSamples * 3.0 + initLatency;
-    }
-
 private:
     int sampleRate;
     std::unique_ptr<VoiceConversion> vc;
     RingBufferForVC input, output;
     juce::AudioBuffer<double> inputBuffer, outputBuffer;
-    int maxSamples, initLatency, bufferFail, smallestAcceptableSize, largestAcceptableSize, samplesPerBlock;
+    int samplesPerBlock;
+    juce::SpinLock paramLock;
 };

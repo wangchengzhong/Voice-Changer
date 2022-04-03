@@ -18,6 +18,7 @@
 #include"HorizontalMeter.h"
 #include"EqualizerEditor.h"
 #include"DawComponent.h"
+#include"AudioThumbnailCore.h"
 //==============================================================================
 /**
 */
@@ -26,6 +27,7 @@ class VoiceChanger_wczAudioProcessorEditor
     ,public juce::Slider::Listener
     ,public juce::ComboBox::Listener
     , private juce::Timer
+	, private  juce::ChangeListener
     // , public juce::ChangeListener
     //,public juce::ComponentListener
      //,
@@ -56,10 +58,11 @@ private:
     void xjjButtonClicked();
     void ljButtonClicked();
     void xpyButtonClicked();
-    void openEffectButtonClicked();
-    void closeEffectButtonClicked();
+    void realtimeButtonClicked();
+    void offlineButtonClicked();
     void resetAllButtonClicked();
     void switchPitchMethodButtonClicked();
+    void switchVoiceConversionButtonClicked();
 
     void stopPlayFileButtonClicked();
     void playFileButtonClicked();
@@ -94,8 +97,8 @@ private:
     juce::TextButton xjjButton;
     juce::TextButton ljButton;
     juce::TextButton xpyButton;
-    juce::TextButton openEffectButton;
-    juce::TextButton closeEffectButton;
+    juce::TextButton realtimeButton;
+    juce::TextButton offlineButton;
 
     juce::TextButton openFileButton;
     juce::TextButton playFileButton;
@@ -107,7 +110,7 @@ private:
     juce::TextButton resetAllButton;
 
     juce::ToggleButton switchPitchMethodButton;
-
+    juce::ToggleButton switchVoiceConversionButton;
     juce::TextButton openCameraButton;
 
     juce::TextButton openDawButton;
@@ -116,10 +119,9 @@ private:
     juce::AudioDeviceSelectorComponent audioSetupComp;
     int duration{ 300 };
    
-    // BackgroundComponent bkg;
-    // PlayAudioFileComponent playAudioFileComponent;
 
-    // void changeListenerCallback(juce::ChangeBroadcaster* source) override;
+
+    
     // TransportState state;
     // juce::AudioSampleBuffer*& pData{ audioProcessor.pPlayBuffer };
     // TemplateRecordingWindow* recWindow;
@@ -131,7 +133,10 @@ private:
 
     Gui::CicularMeter circularMeterL, circularMeterR;
     Gui::HorizontalMeter horizontalMeterL, horizontalMeterR;
-    int framesElapsed = 0;
+    ScopedPointer<AudioThumbnailComp> thumbnailCore;
+    void changeListenerCallback(juce::ChangeBroadcaster* source) override;
+
+	int framesElapsed = 0;
     float maxRmsLeft{}, maxRmsRight{};
 
 public:

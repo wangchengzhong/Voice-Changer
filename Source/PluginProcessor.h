@@ -93,25 +93,8 @@ class VoiceChanger_wczAudioProcessor :
 	,public juce::ChangeBroadcaster
 {
 public:
-    bool openVoiceConversion{ true };
+    bool openVoiceConversion{ false };
 
-
-    //enum FilterType
-    //{
-    //    NoFilter = 0,
-    //    HighPass,
-    //    HighPass1st,
-    //    LowShelf,
-    //    BandPass,
-    //    AllPass,
-    //    AllPass1st,
-    //    Notch,
-    //    Peak,
-    //    HighShelf,
-    //    LowPass1st,
-    //    LowPass,
-    //    LastFilterID
-    //};
 	enum FilterType
     {
         NoFilter = 0,
@@ -324,19 +307,24 @@ public:
     int nPlayAudioFilePosition{ 0 };
     int nPlayAudioFileSampleNum{ 0 };
     bool realtimeMode{ true };
+
     juce::AudioFormatManager formatManager;
-    std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
-    std::unique_ptr<juce::dsp::Oversampling<float>> pOversample;
+
     juce::AudioTransportSource transportSource;
+    File currentlyLoadedFile;
+    AudioThumbnailCache thumbnailCache;
+    ScopedPointer<AudioFormatReaderSource>currentAudioFileSource;
+    TimeSliceThread readAheadThread;
+    void loadFileIntoTransport(const File& audioFile);
+
 
     juce::AudioSampleBuffer fileBuffer;
     juce::AudioSampleBuffer sourceBuffer;
     juce::AudioSampleBuffer targetBuffer;
-    juce::AudioSampleBuffer sourceBufferAligned;
-    juce::AudioSampleBuffer targetBufferAligned;
 
-    TrainingTemplate trainingTemplate;
-    std::vector<float> voiceChangerParameter;
+
+    // TrainingTemplate trainingTemplate;
+    // std::vector<float> voiceChangerParameter;
     juce::AudioSampleBuffer* pPlayBuffer;
     TransportInformation ti;
     void setTarget(TransportFileType ft)override;

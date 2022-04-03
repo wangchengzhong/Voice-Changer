@@ -3,7 +3,6 @@
 #include "modelSerialization.h"
 #include "PluginEditor.h"
 
-
 #if _OPEN_FILTERS
 juce::String VoiceChanger_wczAudioProcessor::paramOutput("output");
 juce::String VoiceChanger_wczAudioProcessor::paramType("type");
@@ -171,11 +170,14 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
     , spectrum(juce::Image::RGB, 512, 256, true)
 
 #endif
-
-    , trainingTemplate(sourceBufferAligned, targetBufferAligned, voiceChangerParameter)
+    , thumbnailCache(1)
+	, readAheadThread("transport read ahead")
+    // , trainingTemplate(sourceBufferAligned, targetBufferAligned, voiceChangerParameter)
     , state(*this, &undo, "PARAMS", createParameterLayout())
 
 {
+    formatManager.registerBasicFormats();
+    readAheadThread.startThread(3);
 #if _OPEN_FILTERS
     frequencies.resize(300);
     for (size_t i = 0; i < frequencies.size(); ++i) {
@@ -207,10 +209,9 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
     
 
     state.state = juce::ValueTree(JucePlugin_Name);
-	#endif
+#endif
 
 
-    formatManager.registerBasicFormats();
     addParameter(nPitchShift = new juce::AudioParameterFloat("PitchShift", "pitchShift", -12.0f, 12.0f, 0.0f));
     addParameter(nPeakShift = new juce::AudioParameterFloat("PeakShift", "peakShift", 0.5f, 2.0f, 1.f));
 
@@ -232,6 +233,7 @@ VoiceChanger_wczAudioProcessor::~VoiceChanger_wczAudioProcessor()
     //parameters.removeParameterListener("right", this);
     //parameters.removeParameterListener("rmsPeriod", this);
     //parameters.removeParameterListener("smoothing", this);
+    transportSource.setSource(nullptr);
 #if _OPEN_FILTERS
 	inputAnalyser.stopThread(1000);
     outputAnalyser.stopThread(1000);
@@ -303,13 +305,8 @@ void VoiceChanger_wczAudioProcessor::changeProgramName (int index, const juce::S
 //==============================================================================
 void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-
-    pOversample.reset(new juce::dsp::Oversampling<float>(getTotalNumOutputChannels(), 3,
-        juce::dsp::Oversampling<float>::filterHalfBandFIREquiripple, true, true));
-
-    pOversample->initProcessing(static_cast<size_t>(samplesPerBlock));
-
-
+    setLatencySamples(44100 * 5);
+    transportSource.prepareToPlay(samplesPerBlock, sampleRate);
 #if _OPEN_FILTERS
     juce::dsp::ProcessSpec fspec;
     fspec.sampleRate = sampleRate;
@@ -353,7 +350,6 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
     rmsWindowSize = static_cast<int>(sampleRate * state.getRawParameterValue("rmsPeriod")->load()) / 1000;
     isSmoothed = false; //static_cast<bool>(state.getRawParameterValue("smooth")->load());
 
-    transportSource.prepareToPlay(samplesPerBlock, sampleRate);
 
 #if USE_3rdPARTYPITCHSHIFT
 #if USE_RUBBERBAND
@@ -429,6 +425,7 @@ void VoiceChanger_wczAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
+    transportSource.releaseResources();
 #if _OPEN_FILTERS
     inputAnalyser.stopThread(1000);
     outputAnalyser.stopThread(1000);
@@ -469,30 +466,32 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
     }
     else
     {
+        // spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
         buffer.clear();
-        
-        if (!canReadSampleBuffer)
-        {
-            if (pPlayBuffer)
-                if (pPlayBuffer->getNumChannels())
-                    canReadSampleBuffer = true;
-        }
-        if (canReadSampleBuffer)
-        {
-            if (pPlayBuffer->getNumChannels())
-            {
-                if (shouldProcessFile)
-                {
-                    getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
-                    // transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
-                    overallProcess(buffer);
-                    return;
-                }
-            }
-            else
-                spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
-        }
-        spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
+        transportSource.getNextAudioBlock(AudioSourceChannelInfo(buffer));
+        overallProcess(buffer);
+        //if (!canReadSampleBuffer)
+        //{
+        //    if (pPlayBuffer)
+        //        if (pPlayBuffer->getNumChannels())
+        //            canReadSampleBuffer = true;
+        //}
+        //if (canReadSampleBuffer)
+        //{
+        //    if (pPlayBuffer->getNumChannels())
+        //    {
+        //        if (shouldProcessFile)
+        //        {
+        //            getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+        //            // transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+        //            overallProcess(buffer);
+        //            return;
+        //        }
+        //    }
+        //    else
+        //        spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
+        //}
+        //spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
     }
 }
 void VoiceChanger_wczAudioProcessor::getNextAudioBlock(juce::AudioSourceChannelInfo& buffer)
@@ -568,20 +567,14 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
     	//vocodersForVoiceConversion[0]->process(buffer.getWritePointer(0), numSamples);
         buffer.copyFrom(1, 0, buffer, 0, 0, numSamples);
     }
-	for (int channel = 0; channel < getNumInputChannels(); ++channel)
+    else
     {
-        if (openVoiceConversion)
+        for (int channel = 0; channel < getNumInputChannels(); ++channel)
         {
-
-        	float* channelDataFlt = buffer.getWritePointer(channel);
-        	// double* channelData = dblBuffer.getWritePointer(channel);
-            
-            // buffer.clear();
-
+            auto channelDataFlt = buffer.getWritePointer(channel);
+            pitchShifters[channel]->process(channelDataFlt, numSamples);
+            peakShifters[channel]->process(channelDataFlt, numSamples);
         }
-        auto channelDataFlt = buffer.getWritePointer(channel);
-        // pitchShifters[channel]->process(channelDataFlt, numSamples);
-        // peakShifters[channel]->process(channelDataFlt, numSamples);
     }
 #endif
 #endif
@@ -1456,4 +1449,26 @@ void VoiceChanger_wczAudioProcessor::alignBuffer(juce::AudioSampleBuffer& s, juc
         {
         
         }
+}
+
+void VoiceChanger_wczAudioProcessor::loadFileIntoTransport(const File& audioFile)
+{
+    transportSource.stop();
+    transportSource.setSource(nullptr);
+    currentAudioFileSource = nullptr;
+
+    AudioFormatReader* reader = formatManager.createReaderFor(audioFile);
+    currentlyLoadedFile = audioFile;
+
+    if (reader != nullptr)
+    {
+        currentAudioFileSource = new AudioFormatReaderSource(reader, true);
+
+        transportSource.setSource(
+            currentAudioFileSource,
+            32768,
+            &readAheadThread,
+            reader->sampleRate
+        );
+    }
 }

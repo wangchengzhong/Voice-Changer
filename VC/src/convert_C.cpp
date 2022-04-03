@@ -36,7 +36,6 @@ void convertBlock(std::vector<double>& origBuffer, std::vector<double>& converte
 	
 	auto y = HSMsynthesize(picos, L);
 
-
 	for(int i = 0; i < numSample; i++)
 	{
 		//outStart[i] = y(i);

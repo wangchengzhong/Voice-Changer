@@ -7,7 +7,8 @@
 #include "sliceByIndices.h"
 #include <vector>
 #include <limits>
-
+#include"juceheader.h"
+#include"ppl.h"
 /**
  *@struct DatElement
  *Structure type for dat
@@ -65,11 +66,94 @@ Eigen::TRowVectorX f0analysisbyboersma(const Eigen::Ref<const Eigen::TRowVectorX
 	Eigen::TFloat xgmax = x.cwiseAbs().maxCoeff();
 	std::vector<DatElement> dat(pms.size());
 	Eigen::TRowVectorX rx(L2);
+
+
+	DBG("pms.size():" << pms.size());
+
+
+	auto a = static_cast<int>(pms.size());
+	auto t = (int)(a / 30);
+	concurrency::parallel_for(size_t(0), (size_t)30, [&](size_t m)
+
+		{
+			Eigen::TRowVectorX rk(Ncandidates - 1);
+			Eigen::TRowVectorX fk(Ncandidates - 1);
+			for (Eigen::Index k = m * t + 1; k < (m + 1) * t + 1; k++)
+
+				// for (Eigen::Index k = 1; k <= pms.size(); k++)
+				{
+					Eigen::TRowVectorX trama;
+					if (pms(k - 1) - L2 < 1)
+					{
+						auto tramaTemp = x.head(pms(k - 1) + L2);
+						trama = concat(Eigen::TRowVectorX::Zero(L - tramaTemp.size()), tramaTemp);
+					}
+					else if (pms(k - 1) + L2 > x.size())
+					{
+						int length = (int)x.size() - (pms(k - 1) - L2) + 1;
+						auto tramaTemp = x.tail(length);
+						trama = concat(tramaTemp, Eigen::TRowVectorX::Zero(L - tramaTemp.size()));
+					}
+					else
+					{
+						trama = x.segment(pms(k - 1) - L2 - 1, 2 * L2 + 1);
+					}
+
+					trama.array() -= trama.segment(L2 - Ldc, 2 * Ldc + 1).sum() / (2 * Ldc + 1.0);
+					Eigen::TFloat xlmax = trama.segment(L2 - Lxlmax, 2 * Lxlmax + 1).cwiseAbs().maxCoeff();
+					//trama=[trama zeros(1,Lp2-L)].*w;
+					// ra = real(ifft(abs(fft(trama))  . ^ 2));  --> combine these two statements in MATLAB together
+					auto ftemp = fft(concat(trama, Eigen::TRowVectorX::Zero(Lp2 - L)).cwiseProduct(w).eval()).array().abs2().matrix().cast<std::complex<Eigen::TFloat>>().eval();
+					auto ra_ = ifft(ftemp).real().eval();
+					auto ra = (1 / ra_(0)) * ra_.head(L2);
+
+					//  rx=ra./rw;  (MATLAB)
+					//% for each element of rx, compare it with 0.0 and take the larger one
+					// rx = max(rx, 0.0);
+					rx = ra.cwiseQuotient(rw).cwiseMax(0.0);
+					rk.setZero();
+					fk.setZero();
+
+					for (int j = lagmin + 1; j <= lagmax + 1; j++)
+					{
+						if (rx(j - 1) > 0.5 * voith && rx(j - 2) < rx(j - 1) && rx(j) < rx(j - 1))
+						{
+							auto tmax = 0.5 * (rx(j - 2) - rx(j)) / (rx(j - 2) - 2.0 * rx(j - 1) + rx(j));
+							auto rmax = rx(j - 1) + 0.5 * tmax * (rx(j) - rx(j - 2) + tmax * (rx(j - 2) - 2 * rx(j - 1) + rx(j)));
+							if (rmax > 1)
+								rmax = 1 / rmax;
+							tmax = (tmax + j - 1) / fs;
+							Eigen::TFloat fmax = 1 / tmax;
+							rmax = rmax - octcost * std::log2(f0min * tmax);
+							Eigen::Index jj = -1;
+							auto rmin = rk.minCoeff(&jj);
+							if (rmax > rmin)
+							{
+								// Here jj is the index of the min element in rk and is based on 0 starting.
+								rk(jj) = rmax;
+								fk(jj) = fmax;
+							}
+						}
+					}
+
+					Eigen::TFloat ruv = voith + std::max<Eigen::TFloat>(Eigen::TFloat(0.0), Eigen::TFloat(2.0) - std::min(Eigen::TFloat(1.0), xlmax / xgmax) / (silth / (1.0 + voith)));
+					auto jj = fk.array() > 0;
+					dat[k - 1].r = concat(indexByLogical(rk, jj) + octcost * (f0min / indexByLogical(fk, jj).array()).unaryExpr([](const auto& e) {return std::log2(e); }).matrix(), ruv);
+					dat[k - 1].f = concat(indexByLogical(fk, jj), 0);
+					dat[k - 1].ac = Eigen::TRowVectorX::Zero(dat[k - 1].f.size());
+					dat[k - 1].ant = Eigen::RowVectorXi::Zero(dat[k - 1].f.size());
+				}
+		});
+
+
+
 	Eigen::TRowVectorX rk(Ncandidates - 1);
 	Eigen::TRowVectorX fk(Ncandidates - 1);
+	for (Eigen::Index k = 30 * t + 1; k <= pms.size(); k++)
 
-	for (Eigen::Index k = 1; k <= pms.size(); k++)
+		// for (Eigen::Index k = 1; k <= pms.size(); k++)
 	{
+
 		Eigen::TRowVectorX trama;
 		if (pms(k - 1) - L2 < 1)
 		{
@@ -101,12 +185,12 @@ Eigen::TRowVectorX f0analysisbyboersma(const Eigen::Ref<const Eigen::TRowVectorX
 		rx = ra.cwiseQuotient(rw).cwiseMax(0.0);
 		rk.setZero();
 		fk.setZero();
-		
+
 		for (int j = lagmin + 1; j <= lagmax + 1; j++)
 		{
-			if (rx(j - 1) > 0.5*voith && rx(j - 2) < rx(j - 1) && rx(j) < rx(j - 1))
+			if (rx(j - 1) > 0.5 * voith && rx(j - 2) < rx(j - 1) && rx(j) < rx(j - 1))
 			{
-				auto tmax = 0.5*(rx(j - 2) - rx(j)) / (rx(j - 2) - 2.0 * rx(j-1) + rx(j));
+				auto tmax = 0.5 * (rx(j - 2) - rx(j)) / (rx(j - 2) - 2.0 * rx(j - 1) + rx(j));
 				auto rmax = rx(j - 1) + 0.5 * tmax * (rx(j) - rx(j - 2) + tmax * (rx(j - 2) - 2 * rx(j - 1) + rx(j)));
 				if (rmax > 1)
 					rmax = 1 / rmax;
@@ -126,11 +210,15 @@ Eigen::TRowVectorX f0analysisbyboersma(const Eigen::Ref<const Eigen::TRowVectorX
 
 		Eigen::TFloat ruv = voith + std::max<Eigen::TFloat>(Eigen::TFloat(0.0), Eigen::TFloat(2.0) - std::min(Eigen::TFloat(1.0), xlmax / xgmax) / (silth / (1.0 + voith)));
 		auto jj = fk.array() > 0;
-		dat[k - 1].r = concat(indexByLogical(rk, jj) + octcost * (f0min / indexByLogical(fk, jj).array()).unaryExpr([](const auto& e) {return std::log2(e);}).matrix(), ruv);
+		dat[k - 1].r = concat(indexByLogical(rk, jj) + octcost * (f0min / indexByLogical(fk, jj).array()).unaryExpr([](const auto& e) {return std::log2(e); }).matrix(), ruv);
 		dat[k - 1].f = concat(indexByLogical(fk, jj), 0);
 		dat[k - 1].ac = Eigen::TRowVectorX::Zero(dat[k - 1].f.size());
 		dat[k - 1].ant = Eigen::RowVectorXi::Zero(dat[k - 1].f.size());
 	}
+
+
+
+
 
 	dat[0].ac = -dat[0].r;
 	for (int k = 2; k <= pms.size(); k++)

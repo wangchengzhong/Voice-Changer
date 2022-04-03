@@ -1,19 +1,52 @@
 #include "polarityanalysis.h"
 #include "constants.h"
-
+#include"ppl.h"
 
 int polarityanalysis(PicosStructArray& picos)
 {
 	int pol = 0;
 	Eigen::TFloat polE = 0.0;
+	auto a = static_cast<int>(picos.size());
+	auto t = (int)(a / 30);
+	concurrency::parallel_for(size_t(0), (size_t)30, [&](size_t m)
 
-	for (int k = 1; k <= picos.size(); k++)
+		{
+
+			for (int k = m * t + 1; k < (m + 1) * t + 1; k++)
+				// for (int k = 1; k <= picos.size(); k++)
+				{
+					if (picos[k - 1].f0 > 0)
+					{
+						Eigen::TFloat E = picos[k - 1].a * picos[k - 1].a.transpose();
+						Eigen::TFloat alfa = 2 * picos[k - 1].p(0) - picos[k - 1].p(1);
+						alfa = alfa - 2 * pi * std::floor(alfa / (2 * pi));
+						// dP=min(abs([alfa 2*pi-alfa]));  MATLAB
+						Eigen::TFloat dP = std::min(std::abs(alfa), std::abs(2 * pi - alfa));
+						Eigen::TFloat dN = std::abs(alfa - pi);
+						if (dN < dP)
+						{
+							pol = pol - 1;
+							polE = polE - E;
+						}
+						else if (dP < dN)
+						{
+							pol = pol + 1;
+							polE = polE + E;
+						}
+
+					}
+				}
+		});
+
+
+	for (int k = 30 * t + 1; k <= picos.size(); k++)
+		// for (int k = 1; k <= picos.size(); k++)
 	{
 		if (picos[k - 1].f0 > 0)
 		{
 			Eigen::TFloat E = picos[k - 1].a * picos[k - 1].a.transpose();
 			Eigen::TFloat alfa = 2 * picos[k - 1].p(0) - picos[k - 1].p(1);
-			alfa = alfa - 2 * pi* std::floor(alfa / (2 * pi));
+			alfa = alfa - 2 * pi * std::floor(alfa / (2 * pi));
 			// dP=min(abs([alfa 2*pi-alfa]));  MATLAB
 			Eigen::TFloat dP = std::min(std::abs(alfa), std::abs(2 * pi - alfa));
 			Eigen::TFloat dN = std::abs(alfa - pi);
@@ -27,7 +60,7 @@ int polarityanalysis(PicosStructArray& picos)
 				pol = pol + 1;
 				polE = polE + E;
 			}
-			
+
 		}
 	}
 

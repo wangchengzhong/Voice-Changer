@@ -202,7 +202,7 @@ public:
 			targetAudioList[i] = buff;
 		}
 		
-		trainHSMModel(sourceAudioList, targetAudioList, n, 30, modelFile, VERBOSE_TRUE);
+		trainHSMModel(sourceAudioList, targetAudioList, n, 50, modelFile, VERBOSE_TRUE);
 		for(int i = 0; i < n; ++i)
 		{
 			delete[] sourceAudioList[i];

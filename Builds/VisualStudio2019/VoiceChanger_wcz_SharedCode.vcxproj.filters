@@ -6180,6 +6180,9 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_tracktion_graph.cpp">
       <Filter>JUCE Library Code</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\AudioThumbnailCore.cpp">
+      <Filter>VoiceChanger_wcz\Source\Meter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\VC\include\vchsm\C_Swift_bridge_header.h">
@@ -11284,6 +11287,9 @@
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\JucePluginDefines.h">
       <Filter>JUCE Library Code</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\AudioThumbnailCore.h">
+      <Filter>VoiceChanger_wcz\Source\Meter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

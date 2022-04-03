@@ -21,7 +21,7 @@ PicosStructArray HSManalyze(Eigen::Ref<Eigen::TRowVectorX> x, Eigen::TFloat fs)
 	x *= 0.5 / x.maxCoeff();
 	int L = (int)x.size();
 
-	auto temp = (int)std::floor((L - 3.0*fs / f0min) / N);
+	auto temp =  1 + (int)std::floor((L - 3.0*fs / f0min) / N);
 
 	Eigen::RowVectorXi pms = 1 + (int)std::ceil(1.5*fs / f0min) + N * seq<Eigen::RowVectorXi>(0, temp).array();
 	auto f0s = f0analysisbyboersma(x, fs, pms, f0min, f0max);//0.2~0.3
@@ -32,7 +32,7 @@ PicosStructArray HSManalyze(Eigen::Ref<Eigen::TRowVectorX> x, Eigen::TFloat fs)
 
 	auto end = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-	DBG("duration is " << duration.count());
+	// DBG("duration is " << duration.count());
 
 	stochasticanalysis(x, fs, N, picos, ordenLPC);
 	

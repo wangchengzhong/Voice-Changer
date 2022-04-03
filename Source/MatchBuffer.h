@@ -106,13 +106,10 @@
         unsigned long maxnorm;
         float maxnormf;
 
-        double tempo{ 1 };
         double nominalSkip;
         double skipFract{ 0 };
 
         bool bQuickSeek;
-        bool bAutoSeqSetting;
-        bool bAutoSeekSetting;
         bool isBeginning;
 
         SAMPLETYPE* pMidBuffer;
@@ -137,9 +134,7 @@
         virtual int seekBestOverlapPositionQuick(const SAMPLETYPE* refPos);
         virtual int seekBestOverlapPosition(const SAMPLETYPE* refPos);
 
-        //virtual void overlapStereo(SAMPLETYPE* output, const SAMPLETYPE* input) const;
         virtual void overlapMono(SAMPLETYPE* output, const SAMPLETYPE* input) const;
-        //virtual void overlapMulti(SAMPLETYPE* output, const SAMPLETYPE* input) const;
 
         void clearMidBuffer();
         void overlap(SAMPLETYPE* output, const SAMPLETYPE* input, uint ovlPos) const;

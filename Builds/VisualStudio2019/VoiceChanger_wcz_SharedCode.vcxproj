@@ -131,6 +131,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\AudioThumbnailCore.cpp" />
     <ClCompile Include="..\..\VC\src\aaalsf.cpp" />
     <ClCompile Include="..\..\VC\src\automaticth2wfw.cpp" />
     <ClCompile Include="..\..\VC\src\bylevdurb.cpp" />
@@ -4550,6 +4551,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_tracktion_graph.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\AudioThumbnailCore.h" />
     <ClInclude Include="..\..\VC\include\vchsm\C_Swift_bridge_header.h" />
     <ClInclude Include="..\..\VC\include\vchsm\convert_C.h" />
     <ClInclude Include="..\..\VC\include\vchsm\train_C.h" />
