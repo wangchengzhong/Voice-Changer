@@ -20,8 +20,10 @@ public:
 		const SAMPLETYPE* samples,
 		uint numSample
 	);
+	virtual void setSequenceLength(int sequenceLength);
 	// bool setSettings(int settingId, int value);
 	virtual uint receiveSamples(SAMPLETYPE* output, uint maxSample);
 	virtual uint receiveSamples(uint maxSamples);
 	virtual void clear();
+	
 };

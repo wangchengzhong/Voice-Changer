@@ -83,6 +83,7 @@
 #include"SocialButtons.h"
 #include"VocoderForVoiceConversion.h"
 #include"VoiceConversionBuffer.h"
+// #include"include/webrtc_vad.h"
 //==============================================================================
 /**
 */
@@ -403,6 +404,7 @@ private:
 #endif
 #endif
     std::unique_ptr<VoiceConversionBuffer> vcb;
+    // VadInst* vadModule;
     // juce::AudioProcessorValueTreeState parameters;
     juce::LinearSmoothedValue<float> gainLeft, gainRight;
 

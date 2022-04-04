@@ -360,7 +360,10 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
 #endif
 #endif
     vcb = std::make_unique<VoiceConversionBuffer>(1, sampleRate, samplesPerBlock);
-
+    // vadModule = WebRtcVad_Create();
+    // int vaderr = WebRtcVad_Init(vadModule);
+    // if (vaderr == -1)
+    //     exit(0);
 #if _OPEN_PEAK_PITCH
     pitchShifters.clear();
     peakShifters.clear();
@@ -460,16 +463,18 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
 {
     if (realtimeMode)
     {
-		if(!openVoiceConversion)
-			processLevelInfo(buffer);
+        if (!openVoiceConversion)
+            processLevelInfo(buffer);
         overallProcess(buffer);
     }
     else
     {
+
         // spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
         buffer.clear();
         transportSource.getNextAudioBlock(AudioSourceChannelInfo(buffer));
         overallProcess(buffer);
+        processLevelInfo(buffer);
         //if (!canReadSampleBuffer)
         //{
         //    if (pPlayBuffer)
@@ -563,6 +568,7 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
 #if _SHOW_SPEC
     if (openVoiceConversion)
     {
+    	
         vcb->processBuffer(buffer);
     	//vocodersForVoiceConversion[0]->process(buffer.getWritePointer(0), numSamples);
         buffer.copyFrom(1, 0, buffer, 0, 0, numSamples);
@@ -619,13 +625,13 @@ void VoiceChanger_wczAudioProcessor::processLevelInfo(juce::AudioBuffer<float>& 
         gainLeft.skip(numSamples);
 
         const auto endGain = gainLeft.getCurrentValue();
-        buffer.applyGainRamp(0, 0, numSamples, startGain, endGain);
+        //buffer.applyGainRamp(0, 0, numSamples, startGain, endGain);
     }
     {
         const auto startGain = gainRight.getCurrentValue();
         gainRight.skip(numSamples);
         const auto endGain = gainRight.getCurrentValue();
-        buffer.applyGainRamp(1, 0, numSamples, startGain, endGain);
+        //buffer.applyGainRamp(1, 0, numSamples, startGain, endGain);
     }
     for (auto& rmsLevel : rmsLevels)
         rmsLevel.skip(numSamples);

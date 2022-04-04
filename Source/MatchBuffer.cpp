@@ -51,7 +51,7 @@ BufferMatch::BufferMatch(int sampleRate) : FIFOProcessor(&outputBuffer), model(d
     overlapLength = 0;
 
     //setParameters(sampleRate, DEFAULT_SEQUENCE_MS, DEFAULT_SEEKWINDOW_MS, DEFAULT_OVERLAP_MS);
-    setParameters(sampleRate, 1000, 5, 5);
+    setParameters(sampleRate, 1000, 5, 10);
 	setTempo(1.0f);
 
     clear();
@@ -87,6 +87,11 @@ void BufferMatch::setParameters(int aSampleRate, int aSequenceMS,
 
     calcSeqParameters();
     calculateOverlapLength(overlapMs);
+}
+void BufferMatch::setSequenceLength(int sequenceLength)
+{
+    seekWindowLength = sequenceLength;
+    sampleReq = seekWindowLength;
 }
 
 
@@ -440,7 +445,7 @@ void BufferMatch::calcSeqParameters()
 #define CHECK_LIMITS(x, mi, ma) (((x) < (mi)) ? (mi) : (((x) > (ma)) ? (ma) : (x)))
 
 	// Update seek window lengths
-	seekWindowLength = (sampleRate * sequenceMs) / 1000;
+    seekWindowLength = (sampleRate * sequenceMs) / 1000;
 	if (seekWindowLength < 2 * overlapLength)
 	{
 		seekWindowLength = 2 * overlapLength;
@@ -484,8 +489,8 @@ void BufferMatch::setTempo(double newTempo)
     spxDownSize = (spx_uint32_t)(sampleReq / sampleRate * 16000);
     vcOrigBuffer.resize((int)sampleReq / sampleRate * 16000);
     vcConvertedBuffer.resize((int)sampleReq / sampleRate * 16000);
-    downResampler = speex_resampler_init(1, sampleRate, (int)16000, 5, &err);
-	upResampler = speex_resampler_init(1, (int)16000, sampleRate, 5, &err);
+    downResampler = speex_resampler_init(1, sampleRate, (int)16000, 0, &err);
+	upResampler = speex_resampler_init(1, (int)16000, sampleRate, 0, &err);
 }
 
 
@@ -553,15 +558,25 @@ void BufferMatch::processSamples()
     {
         // tempo not changed from the original, so bypass the processing
         processNominalTempo();
-        return;
+        return; 
     }
     */
 
     // Process samples as long as there are enough samples in 'inputBuffer'
     // to form a processing frame.
 
-    while ((int)inputBuffer.numSamples() >= sampleReq)
+	//while ((int)inputBuffer.numSamples() >= sampleReq)
     {
+        
+        seekWindowLength = (int)inputBuffer.numSamples();
+        //sampleReq = seekWindowLength + seekLength;
+        nominalSkip = seekWindowLength - overlapLength;
+        DBG((int)inputBuffer.numSamples());
+        spxUpSize = static_cast<spx_uint32_t>(inputBuffer.numSamples());
+        spxDownSize = static_cast<spx_uint32_t>(seekWindowLength / sampleRate * 16000 + 0.5);
+        vcOrigBuffer.resize(spxDownSize);
+        vcConvertedBuffer.resize(spxDownSize);
+        
         err = speex_resampler_process_float(downResampler, 0, inputBuffer.ptrBegin(), &spxUpSize, vcOrigBuffer.data(), &spxDownSize);
         convertBlock(vcOrigBuffer, vcConvertedBuffer, 1, model);
         err = speex_resampler_process_float(upResampler, 0, vcConvertedBuffer.data(), &spxDownSize, inputBuffer.ptrBegin(), &spxUpSize);
@@ -619,7 +634,7 @@ void BufferMatch::processSamples()
         if ((int)inputBuffer.numSamples() < (offset + seekWindowLength - overlapLength))
         {
             // DBG("run here! ");// never
-            continue;    // just in case, shouldn't really happen
+            // continue;    // just in case, shouldn't really happen
         }
 
         // length of sequence
@@ -631,7 +646,8 @@ void BufferMatch::processSamples()
         // Copies the end of the current sequence from 'inputBuffer' to 
         // 'midBuffer' for being mixed with the beginning of the next 
         // processing sequence and so on
-        assert((offset + temp + overlapLength) <= (int)inputBuffer.numSamples());
+        
+        // assert((offset + temp + overlapLength) <= (int)inputBuffer.numSamples());
         memcpy(pMidBuffer, inputBuffer.ptrBegin() + channels * (offset + temp),
             channels * sizeof(SAMPLETYPE) * overlapLength);
 

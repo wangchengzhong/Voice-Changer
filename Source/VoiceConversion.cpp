@@ -25,9 +25,14 @@ void VoiceConversion::setChannels(uint numChannels)
 //	pBufferMatch->setParameters((int)srate);
 //}
 
-void VoiceConversion::putSamples(const SAMPLETYPE* samples, uint numSample)
+void VoiceConversion:: putSamples(const SAMPLETYPE* samples, uint numSample)
 {
 	pBufferMatch->putSamples(samples, numSample);
+}
+
+void VoiceConversion::setSequenceLength(int sequenceLength)
+{
+	pBufferMatch->setSequenceLength(sequenceLength);
 }
 
 //bool VoiceConversion::setSettings(int settingId, int value)
@@ -65,6 +70,7 @@ uint VoiceConversion::receiveSamples(SAMPLETYPE* output, uint maxSample)
 
 uint VoiceConversion::receiveSamples(uint maxSamples)
 {
+	// pBufferMatch->receiveSamples(maxSamples);
 	uint ret = FIFOProcessor::receiveSamples(maxSamples);
 	samplesOutput += (long)ret;
 	return ret;

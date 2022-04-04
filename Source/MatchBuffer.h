@@ -140,6 +140,7 @@
         void overlap(SAMPLETYPE* output, const SAMPLETYPE* input, uint ovlPos) const;
 
         void calcSeqParameters();
+        
         void adaptNormalizer();
 
         /// Changes the tempo of the given sound samples.
@@ -200,6 +201,7 @@
             int seekwindowMS = -1,   ///< Offset seeking window length (ms)
             int overlapMS = -1       ///< Sequence overlapping length (ms)
         );
+        void setSequenceLength(int sequenceLength);
 
         /// Get routine control parameters, see setParameters() function.
         /// Any of the parameters to this function can be NULL, in such case corresponding parameter
