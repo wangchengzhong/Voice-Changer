@@ -109,7 +109,6 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalOptions>/bigobj</AdditionalOptions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -227,6 +226,7 @@
     <ClCompile Include="..\..\Source\DawPluginEditor.cpp" />
     <ClCompile Include="..\..\Source\EngineHelpers.cpp" />
     <ClCompile Include="..\..\Source\EqualizerEditor.cpp" />
+    <ClCompile Include="..\..\Source\EqComponent.cpp" />
     <ClCompile Include="..\..\Source\FIFOBuffer.cpp" />
     <ClCompile Include="..\..\Source\AudioThumbnailCore.cpp" />
     <ClCompile Include="..\..\Source\CustomLookAndFeel.cpp" />
@@ -4707,6 +4707,7 @@
     <ClInclude Include="..\..\Source\EditViewState.h" />
     <ClInclude Include="..\..\Source\SocialButtons.h" />
     <ClInclude Include="..\..\Source\EqualizerEditor.h" />
+    <ClInclude Include="..\..\Source\EqComponent.h" />
     <ClInclude Include="..\..\Source\Analyser.h" />
     <ClInclude Include="..\..\Source\Resample.h" />
     <ClInclude Include="..\..\Source\VocoderForVoiceConversion.h" />
@@ -6257,6 +6258,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\background_texture_dark_headline.jpg" />
+    <None Include="..\..\Resources\icon.jpg" />
     <None Include="..\..\Resources\switch_left.png" />
     <None Include="..\..\Resources\switch_right.png" />
     <None Include="..\..\speexdsp\include\speex\Makefile.am" />
@@ -6306,6 +6308,7 @@
     <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_graph\docs\tracktion_graph_part_1_introduction.md" />
     <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_graph\docs\tracktion_graph_part_2_node.md" />
     <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_graph\docs\tracktion_graph_part_3_nodeplayer.md" />
+    <None Include=".\icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
