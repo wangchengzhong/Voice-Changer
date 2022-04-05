@@ -25,7 +25,7 @@ void VoiceConversion::setChannels(uint numChannels)
 //	pBufferMatch->setParameters((int)srate);
 //}
 
-void VoiceConversion:: putSamples(const SAMPLETYPE* samples, uint numSample)
+void VoiceConversion::putSamples(const SAMPLETYPE* samples, uint numSample)
 {
 	pBufferMatch->putSamples(samples, numSample);
 }

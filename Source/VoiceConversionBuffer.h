@@ -137,7 +137,7 @@ public:
             buffer.setSample(0, sample, 0);
         }
         int numInputSample = input.getAvailableSampleNum(0);
-        DBG(numInputSample);
+        // DBG(numInputSample);
     	if(currentEnergy < energyThreshold)
         {
             silenceCount++;
@@ -152,16 +152,16 @@ public:
             {
                 prevEnergy = currentEnergy;
                 vc->putSamples(input.readPointerArray(numInputSample), static_cast<uint>(numInputSample));
+                // DBG(numInputSample);
+                //auto availableSamples = static_cast<int>(vc->numSamples());
 
-                auto availableSamples = static_cast<int>(vc->numSamples());
-
-                if (availableSamples > 0)
-                {
-                    double* readSample = vc->ptrBegin();
-                    output.writePointerArray(readSample, availableSamples);
-                    uint a = vc->receiveSamples(static_cast<unsigned int>(availableSamples));
-                    output.copyToBuffer(availableSamples);
-                }
+                //if (availableSamples > 0)
+                //{
+                //    double* readSample = vc->ptrBegin();
+                //    output.writePointerArray(readSample, availableSamples);
+                //    uint a = vc->receiveSamples(static_cast<unsigned int>(availableSamples));
+                //    output.copyToBuffer(availableSamples);
+                //}
             }
         }
         else
@@ -195,15 +195,15 @@ public:
         //    }
         //}
 
-        //auto availableSamples = static_cast<int>(vc->numSamples());
+        auto availableSamples = static_cast<int>(vc->numSamples());
 
-        //if (availableSamples > 0)
-        //{
-        //    double* readSample = vc->ptrBegin();
-        //    output.writePointerArray(readSample, availableSamples);
-        //    vc->receiveSamples(static_cast<unsigned int>(availableSamples));
-        //    output.copyToBuffer(availableSamples);
-        //}
+        if (availableSamples > 0)
+        {
+            double* readSample = vc->ptrBegin();
+            output.writePointerArray(readSample, availableSamples);
+            vc->receiveSamples(static_cast<unsigned int>(availableSamples));
+            output.copyToBuffer(availableSamples);
+        }
 
         auto availableOutputSamples = output.getAvailableSampleNum(0);
 

@@ -51,7 +51,7 @@ BufferMatch::BufferMatch(int sampleRate) : FIFOProcessor(&outputBuffer), model(d
     overlapLength = 0;
 
     //setParameters(sampleRate, DEFAULT_SEQUENCE_MS, DEFAULT_SEEKWINDOW_MS, DEFAULT_OVERLAP_MS);
-    setParameters(sampleRate, 1000, 5, 10);
+    setParameters(sampleRate, 1000, 20, 40);
 	setTempo(1.0f);
 
     clear();
@@ -565,16 +565,17 @@ void BufferMatch::processSamples()
     // Process samples as long as there are enough samples in 'inputBuffer'
     // to form a processing frame.
 
-	//while ((int)inputBuffer.numSamples() >= sampleReq)
+	// while ((int)inputBuffer.numSamples() >= sampleReq)
     {
-        
+     // sampleReq   
         seekWindowLength = (int)inputBuffer.numSamples();
         //sampleReq = seekWindowLength + seekLength;
-        nominalSkip = seekWindowLength - overlapLength;
-        DBG((int)inputBuffer.numSamples());
+        nominalSkip = static_cast<double>(seekWindowLength - overlapLength);
+        // DBG((int)inputBuffer.numSamples());
         spxUpSize = static_cast<spx_uint32_t>(inputBuffer.numSamples());
-        spxDownSize = static_cast<spx_uint32_t>(seekWindowLength / sampleRate * 16000 + 0.5);
-        vcOrigBuffer.resize(spxDownSize);
+        spxDownSize = static_cast<spx_uint32_t>(spxUpSize / sampleRate * 16000 + 0.5);
+        vcOrigBuffer.clear(); vcConvertedBuffer.clear();
+    	vcOrigBuffer.resize(spxDownSize);
         vcConvertedBuffer.resize(spxDownSize);
         
         err = speex_resampler_process_float(downResampler, 0, inputBuffer.ptrBegin(), &spxUpSize, vcOrigBuffer.data(), &spxDownSize);
@@ -588,7 +589,7 @@ void BufferMatch::processSamples()
             offset = seekBestOverlapPosition(inputBuffer.ptrBegin());
             // DBG(offset);
             //224~1070
-
+            DBG(offset);
 
             // Mix the samples in the 'inputBuffer' at position of 'offset' with the 
             // samples in 'midBuffer' using sliding overlapping
@@ -633,7 +634,7 @@ void BufferMatch::processSamples()
         // crosscheck that we don't have buffer overflow...
         if ((int)inputBuffer.numSamples() < (offset + seekWindowLength - overlapLength))
         {
-            // DBG("run here! ");// never
+            DBG("run here! ");// never
             // continue;    // just in case, shouldn't really happen
         }
 

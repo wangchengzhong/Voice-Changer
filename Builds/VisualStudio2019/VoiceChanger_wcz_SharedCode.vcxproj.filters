@@ -1743,9 +1743,6 @@
     <ClCompile Include="..\..\Source\EqualizerEditor.cpp">
       <Filter>VoiceChanger_wcz\Source\Eq</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\EqComponent.cpp">
-      <Filter>VoiceChanger_wcz\Source\Eq</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\FIFOBuffer.cpp">
       <Filter>VoiceChanger_wcz\Source\DataStructure</Filter>
     </ClCompile>
@@ -6654,9 +6651,6 @@
       <Filter>VoiceChanger_wcz\Source\Eq</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\EqualizerEditor.h">
-      <Filter>VoiceChanger_wcz\Source\Eq</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\EqComponent.h">
       <Filter>VoiceChanger_wcz\Source\Eq</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Analyser.h">

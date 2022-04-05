@@ -551,13 +551,13 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
 
 #if _OPEN_PEAK_PITCH
 #if USE_3rdPARTYPITCHSHIFT
-    if (!openVoiceConversion)
+    if ( !openVoiceConversion)
     {
 #if USE_SOUNDTOUCH
-    	if (!useFD)
+    	if ( !useFD)
         	sts->processBuffer(buffer);
 #if USE_RUBBERBAND
-    	if (useFD)
+    	if ( useFD)
     		rbs->processBuffer(buffer);
     }
 #endif
@@ -585,7 +585,7 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
 #endif
 #endif
 #if _OPEN_FILTERS
-    if (!openVoiceConversion)
+    if ( !openVoiceConversion)
     {
         if (getActiveEditor() != nullptr)
             inputAnalyser.addAudioData(buffer, 0, getTotalNumInputChannels());

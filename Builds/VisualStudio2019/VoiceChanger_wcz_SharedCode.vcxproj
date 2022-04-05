@@ -109,6 +109,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/bigobj</AdditionalOptions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -226,7 +227,6 @@
     <ClCompile Include="..\..\Source\DawPluginEditor.cpp" />
     <ClCompile Include="..\..\Source\EngineHelpers.cpp" />
     <ClCompile Include="..\..\Source\EqualizerEditor.cpp" />
-    <ClCompile Include="..\..\Source\EqComponent.cpp" />
     <ClCompile Include="..\..\Source\FIFOBuffer.cpp" />
     <ClCompile Include="..\..\Source\AudioThumbnailCore.cpp" />
     <ClCompile Include="..\..\Source\CustomLookAndFeel.cpp" />
@@ -4707,7 +4707,6 @@
     <ClInclude Include="..\..\Source\EditViewState.h" />
     <ClInclude Include="..\..\Source\SocialButtons.h" />
     <ClInclude Include="..\..\Source\EqualizerEditor.h" />
-    <ClInclude Include="..\..\Source\EqComponent.h" />
     <ClInclude Include="..\..\Source\Analyser.h" />
     <ClInclude Include="..\..\Source\Resample.h" />
     <ClInclude Include="..\..\Source\VocoderForVoiceConversion.h" />

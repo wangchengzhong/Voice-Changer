@@ -567,6 +567,7 @@ void VoiceChanger_wczAudioProcessorEditor::openTemplateWindowButtonClicked()
 {
     if (templateRecordingWindow)
     {
+        templateRecordingWindow->toFront(true);
         templateRecordingWindow->broughtToFront();
     }
     else
@@ -584,6 +585,7 @@ void VoiceChanger_wczAudioProcessorEditor::openCameraButtonClicked()
 {
     if (cameraWindow)
     {
+        cameraWindow->toFront(true);
         cameraWindow->broughtToFront();
     }
     else
@@ -600,6 +602,7 @@ void VoiceChanger_wczAudioProcessorEditor::openDawButtonClicked()
 {
     if (dawWindow)
     {
+        dawWindow->toFront(true);
         dawWindow->broughtToFront();
     }
     else
@@ -617,12 +620,16 @@ void VoiceChanger_wczAudioProcessorEditor::openEqButtonClicked()
 {
 	if(eqWindow)
 	{
+        eqWindow->toFront(true);
+        
         eqWindow->broughtToFront();
-	}
+	} 
 	else
 	{
         eqWindow = new NewWindow(juce::String("eqWindow"), juce::Colours::darkslategrey, juce::DocumentWindow::allButtons);
 #if _OPEN_FILTERS
+        pEqEditor.release();
+        pEqEditor = std::make_unique<FrequalizerAudioProcessorEditor>(audioProcessor);
 		eqWindow->setContentOwned(pEqEditor.get(), true);
 #endif
 		eqWindow->centreWithSize(900, 500);
