@@ -8,6 +8,15 @@
 
 namespace BinaryData
 {
+    extern const char*   background_texture_dark_headline_jpg;
+    const int            background_texture_dark_headline_jpgSize = 138008;
+
+    extern const char*   switch_left_png;
+    const int            switch_left_pngSize = 653;
+
+    extern const char*   switch_right_png;
+    const int            switch_right_pngSize = 518;
+
     extern const char*   Makefile_am;
     const int            Makefile_amSize = 722;
 
@@ -51,7 +60,7 @@ namespace BinaryData
     const int            README_mdSize = 706;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 14;
+    const int namedResourceListSize = 17;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

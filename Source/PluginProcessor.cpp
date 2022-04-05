@@ -1327,7 +1327,7 @@ juce::Image& VoiceChanger_wczAudioProcessor::getSpectrumView()
     {
         spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
         auto level = pitchShifters[0]->getSpectrumInput();
-        drawSpectrumGraph(spectrum, level, juce::Colours::hotpink, true);//juce::Colour(0, 255, 0), true);
+        drawSpectrumGraph(spectrum, level, juce::Colours::lightskyblue, true);//juce::Colour(0, 255, 0), true);
         pitchShifters[0]->setProcessFlag(false); 
     }
     return spectrum;

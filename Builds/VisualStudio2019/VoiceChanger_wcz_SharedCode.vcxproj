@@ -229,6 +229,7 @@
     <ClCompile Include="..\..\Source\EqComponent.cpp" />
     <ClCompile Include="..\..\Source\FIFOBuffer.cpp" />
     <ClCompile Include="..\..\Source\AudioThumbnailCore.cpp" />
+    <ClCompile Include="..\..\Source\CustomLookAndFeel.cpp" />
     <ClCompile Include="..\..\rubberband\src\audiocurves\CompoundAudioCurve.cpp" />
     <ClCompile Include="..\..\rubberband\src\audiocurves\ConstantAudioCurve.cpp" />
     <ClCompile Include="..\..\rubberband\src\audiocurves\HighFrequencyAudioCurve.cpp" />
@@ -4730,6 +4731,7 @@
     <ClInclude Include="..\..\Source\CircularMeter.h" />
     <ClInclude Include="..\..\Source\HorizontalMeter.h" />
     <ClInclude Include="..\..\Source\CameraWindow.h" />
+    <ClInclude Include="..\..\Source\CustomLookAndFeel.h" />
     <ClInclude Include="..\..\Source\PrintDebug.h" />
     <ClInclude Include="..\..\rubberband\rubberband\rubberband-c.h" />
     <ClInclude Include="..\..\rubberband\rubberband\RubberBandStretcher.h" />
@@ -6255,6 +6257,9 @@
     <ClInclude Include="..\..\JuceLibraryCode\JucePluginDefines.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Resources\background_texture_dark_headline.jpg" />
+    <None Include="..\..\Resources\switch_left.png" />
+    <None Include="..\..\Resources\switch_right.png" />
     <None Include="..\..\speexdsp\include\speex\Makefile.am" />
     <None Include="..\..\speexdsp\include\speex\Makefile.in" />
     <None Include="..\..\speexdsp\include\speex\speexdsp_config_types.h.in" />

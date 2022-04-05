@@ -19,6 +19,7 @@
 #include"EqualizerEditor.h"
 #include"DawComponent.h"
 #include"AudioThumbnailCore.h"
+#include"CustomLookAndFeel.h"
 //==============================================================================
 /**
 */
@@ -73,7 +74,11 @@ private:
     void openEqButtonClicked();
     // void singModeClicked();
 
+    juce::Image backgroundTexture = juce::ImageFileFormat::
+        loadFrom(BinaryData::background_texture_dark_headline_jpg,
+            BinaryData::background_texture_dark_headline_jpgSize);
 
+    OtherLookAndFeel otherLookAndFeel;
     std::unique_ptr<juce::Slider> pPitchSlider;
     std::unique_ptr<juce::Slider> pPeakSlider;
 #if _OPEN_FILTERS
@@ -109,8 +114,12 @@ private:
 
     juce::TextButton resetAllButton;
 
-    juce::ToggleButton switchPitchMethodButton;
-    juce::ToggleButton switchVoiceConversionButton;
+    juce::ImageButton switchPitchMethodButton;
+    juce::ImageButton switchVoiceConversionButton;
+    juce::Label timeDomainLabel;
+    juce::Label freqDomainLabel;
+    juce::Label specificConversionLabel;
+    juce::Label generalConversionLabel;
     juce::TextButton openCameraButton;
 
     juce::TextButton openDawButton;

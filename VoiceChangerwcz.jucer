@@ -4,6 +4,13 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
               cppLanguageStandard="17" pluginFormats="buildStandalone,buildVST3">
   <MAINGROUP id="PQHAjN" name="VoiceChanger_wcz">
+    <GROUP id="{E2101A43-E343-7B3E-3D73-6F47024144EB}" name="Resources">
+      <FILE id="U2KcHO" name="background_texture_dark_headline.jpg" compile="0"
+            resource="1" file="Resources/background_texture_dark_headline.jpg"/>
+      <FILE id="kzu5MJ" name="switch_left.png" compile="0" resource="1" file="Resources/switch_left.png"/>
+      <FILE id="LEdMGS" name="switch_right.png" compile="0" resource="1"
+            file="Resources/switch_right.png"/>
+    </GROUP>
     <GROUP id="{8A0336D4-38B0-17D2-A4CC-EA2E8DCCEAEB}" name="VC">
       <GROUP id="{D0258A41-5B5F-B204-11CE-16211C683C3F}" name="include">
         <GROUP id="{F245A14F-FF31-3CFE-F9DE-E8AF11582475}" name="vchsm">
@@ -479,6 +486,10 @@
         <FILE id="i10Kh0" name="CameraWindow.h" compile="0" resource="0" file="Source/CameraWindow.h"/>
       </GROUP>
       <GROUP id="{4724C889-89EA-1908-82AE-784D29B3E494}" name="Widgets">
+        <FILE id="DG3v5S" name="CustomLookAndFeel.cpp" compile="1" resource="0"
+              file="Source/CustomLookAndFeel.cpp"/>
+        <FILE id="JWOQtF" name="CustomLookAndFeel.h" compile="0" resource="0"
+              file="Source/CustomLookAndFeel.h"/>
         <FILE id="H9ALhD" name="PrintDebug.h" compile="0" resource="0" file="Source/PrintDebug.h"/>
       </GROUP>
     </GROUP>

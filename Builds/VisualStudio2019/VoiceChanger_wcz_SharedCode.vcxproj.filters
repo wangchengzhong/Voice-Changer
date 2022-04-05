@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="VoiceChanger_wcz\Resources">
+      <UniqueIdentifier>{A5D7B153-1FD5-B0EE-18CD-715F1A16BC78}</UniqueIdentifier>
+    </Filter>
     <Filter Include="VoiceChanger_wcz\VC\include\vchsm">
       <UniqueIdentifier>{A7670C5C-C221-65B5-60BE-D489D976B14B}</UniqueIdentifier>
     </Filter>
@@ -1748,6 +1751,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\AudioThumbnailCore.cpp">
       <Filter>VoiceChanger_wcz\Source\Meter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CustomLookAndFeel.cpp">
+      <Filter>VoiceChanger_wcz\Source\Widgets</Filter>
     </ClCompile>
     <ClCompile Include="..\..\rubberband\src\audiocurves\CompoundAudioCurve.cpp">
       <Filter>VoiceChanger_wcz\rubberband\src\audiocurves</Filter>
@@ -6722,6 +6728,9 @@
     <ClInclude Include="..\..\Source\CameraWindow.h">
       <Filter>VoiceChanger_wcz\Source\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\CustomLookAndFeel.h">
+      <Filter>VoiceChanger_wcz\Source\Widgets</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\PrintDebug.h">
       <Filter>VoiceChanger_wcz\Source\Widgets</Filter>
     </ClInclude>
@@ -11293,6 +11302,15 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Resources\background_texture_dark_headline.jpg">
+      <Filter>VoiceChanger_wcz\Resources</Filter>
+    </None>
+    <None Include="..\..\Resources\switch_left.png">
+      <Filter>VoiceChanger_wcz\Resources</Filter>
+    </None>
+    <None Include="..\..\Resources\switch_right.png">
+      <Filter>VoiceChanger_wcz\Resources</Filter>
+    </None>
     <None Include="..\..\speexdsp\include\speex\Makefile.am">
       <Filter>VoiceChanger_wcz\SpeexGlobal\speexdsp\include\speex</Filter>
     </None>
