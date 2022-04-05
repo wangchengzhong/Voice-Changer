@@ -11305,7 +11305,7 @@
     <None Include="..\..\Resources\background_texture_dark_headline.jpg">
       <Filter>VoiceChanger_wcz\Resources</Filter>
     </None>
-    <None Include="..\..\Resources\icon.jpg">
+    <None Include="..\..\Resources\logo.png">
       <Filter>VoiceChanger_wcz\Resources</Filter>
     </None>
     <None Include="..\..\Resources\switch_left.png">

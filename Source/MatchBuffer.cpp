@@ -489,8 +489,8 @@ void BufferMatch::setTempo(double newTempo)
     spxDownSize = (spx_uint32_t)(sampleReq / sampleRate * 16000);
     vcOrigBuffer.resize((int)sampleReq / sampleRate * 16000);
     vcConvertedBuffer.resize((int)sampleReq / sampleRate * 16000);
-    downResampler = speex_resampler_init(1, sampleRate, (int)16000, 0, &err);
-	upResampler = speex_resampler_init(1, (int)16000, sampleRate, 0, &err);
+    downResampler = speex_resampler_init(1, sampleRate, (int)16000, 3, &err);
+	upResampler = speex_resampler_init(1, (int)16000, sampleRate, 3, &err);
 }
 
 
@@ -567,14 +567,14 @@ void BufferMatch::processSamples()
 
 	// while ((int)inputBuffer.numSamples() >= sampleReq)
     {
-     // sampleReq   
-        seekWindowLength = (int)inputBuffer.numSamples();
+        seekWindowLength = (int)inputBuffer.numSamples();// -seekLength;
         //sampleReq = seekWindowLength + seekLength;
         nominalSkip = static_cast<double>(seekWindowLength - overlapLength);
         // DBG((int)inputBuffer.numSamples());
         spxUpSize = static_cast<spx_uint32_t>(inputBuffer.numSamples());
-        spxDownSize = static_cast<spx_uint32_t>(spxUpSize / sampleRate * 16000 + 0.5);
-        vcOrigBuffer.clear(); vcConvertedBuffer.clear();
+        spxDownSize = static_cast<spx_uint32_t>((int)((float)inputBuffer.numSamples() / sampleRate * 16000) + 0.5);
+        DBG(static_cast<int>(spxDownSize));
+    	// vcOrigBuffer.clear(); vcConvertedBuffer.clear();
     	vcOrigBuffer.resize(spxDownSize);
         vcConvertedBuffer.resize(spxDownSize);
         

@@ -141,14 +141,14 @@ public:
     	if(currentEnergy < energyThreshold)
         {
             silenceCount++;
-            if(silenceCount > 90)
+            if(silenceCount > 100)
             {
                 output.writePointerArray(silenceBuffer.data(), numInputSample);
                 output.copyToBuffer(numInputSample);
             	input.readPos[0] = input.readPos[0] + numInputSample;
                 prevEnergy = currentEnergy;
             }
-            else if((currentEnergy < prevEnergy) && (numInputSample > 46000))
+            else if((currentEnergy < prevEnergy) && (numInputSample > 45000) && silenceCount > 1)
             {
                 prevEnergy = currentEnergy;
                 vc->putSamples(input.readPointerArray(numInputSample), static_cast<uint>(numInputSample));
@@ -230,7 +230,7 @@ private:
     int samplesPerBlock;
     juce::SpinLock paramLock;
 
-    const double energyThreshold{ 0.01 };
+    const double energyThreshold{ 0.02 };
     const int silenceCountThreshold{ 90 };
     double currentEnergy{ 0 };
     double prevEnergy{ 10000 };

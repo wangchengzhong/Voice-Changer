@@ -11,8 +11,8 @@ namespace BinaryData
     extern const char*   background_texture_dark_headline_jpg;
     const int            background_texture_dark_headline_jpgSize = 138008;
 
-    extern const char*   icon_jpg;
-    const int            icon_jpgSize = 211483;
+    extern const char*   logo_png;
+    const int            logo_pngSize = 4236;
 
     extern const char*   switch_left_png;
     const int            switch_left_pngSize = 653;

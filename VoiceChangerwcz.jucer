@@ -7,7 +7,7 @@
     <GROUP id="{E2101A43-E343-7B3E-3D73-6F47024144EB}" name="Resources">
       <FILE id="U2KcHO" name="background_texture_dark_headline.jpg" compile="0"
             resource="1" file="Resources/background_texture_dark_headline.jpg"/>
-      <FILE id="er6KPX" name="icon.jpg" compile="0" resource="1" file="Resources/icon.jpg"/>
+      <FILE id="VMSVlz" name="logo.png" compile="0" resource="1" file="Resources/logo.png"/>
       <FILE id="kzu5MJ" name="switch_left.png" compile="0" resource="1" file="Resources/switch_left.png"/>
       <FILE id="LEdMGS" name="switch_right.png" compile="0" resource="1"
             file="Resources/switch_right.png"/>
@@ -641,7 +641,7 @@
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>
-    <VS2019 targetFolder="Builds/VisualStudio2019" bigIcon="er6KPX" smallIcon="er6KPX">
+    <VS2019 targetFolder="Builds/VisualStudio2019" bigIcon="VMSVlz" smallIcon="VMSVlz">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="VoiceChangerwcz" libraryPath="D:\1a\tools\rubberband-2.0.0\otherbuilds\x64\Debug"
                        defines="NOMINMAX&#10;_USE_MATH_DEFINES&#10;HAVE_KISSFFT&#10;USE_SPEEX&#10;JUCE_MODAL_LOOPS_PERMITTED=1&#10;JUCE_USE_CAMERA&#10;"

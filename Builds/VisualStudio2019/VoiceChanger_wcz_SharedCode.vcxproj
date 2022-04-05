@@ -6258,7 +6258,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\background_texture_dark_headline.jpg" />
-    <None Include="..\..\Resources\icon.jpg" />
+    <None Include="..\..\Resources\logo.png" />
     <None Include="..\..\Resources\switch_left.png" />
     <None Include="..\..\Resources\switch_right.png" />
     <None Include="..\..\speexdsp\include\speex\Makefile.am" />

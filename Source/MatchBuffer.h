@@ -107,7 +107,7 @@
         float maxnormf;
 
         double nominalSkip;
-        double skipFract{ 0 };
+        double skipFract;
 
         bool bQuickSeek;
         bool isBeginning;
