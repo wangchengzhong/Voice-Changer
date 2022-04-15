@@ -1456,6 +1456,12 @@
     <Filter Include="JUCE Library Code">
       <UniqueIdentifier>{7ED5A90E-41AF-A1EF-659B-37CEEAB9BA61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="VoiceChanger_wcz\VC\VoiceConversionImpl">
+      <UniqueIdentifier>{47a793f8-ccf3-4e06-8062-9221337cdce9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\VC\VoiceConversionImpl\HSMAnalysis">
+      <UniqueIdentifier>{d734aef2-ad05-469c-9eae-06138c9660c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\VC\src\aaalsf.cpp">
@@ -1741,9 +1747,6 @@
       <Filter>VoiceChanger_wcz\Source\Daw\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\EqualizerEditor.cpp">
-      <Filter>VoiceChanger_wcz\Source\Eq</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\EqComponent.cpp">
       <Filter>VoiceChanger_wcz\Source\Eq</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\FIFOBuffer.cpp">
@@ -6189,6 +6192,33 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_tracktion_graph.cpp">
       <Filter>JUCE Library Code</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\VC\VoiceConversionImpl.cpp">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VC\HSManalysis.cpp">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl\HSMAnalysis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VC\PolarityAnalysis.cpp">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl\HSMAnalysis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VC\DecomposePhase.cpp">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl\HSMAnalysis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VC\StochasticAnalysis.cpp">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl\HSMAnalysis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VC\HSMwfwConvert.cpp">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VC\HSMsynthesize.cpp">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VC\F0analysis.cpp">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl\HSMAnalysis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VC\HarmonicAnalysis.cpp">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl\HSMAnalysis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\VC\include\vchsm\C_Swift_bridge_header.h">
@@ -6654,9 +6684,6 @@
       <Filter>VoiceChanger_wcz\Source\Eq</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\EqualizerEditor.h">
-      <Filter>VoiceChanger_wcz\Source\Eq</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\EqComponent.h">
       <Filter>VoiceChanger_wcz\Source\Eq</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Analyser.h">
@@ -11299,6 +11326,33 @@
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\JucePluginDefines.h">
       <Filter>JUCE Library Code</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VC\VoiceConversionImpl.h">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VC\HSMwfwConvert.h">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VC\HSMsynthesize.h">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VC\HSManalysis.h">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl\HSMAnalysis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VC\F0analysis.h">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl\HSMAnalysis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VC\HarmonicAnalysis.h">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl\HSMAnalysis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VC\StochasticAnalysis.h">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl\HSMAnalysis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VC\PolarityAnalysis.h">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl\HSMAnalysis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VC\DecomposePhase.h">
+      <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl\HSMAnalysis</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

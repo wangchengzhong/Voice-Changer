@@ -7,8 +7,8 @@ int polarityanalysis(PicosStructArray& picos)
 	int pol = 0;
 	Eigen::TFloat polE = 0.0;
 	auto a = static_cast<int>(picos.size());
-	auto t = (int)(a / 120);
-	concurrency::parallel_for(size_t(0), (size_t)120, [&](size_t m)
+	auto t = (int)(a / 20);
+	concurrency::parallel_for(size_t(0), (size_t)20, [&](size_t m)
 
 		{
 
@@ -39,7 +39,7 @@ int polarityanalysis(PicosStructArray& picos)
 		});
 
 
-	for (int k = 120 * t + 1; k <= picos.size(); k++)
+	for (int k = 20 * t + 1; k <= picos.size(); k++)
 		// for (int k = 1; k <= picos.size(); k++)
 	{
 		if (picos[k - 1].f0 > 0)

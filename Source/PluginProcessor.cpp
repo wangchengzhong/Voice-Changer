@@ -174,8 +174,10 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
 	, readAheadThread("transport read ahead")
     // , trainingTemplate(sourceBufferAligned, targetBufferAligned, voiceChangerParameter)
     , state(*this, &undo, "PARAMS", createParameterLayout())
+	, internalWriteThread("internalWriteThread")
 
 {
+    
     formatManager.registerBasicFormats();
     readAheadThread.startThread(3);
 #if _OPEN_FILTERS
@@ -206,16 +208,11 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
     state.addParameterListener("rmsPeriod", this);
     state.addParameterListener("smoothing", this);
 
-    
-
     state.state = juce::ValueTree(JucePlugin_Name);
 #endif
 
-
     addParameter(nPitchShift = new juce::AudioParameterFloat("PitchShift", "pitchShift", -12.0f, 12.0f, 0.0f));
     addParameter(nPeakShift = new juce::AudioParameterFloat("PeakShift", "peakShift", 0.5f, 2.0f, 1.f));
-
-
 
     addParameter(nDynamicsThreshold = new juce::AudioParameterFloat("DynamicsThreshold", "dynamicsThreshold", -50, 0.0, -3.0f));
     addParameter(nDynamicsRatio = new juce::AudioParameterFloat("DynamicsRatio", "dynamicsRatio", 1.0f, 25.0f, 5.0f));
@@ -305,6 +302,13 @@ void VoiceChanger_wczAudioProcessor::changeProgramName (int index, const juce::S
 //==============================================================================
 void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    fileBuffer.setSize(2, sampleRate * 60);
+    internalWriteThread.startThread(7);
+    //internalRecordingStream = new FileOutputStream(File::getSpecialLocation(File::userDesktopDirectory).getChildFile("test.wav"));
+    //WavAudioFormat format;
+    //internalRecordWriter = format.createWriterFor(internalRecordingStream, sampleRate, 2, 16, StringPairArray(), 0);
+    //threadedInternalRecording = new AudioFormatWriter::ThreadedWriter(internalRecordWriter, internalWriteThread,4800000);
+
     setLatencySamples(44100 * 5);
     transportSource.prepareToPlay(samplesPerBlock, sampleRate);
 #if _OPEN_FILTERS
@@ -325,8 +329,6 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
     inputAnalyser.setupAnalyser(int(sampleRate), float(sampleRate));
     outputAnalyser.setupAnalyser(int(sampleRate), float(sampleRate));
 #endif
-
-
 
     const auto numberOfChannels = getTotalNumInputChannels();
     rmsLevels.clear();
@@ -428,6 +430,10 @@ void VoiceChanger_wczAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
+    // isInternalRecording = false;
+	// internalWriteThread.stopThread(1000);
+    // threadedInternalRecording = nullptr;
+    // internalRecordWriter = nullptr;
     transportSource.releaseResources();
 #if _OPEN_FILTERS
     inputAnalyser.stopThread(1000);
@@ -498,6 +504,11 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
         //}
         //spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
     }
+    const ScopedLock s1(writerLock);
+    if (activeWriter.load() != nullptr)
+    {
+        activeWriter.load()->write(buffer.getArrayOfReadPointers(), buffer.getNumSamples());
+    }
 }
 void VoiceChanger_wczAudioProcessor::getNextAudioBlock(juce::AudioSourceChannelInfo& buffer)
 {
@@ -551,7 +562,7 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
 
 #if _OPEN_PEAK_PITCH
 #if USE_3rdPARTYPITCHSHIFT
-    if ( !openVoiceConversion)
+    //  if ( !openVoiceConversion)
     {
 #if USE_SOUNDTOUCH
     	if ( !useFD)
@@ -1299,28 +1310,8 @@ float VoiceChanger_wczAudioProcessor::getPlayAudioFilePosition()
 {
     return nPlayAudioFilePosition / nPlayAudioFileSampleNum;
 }
-//bool VoiceChanger_wczAudioProcessor::isUpdateParameter()
-//{
-//    bool result = updataParamFlag;
-//    updataParamFlag = false;
-//    return result;
-//}
-//void VoiceChanger_wczAudioProcessor::syncPluginParameter()
-//{
-//    if (*nPitchShift != postPitchShift)
-//    {
-//        pitchShifter.setPitchRatio(*nPitchShift);
-//        pitchShifterRight.setPitchRatio(*nPitchShift);
-//        postPitchShift = *nPitchShift;
-//        updataParamFlag = true;
-//    }
-//    if (*nPeakShift != postPeakShift)
-//    {
-//        peakShifter.setPitchRatio(*nPeakShift);
-//        postPeakShift = *nPeakShift;
-//        updataParamFlag = true;
-//    }
-//}
+
+
 juce::Image& VoiceChanger_wczAudioProcessor::getSpectrumView()
 {
     if (pitchShifters[0]->getProcessFlag())
@@ -1448,14 +1439,6 @@ void VoiceChanger_wczAudioProcessor::setState(TransportState newState)
         break;
     }
 }
-void VoiceChanger_wczAudioProcessor::alignBuffer(juce::AudioSampleBuffer& s, juce::AudioSampleBuffer& t)
-{
-    if(s.getNumChannels()>=2)
-        if (s.getNumChannels() == t.getNumChannels())
-        {
-        
-        }
-}
 
 void VoiceChanger_wczAudioProcessor::loadFileIntoTransport(const File& audioFile)
 {
@@ -1478,3 +1461,40 @@ void VoiceChanger_wczAudioProcessor::loadFileIntoTransport(const File& audioFile
         );
     }
 }
+void VoiceChanger_wczAudioProcessor::stop()
+{
+    {
+        const ScopedLock s1(writerLock);
+        activeWriter = nullptr;
+    }
+    threadedWriter = nullptr;
+}
+
+void VoiceChanger_wczAudioProcessor::startRecording(const File& file)
+{
+    stop();
+    if (sampleRate > 0)
+    {
+        file.deleteFile();
+        if (auto fileStream = std::unique_ptr<FileOutputStream>(file.createOutputStream()))
+        {
+            WavAudioFormat wavFormat;
+            if (auto writer = wavFormat.createWriterFor(fileStream.get(), sampleRate, 2, 16, {}, 0))
+            {
+                fileStream.release();
+                threadedWriter.reset(new AudioFormatWriter::ThreadedWriter
+                (writer, internalWriteThread, 32768));
+
+                const ScopedLock s1(writerLock);
+                activeWriter = threadedWriter.get();
+            }
+        }
+    }
+}
+void VoiceChanger_wczAudioProcessor::stopRecording()
+{
+    stop();
+    lastRecording = parentDir.getNonexistentChildFile("VoiceChanger_wcz Recording", ".wav");
+}
+
+

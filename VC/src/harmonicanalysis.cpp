@@ -11,8 +11,8 @@ PicosStructArray harmonicanalysis(Eigen::Ref<const Eigen::TRowVectorX>  x, Eigen
 	auto size = pms.size();
 
 	auto a = static_cast<int>(size);
-	auto t = (int)(a / 120);
-	concurrency::parallel_for(size_t(0), (size_t)120, [&](size_t m)
+	auto t = (int)(a / 20);
+	concurrency::parallel_for(size_t(0), (size_t)20, [&](size_t m)
 
 		{
 			for (int k = m * t + 1; k < (m + 1) * t + 1; k++)
@@ -69,7 +69,7 @@ PicosStructArray harmonicanalysis(Eigen::Ref<const Eigen::TRowVectorX>  x, Eigen
 			}
 		});
 
-	for (int k = 120 * t + 1; k <= size; k++)
+	for (int k = 20 * t + 1; k <= size; k++)
 		//for (int k = 1; k <= size; k++)
 	{
 		picos[k - 1].pm = pms(k - 1);

@@ -8,8 +8,8 @@ void decomposephase(PicosStructArray& picos)
 
 	// Like MATLAB, iterate over picos
 	auto a = picos.size();
-	auto t = (int)(a / 120);
-	concurrency::parallel_for(size_t(0), (size_t)120, [&](size_t m)
+	auto t = (int)(a / 20);
+	concurrency::parallel_for(size_t(0), (size_t)20, [&](size_t m)
 		{
 			for (int i = m * t; i < (m + 1) * t; i++)
 				//for (int i = 0; i < picos.size(); i++)
@@ -23,7 +23,7 @@ void decomposephase(PicosStructArray& picos)
 					}
 				}
 		});
-	for (int i = 120 * t; i < picos.size(); i++)
+	for (int i = 20 * t; i < picos.size(); i++)
 		//for (int i = 0; i < picos.size(); i++)
 	{
 		auto& pk = picos[i];

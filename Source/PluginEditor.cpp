@@ -235,29 +235,34 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     playFileButton.onClick = [this] { playFileButtonClicked(); };
     playFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::hotpink);
     playFileButton.setEnabled(true);
-    AudioProcessorEditor::addAndMakeVisible(&playFileButton);
+    addAndMakeVisible(&playFileButton);
 
-    // pPlayPositionSlider.reset(new juce::Slider("PlayPositionSlider"));
-    // pPlayPositionSlider->setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
-    // pPlayPositionSlider->setRange(0, duration, 0.01f);
-    // pPlayPositionSlider->addListener(this);
-    // addAndMakeVisible(pPlayPositionSlider.get());
-    // pPlayPositionSlider->setBounds(545, 320, 370, 30);
 
-    // audioProcessor.transportSource.addChangeListener(this);
+    openInnerRecordingButton.setButtonText(juce::CharPointer_UTF8("\xe5\x86\x85\xe5\xbd\x95"));
+    openInnerRecordingButton.onClick = [this] {audioProcessor.startRecording(audioProcessor.lastRecording); };
+    openInnerRecordingButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
+    openInnerRecordingButton.setEnabled(true);
+    addAndMakeVisible(&openInnerRecordingButton);
+    closeInnerRecordingButton.setButtonText(juce::CharPointer_UTF8("\xe5\x81\x9c\xe6\xad\xa2"));
+    closeInnerRecordingButton.onClick = [this] {audioProcessor.stopRecording(); };
+    closeInnerRecordingButton.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
+    closeInnerRecordingButton.setEnabled(true);
+    addAndMakeVisible(&closeInnerRecordingButton);
 
 
     openTemplateWindowButton.setButtonText(juce::CharPointer_UTF8("\xe5\xbd\x95\xe5\x85\xa5\xe6\xa8\xa1\xe6\x9d\xbf"));
     openTemplateWindowButton.onClick = [this] { openTemplateWindowButtonClicked(); };
     openTemplateWindowButton.setColour(juce::TextButton::buttonColourId, juce::Colours::cornflowerblue);
     openTemplateWindowButton.setEnabled(true);
-    AudioProcessorEditor::addAndMakeVisible(&openTemplateWindowButton);
+    addAndMakeVisible(&openTemplateWindowButton);
 
     openCameraButton.setButtonText(juce::CharPointer_UTF8("\xe6\x89\x93\xe5\xbc\x80\xe6\x91\x84\xe5\x83\x8f\xe5\xa4\xb4"));
     openCameraButton.onClick = [this] { openCameraButtonClicked(); };
     openCameraButton.setColour(juce::TextButton::buttonColourId, juce::Colours::yellowgreen);
     openCameraButton.setEnabled(true);
     addAndMakeVisible(&openCameraButton);
+
+    
     //recWindow = new TemplateRecordingWindow("TemplateRecording", juce::Colours::grey, juce::DocumentWindow::allButtons);
     //recWindow->setUsingNativeTitleBar(true);
     //recWindow->setSize(600, 600);
@@ -366,10 +371,14 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
     openFileButton.setBounds(570, 380, a, 40);
     playFileButton.setBounds(570, 450, a, 40);
     stopPlayFileButton.setBounds(570, 520, a, 40);
+
+    openInnerRecordingButton.setBounds(800, 380, getWidth() / 24, 40);
+    closeInnerRecordingButton.setBounds(800 + getWidth() / 24, 380, getWidth() / 24, 40);
+    openTemplateWindowButton.setBounds(800, 450, getWidth() / 12, 40);
+    openCameraButton.setBounds(800, 520, getWidth() / 12, 40);
     
-    openTemplateWindowButton.setBounds(800, 390, AudioProcessorEditor::getWidth() / 12, 70);
-    openCameraButton.setBounds(800, 480, getWidth() / 12, 70);
-    audioSetupComp.setBounds(545, 20, 400, 100);
+
+	audioSetupComp.setBounds(545, 20, 400, 100);
     //playAudioFileComponent.setBounds(AudioProcessorEditor::getLocalBounds());
 
     circularMeterL.setBounds(970, 20, 400, 400);

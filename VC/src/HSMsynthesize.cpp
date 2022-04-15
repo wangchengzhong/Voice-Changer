@@ -41,8 +41,8 @@ Eigen::TRowVectorX synth(int L, int fs, const PicosStructArray & audioFeature)
 	std::normal_distribution<Eigen::TFloat> nd; // standard normal distribution.
 
 	auto a = Npm;
-	auto t = (int)(a / 120);
-	concurrency::parallel_for(size_t(0), (size_t)120, [&](size_t m)
+	auto t = (int)(a / 20);
+	concurrency::parallel_for(size_t(0), (size_t)20, [&](size_t m)
 
 		{
 		for (size_t k = m * t + 1; k < (m + 1) * t + 1; k++)
@@ -92,7 +92,7 @@ Eigen::TRowVectorX synth(int L, int fs, const PicosStructArray & audioFeature)
 
 
 
-	for (size_t k = 120 * t + 1; k <= Npm; k++)
+	for (size_t k = 20 * t + 1; k <= Npm; k++)
 		// for (std::size_t k = 1; k <= Npm; k++)
 	{
 		auto n2 = picos[k - 1].pm;

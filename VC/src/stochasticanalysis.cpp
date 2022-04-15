@@ -8,7 +8,7 @@
 #include "almostEqual.h"
 #include <limits>
 #include"ppl.h"
-
+#include "stochasticanalysis.h"
 // Clang cannot link Tolerance<double>, which is quite OK in visual studio.
 // Just define it as a macro here
 #define Tolerance_double 1.0e-12
@@ -34,8 +34,8 @@ void stochasticanalysis(Eigen::Ref<const Eigen::TRowVectorX> x, Eigen::TFloat fs
 	auto seq5 = seq(-N, -1); //-N: -1
 
 	auto a = static_cast<int>(Npm);
-	auto t = (int)(a / 120);
-	concurrency::parallel_for(size_t(0), (size_t)120, [&](size_t m)
+	auto t = (int)(a / 20);
+	concurrency::parallel_for(size_t(0), (size_t)20, [&](size_t m)
 
 		{
 
@@ -72,7 +72,7 @@ void stochasticanalysis(Eigen::Ref<const Eigen::TRowVectorX> x, Eigen::TFloat fs
 
 
 
-	for (int k = 120 * t; k <= Npm - 1; k++)
+	for (int k = 20 * t; k <= Npm - 1; k++)
 	{
 		if (k == 0)
 			continue;
@@ -119,7 +119,7 @@ void stochasticanalysis(Eigen::Ref<const Eigen::TRowVectorX> x, Eigen::TFloat fs
 	//Eigen::TRowVectorX R(1 + ordenLPC);
 
 
-	concurrency::parallel_for(size_t(0), (size_t)120, [&](size_t m)
+	concurrency::parallel_for(size_t(0), (size_t)20, [&](size_t m)
 
 		{
 			// better to allocate the fixed-length matrix outside for-loop
@@ -153,7 +153,7 @@ void stochasticanalysis(Eigen::Ref<const Eigen::TRowVectorX> x, Eigen::TFloat fs
 	Eigen::TRowVectorX trama(N);
 	Eigen::TRowVectorX R(1 + ordenLPC);
 
-	for (int k = 120 * t + 1; k <= Npm; k++)
+	for (int k = 20 * t + 1; k <= Npm; k++)
 		// for (int k = 1; k <= Npm; k++)
 	{
 		trama = ye_.segment(picos[k - 1].pm - static_cast<int>(std::floor(N / 2.0)) - 1, N).cwiseProduct(hnnN);

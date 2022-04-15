@@ -70,9 +70,9 @@ void HSMwfwconvert(const HSMModel & model, PicosStructArray & picos)
 	//Eigen::TRowVectorX PP(mm);
 	//auto P2 = P; // (1/Psum)*P
 	auto abc = static_cast<int>(picos.size());
-	auto t = (int)(abc / 120);
+	auto t = (int)(abc / 20);
 
-	concurrency::parallel_for(size_t(0), (size_t)120, [&](size_t aaa)
+	concurrency::parallel_for(size_t(0), (size_t)20, [&](size_t aaa)
 
 	{
 
@@ -269,7 +269,7 @@ void HSMwfwconvert(const HSMModel & model, PicosStructArray & picos)
 		Eigen::TRowVectorX P(m);
 		Eigen::TRowVectorX PP(mm);
 		auto P2 = P; // (1/Psum)*P
-		for (int k = 120*t+1; k <= (int)picos.size(); k++)
+		for (int k = 20*t+1; k <= (int)picos.size(); k++)
 
 			//for (int k = 1; k <= (int)picos.size(); k++)
 		{

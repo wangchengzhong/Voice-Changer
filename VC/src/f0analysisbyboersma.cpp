@@ -72,8 +72,8 @@ Eigen::TRowVectorX f0analysisbyboersma(const Eigen::Ref<const Eigen::TRowVectorX
 
 
 	auto a = static_cast<int>(pms.size());
-	auto t = (int)(a / 120);
-	concurrency::parallel_for(size_t(0), (size_t)120, [&](size_t m)
+	auto t = (int)(a / 20);
+	concurrency::parallel_for(size_t(0), (size_t)20, [&](size_t m)
 
 		{
 			Eigen::TRowVectorX rk(Ncandidates - 1);
@@ -149,7 +149,7 @@ Eigen::TRowVectorX f0analysisbyboersma(const Eigen::Ref<const Eigen::TRowVectorX
 
 	Eigen::TRowVectorX rk(Ncandidates - 1);
 	Eigen::TRowVectorX fk(Ncandidates - 1);
-	for (Eigen::Index k = 120 * t + 1; k <= pms.size(); k++)
+	for (Eigen::Index k = 20 * t + 1; k <= pms.size(); k++)
 
 		// for (Eigen::Index k = 1; k <= pms.size(); k++)
 	{

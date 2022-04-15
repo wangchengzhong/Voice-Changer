@@ -110,7 +110,7 @@ private:
     juce::TextButton stopPlayFileButton;
     // std::unique_ptr<juce::Slider> pPlayPositionSlider;
 
-    juce::TextButton openTemplateWindowButton;
+    
 
     juce::TextButton resetAllButton;
 
@@ -120,7 +120,12 @@ private:
     juce::Label freqDomainLabel;
     juce::Label specificConversionLabel;
     juce::Label generalConversionLabel;
+
+    juce::TextButton openTemplateWindowButton;
     juce::TextButton openCameraButton;
+    juce::TextButton openInnerRecordingButton;
+    juce::TextButton closeInnerRecordingButton;
+
 
     juce::TextButton openDawButton;
 
