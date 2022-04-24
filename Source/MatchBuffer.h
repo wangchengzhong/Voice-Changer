@@ -6,7 +6,6 @@
 
 #include"ppl.h"
 
-#ifndef TDStretch_H
 #define TDStretch_H
 #include"JuceHeader.h"
 #include <stddef.h>
@@ -85,8 +84,8 @@
         spx_uint32_t spxUpSize;
         spx_uint32_t spxDownSize;
 
-        HSMModel model;
-        const char* modelFile{ "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Models/Model.dat" };
+        HSMModel& model;
+        const char* modelFile{ "D:/Model.dat" };
 
         
         int channels;
@@ -150,17 +149,17 @@
         void processSamples();
 
     public:
-        BufferMatch(int sampleRate);
+        BufferMatch(int sampleRate, HSMModel& model);
         virtual ~BufferMatch();
 
         /// Operator 'new' is overloaded so that it automatically creates a suitable instance 
         /// depending on if we've a MMX/SSE/etc-capable CPU available or not.
-        static void* operator new(size_t s, int sampleRate);
+        static void* operator new(size_t s, int sampleRate, HSMModel& model);
 
         /// Use this function instead of "new" operator to create a new instance of this class. 
         /// This function automatically chooses a correct feature set depending on if the CPU
         /// supports MMX/SSE/etc extensions.
-        static BufferMatch* newInstance(int sampleRate);
+        static BufferMatch* newInstance(int sampleRate, HSMModel& model);
 
         /// Returns the output buffer object
         FIFOSamplePipe* getOutput() { return &outputBuffer; };
@@ -236,31 +235,3 @@
     };
 
 
-    // Implementation-specific class declarations:
-
-#ifdef SOUNDTOUCH_ALLOW_MMX
-    /// Class that implements MMX optimized routines for 16bit integer samples type.
-    class TDStretchMMX : public BufferMatch
-    {
-    protected:
-        double calcCrossCorr(const short* mixingPos, const short* compare, double& norm);
-        double calcCrossCorrAccumulate(const short* mixingPos, const short* compare, double& norm);
-        virtual void overlapStereo(short* output, const short* input) const;
-        virtual void clearCrossCorrState();
-    };
-#endif /// SOUNDTOUCH_ALLOW_MMX
-
-
-#ifdef SOUNDTOUCH_ALLOW_SSE
-    /// Class that implements SSE optimized routines for floating point samples type.
-    class TDStretchSSE : public BufferMatch
-    {
-    protected:
-        double calcCrossCorr(const float* mixingPos, const float* compare, double& norm);
-        double calcCrossCorrAccumulate(const float* mixingPos, const float* compare, double& norm);
-    };
-
-#endif /// SOUNDTOUCH_ALLOW_SSE
-
-
-#endif  /// TDStretch_H

@@ -13,6 +13,40 @@
             file="Resources/switch_right.png"/>
     </GROUP>
     <GROUP id="{8A0336D4-38B0-17D2-A4CC-EA2E8DCCEAEB}" name="VC">
+      <GROUP id="{D1F69828-B2EC-0CE4-8895-2B59851B3E44}" name="VoiceConversionImpl">
+        <GROUP id="{BC80F936-DCFD-5331-BEE9-550AAE740485}" name="HSMAnalysis">
+          <FILE id="Otey7i" name="DecomposePhase.cpp" compile="1" resource="0"
+                file="VC/DecomposePhase.cpp"/>
+          <FILE id="xfzUlu" name="DecomposePhase.h" compile="0" resource="0"
+                file="VC/DecomposePhase.h"/>
+          <FILE id="OseuDA" name="F0analysis.cpp" compile="1" resource="0" file="VC/F0analysis.cpp"/>
+          <FILE id="YiwOTp" name="F0analysis.h" compile="0" resource="0" file="VC/F0analysis.h"/>
+          <FILE id="NDF4gG" name="HarmonicAnalysis.cpp" compile="1" resource="0"
+                file="VC/HarmonicAnalysis.cpp"/>
+          <FILE id="VklMMc" name="HarmonicAnalysis.h" compile="0" resource="0"
+                file="VC/HarmonicAnalysis.h"/>
+          <FILE id="EgtxXo" name="HSManalysis.cpp" compile="1" resource="0" file="VC/HSManalysis.cpp"/>
+          <FILE id="KdHASO" name="HSManalysis.h" compile="0" resource="0" file="VC/HSManalysis.h"/>
+          <FILE id="bG6e3g" name="PolarityAnalysis.cpp" compile="1" resource="0"
+                file="VC/PolarityAnalysis.cpp"/>
+          <FILE id="uHhkqg" name="PolarityAnalysis.h" compile="0" resource="0"
+                file="VC/PolarityAnalysis.h"/>
+          <FILE id="v4p53y" name="StochasticAnalysis.cpp" compile="1" resource="0"
+                file="VC/StochasticAnalysis.cpp"/>
+          <FILE id="Lt15lW" name="StochasticAnalysis.h" compile="0" resource="0"
+                file="VC/StochasticAnalysis.h"/>
+        </GROUP>
+        <FILE id="hJo4lu" name="HSMsynthesize.cpp" compile="1" resource="0"
+              file="VC/HSMsynthesize.cpp"/>
+        <FILE id="ckz9SX" name="HSMsynthesize.h" compile="0" resource="0" file="VC/HSMsynthesize.h"/>
+        <FILE id="cGddf1" name="HSMwfwConvert.cpp" compile="1" resource="0"
+              file="VC/HSMwfwConvert.cpp"/>
+        <FILE id="b8uDPX" name="HSMwfwConvert.h" compile="0" resource="0" file="VC/HSMwfwConvert.h"/>
+        <FILE id="VfUNux" name="VoiceConversionImpl.cpp" compile="1" resource="0"
+              file="VC/VoiceConversionImpl.cpp"/>
+        <FILE id="An5jWV" name="VoiceConversionImpl.h" compile="0" resource="0"
+              file="VC/VoiceConversionImpl.h"/>
+      </GROUP>
       <GROUP id="{D0258A41-5B5F-B204-11CE-16211C683C3F}" name="include">
         <GROUP id="{F245A14F-FF31-3CFE-F9DE-E8AF11582475}" name="vchsm">
           <FILE id="iJsGgZ" name="C_Swift_bridge_header.h" compile="0" resource="0"
@@ -641,7 +675,8 @@
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>
-    <VS2019 targetFolder="Builds/VisualStudio2019" bigIcon="VMSVlz" smallIcon="VMSVlz">
+    <VS2019 targetFolder="Builds/VisualStudio2019" bigIcon="VMSVlz" smallIcon="VMSVlz"
+            extraCompilerFlags="/bigobj">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="VoiceChangerwcz" libraryPath="D:\1a\tools\rubberband-2.0.0\otherbuilds\x64\Debug"
                        defines="NOMINMAX&#10;_USE_MATH_DEFINES&#10;HAVE_KISSFFT&#10;USE_SPEEX&#10;JUCE_MODAL_LOOPS_PERMITTED=1&#10;JUCE_USE_CAMERA&#10;RTNEURAL_DEFAULT_ALIGNMENT=32&#10;RTNEURAL_USE_EIGEN=1"

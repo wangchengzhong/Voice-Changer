@@ -135,7 +135,7 @@ public:
 	void openButtonClicked(TransportFileType newType)
 	{
 		chooser = std::make_unique<juce::FileChooser>("select file..",
-			juce::File{}, "*.wav; *.flac; *.mp3");
+			juce::File{}, "*.wav; *.flac; *.mp3; *.m4a");
 		if (chooser->browseForFileToOpen())
 		{
 			auto file = chooser->getResult();
@@ -148,6 +148,7 @@ public:
 					auto duration = (float)reader->lengthInSamples / reader->sampleRate;
 					if (duration < 1000)
 					{
+						sourceSampleRate = reader->sampleRate;
 						audioProcessor.setState(Stopping);
 						audioProcessor.setTarget(newType);
 						// changeState(Stopping);
@@ -180,7 +181,8 @@ public:
 	{
 		// audioProcessor.setState(Starting);
 		// changeState(Starting);
-		convertSingle(modelFile, wavFile, convertedWavFile, 1);
+
+		// convertSingle(modelFile, wavFile, convertedWavFile, 1);
 	}
 	void stopButtonClicked()
 	{
@@ -189,35 +191,76 @@ public:
 	}
 	void projectButtonClicked()
 	{
-		const int n = 8;
-		const char* sourceAudioList[n];
-		const char* targetAudioList[n];
-		for(int i = 0; i < n; ++i)
+		std::vector<double> origBuffer;
+		std::vector<double> targetBuffer;
+		SpeexResamplerState* sourceDownResampler;
+		SpeexResamplerState* targetDownResampler;
+		juce::AudioBuffer<double> dblSourceBuffer;
+		juce::AudioBuffer<double> dblTargetBuffer;
+		dblSourceBuffer.setSize(1, audioProcessor. sourceBuffer.getNumSamples());
+		dblTargetBuffer.setSize(1, audioProcessor.targetBuffer.getNumSamples());
+
+		for(int i = 0; i < audioProcessor.sourceBuffer.getNumSamples(); i++)
 		{
-			char* buff = new char[100];
-			std::sprintf(buff, "%s%d.wav", sourceAudioDir, i + 1);
-			sourceAudioList[i] = buff;
-			buff = new char[100];
-			std::sprintf(buff, "%s%d.wav", targetAudioDir, i + 1);
-			targetAudioList[i] = buff;
+			dblSourceBuffer.setSample(0, i, audioProcessor.sourceBuffer.getSample(0, i));
 		}
+		for (int i = 0; i < audioProcessor.targetBuffer.getNumSamples(); i++)
+		{
+			dblTargetBuffer.setSample(0, i, audioProcessor.targetBuffer.getSample(0, i));
+		}
+		int errSource;
+		int errTarget;
+		spx_uint32_t sourceUpSize = audioProcessor.sourceBuffer.getNumSamples();
+		spx_uint32_t targetUpSize = audioProcessor.targetBuffer.getNumSamples();
+		spx_uint32_t sourceDownSize = static_cast<spx_uint32_t>((float)(audioProcessor.sourceBuffer.getNumSamples()) * 16000 / (float)sourceSampleRate + 1.0);
+		spx_uint32_t targetDownSize = static_cast<spx_uint32_t>((float)(audioProcessor.targetBuffer.getNumSamples()) * 16000 / (float)sourceSampleRate + 1.0);
+		origBuffer.resize(sourceDownSize);
+		targetBuffer.resize(targetDownSize);
+		sourceDownResampler = speex_resampler_init(1, (spx_uint32_t)sourceSampleRate, 16000, 8, &errSource);
+		errSource = speex_resampler_process_float(sourceDownResampler, 0, dblSourceBuffer.getReadPointer(0), &sourceUpSize,origBuffer.data(),&sourceDownSize);
+		targetDownResampler = speex_resampler_init(1, (spx_uint32_t)sourceSampleRate, (spx_uint32_t)16000, 8, &errTarget);
+		errTarget = speex_resampler_process_float(targetDownResampler, 0, dblTargetBuffer.getReadPointer(0), &targetUpSize, targetBuffer.data(), &targetDownSize);
+		//for(int i = 0; i < origBuffer.size(); i++)
+		//{
+		//	DBG(origBuffer[i]);
+		//}
+		trainHSMSingle(origBuffer, targetBuffer, 30, modelFile);
 		
-		trainHSMModel(sourceAudioList, targetAudioList, n, 50, modelFile, VERBOSE_TRUE);
-		for(int i = 0; i < n; ++i)
-		{
-			delete[] sourceAudioList[i];
-			delete[] targetAudioList[i];
-		}
+
+		//const int n = 8;
+		//const char* sourceAudioList[n];
+		//const char* targetAudioList[n];
+		//for(int i = 0; i < n; ++i)
+		//{
+		//	char* buff = new char[100];
+		//	std::sprintf(buff, "%s%d.wav", sourceAudioDir, i + 1);
+		//	sourceAudioList[i] = buff;
+		//	buff = new char[100];
+		//	std::sprintf(buff, "%s%d.wav", targetAudioDir, i + 1);
+		//	targetAudioList[i] = buff;
+		//}
+		//
+		//
+		//
+		//trainHSMModel(sourceAudioList, targetAudioList, n, 4, modelFile, VERBOSE_TRUE);
+		//for(int i = 0; i < n; ++i)
+		//{
+		//	delete[] sourceAudioList[i];
+		//	delete[] targetAudioList[i];
+		//}
 	}
 	bool playing{ false };
 private:
-	const char* sourceAudioDir = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/source_train/";
-	const char* targetAudioDir = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/target_train/";
-	const int numTrainSamples = 8;
+	
+	char* sourceAudioDir = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/source_train/";// juce::File::getSpecialLocation(File::userDocumentsDirectory);// "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/source_train/";
+	char* targetAudioDir = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/target_train/";
+	//const int numTrainSamples = 1;
 	//const char* modelFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/ModelsModel.dat";
-	const char* modelFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Models/Model.dat";
-	const char* wavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/source_train/1.wav";
-	const char* convertedWavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/test/jal_in_50_3_c.wav";
+	const char* modelFile = "D:/Model.dat";
+	//const char* wavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/source_train/1.wav";
+	//const char* convertedWavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/test/jal_in_50_3_c.wav";
+
+
 	// const char*  parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).cappendText("source_train/");
 	// auto sourceAudioDir1 = parentDir.createDirectory();
 	VoiceChanger_wczAudioProcessor& audioProcessor;
@@ -238,6 +281,7 @@ private:
 	juce::AudioThumbnailCache thumbnailCache;
 	juce::AudioThumbnail sourceThumbnail;
 	juce::AudioThumbnail targetThumbnail;
+	int sourceSampleRate;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TemplateProjectingWindow)
 };

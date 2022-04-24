@@ -1,6 +1,6 @@
 #include "PrepareParallelData.h"
 #include "types.h"
-
+#include"JuceHeader.h"
 
 std::pair<PicosStructArray, PicosStructArray> PrepareParallelData(const std::vector<PicosStructArray>& sourceHSMFeatureList, const std::vector<PicosStructArray>& targetHSMFeatureList, int index)
 {
@@ -36,6 +36,7 @@ std::pair<PicosStructArray, PicosStructArray> PrepareParallelData(const std::vec
 		std::vector<int> isvv(p.size());
 		for (int k = 1; k <= isvv.size(); k++)
 		{
+			// DBG((int)picos_source[p[k - 1] - 1].a.size());
 			isvv[k - 1] = (int)picos_source[p[k - 1] - 1].a.size() * (int)picos_target[q[k - 1] - 1].a.size();
 		}
 

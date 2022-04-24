@@ -13,7 +13,6 @@ PicosStructArray harmonicanalysis(Eigen::Ref<const Eigen::TRowVectorX>  x, Eigen
 	auto a = static_cast<int>(size);
 	auto t = (int)(a / 20);
 	concurrency::parallel_for(size_t(0), (size_t)20, [&](size_t m)
-
 		{
 			for (int k = m * t + 1; k < (m + 1) * t + 1; k++)
 			//	for (int k = 1; k <= size; k++)

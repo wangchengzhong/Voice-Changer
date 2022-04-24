@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,6 +33,8 @@ extern "C" {
      */
     void trainHSMModel(const char* sourceAudioList[], const char* targetAudioList[], 
 		int numTrainSamples, int m, const char* modelFile, int verbose);
+
+    void trainHSMSingle(std::vector<double>& origBuffer, std::vector<double>& targetBuffer, int m, const char* modelFile);
 
 #ifdef __cplusplus
 }

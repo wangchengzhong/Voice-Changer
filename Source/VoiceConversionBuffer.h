@@ -112,11 +112,11 @@ public:
     this is not accurate when enabled! By enabling minLatency some latency can be reduced with the
     expense of potential tearing during modulation with a change of the pitch parameter.
      */
-    VoiceConversionBuffer(int numChannels, double sampleRate, int samplesPerBlock, bool dryCompensationDelay = false, bool minLatency = false)
-        :samplesPerBlock(samplesPerBlock),sampleRate((int)sampleRate)
+    VoiceConversionBuffer(int numChannels, double sampleRate, int samplesPerBlock, HSMModel& model)
+        :samplesPerBlock(samplesPerBlock),sampleRate((int)sampleRate),model(model)
     {
 
-        vc = std::make_unique<VoiceConversion>(sampleRate);
+        vc = std::make_unique<VoiceConversion>(sampleRate,model);
         vc->setChannels(numChannels);
 
         input.initialise(numChannels, sampleRate * 20);
@@ -223,6 +223,7 @@ public:
     }
 
 private:
+    HSMModel& model;
     int sampleRate;
     std::unique_ptr<VoiceConversion> vc;
     RingBufferForVC input, output;

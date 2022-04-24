@@ -225,6 +225,11 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     openFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::mediumseagreen);
     AudioProcessorEditor::addAndMakeVisible(&openFileButton);
 
+    openModelButton.setButtonText(juce::CharPointer_UTF8("\xe5\x8a\xa0\xe8\xbd\xbd\xe6\xa8\xa1\xe5\x9e\x8b"));
+    openModelButton.onClick = [this] {openModelButtonClicked(); };
+    openModelButton.setColour(juce::TextButton::buttonColourId, juce::Colours::gold);
+    addAndMakeVisible(openModelButton);
+
     stopPlayFileButton.setButtonText(juce::CharPointer_UTF8("\xe6\x9a\x82\xe5\x81\x9c"));
     stopPlayFileButton.onClick = [this] { stopPlayFileButtonClicked(); };
     stopPlayFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
@@ -248,7 +253,6 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     closeInnerRecordingButton.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
     closeInnerRecordingButton.setEnabled(true);
     addAndMakeVisible(&closeInnerRecordingButton);
-
 
     openTemplateWindowButton.setButtonText(juce::CharPointer_UTF8("\xe5\xbd\x95\xe5\x85\xa5\xe6\xa8\xa1\xe6\x9d\xbf"));
     openTemplateWindowButton.onClick = [this] { openTemplateWindowButtonClicked(); };
@@ -359,7 +363,8 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
     mmButton.setBounds(340, 490, a, 30);
     realtimeButton.setBounds(340, 540, b, 30);
     offlineButton.setBounds(340 + b, 540, b, 30);
-    resetAllButton.setBounds(340, 290, a , 30);
+    resetAllButton.setBounds(340, 290, a / 2 , 30);
+    openModelButton.setBounds(340 + a / 2, 290, a / 2, 30);
 
     switchPitchMethodButton.setBounds(220, 375, 50 , 50);
     switchVoiceConversionButton.setBounds(220, 410, 50, 50);
@@ -517,6 +522,33 @@ void VoiceChanger_wczAudioProcessorEditor::openFileButtonClicked()
     }
     //);
 }
+
+void VoiceChanger_wczAudioProcessorEditor::openModelButtonClicked()
+{
+    juce::FileChooser chooser(juce::CharPointer_UTF8("\xe5\xaf\xbb\xe6\x89\xbe\xe6\xa8\xa1\xe5\x9e\x8b\xe6\x96\x87\xe4\xbb\xb6"),
+        juce::File::getSpecialLocation(juce::File::userDesktopDirectory), "*.dat");
+
+	if(chooser.browseForFileToOpen())
+    {
+        auto file = chooser.getResult();
+        if (file == juce::File{})
+            return;
+        // String filePath = File::getCurrentWorkingDirectory().getFullPathName();
+        auto filenameStr = file.getFullPathName().toStdString();
+        size_t start_pos = filenameStr.find("\\");
+        filenameStr.replace(start_pos, 1, "/");
+        auto filename = filenameStr.c_str();
+		{
+            // DBG(filename);
+            const ScopedLock s1(audioProcessor.modelWriterLock);
+            audioProcessor.model = deserializeModel(filename);
+            audioProcessor.vcb.release();
+            audioProcessor.vcb = std::make_unique<VoiceConversionBuffer>(1,audioProcessor.getSampleRate(), audioProcessor.samplesPerBlock, audioProcessor.model);
+        }
+        audioProcessor.isModelLoaded = true;
+    }
+}
+
 void VoiceChanger_wczAudioProcessorEditor::stopPlayFileButtonClicked()
 {
     //ti.setState(Stopping);
@@ -554,7 +586,7 @@ void VoiceChanger_wczAudioProcessorEditor::resetAllButtonClicked()
 }
 void VoiceChanger_wczAudioProcessorEditor::switchPitchMethodButtonClicked()
 {
-    if (audioProcessor.useFD)
+    if (audioProcessor.useFD.load())
         audioProcessor.useFD = false;
     else
         audioProcessor.useFD = true;
@@ -562,11 +594,24 @@ void VoiceChanger_wczAudioProcessorEditor::switchPitchMethodButtonClicked()
 
 void VoiceChanger_wczAudioProcessorEditor::switchVoiceConversionButtonClicked()
 {
-    if (audioProcessor.openVoiceConversion)
+    if (audioProcessor.openVoiceConversion.load())
         audioProcessor.openVoiceConversion = false;
     else
     {
-        audioProcessor.openVoiceConversion = true;
+	    if (audioProcessor.isModelLoaded.load())
+	    {
+            audioProcessor.openVoiceConversion = true;
+	    }
+	    else
+	    {
+            MessageBoxIconType icon = MessageBoxIconType::NoIcon;
+            icon = MessageBoxIconType::InfoIcon;
+            AlertWindow::showMessageBoxAsync(icon, juce::CharPointer_UTF8("\xe8\xad\xa6\xe5\x91\x8a")
+                , juce::CharPointer_UTF8("\xe5\x8a\xa0\xe8\xbd\xbd\xe6\xa8\xa1\xe5" \
+                    "\x9e\x8b\xe6\x96\x87\xe4\xbb\xb6\xe5\x90\x8e\xe6\x89\x8d\xe8\x83\xbd\xe6\x89\x93\xe5\xbc\x80"),
+                "OK");
+            switchVoiceConversionButton.setToggleState(false,dontSendNotification);
+	    }
     }
 }
 

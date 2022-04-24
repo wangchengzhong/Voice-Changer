@@ -302,6 +302,7 @@ void VoiceChanger_wczAudioProcessor::changeProgramName (int index, const juce::S
 //==============================================================================
 void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    this->samplesPerBlock = samplesPerBlock;
     fileBuffer.setSize(2, sampleRate * 60);
     internalWriteThread.startThread(7);
     //internalRecordingStream = new FileOutputStream(File::getSpecialLocation(File::userDesktopDirectory).getChildFile("test.wav"));
@@ -361,7 +362,7 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
     sts = std::make_unique<PitchShifterSoundTouch>(getTotalNumInputChannels(), sampleRate, samplesPerBlock);
 #endif
 #endif
-    vcb = std::make_unique<VoiceConversionBuffer>(1, sampleRate, samplesPerBlock);
+    // vcb = std::make_unique<VoiceConversionBuffer>(1, sampleRate, samplesPerBlock, model);
     // vadModule = WebRtcVad_Create();
     // int vaderr = WebRtcVad_Init(vadModule);
     // if (vaderr == -1)
@@ -469,9 +470,8 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
 {
     if (realtimeMode)
     {
-        if (!openVoiceConversion)
-            processLevelInfo(buffer);
         overallProcess(buffer);
+    	processLevelInfo(buffer);
     }
     else
     {
@@ -565,10 +565,10 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
     //  if ( !openVoiceConversion)
     {
 #if USE_SOUNDTOUCH
-    	if ( !useFD)
+    	if ( !useFD.load())
         	sts->processBuffer(buffer);
 #if USE_RUBBERBAND
-    	if ( useFD)
+        else
     		rbs->processBuffer(buffer);
     }
 #endif
@@ -577,26 +577,17 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
 #endif
     
 #if _SHOW_SPEC
-    if (openVoiceConversion)
+    if (openVoiceConversion.load()&&isModelLoaded.load())
     {
-    	
-        vcb->processBuffer(buffer);
-    	//vocodersForVoiceConversion[0]->process(buffer.getWritePointer(0), numSamples);
-        buffer.copyFrom(1, 0, buffer, 0, 0, numSamples);
+            vcb->processBuffer(buffer);
+            buffer.copyFrom(1, 0, buffer, 0, 0, numSamples);
     }
-    else
-    {
-        for (int channel = 0; channel < getNumInputChannels(); ++channel)
-        {
-            auto channelDataFlt = buffer.getWritePointer(channel);
-            pitchShifters[channel]->process(channelDataFlt, numSamples);
-            peakShifters[channel]->process(channelDataFlt, numSamples);
-        }
-    }
+    
+
 #endif
 #endif
 #if _OPEN_FILTERS
-    if ( !openVoiceConversion)
+    //if ( !openVoiceConversion)
     {
         if (getActiveEditor() != nullptr)
             inputAnalyser.addAudioData(buffer, 0, getTotalNumInputChannels());
@@ -612,6 +603,15 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
         if (getActiveEditor() != nullptr)
             outputAnalyser.addAudioData(buffer, 0, getTotalNumOutputChannels());
 
+    }
+
+    {
+        for (int channel = 0; channel < getNumInputChannels(); ++channel)
+        {
+            auto channelDataFlt = buffer.getWritePointer(channel);
+            pitchShifters[channel]->process(channelDataFlt, numSamples);
+            peakShifters[channel]->process(channelDataFlt, numSamples);
+        }
     }
 #endif
 #if _OPEN_TEST

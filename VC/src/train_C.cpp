@@ -10,7 +10,7 @@
 #include <fstream>
 #include <algorithm>
 #include <iostream>
-
+#include"JuceHeader.h"
 void trainHSMModelByConfig(const char* configFile, int verbose)
 {
 
@@ -35,8 +35,31 @@ void trainHSMModelByConfig(const char* configFile, int verbose)
     std::transform(targetAudioFiles.cbegin(), targetAudioFiles.cend(), targetAudioList.begin(),
                    [](const std::string& file){return file.c_str();});
     trainHSMModel(sourceAudioList.data(), targetAudioList.data(), numTrainSamples, m, modelFile.c_str(), verbose);
-	
+}
+void trainHSMSingle(std::vector<double>& origBuffer , std::vector<double>& targetBuffer, int m, const char* modelFile)
+{
+	const int fs = 16000;
+	Eigen::TRowVectorX sourceAudioDataList(origBuffer.size());
+	Eigen::TRowVectorX targetAudioDataList(targetBuffer.size());
 
+	for(int i = 0; i < origBuffer.size(); i++)
+	{
+		sourceAudioDataList[i] = origBuffer[i];
+ 	}
+	for(int i = 0; i < targetBuffer.size(); i++)
+	{
+		targetAudioDataList[i] = targetBuffer[i];
+	}
+	//memcpy(sourceAudioDataList.data(), origBuffer.data(), sizeof(double) * origBuffer.size());
+	//memcpy(targetAudioDataList.data(), targetBuffer.data(), sizeof(double) * targetBuffer.size());
+
+	std::vector<PicosStructArray> sourceHSMFeatureList, targetHSMFeatureList;
+	sourceHSMFeatureList.clear(); targetHSMFeatureList.clear();
+	sourceHSMFeatureList.push_back(HSManalyze_mfcc(sourceAudioDataList, fs));
+	targetHSMFeatureList.push_back(HSManalyze_mfcc(targetAudioDataList, fs));
+	auto corpus = PrepareParallelData(sourceHSMFeatureList, targetHSMFeatureList, 1);
+	auto model = HSMptraining(corpus, m);
+	serializeModel(model, modelFile);
 }
 
 void trainHSMModel(const char* sourceAudioList[], const char* targetAudioList[], 
@@ -65,6 +88,11 @@ void trainHSMModel(const char* sourceAudioList[], const char* targetAudioList[],
         sourceAudioDataList.emplace_back(readWav(sourceAudioList[i]));
         targetAudioDataList.emplace_back(readWav(targetAudioList[i]));
     }
+	auto x = readWav(sourceAudioList[0]);
+	for(int i = 0; i < x.size(); i++)
+	{
+		DBG((float)x[i]);
+	}
     
     // 2. MFCC
     std::vector<PicosStructArray> sourceHSMFeatureList(numTrainSamples), targetHSMFeatureList(numTrainSamples);

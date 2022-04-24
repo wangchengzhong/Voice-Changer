@@ -40,7 +40,7 @@ const short _scanOffsets[5][24] = {
  *****************************************************************************/
 
 
-BufferMatch::BufferMatch(int sampleRate) : FIFOProcessor(&outputBuffer), model(deserializeModel("D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Models/Model.dat"))
+BufferMatch::BufferMatch(int sampleRate, HSMModel& model) : FIFOProcessor(&outputBuffer), model(model)
 {
 
     bQuickSeek = false;
@@ -579,7 +579,7 @@ void BufferMatch::processSamples()
         vcConvertedBuffer.resize(spxDownSize);
         
         err = speex_resampler_process_float(downResampler, 0, inputBuffer.ptrBegin(), &spxUpSize, vcOrigBuffer.data(), &spxDownSize);
-        convertBlock(vcOrigBuffer, vcConvertedBuffer, 1, model);
+    	convertBlock(vcOrigBuffer, vcConvertedBuffer, 1, model);
         err = speex_resampler_process_float(upResampler, 0, vcConvertedBuffer.data(), &spxDownSize, inputBuffer.ptrBegin(), &spxUpSize);
         
         if (isBeginning == false)
@@ -701,44 +701,19 @@ void BufferMatch::acceptNewOverlapLength(int newOverlapLength)
 
 // Operator 'new' is overloaded so that it automatically creates a suitable instance 
 // depending on if we've a MMX/SSE/etc-capable CPU available or not.
-void* BufferMatch::operator new(size_t s, int sampleRate)
+void* BufferMatch::operator new(size_t s, int sampleRate, HSMModel& model)
 {
     // Notice! don't use "new BufferMatch" directly, use "newInstance" to create a new instance instead!
     THROW_RT_ERROR("Error in BufferMatch::new: Don't use 'new BufferMatch' directly, use 'newInstance' member instead!");
-    return newInstance(sampleRate);
+    return newInstance(sampleRate, model);
 }
 
 
-BufferMatch* BufferMatch::newInstance(int sampleRate)
+BufferMatch* BufferMatch::newInstance(int sampleRate, HSMModel& model)
 {
-    uint uExtensions;
-
-    // uExtensions = detectCPUextensions();
-
-    // Check if MMX/SSE instruction set extensions supported by CPU
-
-#ifdef SOUNDTOUCH_ALLOW_MMX
-    // MMX routines available only with integer sample types
-    if (uExtensions & SUPPORT_MMX)
-    {
-        return ::new TDStretchMMX;
-    }
-    else
-#endif // SOUNDTOUCH_ALLOW_MMX
-
-
-#ifdef SOUNDTOUCH_ALLOW_SSE
-        if (uExtensions & SUPPORT_SSE)
-        {
-            // SSE support
-            return ::new TDStretchSSE;
-        }
-        else
-#endif // SOUNDTOUCH_ALLOW_SSE
-
         {
             // ISA optimizations not supported, use plain C version
-            return ::new BufferMatch(sampleRate);
+            return ::new BufferMatch(sampleRate, model);
         }
 }
 

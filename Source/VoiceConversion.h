@@ -12,7 +12,7 @@ private:
 	class BufferMatch* pBufferMatch;
 	long samplesOutput;
 public:
-	VoiceConversion(int sampleRate);
+	VoiceConversion(int sampleRate, HSMModel& model);
 	~VoiceConversion();
 	void setChannels(uint numChannels);
 	// void setSampleRate(uint srate);

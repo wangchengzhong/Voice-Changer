@@ -49,8 +49,9 @@ class VoiceChanger_wczAudioProcessor :
 {
 public:
     void stop();
+    CriticalSection modelWriterLock;
     CriticalSection writerLock;
-    bool openVoiceConversion{ false };
+    std::atomic<bool> openVoiceConversion{ false };
     bool isInternalRecording{ false };
     TimeSliceThread internalWriteThread;
     std::unique_ptr<AudioFormatWriter::ThreadedWriter> threadedWriter;
@@ -162,7 +163,7 @@ public:
 
     void setPitchShift(float pitch);
     void setPeakShift(float peak);
-    bool useFD{ false };
+    std::atomic<bool> useFD{ false };
     
 
     void setDynamicsThresholdShift(float threshold);
@@ -288,15 +289,15 @@ public:
     void loadFileIntoTransport(const File& audioFile);
 
 
-    juce::AudioSampleBuffer fileBuffer;
+    juce::AudioBuffer<float> fileBuffer;
     int innerRecordSampleCount{ 0 };
-    juce::AudioSampleBuffer sourceBuffer;
-    juce::AudioSampleBuffer targetBuffer;
-
-
+    juce::AudioBuffer<float> sourceBuffer;
+    juce::AudioBuffer<float> targetBuffer;
+    std::atomic<bool> isModelLoaded{ false };
+    HSMModel model;
     // TrainingTemplate trainingTemplate;
     // std::vector<float> voiceChangerParameter;
-    juce::AudioSampleBuffer* pPlayBuffer;
+    juce::AudioBuffer<float>* pPlayBuffer;
     TransportInformation ti;
     void setTarget(TransportFileType ft)override;
     void setState(TransportState newState)override;
@@ -373,7 +374,10 @@ private:
     std::unique_ptr<PitchShifterSoundTouch> sts;
 #endif
 #endif
+public:
     std::unique_ptr<VoiceConversionBuffer> vcb;
+    int samplesPerBlock;
+private:
     // VadInst* vadModule;
     // juce::AudioProcessorValueTreeState parameters;
     juce::LinearSmoothedValue<float> gainLeft, gainRight;

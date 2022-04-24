@@ -68,6 +68,7 @@ private:
     void stopPlayFileButtonClicked();
     void playFileButtonClicked();
     void openFileButtonClicked();
+    void openModelButtonClicked();
     void openTemplateWindowButtonClicked();
     void openCameraButtonClicked();
     void openDawButtonClicked();
@@ -105,6 +106,7 @@ private:
     juce::TextButton realtimeButton;
     juce::TextButton offlineButton;
 
+    juce::TextButton openModelButton;
     juce::TextButton openFileButton;
     juce::TextButton playFileButton;
     juce::TextButton stopPlayFileButton;
