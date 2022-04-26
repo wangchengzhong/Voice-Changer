@@ -1,7 +1,8 @@
 #include"VoiceConversionImpl.h"
 VoiceConversionImpl::VoiceConversionImpl(HSMModel& model)
-	:hsmAnalysis(picos)
-	,hsmWfwConvert(model)
+	:picos(pms.size())
+	,hsmAnalysis(pms)
+	,hsmWfwConvert(model,picos)
 	,hsmSynthesize()
 {
 
@@ -9,7 +10,7 @@ VoiceConversionImpl::VoiceConversionImpl(HSMModel& model)
 void VoiceConversionImpl::processConversion(std::vector<double>& origBuffer, std::vector<double>& convertedBuffer, int verbose) noexcept
 {
 	bufferLength = origBuffer.size();
-	hsmAnalysis.processHSManalysis(x);
+	picos = hsmAnalysis.processHSManalysis(x);
 	hsmWfwConvert.processWfwConvert(picos);
 	hsmSynthesize.processSynthesize(picos,bufferLength);
 }

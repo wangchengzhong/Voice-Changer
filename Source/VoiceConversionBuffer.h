@@ -129,71 +129,71 @@ public:
     }
     void processBuffer(juce::AudioBuffer<float>& buffer)
     {
-        currentEnergy = buffer.getRMSLevel(0, 0, buffer.getNumSamples());
-        //DBG(currentEnergy);
-        for (int sample = 0; sample < buffer.getNumSamples(); sample++)
-        {
-            input.pushSample(buffer.getSample(0, sample), 0);
-            buffer.setSample(0, sample, 0);
-        }
-        int numInputSample = input.getAvailableSampleNum(0);
-        // DBG(numInputSample);
-    	if(currentEnergy < energyThreshold)
-        {
-            silenceCount++;
-            if(silenceCount > 100)
-            {
-                output.writePointerArray(silenceBuffer.data(), numInputSample);
-                output.copyToBuffer(numInputSample);
-            	input.readPos[0] = input.readPos[0] + numInputSample;
-                prevEnergy = currentEnergy;
-            }
-            else if((currentEnergy < prevEnergy) && (numInputSample > 45000) && silenceCount > 1)
-            {
-                prevEnergy = currentEnergy;
-                vc->putSamples(input.readPointerArray(numInputSample), static_cast<uint>(numInputSample));
-                // DBG(numInputSample);
-                //auto availableSamples = static_cast<int>(vc->numSamples());
+        //currentEnergy = buffer.getRMSLevel(0, 0, buffer.getNumSamples());
+        ////DBG(currentEnergy);
+        //for (int sample = 0; sample < buffer.getNumSamples(); sample++)
+        //{
+        //    input.pushSample(buffer.getSample(0, sample), 0);
+        //    buffer.setSample(0, sample, 0);
+        //}
+        //int numInputSample = input.getAvailableSampleNum(0);
+   
+    	//if(currentEnergy < energyThreshold)
+     //   {
+     //       silenceCount++;
+     //       if(silenceCount > 100)
+     //       {
+     //           output.writePointerArray(silenceBuffer.data(), numInputSample);
+     //           output.copyToBuffer(numInputSample);
+     //       	input.readPos[0] = input.readPos[0] + numInputSample;
+     //           prevEnergy = currentEnergy;
+     //       }
+     //       else if((currentEnergy < prevEnergy) && (numInputSample > 45000) && silenceCount > 1)
+     //       {
+     //           prevEnergy = currentEnergy;
+     //           vc->putSamples(input.readPointerArray(numInputSample), static_cast<uint>(numInputSample));
+     //           // DBG(numInputSample);
+     //           //auto availableSamples = static_cast<int>(vc->numSamples());
 
-                //if (availableSamples > 0)
-                //{
-                //    double* readSample = vc->ptrBegin();
-                //    output.writePointerArray(readSample, availableSamples);
-                //    uint a = vc->receiveSamples(static_cast<unsigned int>(availableSamples));
-                //    output.copyToBuffer(availableSamples);
-                //}
-            }
-        }
-        else
-        {
-            silenceCount = 0;
-            prevEnergy = currentEnergy;
-        }
+     //           //if (availableSamples > 0)
+     //           //{
+     //           //    double* readSample = vc->ptrBegin();
+     //           //    output.writePointerArray(readSample, availableSamples);
+     //           //    uint a = vc->receiveSamples(static_cast<unsigned int>(availableSamples));
+     //           //    output.copyToBuffer(availableSamples);
+     //           //}
+     //       }
+     //   }
+     //   else
+     //   {
+     //       silenceCount = 0;
+     //       prevEnergy = currentEnergy;
+     //   }
         
 
         //auto reqSamples = 22050;// 46300;// + underThresCount % 10000;//  (int)22050;//46305
         // // const juce::SpinLock::ScopedLockType lock(paramLock);
         //dryWet->pushDrySamples(buffer);
 
-        //for (int sample = 0; sample < buffer.getNumSamples(); sample++)
-        //{
-        //    // Loop to push samples to input buffer.
-        //    int channel = 0;
-        //	//for (int channel = 0; channel < buffer.getNumChannels(); channel++)
-        //    { 
-        //        input.pushSample(buffer.getSample(channel, sample), channel);
-        //        buffer.setSample(channel, sample, 0.0);
+        for (int sample = 0; sample < buffer.getNumSamples(); sample++)
+        {
+            // Loop to push samples to input buffer.
+            int channel = 0;
+        	//for (int channel = 0; channel < buffer.getNumChannels(); channel++)
+            { 
+                input.pushSample(buffer.getSample(channel, sample), channel);
+                buffer.setSample(channel, sample, 0.0);
 
-        //        //if (channel == buffer.getNumChannels() - 1)
-        //        {
-        //            if (reqSamples == input.getAvailableSampleNum(0))
-        //            {
-        //                //vc->setSequenceLength(reqSamples);
-        //                vc->putSamples(input.readPointerArray((int)reqSamples), static_cast<unsigned int>(reqSamples));
-        //            }
-        //        }
-        //    }
-        //}
+                //if (channel == buffer.getNumChannels() - 1)
+                {
+                    if (reqSamples == input.getAvailableSampleNum(0))
+                    {
+                        //vc->setSequenceLength(reqSamples);
+                        vc->putSamples(input.readPointerArray((int)reqSamples), static_cast<unsigned int>(reqSamples));
+                    }
+                }
+            }
+        }
 
         auto availableSamples = static_cast<int>(vc->numSamples());
 
@@ -239,5 +239,5 @@ private:
     std::vector<double> silenceBuffer{ std::vector<double>(100000,0.0) };
 	int underThresCount{ 0 };
     
-	const int reqSamples{ 45000 };
+	const int reqSamples{ 48000 };
 };

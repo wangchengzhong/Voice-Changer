@@ -2,7 +2,7 @@
 #include "seq.h"
 #include "poly.h"
 #include "concat.h"
-
+#include"JuceHeader.h"
 
 Eigen::TRowVectorX lsfadap(Eigen::Ref<const Eigen::TVectorX> lsf)
 {
@@ -19,6 +19,8 @@ Eigen::TRowVectorX lsfadap(Eigen::Ref<const Eigen::TVectorX> lsf)
 	{
 		part2(j) = std::exp(i1 * lsf(s2(j) - 1));
 	}
+	//DBG("size of part1: "<<part1.size());
+	//DBG("size of part2" << part2.size());
 	Eigen::TRowVectorXc temp1(part1.size() * 2 + 1); // [1 part1 conj(part1)]
 	Eigen::TRowVectorXc temp2(part2.size() * 2 + 1); // [part2 -1 conj(part2)]
 	temp1(0) = 1;

@@ -11,15 +11,15 @@
 class HSManalysis
 {
 public:
-	HSManalysis(PicosStructArray& picos);
+	HSManalysis(Eigen::RowVectorXi pms);
 	~HSManalysis();
 
-	void processHSManalysis(Eigen::Ref<Eigen::TRowVectorX> x);
+	PicosStructArray processHSManalysis(Eigen::Ref<Eigen::TRowVectorX> x);
 
 private:
 	F0analysis f0Analysis;
 	HarmonicAnalysis harmoniceAnalysis;
-	// StochasticAnalysis stochasticAnalysis;
+	StochasticAnalysis stochasticAnalysis;
 	PolarityAnalysis polarityAnalysis;
 	DecomposePhase decomposePhase;
 
@@ -33,8 +33,8 @@ private:
 
 	int bufferLength;
 	int temp;
-	Eigen::RowVectorXi pms;
-	PicosStructArray& picos;
+	Eigen::RowVectorXi& pms;
+	PicosStructArray picos;
 
 	Eigen::TRowVectorX f0s;
 

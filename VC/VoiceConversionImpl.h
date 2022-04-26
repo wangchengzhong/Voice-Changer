@@ -20,6 +20,7 @@ public:
 	int sampleRate;
 	int bufferLength;
 
+	Eigen::RowVectorXi pms;
 	PicosStructArray picos;
 	Eigen::TRowVectorX x;
 

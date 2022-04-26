@@ -98,13 +98,12 @@ Eigen::TRowVectorX F0analysis::processF0(const Eigen::Ref<const Eigen::TRowVecto
 
 	concurrency::parallel_for(size_t(0), (size_t)threadNum, [&](size_t m)
 	{
-
 		for(Eigen::Index k = m*timesPerThread+1;k<(m+1)*timesPerThread+1;k++)
 		{
 			if (k <= pms.size())
 			{
 				//Eigen::TRowVectorX trama;
-				if(pms(k-1)-L2<1)
+				if (pms(k - 1) - L2 < 1)
 				{
 					tramaTemp[m] = x.head(pms(k - 1) + L2);
 					trama[m] = concat(Eigen::TRowVectorX::Zero(L - tramaTemp[m].size()), tramaTemp[m]);
@@ -227,6 +226,9 @@ void F0analysis::updateSize(const Eigen::Ref<const Eigen::RowVectorXi>& pms)
 	uvvcost = 0.14 * fact;
 	octjump = 0.35 * fact;
 	dat.resize(pms.size());
-	timesPerThread = static_cast<int>(static_cast<float>(pms.size()) / (float)threadNum) + 1;
+	timesPerThread = static_cast<int>(static_cast<float>(pms.size()) / (float)threadNum + 1);
+
+	f0s.resize(pms.size());
+	f0s.setZero();
 }
 

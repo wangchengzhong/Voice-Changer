@@ -5,11 +5,12 @@
 #include "concat.h"
 #include "roots.h"
 #include <algorithm>
-
+#include "JuceHeader.h"
 Eigen::TVectorX aaalsf(Eigen::Ref<const Eigen::TRowVectorX> aa, Eigen::TFloat f0, int p)
 {
 	const int fmax = 5000;
 	int Nk = (int)aa.size();
+	// DBG("Nk is " << Nk); // change with time
 	auto ff = (seq(1, Nk) * f0).eval();
 	auto PP = aa.array().square().eval();
 	auto fs = 2 * fmax;
