@@ -95,8 +95,46 @@ HSMwfwConvert::HSMwfwConvert(HSMModel& model, PicosStructArray& picos)
 	adapai.resize(threadNum);
 
 	aivt.resize(threadNum);
-
 	eevt.resize(threadNum);
+
+	Afvt.resize(threadNum);
+	E1.resize(threadNum);
+	Evt.resize(threadNum);
+	aavt.resize(threadNum);
+
+	vtt.resize(threadNum);
+	vttaux.resize(threadNum);
+	aivtt.resize(threadNum);
+
+	fy.resize(threadNum);
+	for(auto i:fy)
+	{
+		i(fw[0].y.size());
+		i.setZero();
+	}
+
+	ff1.resize(threadNum);
+	ap1.resize(threadNum);
+	aa1.resize(threadNum);
+
+	aa2.resize(threadNum);
+	pp2.resize(threadNum);
+
+	jjant1.resize(threadNum);
+	jjant2.resize(threadNum);
+	for (auto i : jjant1) i = 1;
+	for (auto i : jjant2) i = 1;
+	scale.resize(threadNum);
+	for (auto i : scale) i = 0.0;
+
+	f2j.resize(threadNum);
+	f1j.resize(threadNum);
+	jj.resize(threadNum);
+	for (auto i : jj) i = 0;
+
+	nf.resize(threadNum);
+	seqnf.resize(threadNum);
+	win.resize(threadNum);
 }
 Eigen::TVectorX HSMwfwConvert::aaalsf(Eigen::Ref<const Eigen::TRowVectorX> aa, Eigen::TFloat f0, size_t aaa)
 {
@@ -219,8 +257,100 @@ void HSMwfwConvert::processWfwConvert(PicosStructArray& picos)
 				{
 					eevt[aaa].row(jj - 1) = eevt[aaa].row(jj - 2).cwiseProduct(eevt[aaa].row(1));
 				}
+				Afvt[aaa] = (1 / (aivt[aaa] * eevt[aaa]).array()).matrix().eval();
+				E1[aaa] = picos[k - 1].a.squaredNorm();
+				Afvt[aaa] = Afvt[aaa] * std::sqrt(E1[aaa] / Afvt[aaa].dot(Afvt[aaa]).real());
+				Evt[aaa] = Afvt[aaa].cwiseProduct(Afvt[aaa].conjugate()).real();
+				aavt[aaa] = Evt[aaa].cwiseSqrt();
+				PP[aaa].setZero();
+				for(size_t j = 1; j<=mm; j++)
+				{
+					PP[aaa](j - 1) = th2[j - 1].a / std::sqrt(th2d[j - 1]) * std::exp(-0.5 * ((vt[aaa] - th2[j - 1].u).transpose() * th2I[j - 1] * (vt[aaa] - th2[j - 1].u)).value());
+				}
 
-				
+				PP[aaa] = PP[aaa] / PP[aaa].sum();
+				vtt[aaa](vt.size());
+				vtt[aaa].setZero();
+				for(size_t j = 1; j<=mm; j++)
+				{
+					vtt[aaa] = vtt[aaa] + PP[aaa](j - 1) * (th2[j - 1].v + th2[j - 1].R * th2I[j - 1] * (vt[aaa] - th2[j - 1].u));
+				}
+
+				vttaux[aaa](vtt[m].size() + 2);
+				vttaux[aaa](0) = 0;
+				vttaux[aaa](vttaux[aaa].size() - 1) = pi;
+				vttaux[aaa].segment(1, vtt[aaa].size()) = vtt[aaa];
+				for(Eigen::Index j = 2; j<=vttaux[aaa].size()-1;j++)
+				{
+					if (vttaux[aaa](j - 1) <= vttaux[aaa](j - 2) && vttaux[aaa](j - 1) < vttaux[aaa](j) && vttaux[aaa](j - 2) < vttaux[aaa](j))
+					{
+						vtt[aaa](j - 2) = 0.99 * vttaux[aaa](j - 2) + 0.01 * vttaux[aaa](j);
+					}
+				}
+				aivtt[aaa] = lsfadap(vtt[aaa], aaa);
+				aivtt[aaa] *= (picos[k - 1].e(0) / aivtt[aaa](0));
+				for(size_t j = 1; j <= m; j++)
+				{
+					fy[aaa] += P[aaa](j - 1) * fw[j - 1].y;
+				}
+				ff1[aaa](picos[k - 1].a.size() + 2);
+				ff1[aaa](0) = 0.0;
+				ff1[aaa](ff1[aaa].size() - 1) = fmax;
+				ff1[aaa].segment(1, picos[k - 1].a.size()) = seq(1, picos[k - 1].a.size()) * f01s(k - 1);
+				ap1[aaa](picos[k - 1].a.size() + 2);
+				ap1[aaa].segment(1, picos[k - 1].a.size()) = picos[k - 1].a.array() * (i1 * picos[k - 1].p).array().exp();
+				ap1[aaa](0) = picos[k - 1].a(0);
+				ap1[aaa](ap1[aaa].size() - 1) = 0;
+				aa1[aaa](picos[k - 1].a.size() + 2);
+				aa1[aaa](0) = std::log(picos[k - 1].a(0));
+				aa1[aaa](aa1.size() - 1) = std::log(picos[k - 1].a.minCoeff());
+				aa1[aaa].segment(1, picos[k - 1].a.size()) = picos[k - 1].a.array().log();
+
+				aa2[aaa]((int)std::ceil(fmax / f02s(k - 1)) - 1);
+				aa2[aaa].setZero();
+				pp2[aaa] = aa2[aaa];
+
+				for(Eigen::Index j = 1; j <= aa2[aaa].size(); j++)
+				{
+					f2j[aaa] = j * f02s(k - 1);
+					for(jj[aaa] = jjant1[aaa]; jj[aaa]<=fy[aaa].size()-1;jj[aaa]++)
+					{
+						if(f2j[aaa]>=fy[aaa](jj[aaa]-1)&&f2j[aaa]<fy[aaa](jj[aaa]))
+						{
+							jjant1[aaa] = (int)jj[aaa];
+							break;
+						}
+					}
+					f1j[aaa] = fx(jj[aaa] - 1) + (fx(jj[aaa]) - fx(jj[aaa] - 1)) * (f2j[aaa] - fy[aaa](jj[aaa] - 1)) / (fy[aaa](jj[aaa]) - fy[aaa](jj[aaa] - 1));
+					if(f1j[aaa]<fmax)
+					{
+						for(jj[aaa] = jjant2[aaa];jj[aaa]<ff1[aaa].size()-1;jj[aaa]++)
+						{
+							if (f1j[aaa] >= ff1[aaa](jj[aaa] - 1) && f1j[aaa] < ff1[aaa](jj[aaa]))
+							{
+								jjant2[aaa] = (int)jj[aaa];
+								break;
+							}
+						}
+						aa2[aaa](j - 1) = std::exp(aa1[aaa](jj[aaa] - 1) + (aa1[aaa](jj[aaa]) - aa1[aaa](jj[aaa] - 1)) * (f1j[aaa] - ff1[aaa](jj[aaa] - 1)) / (ff1[aaa](jj[aaa]) - ff1[aaa](jj[aaa] - 1)));
+						pp2[aaa](j - 1) = angle(ap1[aaa](jj[aaa] - 1) + (ap1[aaa](jj[aaa]) - ap1[aaa](jj[aaa] - 1)) * (f1j[aaa] - ff1[aaa](jj[aaa] - 1)) / (ff1[aaa](jj[aaa]) - ff1[aaa](jj[aaa] - 1)));
+					}
+					else
+					{
+						if (scale[aaa] == 0)
+						{
+							scale[aaa] = aa2[aaa](j - 2) / std::abs(Afvt[aaa](j - 2));
+						}
+						aa2[aaa](j - 1) = scale[aaa] * std::abs(Afvt[aaa](j - 1));
+						pp2[aaa](j - 1) = angle(Afvt[aaa](j - 1));
+					}
+				}
+				nf[aaa] = (int)std::ceil(flimsm / f02s(k - 1) - 1);
+				seqnf[aaa] = seq<Eigen::RowVectorXi>(-nf[aaa], nf[aaa]).eval();
+				win[aaa] = 1 - (f02s(k - 1) / flimsm) * seqnf[aaa].cast<Eigen::TFloat>().array();
+				win[aaa] /= win[aaa].sum();
+
+
 			}
 		}
 	});

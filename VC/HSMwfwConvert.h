@@ -80,4 +80,35 @@ private:
 	std::vector<Eigen::TRowVectorX> aivt;
 
 	std::vector<Eigen::TRowVectorXc>eevt;
+	std::vector<Eigen::TRowVectorXc> Afvt;
+	std::vector<double> E1;
+	std::vector<Eigen::TRowVectorX>Evt;
+	std::vector<Eigen::TRowVectorX> aavt;
+
+	std::vector<Eigen::TRowVectorX>vtt;
+
+	std::vector<Eigen::TVectorX> vttaux;
+
+	std::vector<Eigen::TRowVectorX> aivtt;
+	std::vector<Eigen::TRowVectorX> fy;
+
+	std::vector<Eigen::TRowVectorX> ff1;
+	std::vector<Eigen::TRowVectorXc>ap1;
+
+	std::vector<Eigen::TRowVectorX> aa1;
+	std::vector<Eigen::TRowVectorX> aa2;
+	std::vector<Eigen::TRowVectorX> pp2;
+
+	std::vector<int> jjant1;
+	std::vector<int> jjant2;
+
+	std::vector<Eigen::TFloat> scale;
+	std::vector<double> f2j;
+	std::vector<double> f1j;
+	std::vector<Eigen::Index> jj;
+
+	Eigen::TFloat flimsm{ 1000.0 };
+	std::vector<int> nf;
+	std::vector<Eigen::Matrix<int, 1, -1, 1>> seqnf;
+	std::vector<Eigen::TRowVectorX> win;
 };
