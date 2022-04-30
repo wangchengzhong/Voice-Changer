@@ -3,8 +3,8 @@
 class StochasticAnalysis
 {
 public:
-	StochasticAnalysis(PicosStructArray& picos);
-	~StochasticAnalysis();
+	StochasticAnalysis(PicosStructArray& picos, int xLength);
+	~StochasticAnalysis() = default;
 
 	void processStochastic(Eigen::Ref<const Eigen::TRowVectorX> x);//, int N, PicosStructArray& picos, int ordenLPC);
 	std::tuple<Eigen::TFloat, Eigen::TFloat, Eigen::TFloat, Eigen::TFloat> bymcaquat(Eigen::TFloat p1, Eigen::TFloat p2, Eigen::TFloat f1, Eigen::TFloat f2, Eigen::TFloat N, Eigen::TFloat fs, size_t m);
@@ -34,6 +34,7 @@ private:
 	std::vector<double>a1;
 	std::vector<double> a2;
 	std::vector<double>c0, c1, c2, c3;
+	std::vector<double>c01, c11, c21, c31;
 
 	std::vector<Eigen::TFloat> w1, w2, M;
 

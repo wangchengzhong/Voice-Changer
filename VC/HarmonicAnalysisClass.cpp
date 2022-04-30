@@ -1,12 +1,12 @@
-#include"HarmonicAnalysis.h"
+#include"HarmonicAnalysisClass.h"
 
 #include "angle.h"
 #include "constants.h"
 #include"ppl.h"
 #include "seq.h"
 
-HarmonicAnalysis::HarmonicAnalysis(Eigen::Ref<Eigen::RowVectorXi> pms, Eigen::TFloat fmax)
-	:fmax(fmax),pms(pms),picos(pms.size()),pmsSize(pms.size())
+HarmonicAnalysis::HarmonicAnalysis(Eigen::RowVectorXi& pms, Eigen::TFloat fmax, PicosStructArray picos)
+	:fmax(fmax),pms(pms),picos(picos),pmsSize(pms.size())
 {
 	timesPerThread = static_cast<int>(static_cast<float>(pms.size()) / (float)threadNum + 1);
 	Lw.resize(threadNum);
@@ -17,22 +17,20 @@ HarmonicAnalysis::HarmonicAnalysis(Eigen::Ref<Eigen::RowVectorXi> pms, Eigen::TF
 	win.resize(threadNum);
 	K.resize(threadNum);
 	h.resize(threadNum);
-	i1.resize(threadNum);
-	for(auto i:i1)
-	{
-		i = (0, 1);
-	}
+	i1 = (0, 1);
 	t1.resize(threadNum);
 	t2.resize(threadNum);
 	t3.resize(threadNum);
 	coef.resize(threadNum);
 	// coef1K.resize(threadNum);
 }
-PicosStructArray HarmonicAnalysis::processHarmonic(Eigen::Ref<const Eigen::TRowVectorX> x, Eigen::Ref<const Eigen::TRowVectorX> f0s)
+
+PicosStructArray HarmonicAnalysis::processHarmonic(const Eigen::TRowVectorX& x, const Eigen::TRowVectorX f0s)
 {
+	//for (size_t m = (0); m < threadNum; m++)
 	concurrency::parallel_for(size_t(0), (size_t)threadNum, [&](size_t m)
 		{
-			for(int k = m*timesPerThread+1;k<(m+1)*timesPerThread+1;k++)
+			for(int k = m * timesPerThread+1; k < (m + 1) * timesPerThread + 1; k++)
 			{
 				if(k<=pmsSize)
 				{
@@ -51,7 +49,7 @@ PicosStructArray HarmonicAnalysis::processHarmonic(Eigen::Ref<const Eigen::TRowV
 						K[m] = (int)std::ceil(fmax / f0s(k - 1)) - 1;
 						h[m].resize(Lw[m], 2 * K[m]);
 						h[m].setZero();
-						h[m].col(0) = (gv[m] / fs * i1[m] * 2 * pi * f0s(k - 1)).array().exp().transpose();
+						h[m].col(0) = (gv[m] / fs * i1 * 2 * pi * f0s(k - 1)).array().exp().transpose();
 						for(int kk = 2; kk <= K[m]; kk++)
 						{
 							h[m].col(kk - 1) = h[m].col(kk - 2).cwiseProduct(h[m].col(0));

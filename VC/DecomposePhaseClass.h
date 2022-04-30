@@ -4,7 +4,7 @@ class DecomposePhase
 {
 public:
 	DecomposePhase(PicosStructArray& picos);
-	~DecomposePhase();
+	~DecomposePhase() = default;
 
 	void processDecompose(PicosStructArray& picos);
 	void updateSize(PicosStructArray& picos);

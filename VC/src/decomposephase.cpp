@@ -8,11 +8,14 @@ void decomposephase(PicosStructArray& picos)
 
 	// Like MATLAB, iterate over picos
 	auto a = picos.size();
-	auto t = (int)(a / 20);
+	auto t = (int)(a / 20)+1;
 	concurrency::parallel_for(size_t(0), (size_t)20, [&](size_t m)
 		{
+		
 			for (int i = m * t; i < (m + 1) * t; i++)
-				//for (int i = 0; i < picos.size(); i++)
+			{
+				if (i < picos.size())
+					//for (int i = 0; i < picos.size(); i++)
 				{
 					auto& pk = picos[i];
 					if (pk.f0 > 0)
@@ -22,16 +25,7 @@ void decomposephase(PicosStructArray& picos)
 						pk.p += seq(1, (int)pk.p.size()) * alfa;
 					}
 				}
+			}
 		});
-	for (int i = 20 * t; i < picos.size(); i++)
-		//for (int i = 0; i < picos.size(); i++)
-	{
-		auto& pk = picos[i];
-		if (pk.f0 > 0)
-		{
-			Eigen::TFloat alfa = linphaseterm(pk.a, pk.p, fmaxopt);
-			pk.alfa = -alfa;
-			pk.p += seq(1, (int)pk.p.size()) * alfa;
-		}
-	}
+
 }

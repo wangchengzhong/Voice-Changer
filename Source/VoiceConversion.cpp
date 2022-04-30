@@ -5,7 +5,7 @@
 
 #define TEST_FLOAT_EQUAL(a, b)  (fabs(a - b) < 1e-10)
 
-VoiceConversion::VoiceConversion(int sampleRate, HSMModel& model)
+VoiceConversion::VoiceConversion(int sampleRate, HSMModel model)
 {
 	pBufferMatch = BufferMatch::newInstance(sampleRate, model);
 	setOutPipe(pBufferMatch);

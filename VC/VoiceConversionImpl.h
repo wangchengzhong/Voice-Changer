@@ -1,28 +1,32 @@
 #pragma once
 #include <vector>
 #include "modelSerialization.h"
-#include"HSManalysis.h"
-#include"HSMwfwConvert.h"
-#include"HSMsynthesize.h"
+#include"HSManalysisClass.h"
+#include"HSMwfwConvertClass.h"
+#include"HSMsynthesizeClass.h"
 class VoiceConversionImpl
 {
 public:
-	VoiceConversionImpl(HSMModel& model);
-	~VoiceConversionImpl();
+	VoiceConversionImpl(HSMModel model, Eigen::RowVectorXi pms, Eigen::TRowVectorX x, PicosStructArray picos);
+	~VoiceConversionImpl() = default;
 	
 	void processConversion(std::vector<double>& origBuffer, std::vector<double>& convertedBuffer, int verbose) noexcept;
 	void resize();
 
 	HSMModel model;
+	int sampleRate;
+	int bufferLength;
+	Eigen::RowVectorXi pms;
+	Eigen::TRowVectorX x;
+	PicosStructArray picos;
+	Eigen::TRowVectorX output;
+
 	HSManalysis hsmAnalysis;
 	HSMwfwConvert hsmWfwConvert;
 	HSMsynthesize hsmSynthesize;
-	int sampleRate;
-	int bufferLength;
 
-	Eigen::RowVectorXi pms;
-	PicosStructArray picos;
-	Eigen::TRowVectorX x;
+
+
 
 
 

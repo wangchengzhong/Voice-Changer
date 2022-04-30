@@ -13,7 +13,7 @@ PicosStructArray HSManalyze(Eigen::Ref<Eigen::TRowVectorX> x, Eigen::TFloat fs)
 	assert(fs == 16000);
 	//int N = 128;
 	int N = 128;
-	Eigen::TFloat f0min = 60;
+	Eigen::TFloat f0min = 50;
 	Eigen::TFloat f0max = 500;
 	Eigen::TFloat fmax = 5000; // since fs is fixed to be 16000
 	int ordenLPC = 14;

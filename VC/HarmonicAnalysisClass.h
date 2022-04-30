@@ -4,21 +4,22 @@
 class HarmonicAnalysis
 {
 public:
-	HarmonicAnalysis(Eigen::Ref<Eigen::RowVectorXi> pms, Eigen::TFloat fmax);
-	~HarmonicAnalysis();
+	HarmonicAnalysis(Eigen::RowVectorXi& pms, Eigen::TFloat fmax, PicosStructArray picos);
+	~HarmonicAnalysis() = default;
 
-	PicosStructArray processHarmonic(Eigen::Ref<const Eigen::TRowVectorX> x, 
-		Eigen::Ref<const Eigen::TRowVectorX> f0s);
+	PicosStructArray processHarmonic(const Eigen::TRowVectorX& x, 
+		const Eigen::TRowVectorX f0s);
 	void updateSize(Eigen::Ref<Eigen::RowVectorXi>pms);
 private:
-	Eigen::TFloat fmax{ 5000 };
-	Eigen::Ref<Eigen::RowVectorXi> pms;
-
-	PicosStructArray picos;
-	int pmsSize;
+	int fs{ 16000 };
 	int threadNum{ 20 };
 	int timesPerThread;
-	int fs{ 16000 };
+	Eigen::TFloat fmax{ 5000 };
+	PicosStructArray picos;
+	Eigen::RowVectorXi& pms;
+	// ::TRowVectorX f0s;
+	
+	int pmsSize;
 
 	std::vector<int> Lw;
 	std::vector<int> Lw2;
@@ -28,11 +29,11 @@ private:
 	std::vector<Eigen::TVectorX> win;
 	std::vector<int> K;
 	std::vector<Eigen::TMatrixXc> h;
-	std::vector<std::complex<Eigen::TFloat>>i1;
+	std::complex<Eigen::TFloat>i1;// (0, 1);
 	std::vector<Eigen::TMatrixXc> t1;
 	std::vector<Eigen::TMatrixXc> t2;
-	std::vector<Eigen::TRowVectorXc> t3;
-	std::vector<Eigen::TRowVectorXc> coef;
+	std::vector<Eigen::Matrix<std::complex<double>,-1,1,0>> t3;
+	std::vector<Eigen::Matrix<std::complex<double>,-1,1,0>> coef;
 	// std::vector<Eigen::VectorBlock<Eigen::TRowVectorXc>> coef1K;
 
 

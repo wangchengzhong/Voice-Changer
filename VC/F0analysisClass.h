@@ -15,18 +15,18 @@ class F0analysis
 public:
 	F0analysis(
 		// Eigen::Ref<Eigen::TRowVectorX> x,
-		Eigen::Ref<Eigen::RowVectorXi> pms,
+		Eigen::RowVectorXi& pms,
 		Eigen::TFloat f0min,
 		Eigen::TFloat f0max
 	);
-	~F0analysis();
+	~F0analysis() = default;
 
 	Eigen::TRowVectorX processF0(const Eigen::Ref<const Eigen::TRowVectorX>& x, const Eigen::Ref<const Eigen::RowVectorXi>&pms);
 	void updateSize(const Eigen::Ref<const Eigen::RowVectorXi>& pms);
 private:
 	Eigen::TFloat f0min;
 	Eigen::TFloat f0max;
-	Eigen::Ref<Eigen::RowVectorXi> pms;
+	Eigen::RowVectorXi& pms;
 	double fs{ 16000.0 };
 	//Eigen::Ref<Eigen::TRowVectorX> x;
 

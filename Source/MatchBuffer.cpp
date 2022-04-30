@@ -1,15 +1,19 @@
-
+#include <ctime>
 #include <string.h>
 #include <limits.h>
 #include <assert.h>
 #include <math.h>
 #include <float.h>
+
+#include"f0analysisbyboersma.h"
+#include"harmonicanalysis.h"
 #define FLOAT_SAMPLES
 #define SUPPORT_SSE         0x0008
 typedef unsigned long long ulongptr;
 // #include "STTypes.h"
 // #include "SoundTouch/cpu_detect.h"
 #include "MatchBuffer.h"
+#include"HSManalyze.h"
 #define SOUNDTOUCH_ALIGN_POINTER_16(x)      ( ( (ulongptr)(x) + 15 ) & ~(ulongptr)15 )
 
 #define max(x, y) (((x) > (y)) ? (x) : (y))
@@ -40,10 +44,29 @@ const short _scanOffsets[5][24] = {
  *****************************************************************************/
 
 
-BufferMatch::BufferMatch(int sampleRate, HSMModel& model) : FIFOProcessor(&outputBuffer), model(model)
-{
+BufferMatch::BufferMatch(int sampleRate, HSMModel model) : FIFOProcessor(&outputBuffer)
 
-    bQuickSeek = false;
+, model(model)
+//, vcImpl(model, pms, initializeBuffer, picos)  
+	//(model, pms, initializeBuffer, picos)
+	
+{
+    //initializeBuffer.resize(bufferLength);
+    //for(auto i:initializeBuffer)
+	//	i = (float)rand() / RAND_MAX - 0.5;
+    
+    //auto temp = 1 + std::floor((bufferLength - 3.0 * 16000 / 50) / 128);
+    //pms = 1 + (int)std::ceil(1.5 * 16000 / 50) + 128 * seq<Eigen::RowVectorXi>(0, temp).array();
+    DBG("trial size:" << pms.size());
+    //f0s = f0analysisbyboersma(initializeBuffer, 16000, pms);
+    //picos = harmonicanalysis(initializeBuffer, 16000, pms, f0s, 5000);
+    //picos = HSManalyze(initializeBuffer, 16000);
+    DBG("analyze size: " << picos.size());
+    DBG("init finished!");
+
+	// pVcImpl = std::make_unique<VoiceConversionImpl>(model, pms, initializeBuffer, picos);
+
+	bQuickSeek = false;
     channels = 1;
 
     pMidBuffer = NULL;
@@ -131,7 +154,7 @@ void BufferMatch::overlapMono(SAMPLETYPE* pOutput, const SAMPLETYPE* pInput) con
 
     m1 = (SAMPLETYPE)0;
     m2 = (SAMPLETYPE)overlapLength;
-
+    DBG("matchBuffer overlap Length: " << overlapLength);
     for (i = 0; i < overlapLength; i++)
     {
         pOutput[i] = (pInput[i] * m1 + pMidBuffer[i] * m2) / overlapLength;
@@ -573,12 +596,13 @@ void BufferMatch::processSamples()
         // DBG((int)inputBuffer.numSamples());
         spxUpSize = static_cast<spx_uint32_t>(inputBuffer.numSamples());
         spxDownSize = static_cast<spx_uint32_t>((int)((float)inputBuffer.numSamples() / sampleRate * 16000) + 0.5);
-        DBG(static_cast<int>(spxDownSize));
+        DBG("spxDownSize: "<<static_cast<int>(spxDownSize));
     	// vcOrigBuffer.clear(); vcConvertedBuffer.clear();
     	vcOrigBuffer.resize(spxDownSize);
         vcConvertedBuffer.resize(spxDownSize);
         
         err = speex_resampler_process_float(downResampler, 0, inputBuffer.ptrBegin(), &spxUpSize, vcOrigBuffer.data(), &spxDownSize);
+        // pVcImpl->processConversion(vcOrigBuffer, vcConvertedBuffer, 1);
     	convertBlock(vcOrigBuffer, vcConvertedBuffer, 1, model);
         err = speex_resampler_process_float(upResampler, 0, vcConvertedBuffer.data(), &spxDownSize, inputBuffer.ptrBegin(), &spxUpSize);
         
@@ -709,7 +733,7 @@ void* BufferMatch::operator new(size_t s, int sampleRate, HSMModel& model)
 }
 
 
-BufferMatch* BufferMatch::newInstance(int sampleRate, HSMModel& model)
+BufferMatch* BufferMatch::newInstance(int sampleRate, HSMModel model)
 {
         {
             // ISA optimizations not supported, use plain C version

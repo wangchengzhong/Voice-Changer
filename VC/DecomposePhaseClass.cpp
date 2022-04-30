@@ -1,4 +1,4 @@
-#include"DecomposePhase.h"
+#include"DecomposePhaseClass.h"
 
 #include"ppl.h"
 #include "seq.h"
@@ -10,10 +10,12 @@ DecomposePhase::DecomposePhase(PicosStructArray& picos)
 	timesPerThread = static_cast<int>(static_cast<float>(picos.size()) / (float)threadNum + 1);
 	linpAlfa.resize(threadNum);
 	K.resize(threadNum);
+	
 	alfa.resize(threadNum);
 
 	imax.resize(threadNum);
 }
+
 void DecomposePhase::updateSize(PicosStructArray& picos)
 {
 	timesPerThread = static_cast<int>(static_cast<float>(picos.size()) / (float)threadNum + 1);

@@ -228,7 +228,9 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     openModelButton.setButtonText(juce::CharPointer_UTF8("\xe5\x8a\xa0\xe8\xbd\xbd\xe6\xa8\xa1\xe5\x9e\x8b"));
     openModelButton.onClick = [this] {openModelButtonClicked(); };
     openModelButton.setColour(juce::TextButton::buttonColourId, juce::Colours::gold);
-    addAndMakeVisible(openModelButton);
+    //openModelButton.setColour(juce::TextButton::textColourOffId, juce::Colours::red);
+    //openModelButton.setColour(juce::TextButton::textColourOnId, juce::Colours::red);
+	addAndMakeVisible(openModelButton);
 
     stopPlayFileButton.setButtonText(juce::CharPointer_UTF8("\xe6\x9a\x82\xe5\x81\x9c"));
     stopPlayFileButton.onClick = [this] { stopPlayFileButtonClicked(); };

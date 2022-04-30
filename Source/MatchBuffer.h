@@ -1,5 +1,5 @@
 #pragma once
-
+#include"VoiceConversionImpl.h"
 #include"vchsm/convert_C.h"
 
 #include"speex/global_speex_resampler.h"
@@ -84,9 +84,8 @@
         spx_uint32_t spxUpSize;
         spx_uint32_t spxDownSize;
 
-        HSMModel& model;
+        HSMModel model;
         const char* modelFile{ "D:/Model.dat" };
-
         
         int channels;
         int sampleReq;
@@ -120,8 +119,16 @@
         std::vector<SAMPLETYPE> vcOrigBuffer;
         std::vector<SAMPLETYPE> vcConvertedBuffer;
         std::vector<SAMPLETYPE> vcBuffer;
+        int bufferLength{ 15000 };
+        Eigen::TRowVectorX initializeBuffer;
+        Eigen::RowVectorXi pms;
+        PicosStructArray picos;
+        
+        Eigen::TRowVectorX f0s;
 
-        void acceptNewOverlapLength(int newOverlapLength);
+		std::unique_ptr<VoiceConversionImpl> pVcImpl;
+
+    	void acceptNewOverlapLength(int newOverlapLength);
 
         virtual void clearCrossCorrState();
         void calculateOverlapLength(int overlapMs);
@@ -149,7 +156,7 @@
         void processSamples();
 
     public:
-        BufferMatch(int sampleRate, HSMModel& model);
+        BufferMatch(int sampleRate, HSMModel model);
         virtual ~BufferMatch();
 
         /// Operator 'new' is overloaded so that it automatically creates a suitable instance 
@@ -159,7 +166,7 @@
         /// Use this function instead of "new" operator to create a new instance of this class. 
         /// This function automatically chooses a correct feature set depending on if the CPU
         /// supports MMX/SSE/etc extensions.
-        static BufferMatch* newInstance(int sampleRate, HSMModel& model);
+        static BufferMatch* newInstance(int sampleRate, HSMModel model);
 
         /// Returns the output buffer object
         FIFOSamplePipe* getOutput() { return &outputBuffer; };

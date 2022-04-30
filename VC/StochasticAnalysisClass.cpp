@@ -1,4 +1,4 @@
-#include"StochasticAnalysis.h"
+#include"StochasticAnalysisClass.h"
 
 #include "bylevdurb.h"
 #include "concat.h"
@@ -8,34 +8,43 @@
 #include "seq.h"
 #define Tolerance_double 1.0e-12
 
-StochasticAnalysis::StochasticAnalysis(PicosStructArray& picos)
-	:picos(picos)
+StochasticAnalysis::StochasticAnalysis(PicosStructArray& picos, int xLength)
+	:picos(picos),left(0),size(0)
 {
-	
-	Npm = picos.size();
+	yd.setZero(xLength);
+	Npm = (int)picos.size();
 	timesPerThread = static_cast<int>(static_cast<float>(Npm) / (float)threadNum + 1);
-	seq1 = seq(0, N - 1);
+	seq1 = seq(0, N - 1) / Eigen::TFloat(N);
 	seq3 = seq(0, N - 1);
 	seq4 = seq(1, N).reverse();
 	seq5 = seq(-N, -1);
 
-	trama.resize(N);
-	R.resize(1 + ordenLPC);
+	//trama.resize(N);
+	//R.resize(1 + ordenLPC);
 
 	minSize.resize(threadNum);
 	a1.resize(threadNum);
 	a2.resize(threadNum);
-	c0.resize(threadNum);
-	c1.resize(threadNum);
-	c2.resize(threadNum);
-	c3.resize(threadNum);
+	c0.resize(threadNum);c1.resize(threadNum);c2.resize(threadNum);c3.resize(threadNum);
+	c01.resize(threadNum); c11.resize(threadNum); c21.resize(threadNum); c31.resize(threadNum);
 	w1.resize(threadNum);
 	w2.resize(threadNum);
 	M.resize(threadNum);
 
 	trama.resize(threadNum);
+	for(auto& i: trama)
+	{
+		i.setZero(N);
+	}
 	R.resize(threadNum);
+	for(auto& i: R)
+	{
+		i.setZero(1 + ordenLPC);
+	}
+
+	
 }
+
 void StochasticAnalysis::updateSize(PicosStructArray& picos)
 {
 	Npm = picos.size();
@@ -47,21 +56,22 @@ std::tuple<Eigen::TFloat, Eigen::TFloat, Eigen::TFloat, Eigen::TFloat> Stochasti
 	w1[m] = 2 * pi * f1 / fs;
 	w2[m] = 2 * pi * f2 / fs;
 	M[m] = round((1 / (2 * pi)) * ((p1 + w1[m] * N - p2) + 0.5 * N * (w2[m] - w1[m])));
-	c0[m] = p1;
-	c1[m] = w1[m];
-	c2[m] = (3 / (N * N)) * (p2 - p1 - w1[m] * N + 2 * pi * M[m]) - (w2[m] - w1[m]) / N;;
-	c3[m] = (-2 / (N * N * N)) * (p2 - p1 - w1[m] * N + 2 * pi * M[m]) + (w2[m] - w1[m]) / (N * N);
-	return std::make_tuple(c0[m], c1[m], c2[m], c3[m]);
+	c01[m] = p1;
+	c11[m] = w1[m];
+	c21[m] = (3 / (N * N)) * (p2 - p1 - w1[m] * N + 2 * pi * M[m]) - (w2[m] - w1[m]) / N;;
+	c31[m] = (-2 / (N * N * N)) * (p2 - p1 - w1[m] * N + 2 * pi * M[m]) + (w2[m] - w1[m]) / (N * N);
+	return std::make_tuple(c01[m], c11[m], c21[m], c31[m]);
 }
 void StochasticAnalysis::processStochastic(Eigen::Ref<const Eigen::TRowVectorX> x)//, int N, PicosStructArray& picos, int ordenLPC)
 {
-	yd(x.size());
-	yd.setZero();
+	//yd.resize(x.size());
+	//yd.setZero();
 
 	left = picos[0].pm - N - 1;
 	size = picos[0].a.size();
 
 	seq2 = (2 * pi / fs * picos[0].f0) * seq(-N, -1);
+	auto seq5 = seq(-N, -1);
 	for(int j = 1; j<=size;j++)
 	{
 		yd.segment(left, N) += ((picos[0].a(j - 1) * seq1).array() * (j * seq2.array() + picos[0].p(j - 1)).cos()).matrix();

@@ -1,4 +1,4 @@
-#include"PolarityAnalysis.h"
+#include"PolarityAnalysisClass.h"
 #include"ppl.h"
 #include"constants.h"
 PolarityAnalysis::PolarityAnalysis(PicosStructArray& picos)
@@ -10,6 +10,7 @@ PolarityAnalysis::PolarityAnalysis(PicosStructArray& picos)
 	dN.resize(threadNum);
 	alfa.resize(threadNum);
 }
+
 void PolarityAnalysis::updateSize(PicosStructArray& picos)
 {
 	timesPerThread = static_cast<int>(static_cast<float>(picos.size()) / (float)threadNum + 1);
@@ -30,13 +31,15 @@ int PolarityAnalysis::processPolarity(PicosStructArray picos)
 					alfa[m] = alfa[m] - 2 * pi * std::floor(alfa[m] / (2 * pi));
 					dP[m] = std::min(std::abs(alfa[m]), std::abs(2 * pi - alfa[m]));
 					dN[m] = std::abs(alfa[m] - pi);
-					if(dN[m]<dP[m])
+					if (dN[m] < dP[m])
 					{
+						juce::ScopedLock s1(minusLock);
 						pol = pol - 1;
 						polE = polE - E[m];
 					}
 					else if(dP[m]<dN[m])
 					{
+						juce::ScopedLock s1(minusLock);
 						pol = pol + 1;
 						polE = polE + E[m];
 					}

@@ -4,14 +4,15 @@
 class HSMwfwConvert
 {
 public:
-	HSMwfwConvert(HSMModel& model,PicosStructArray& picos);
-	~HSMwfwConvert();
+	HSMwfwConvert(HSMModel model,PicosStructArray& picos);
+	~HSMwfwConvert() = default;
 
 	void processWfwConvert(PicosStructArray& picos);
 	Eigen::TVectorX aaalsf(Eigen::Ref<const Eigen::TRowVectorX> aa, Eigen::TFloat f0, size_t aaa);
 	Eigen::TRowVectorX lsfadap(Eigen::Ref<const Eigen::TVectorX> lsf, size_t aaa);
+	void updateSize(PicosStructArray& picos);
 private:
-	HSMModel& model;
+	HSMModel model;
 	PicosStructArray& picos;
 	Eigen::TFloat fmax{ 5000.0 };
 	const std::complex<Eigen::TFloat> i1{0,1};
@@ -24,7 +25,9 @@ private:
 	Eigen::TRowVectorX f01s;
 	Eigen::TRowVectorX f02s;
 	Eigen::TFloat dph{ 0.0 };
-
+	/**
+	 * %%%%%%%%%%%%%%%%%%%%%%%%%%%% & th,th2
+	 */
 	const ThxyStructArray& th{ model.th };
 	const ThxyStructArray& th2{ model.th2 };
 	Eigen::Index p{ th[0].u.size() };
@@ -49,16 +52,16 @@ private:
 
 private:
 	std::vector<int> lsfNk;
-	std::vector<Eigen::TRowVectorX> lsfff;
+	std::vector<Eigen::Matrix<double,1, -1, 1>> lsfff;
 	std::vector<Eigen::Array<double, 1, -1, 1>> lsfPP;
-	int lsfFs{ 2 * 5000 };
-	std::vector<Eigen::TRowVectorX> lsfR;
+	const int lsfFs{ 2 * 5000 };
+	std::vector<Eigen::Matrix<double, 1, -1, 1>> lsfR;
 	std::vector<Eigen::TRowVectorX> lsfai;
 	std::vector<double> lsfe;
 
 	std::vector<double> lsfk;
 	std::vector<Eigen::TRowVectorX> lsfaz1;
-
+	std::vector<Eigen::TRowVectorX> lsfaz2;
 	//std::vector<Eigen::Reverse<Eigen::TRowVectorX>> lsfaz2;
 	std::vector<Eigen::TRowVectorX> lsflsf;
 	std::vector<int> lsfSize;
@@ -111,4 +114,8 @@ private:
 	std::vector<int> nf;
 	std::vector<Eigen::Matrix<int, 1, -1, 1>> seqnf;
 	std::vector<Eigen::TRowVectorX> win;
+	std::vector<Eigen::Matrix<double, 1, -1, 1>>g;
+	std::vector<Eigen::Matrix<double, 1, -1, 1>>gsm;
+	std::vector<Eigen::RowVectorXi> ind;
+
 };

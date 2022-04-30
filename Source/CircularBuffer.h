@@ -1,4 +1,5 @@
 #pragma once
+#include "JuceHeader.h"
 
 // A circular buffer that operates on blocks of data rather than
 // single elements. Hop size can be set for read or write 

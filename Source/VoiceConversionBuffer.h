@@ -2,7 +2,6 @@
 
 #include"JuceHeader.h"
 #include"VoiceConversion.h"
-
 class RingBufferForVC
 {
 public:
@@ -112,11 +111,11 @@ public:
     this is not accurate when enabled! By enabling minLatency some latency can be reduced with the
     expense of potential tearing during modulation with a change of the pitch parameter.
      */
-    VoiceConversionBuffer(int numChannels, double sampleRate, int samplesPerBlock, HSMModel& model)
+    VoiceConversionBuffer(int numChannels, double sampleRate, int samplesPerBlock, HSMModel model)
         :samplesPerBlock(samplesPerBlock),sampleRate((int)sampleRate),model(model)
     {
 
-        vc = std::make_unique<VoiceConversion>(sampleRate,model);
+        vc = std::make_unique<VoiceConversion>(sampleRate,this->model);
         vc->setChannels(numChannels);
 
         input.initialise(numChannels, sampleRate * 20);
@@ -223,7 +222,7 @@ public:
     }
 
 private:
-    HSMModel& model;
+    HSMModel model;
     int sampleRate;
     std::unique_ptr<VoiceConversion> vc;
     RingBufferForVC input, output;
@@ -239,5 +238,5 @@ private:
     std::vector<double> silenceBuffer{ std::vector<double>(100000,0.0) };
 	int underThresCount{ 0 };
     
-	const int reqSamples{ 48000 };
+	const int reqSamples{ 45000 };
 };

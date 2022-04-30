@@ -41,99 +41,56 @@ Eigen::TRowVectorX synth(int L, int fs, const PicosStructArray & audioFeature)
 	std::normal_distribution<Eigen::TFloat> nd; // standard normal distribution.
 
 	auto a = Npm;
-	auto t = (int)(a / 20);
+	auto t = (int)(a / 20) + 1;
 	concurrency::parallel_for(size_t(0), (size_t)20, [&](size_t m)
 
 		{
-		for (size_t k = m * t + 1; k < (m + 1) * t + 1; k++)
-		// for (std::size_t k = 1; k <= Npm; k++)
+			for (size_t k = m * t + 1; k < (m + 1) * t + 1; k++)
 			{
-				auto n2 = picos[k - 1].pm;
-				int n1 = 0, n3 = 0;
-				if (k == 1)
+				if (k <= Npm)
+					// for (std::size_t k = 1; k <= Npm; k++)
 				{
-					n3 = picos[k].pm;
-					n1 = std::max(1, n2 - (n3 - n2));
-				}
-				else if (k == Npm)
-				{
-					n1 = picos[k - 2].pm;
-					n3 = std::min(L, n2 + n2 - n1);
-				}
-				else
-				{
-					n1 = picos[k - 2].pm;
-					n3 = picos[k].pm;
-				}
-				auto N12 = n2 - n1;
-				auto N23 = n3 - n2;
-				auto seq1 = seq(0, 1.0 / N12, (N12 - 1) / (Eigen::TFloat)N12);
-				auto seq2 = seq(1.0 / N23, 1.0 / N23, 1).reverse();
-				auto win = concat<Eigen::TRowVectorX>(seq1, seq2);
-				Eigen::TRowVectorX trama(n3 - n1);
-				trama.setZero();
-				for (Eigen::Index j = 1; j <= picos[k - 1].a.size(); j++)
-				{
-					trama += picos[k - 1].a(j - 1) * (2 * pi * seq(-N12, N23 - 1).array() * (j * picos[k - 1].f0) / fs + picos[k - 1].p(j - 1) + j * picos[k - 1].alfa).cos().matrix();
-				}
-				// randn(1,n3-n1), generate the normally distributed random vector
+					auto n2 = picos[k - 1].pm;
+					int n1 = 0, n3 = 0;
+					if (k == 1)
+					{
+						n3 = picos[k].pm;
+						n1 = std::max(1, n2 - (n3 - n2));
+					}
+					else if (k == Npm)
+					{
+						n1 = picos[k - 2].pm;
+						n3 = std::min(L, n2 + n2 - n1);
+					}
+					else
+					{
+						n1 = picos[k - 2].pm;
+						n3 = picos[k].pm;
+					}
+					auto N12 = n2 - n1;
+					auto N23 = n3 - n2;
+					auto seq1 = seq(0, 1.0 / N12, (N12 - 1) / (Eigen::TFloat)N12);
+					auto seq2 = seq(1.0 / N23, 1.0 / N23, 1).reverse();
+					auto win = concat<Eigen::TRowVectorX>(seq1, seq2);
+					Eigen::TRowVectorX trama(n3 - n1);
+					trama.setZero();
+					for (Eigen::Index j = 1; j <= picos[k - 1].a.size(); j++)
+					{
+						trama += picos[k - 1].a(j - 1) * (2 * pi * seq(-N12, N23 - 1).array() * (j * picos[k - 1].f0) / fs + picos[k - 1].p(j - 1) + j * picos[k - 1].alfa).cos().matrix();
+					}
+					// randn(1,n3-n1), generate the normally distributed random vector
 
-				Eigen::TRowVectorX x(n3 - n1);
-				for (Eigen::Index i = 0; i < x.size(); ++i)
-				{
-					x(i) = nd(gen);
-				}
+					Eigen::TRowVectorX x(n3 - n1);
+					for (Eigen::Index i = 0; i < x.size(); ++i)
+					{
+						x(i) = nd(gen);
+					}
 
-				trama += filter(picos[k - 1].e, x);
-				y.segment(n1 - 1, n3 - n1) += trama.cwiseProduct(win);
+					trama += filter(picos[k - 1].e, x);
+					y.segment(n1 - 1, n3 - n1) += trama.cwiseProduct(win);
+				}
 			}
 		});
-
-
-
-
-	for (size_t k = 20 * t + 1; k <= Npm; k++)
-		// for (std::size_t k = 1; k <= Npm; k++)
-	{
-		auto n2 = picos[k - 1].pm;
-		int n1 = 0, n3 = 0;
-		if (k == 1)
-		{
-			n3 = picos[k].pm;
-			n1 = std::max(1, n2 - (n3 - n2));
-		}
-		else if (k == Npm)
-		{
-			n1 = picos[k - 2].pm;
-			n3 = std::min(L, n2 + n2 - n1);
-		}
-		else
-		{
-			n1 = picos[k - 2].pm;
-			n3 = picos[k].pm;
-		}
-		auto N12 = n2 - n1;
-		auto N23 = n3 - n2;
-		auto seq1 = seq(0, 1.0 / N12, (N12 - 1) / (Eigen::TFloat)N12);
-		auto seq2 = seq(1.0 / N23, 1.0 / N23, 1).reverse();
-		auto win = concat<Eigen::TRowVectorX>(seq1, seq2);
-		Eigen::TRowVectorX trama(n3 - n1);
-		trama.setZero();
-		for (Eigen::Index j = 1; j <= picos[k - 1].a.size(); j++)
-		{
-			trama += picos[k - 1].a(j - 1) * (2 * pi * seq(-N12, N23 - 1).array() * (j * picos[k - 1].f0) / fs + picos[k - 1].p(j - 1) + j * picos[k - 1].alfa).cos().matrix();
-		}
-		// randn(1,n3-n1), generate the normally distributed random vector
-
-		Eigen::TRowVectorX x(n3 - n1);
-		for (Eigen::Index i = 0; i < x.size(); ++i)
-		{
-			x(i) = nd(gen);
-		}
-
-		trama += filter(picos[k - 1].e, x);
-		y.segment(n1 - 1, n3 - n1) += trama.cwiseProduct(win);
-	}
 
 
 	return y;

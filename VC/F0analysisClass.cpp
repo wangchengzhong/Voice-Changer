@@ -1,16 +1,16 @@
-#include"F0analysis.h"
+#include"F0analysisClass.h"
 #include"ppl.h"
 #include "sliceByIndices.h"
 #include"almostEqual.h"
-
+#include"JuceHeader.h"
 F0analysis::F0analysis(
 	// Eigen::Ref<Eigen::TRowVectorX> x, 
-	Eigen::Ref<Eigen::RowVectorXi> pms, 
+	Eigen::RowVectorXi& pms, 
 	Eigen::TFloat f0min, 
 	Eigen::TFloat f0max)
 		:pms(pms),f0min(f0min),f0max(f0max)
 {
-	
+	timesPerThread = static_cast<int>(static_cast<float>(pms.size()) / (float)threadNum + 1);
 	lagmin = static_cast<int>(std::ceil(fs / f0max));
 	lagmax = static_cast<int>(std::floor(fs / f0min));
 	fact = 0.01 * fs / (pms(1) - pms(0));
@@ -48,24 +48,26 @@ F0analysis::F0analysis(
 	dat.resize(pms.size());
 
 	rx.resize(threadNum);
-	for(auto t:rx)
+	for(auto& t:rx)
 	{
 		t.resize(L2);
 	}
 
 	//rk.resize(Ncandidates - 1);
 	//fk.resize(Ncandidates - 1);
-	timesPerThread = static_cast<int>(static_cast<float>(pms.size()) / (float)threadNum) + 1;
+	
 
 	rk.resize(threadNum);
 	fk.resize(threadNum);
-	for(auto t:rk)
+	for(auto& t:rk)
 	{
-		t.resize(Ncandidates - 1);
+		t = Eigen::TRowVectorX::Zero(Ncandidates - 1);
+		//t.setZero();
 	}
-	for(auto t:fk)
+	for(auto& t:fk)
 	{
-		t.resize(Ncandidates - 1);
+		t = Eigen::TRowVectorX::Zero(Ncandidates - 1);
+		t.setZero();
 	}
 
 	trama.resize(threadNum);
@@ -86,17 +88,20 @@ F0analysis::F0analysis(
 
 	ruv.resize(threadNum);
 
-	f0s(pms.size());
+	f0s.resize(pms.size());
 	f0s.setZero();
 }
+
 
 Eigen::TRowVectorX F0analysis::processF0(const Eigen::Ref<const Eigen::TRowVectorX>& x, const Eigen::Ref<const Eigen::RowVectorXi>& pms)//(Eigen::Ref<Eigen::TRowVectorX> x, int fs, Eigen::Ref<Eigen::RowVectorXi> pms, Eigen::Ref<Eigen::TFloat> f0min, Eigen::Ref<Eigen::TFloat> f0max)
 {
 	if (pms.size() != this->pms.size())
 		updateSize(pms);
 	xgmax = x.cwiseAbs().maxCoeff();
-
+	DBG(x.size());
+	DBG(pms.size());
 	concurrency::parallel_for(size_t(0), (size_t)threadNum, [&](size_t m)
+	//for(size_t m = (0); m<(size_t)threadNum;m++)
 	{
 		for(Eigen::Index k = m*timesPerThread+1;k<(m+1)*timesPerThread+1;k++)
 		{
@@ -131,8 +136,8 @@ Eigen::TRowVectorX F0analysis::processF0(const Eigen::Ref<const Eigen::TRowVecto
 				ra[m] = (1 / ra_[m](0)) * ra_[m].head(L2);
 
 				rx[m] = ra[m].cwiseQuotient(rw).cwiseMax(0.0);
-				rk[m].setZero();
-				fk[m].setZero();
+				rk[m].setZero(Ncandidates-1);
+				fk[m].setZero(Ncandidates-1);
 				for(int j = lagmin+1; j<=lagmax+1;j++)
 				{
 					if(rx[m](j-1)>0.5*voith&&rx[m](j-2)<rx[m](j-1)&&rx[m](j)<rx[m](j-1))
@@ -149,12 +154,13 @@ Eigen::TRowVectorX F0analysis::processF0(const Eigen::Ref<const Eigen::TRowVecto
 						tmax[m] = (tmax[m] + j - 1) / fs;
 						fmax[m] = 1 / tmax[m];
 						rmax[m] = rmax[m] - octcost * std::log2(f0min * tmax[m]);
-						jj[m] = -1;
-						rmin[m] = rk[m].minCoeff(&(jj[m]));
+						//jj[m] = -1;
+						Eigen::Index jjj = -1;
+						rmin[m] = (rk[m]).minCoeff(&jjj);
 						if(rmax[m] > rmin[m])
 						{
-							rk[m](jj[m]) = rmax[m];
-							fk[m](jj[m]) = fmax[m];
+							rk[m](jjj) = rmax[m];
+							fk[m](jjj) = fmax[m];
 						}
 					}
 				}
@@ -210,7 +216,7 @@ Eigen::TRowVectorX F0analysis::processF0(const Eigen::Ref<const Eigen::TRowVecto
 	dat.back().ac.minCoeff(&jjmincostFinal);
 	// since jjmincost is acquired through Eigen, it is already 0-based indexing.
 	f0s(f0s.size() - 1) = dat.back().f(jjmincostFinal);
-	jjmincostFinal = dat.back().ant(jjmincost); // ant contains 1-based indices.Thereafter, jjmincost is 0-based
+	jjmincostFinal = dat.back().ant(jjmincostFinal); // ant contains 1-based indices.Thereafter, jjmincost is 0-based
 	for (auto k = pms.size() - 1; k >= 1; k--)
 	{
 		f0s(k - 1) = dat[k - 1].f(jjmincostFinal - 1);
