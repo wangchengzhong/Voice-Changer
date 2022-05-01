@@ -1,0 +1,15 @@
+# Source
+target_sources(${PROJECT_NAME}
+PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/afSTFT/afSTFT_protoFilter.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/afSTFT/afSTFTlib.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/afSTFT/afSTFT_internal.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/afSTFT/afSTFT_internal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/convhull_3d/convhull_3d.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/kissFFT/_kiss_fft_guts.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/kissFFT/kiss_fft.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/kissFFT/kiss_fftr.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/md_malloc/md_malloc.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/speex_resampler/arch.h    ${CMAKE_CURRENT_SOURCE_DIR}/speex_resampler/os_support.h    ${CMAKE_CURRENT_SOURCE_DIR}/speex_resampler/resample_neon.h    ${CMAKE_CURRENT_SOURCE_DIR}/speex_resampler/resample_sse.h    ${CMAKE_CURRENT_SOURCE_DIR}/speex_resampler/resample.c    ${CMAKE_CURRENT_SOURCE_DIR}/speex_resampler/speex_resampler.h    ${CMAKE_CURRENT_SOURCE_DIR}/speex_resampler/speexdsp_types.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/adler32.c    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/compress.c    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/crc32.c    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/crc32.h    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/deflate.c    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/deflate.h    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/infback.c    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/inffast.c    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/inffast.h    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/inffixed.h    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/inflate.c    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/inflate.h    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/inftrees.c    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/inftrees.h    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/trees.c    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/trees.h    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/uncompr.c    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/zconf.h    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/zlib.h    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/zutil.c    ${CMAKE_CURRENT_SOURCE_DIR}/zlib/zutil.h
+)

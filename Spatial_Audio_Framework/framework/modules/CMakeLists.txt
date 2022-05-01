@@ -1,0 +1,61 @@
+
+# Source for core SAF modules
+target_sources(${PROJECT_NAME}
+PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_cdf4sap/saf_cdf4sap.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_hoa/saf_hoa_internal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_hoa/saf_hoa_internal.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_hoa/saf_hoa.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_hrir/saf_default_hrirs.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_hrir/saf_hrir.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_reverb/saf_reverb_internal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_reverb/saf_reverb_internal.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_reverb/saf_reverb.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_sh/saf_sh_internal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_sh/saf_sh_internal.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_sh/saf_sh.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_tracker/saf_tracker_internal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_tracker/saf_tracker_internal.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_tracker/saf_tracker.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_bessel.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_complex.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_decor.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_fft.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_filters.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_geometry.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_latticeCoeffs.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_loudspeaker_presets.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_matrixConv.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_misc.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_pitch.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_qmf.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_sensorarray_presets.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_sort.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_veclib.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_utilities/saf_utility_dvf.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_vbap/saf_vbap_internal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_vbap/saf_vbap_internal.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/saf_vbap/saf_vbap.c
+)
+
+# Source for optional SAF modules
+if(SAF_ENABLE_SOFA_READER_MODULE)
+    add_subdirectory(saf_sofa_reader)
+endif()
+if(SAF_ENABLE_TRACKER_MODULE)
+    target_sources(${PROJECT_NAME}
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/saf_tracker/saf_tracker_internal.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/saf_tracker/saf_tracker_internal.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/saf_tracker/saf_tracker.c
+    )
+endif()
+if(SAF_ENABLE_HADES_MODULE)
+    target_sources(${PROJECT_NAME}
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/saf_hades/saf_hades_analysis.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/saf_hades/saf_hades_internal.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/saf_hades/saf_hades_internal.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/saf_hades/saf_hades_synthesis.c
+    )
+endif()

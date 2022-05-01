@@ -15,33 +15,39 @@
     <GROUP id="{8A0336D4-38B0-17D2-A4CC-EA2E8DCCEAEB}" name="VC">
       <GROUP id="{D1F69828-B2EC-0CE4-8895-2B59851B3E44}" name="VoiceConversionImpl">
         <GROUP id="{BC80F936-DCFD-5331-BEE9-550AAE740485}" name="HSMAnalysis">
-          <FILE id="Otey7i" name="DecomposePhase.cpp" compile="1" resource="0"
-                file="VC/DecomposePhase.cpp"/>
-          <FILE id="xfzUlu" name="DecomposePhase.h" compile="0" resource="0"
-                file="VC/DecomposePhase.h"/>
-          <FILE id="OseuDA" name="F0analysis.cpp" compile="1" resource="0" file="VC/F0analysis.cpp"/>
-          <FILE id="YiwOTp" name="F0analysis.h" compile="0" resource="0" file="VC/F0analysis.h"/>
-          <FILE id="NDF4gG" name="HarmonicAnalysis.cpp" compile="1" resource="0"
-                file="VC/HarmonicAnalysis.cpp"/>
-          <FILE id="VklMMc" name="HarmonicAnalysis.h" compile="0" resource="0"
-                file="VC/HarmonicAnalysis.h"/>
-          <FILE id="EgtxXo" name="HSManalysis.cpp" compile="1" resource="0" file="VC/HSManalysis.cpp"/>
-          <FILE id="KdHASO" name="HSManalysis.h" compile="0" resource="0" file="VC/HSManalysis.h"/>
-          <FILE id="bG6e3g" name="PolarityAnalysis.cpp" compile="1" resource="0"
-                file="VC/PolarityAnalysis.cpp"/>
-          <FILE id="uHhkqg" name="PolarityAnalysis.h" compile="0" resource="0"
-                file="VC/PolarityAnalysis.h"/>
-          <FILE id="v4p53y" name="StochasticAnalysis.cpp" compile="1" resource="0"
-                file="VC/StochasticAnalysis.cpp"/>
-          <FILE id="Lt15lW" name="StochasticAnalysis.h" compile="0" resource="0"
-                file="VC/StochasticAnalysis.h"/>
+          <FILE id="t2Q86i" name="DecomposePhaseClass.cpp" compile="1" resource="0"
+                file="VC/DecomposePhaseClass.cpp"/>
+          <FILE id="to9cSn" name="DecomposePhaseClass.h" compile="0" resource="0"
+                file="VC/DecomposePhaseClass.h"/>
+          <FILE id="ki0dp9" name="F0analysisClass.cpp" compile="1" resource="0"
+                file="VC/F0analysisClass.cpp"/>
+          <FILE id="KjNNrJ" name="F0analysisClass.h" compile="0" resource="0"
+                file="VC/F0analysisClass.h"/>
+          <FILE id="ybIwri" name="HarmonicAnalysisClass.cpp" compile="1" resource="0"
+                file="VC/HarmonicAnalysisClass.cpp"/>
+          <FILE id="J5Hj0C" name="HarmonicAnalysisClass.h" compile="0" resource="0"
+                file="VC/HarmonicAnalysisClass.h"/>
+          <FILE id="ZFvnL3" name="HSManalysisClass.cpp" compile="1" resource="0"
+                file="VC/HSManalysisClass.cpp"/>
+          <FILE id="r5ZXls" name="HSManalysisClass.h" compile="0" resource="0"
+                file="VC/HSManalysisClass.h"/>
+          <FILE id="vY3ttM" name="PolarityAnalysisClass.cpp" compile="1" resource="0"
+                file="VC/PolarityAnalysisClass.cpp"/>
+          <FILE id="O2KvZg" name="PolarityAnalysisClass.h" compile="0" resource="0"
+                file="VC/PolarityAnalysisClass.h"/>
+          <FILE id="thabge" name="StochasticAnalysisClass.cpp" compile="1" resource="0"
+                file="VC/StochasticAnalysisClass.cpp"/>
+          <FILE id="a7K11M" name="StochasticAnalysisClass.h" compile="0" resource="0"
+                file="VC/StochasticAnalysisClass.h"/>
         </GROUP>
-        <FILE id="hJo4lu" name="HSMsynthesize.cpp" compile="1" resource="0"
-              file="VC/HSMsynthesize.cpp"/>
-        <FILE id="ckz9SX" name="HSMsynthesize.h" compile="0" resource="0" file="VC/HSMsynthesize.h"/>
-        <FILE id="cGddf1" name="HSMwfwConvert.cpp" compile="1" resource="0"
-              file="VC/HSMwfwConvert.cpp"/>
-        <FILE id="b8uDPX" name="HSMwfwConvert.h" compile="0" resource="0" file="VC/HSMwfwConvert.h"/>
+        <FILE id="iACELv" name="HSMsynthesizeClass.cpp" compile="1" resource="0"
+              file="VC/HSMsynthesizeClass.cpp"/>
+        <FILE id="SKHipK" name="HSMsynthesizeClass.h" compile="0" resource="0"
+              file="VC/HSMsynthesizeClass.h"/>
+        <FILE id="Qm4Kr5" name="HSMwfwConvertClass.cpp" compile="1" resource="0"
+              file="VC/HSMwfwConvertClass.cpp"/>
+        <FILE id="lL7ZtZ" name="HSMwfwConvertClass.h" compile="0" resource="0"
+              file="VC/HSMwfwConvertClass.h"/>
         <FILE id="VfUNux" name="VoiceConversionImpl.cpp" compile="1" resource="0"
               file="VC/VoiceConversionImpl.cpp"/>
         <FILE id="An5jWV" name="VoiceConversionImpl.h" compile="0" resource="0"

@@ -21,13 +21,13 @@ namespace BinaryData
     const int            switch_right_pngSize = 518;
 
     extern const char*   Makefile_am;
-    const int            Makefile_amSize = 722;
+    const int            Makefile_amSize = 740;
 
     extern const char*   Makefile_in;
-    const int            Makefile_inSize = 18792;
+    const int            Makefile_inSize = 19396;
 
     extern const char*   speexdsp_config_types_h_in;
-    const int            speexdsp_config_types_h_inSize = 352;
+    const int            speexdsp_config_types_h_inSize = 370;
 
     extern const char*   libspeexdsp_lib;
     const int            libspeexdsp_libSize = 1254266;
@@ -60,7 +60,7 @@ namespace BinaryData
     const int            syntheticdata_pySize = 5156;
 
     extern const char*   README_md;
-    const int            README_mdSize = 706;
+    const int            README_mdSize = 739;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
     const int namedResourceListSize = 18;

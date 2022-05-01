@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
+
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="VoiceChanger_wcz\Resources">
@@ -1267,66 +1268,6 @@
     <Filter Include="JUCE Modules\tracktion_engine\3rd_party\airwindows">
       <UniqueIdentifier>{9B613BE0-1557-A23C-1745-88E2705B4684}</UniqueIdentifier>
     </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\cross">
-      <UniqueIdentifier>{70C8A400-7321-F5F3-23FB-D9A8201579ED}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\dotnet\rubberband-dll">
-      <UniqueIdentifier>{5E1ADFEE-7EDF-17F2-3FAB-71900CF3386D}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\dotnet">
-      <UniqueIdentifier>{8BD8AD83-B168-794A-1DA6-C5C86EFD0D72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\ladspa">
-      <UniqueIdentifier>{B1AB6978-F175-6E1D-799C-CE1F221FA9D5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\main">
-      <UniqueIdentifier>{26FE68F6-17DD-5C77-5F5B-06A9544A65D9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\rubberband">
-      <UniqueIdentifier>{31E4B309-3AD3-3F76-78CC-0C9EB5C04C90}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\single">
-      <UniqueIdentifier>{927C480A-9735-02AE-0F8F-F169BE2194B5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\src\audiocurves">
-      <UniqueIdentifier>{F76A0537-A797-0256-8579-8B123DE8E5C7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\src\base">
-      <UniqueIdentifier>{7461F6ED-4F9D-C055-EA7E-EC0C5D2FD45C}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\src\dsp">
-      <UniqueIdentifier>{36BD06B9-5F7F-7F46-DBA5-71BBD6E2529D}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\src\float_cast">
-      <UniqueIdentifier>{5A01A528-A2BC-5B9E-B499-21B9BA3A06D6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\src\getopt">
-      <UniqueIdentifier>{00BDF984-B7BA-24B7-CFD9-08AED6E3910F}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\src\jni">
-      <UniqueIdentifier>{26833B05-E8DF-05A9-B6F3-26406053C0AA}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\src\kissfft">
-      <UniqueIdentifier>{BADCC9F8-3CCA-1904-1FCD-791A3B039598}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\src\pommier">
-      <UniqueIdentifier>{51AEDB34-0A9D-A7D5-5DE9-86529992AFA7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\src\speex">
-      <UniqueIdentifier>{78C15661-833A-8374-6528-9CA6C5BC011D}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\src\system">
-      <UniqueIdentifier>{3567CD75-04D2-7F6D-6CD9-A22FF71AAD21}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\src">
-      <UniqueIdentifier>{F5E29BA7-2AB5-E611-8329-6FC5D152F07C}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband\vamp">
-      <UniqueIdentifier>{F1731115-6565-D3FF-70FC-A89355F5231F}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="JUCE Modules\tracktion_engine\3rd_party\rubberband">
-      <UniqueIdentifier>{ED1A3EC7-0DEE-88AF-BD7B-027EE4B125B0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="JUCE Modules\tracktion_engine\3rd_party\soundtouch\include">
       <UniqueIdentifier>{BE484904-C010-1A74-401B-4E5884BD31AE}</UniqueIdentifier>
     </Filter>
@@ -1490,6 +1431,9 @@
     </ClCompile>
     <ClCompile Include="..\..\VC\VoiceConversionImpl.cpp">
       <Filter>VoiceChanger_wcz\VC\VoiceConversionImpl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VC\include\vchsm\train_C.mm">
+      <Filter>VoiceChanger_wcz\VC\include\vchsm</Filter>
     </ClCompile>
     <ClCompile Include="..\..\VC\src\aaalsf.cpp">
       <Filter>VoiceChanger_wcz\VC\src</Filter>
@@ -2010,6 +1954,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_basics\juce_audio_basics.cpp">
       <Filter>JUCE Modules\juce_audio_basics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_basics\juce_audio_basics.mm">
+      <Filter>JUCE Modules\juce_audio_basics</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_devices\audio_io\juce_AudioDeviceManager.cpp">
       <Filter>JUCE Modules\juce_audio_devices\audio_io</Filter>
     </ClCompile>
@@ -2223,6 +2170,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_devices\native\juce_mac_CoreAudio.cpp">
       <Filter>JUCE Modules\juce_audio_devices\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_devices\native\juce_mac_CoreMidi.mm">
+      <Filter>JUCE Modules\juce_audio_devices\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_devices\native\juce_win32_ASIO.cpp">
       <Filter>JUCE Modules\juce_audio_devices\native</Filter>
     </ClCompile>
@@ -2242,6 +2192,9 @@
       <Filter>JUCE Modules\juce_audio_devices\sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_devices\juce_audio_devices.cpp">
+      <Filter>JUCE Modules\juce_audio_devices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_devices\juce_audio_devices.mm">
       <Filter>JUCE Modules\juce_audio_devices</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_formats\codecs\flac\libFLAC\bitmath.c">
@@ -2415,10 +2368,16 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_formats\juce_audio_formats.cpp">
       <Filter>JUCE Modules\juce_audio_formats</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_formats\juce_audio_formats.mm">
+      <Filter>JUCE Modules\juce_audio_formats</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_plugin_client\utility\juce_PluginUtilities.cpp">
       <Filter>JUCE Modules\juce_audio_plugin_client\utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_plugin_client\juce_audio_plugin_client_utils.cpp">
+      <Filter>JUCE Modules\juce_audio_plugin_client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST_utils.mm">
       <Filter>JUCE Modules\juce_audio_plugin_client</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format\juce_AudioPluginFormat.cpp">
@@ -2496,6 +2455,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format_types\VST3_SDK\public.sdk\source\vst\vstpresetfile.cpp">
       <Filter>JUCE Modules\juce_audio_processors\format_types\VST3_SDK\public.sdk\source\vst</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format_types\juce_AudioUnitPluginFormat.mm">
+      <Filter>JUCE Modules\juce_audio_processors\format_types</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\format_types\juce_LADSPAPluginFormat.cpp">
       <Filter>JUCE Modules\juce_audio_processors\format_types</Filter>
     </ClCompile>
@@ -2568,6 +2530,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\juce_audio_processors.cpp">
       <Filter>JUCE Modules\juce_audio_processors</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_processors\juce_audio_processors.mm">
+      <Filter>JUCE Modules\juce_audio_processors</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\audio_cd\juce_AudioCDReader.cpp">
       <Filter>JUCE Modules\juce_audio_utils\audio_cd</Filter>
     </ClCompile>
@@ -2592,10 +2557,22 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_android_BluetoothMidiDevicePairingDialogue.cpp">
       <Filter>JUCE Modules\juce_audio_utils\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_ios_BluetoothMidiDevicePairingDialogue.mm">
+      <Filter>JUCE Modules\juce_audio_utils\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_linux_AudioCDReader.cpp">
       <Filter>JUCE Modules\juce_audio_utils\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_linux_BluetoothMidiDevicePairingDialogue.cpp">
+      <Filter>JUCE Modules\juce_audio_utils\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_mac_AudioCDBurner.mm">
+      <Filter>JUCE Modules\juce_audio_utils\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_mac_AudioCDReader.mm">
+      <Filter>JUCE Modules\juce_audio_utils\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_mac_BluetoothMidiDevicePairingDialogue.mm">
       <Filter>JUCE Modules\juce_audio_utils\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\native\juce_win_BluetoothMidiDevicePairingDialogue.cpp">
@@ -2614,6 +2591,9 @@
       <Filter>JUCE Modules\juce_audio_utils\players</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\juce_audio_utils.cpp">
+      <Filter>JUCE Modules\juce_audio_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_audio_utils\juce_audio_utils.mm">
       <Filter>JUCE Modules\juce_audio_utils</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_box2d\box2d\Collision\Shapes\b2ChainShape.cpp">
@@ -2892,6 +2872,21 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\native\juce_linux_Threads.cpp">
       <Filter>JUCE Modules\juce_core\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\native\juce_mac_Files.mm">
+      <Filter>JUCE Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\native\juce_mac_Network.mm">
+      <Filter>JUCE Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\native\juce_mac_Strings.mm">
+      <Filter>JUCE Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\native\juce_mac_SystemStats.mm">
+      <Filter>JUCE Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\native\juce_mac_Threads.mm">
+      <Filter>JUCE Modules\juce_core\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\native\juce_posix_NamedPipe.cpp">
       <Filter>JUCE Modules\juce_core\native</Filter>
     </ClCompile>
@@ -3069,6 +3064,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\juce_core.cpp">
       <Filter>JUCE Modules\juce_core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_core\juce_core.mm">
+      <Filter>JUCE Modules\juce_core</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_data_structures\app_properties\juce_ApplicationProperties.cpp">
       <Filter>JUCE Modules\juce_data_structures\app_properties</Filter>
     </ClCompile>
@@ -3094,6 +3092,9 @@
       <Filter>JUCE Modules\juce_data_structures\values</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_data_structures\juce_data_structures.cpp">
+      <Filter>JUCE Modules\juce_data_structures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_data_structures\juce_data_structures.mm">
       <Filter>JUCE Modules\juce_data_structures</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_dsp\containers\juce_AudioBlock_test.cpp">
@@ -3204,6 +3205,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_dsp\juce_dsp.cpp">
       <Filter>JUCE Modules\juce_dsp</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_dsp\juce_dsp.mm">
+      <Filter>JUCE Modules\juce_dsp</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\broadcasters\juce_ActionBroadcaster.cpp">
       <Filter>JUCE Modules\juce_events\broadcasters</Filter>
     </ClCompile>
@@ -3240,7 +3244,13 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\native\juce_android_Messaging.cpp">
       <Filter>JUCE Modules\juce_events\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\native\juce_ios_MessageManager.mm">
+      <Filter>JUCE Modules\juce_events\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\native\juce_linux_Messaging.cpp">
+      <Filter>JUCE Modules\juce_events\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\native\juce_mac_MessageManager.mm">
       <Filter>JUCE Modules\juce_events\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\native\juce_ScopedLowPowerModeDisabler.cpp">
@@ -3259,6 +3269,9 @@
       <Filter>JUCE Modules\juce_events\timers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\juce_events.cpp">
+      <Filter>JUCE Modules\juce_events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_events\juce_events.mm">
       <Filter>JUCE Modules\juce_events</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\colour\juce_Colour.cpp">
@@ -3543,6 +3556,12 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\native\juce_linux_IconHelpers.cpp">
       <Filter>JUCE Modules\juce_graphics\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\native\juce_mac_CoreGraphicsContext.mm">
+      <Filter>JUCE Modules\juce_graphics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\native\juce_mac_Fonts.mm">
+      <Filter>JUCE Modules\juce_graphics\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\native\juce_mac_IconHelpers.cpp">
       <Filter>JUCE Modules\juce_graphics\native</Filter>
     </ClCompile>
@@ -3565,6 +3584,9 @@
       <Filter>JUCE Modules\juce_graphics\placement</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\juce_graphics.cpp">
+      <Filter>JUCE Modules\juce_graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\juce_graphics.mm">
       <Filter>JUCE Modules\juce_graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\accessibility\juce_AccessibilityHandler.cpp">
@@ -3825,6 +3847,15 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\accessibility\juce_android_Accessibility.cpp">
       <Filter>JUCE Modules\juce_gui_basics\native\accessibility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\accessibility\juce_ios_Accessibility.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native\accessibility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\accessibility\juce_mac_Accessibility.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native\accessibility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\accessibility\juce_mac_AccessibilitySharedCode.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native\accessibility</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\accessibility\juce_win32_Accessibility.cpp">
       <Filter>JUCE Modules\juce_gui_basics\native\accessibility</Filter>
     </ClCompile>
@@ -3855,10 +3886,34 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_ios_ContentSharer.cpp">
       <Filter>JUCE Modules\juce_gui_basics\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_ios_FileChooser.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_ios_UIViewComponentPeer.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_ios_Windowing.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_linux_FileChooser.cpp">
       <Filter>JUCE Modules\juce_gui_basics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_linux_Windowing.cpp">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_mac_FileChooser.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_mac_MainMenu.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_mac_MouseCursor.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_mac_NSViewComponentPeer.mm">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_mac_Windowing.mm">
       <Filter>JUCE Modules\juce_gui_basics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\native\juce_win32_DragAndDrop.cpp">
@@ -3984,6 +4039,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\juce_gui_basics.cpp">
       <Filter>JUCE Modules\juce_gui_basics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_basics\juce_gui_basics.mm">
+      <Filter>JUCE Modules\juce_gui_basics</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\code_editor\juce_CodeDocument.cpp">
       <Filter>JUCE Modules\juce_gui_extra\code_editor</Filter>
     </ClCompile>
@@ -4044,6 +4102,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_ios_PushNotifications.cpp">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_ios_UIViewComponent.mm">
+      <Filter>JUCE Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_linux_X11_SystemTrayIcon.cpp">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
@@ -4053,10 +4114,19 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_linux_XEmbedComponent.cpp">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_mac_AppleRemote.mm">
+      <Filter>JUCE Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_mac_NSViewComponent.mm">
+      <Filter>JUCE Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_mac_PushNotifications.cpp">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_mac_SystemTrayIcon.cpp">
+      <Filter>JUCE Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_mac_WebBrowserComponent.mm">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\native\juce_win32_ActiveXComponent.cpp">
@@ -4072,6 +4142,9 @@
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\juce_gui_extra.cpp">
+      <Filter>JUCE Modules\juce_gui_extra</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_gui_extra\juce_gui_extra.mm">
       <Filter>JUCE Modules\juce_gui_extra</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\opengl\juce_gl.cpp">
@@ -4110,6 +4183,9 @@
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\juce_opengl.cpp">
       <Filter>JUCE Modules\juce_opengl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_opengl\juce_opengl.mm">
+      <Filter>JUCE Modules\juce_opengl</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_osc\osc\juce_OSCAddress.cpp">
       <Filter>JUCE Modules\juce_osc\osc</Filter>
     </ClCompile>
@@ -4144,6 +4220,9 @@
       <Filter>JUCE Modules\juce_video\playback</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\juce_video.cpp">
+      <Filter>JUCE Modules\juce_video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_video\juce_video.mm">
       <Filter>JUCE Modules\juce_video</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\airwindows\Acceleration\Acceleration.cpp">
@@ -5267,114 +5346,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\airwindows\Wider\WiderProc.cpp">
       <Filter>JUCE Modules\tracktion_engine\3rd_party\airwindows\Wider</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\dotnet\rubberband-dll\dllmain.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\dotnet\rubberband-dll</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\dotnet\rubberband-dll\rubberband-dll.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\dotnet\rubberband-dll</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\dotnet\rubberband-dll\stdafx.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\dotnet\rubberband-dll</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\ladspa\libmain.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\ladspa</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\ladspa\RubberBandPitchShifter.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\ladspa</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\main\main.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\single\RubberBandSingle.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\single</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\audiocurves\CompoundAudioCurve.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\audiocurves</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\audiocurves\ConstantAudioCurve.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\audiocurves</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\audiocurves\HighFrequencyAudioCurve.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\audiocurves</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\audiocurves\PercussiveAudioCurve.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\audiocurves</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\audiocurves\SilentAudioCurve.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\audiocurves</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\audiocurves\SpectralDifferenceAudioCurve.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\audiocurves</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\base\Profiler.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\dsp\AudioCurveCalculator.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\dsp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\dsp\BQResampler.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\dsp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\dsp\FFT.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\dsp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\dsp\Resampler.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\dsp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\getopt\getopt.c">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\getopt</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\getopt\getopt_long.c">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\getopt</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\jni\RubberBandStretcherJNI.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\jni</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\kissfft\kiss_fft.c">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\kissfft</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\kissfft\kiss_fftr.c">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\kissfft</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\speex\resample.c">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\speex</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\system\Allocators.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\system\sysutils.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\system\Thread.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\system\VectorOpsComplex.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\rubberband-c.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\RubberBandStretcher.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\StretchCalculator.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\StretcherChannelData.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\StretcherImpl.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\StretcherProcess.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\vamp\libmain.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\vamp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\vamp\RubberBandVampPlugin.cpp">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\vamp</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\soundtouch\source\SoundTouch\AAFilter.cpp">
       <Filter>JUCE Modules\tracktion_engine\3rd_party\soundtouch\source\SoundTouch</Filter>
@@ -10298,129 +10269,6 @@
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\airwindows\Wider\Wider.h">
       <Filter>JUCE Modules\tracktion_engine\3rd_party\airwindows\Wider</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\dotnet\rubberband-dll\stdafx.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\dotnet\rubberband-dll</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\dotnet\rubberband-dll\targetver.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\dotnet\rubberband-dll</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\ladspa\RubberBandPitchShifter.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\ladspa</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\rubberband\rubberband-c.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\rubberband</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\rubberband\RubberBandStretcher.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\rubberband</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\audiocurves\CompoundAudioCurve.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\audiocurves</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\audiocurves\ConstantAudioCurve.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\audiocurves</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\audiocurves\HighFrequencyAudioCurve.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\audiocurves</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\audiocurves\PercussiveAudioCurve.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\audiocurves</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\audiocurves\SilentAudioCurve.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\audiocurves</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\audiocurves\SpectralDifferenceAudioCurve.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\audiocurves</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\base\Profiler.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\base\RingBuffer.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\base\Scavenger.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\dsp\AudioCurveCalculator.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\dsp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\dsp\BQResampler.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\dsp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\dsp\FFT.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\dsp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\dsp\MovingMedian.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\dsp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\dsp\Resampler.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\dsp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\dsp\SampleFilter.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\dsp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\dsp\SincWindow.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\dsp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\dsp\Window.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\dsp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\float_cast\float_cast.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\float_cast</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\getopt\getopt.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\getopt</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\getopt\unistd.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\getopt</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\kissfft\_kiss_fft_guts.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\kissfft</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\kissfft\kiss_fft.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\kissfft</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\kissfft\kiss_fft_log.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\kissfft</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\kissfft\kiss_fftr.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\kissfft</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\pommier\neon_mathfun.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\pommier</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\pommier\sse_mathfun.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\pommier</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\speex\speex_resampler.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\speex</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\system\Allocators.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\system\sysutils.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\system\Thread.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\system\VectorOps.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\system\VectorOpsComplex.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\StretchCalculator.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\StretcherChannelData.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\src\StretcherImpl.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\vamp\RubberBandVampPlugin.h">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\vamp</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\soundtouch\include\BPMDetect.h">
       <Filter>JUCE Modules\tracktion_engine\3rd_party\soundtouch\include</Filter>
     </ClInclude>
@@ -11469,36 +11317,6 @@
     </None>
     <None Include="..\..\..\..\tools\tracktion_engine\modules\juce\modules\juce_graphics\image_formats\pnglib\libpng_readme.txt">
       <Filter>JUCE Modules\juce_graphics\image_formats\pnglib</Filter>
-    </None>
-    <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\cross\ios-simulator.txt">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\cross</Filter>
-    </None>
-    <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\cross\ios.txt">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\cross</Filter>
-    </None>
-    <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\cross\macos-arm64.txt">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\cross</Filter>
-    </None>
-    <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\cross\macos-universal.txt">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\cross</Filter>
-    </None>
-    <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\cross\macos-x86_64.txt">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\cross</Filter>
-    </None>
-    <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\cross\windows-cl.txt">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\cross</Filter>
-    </None>
-    <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\cross\windows-clang.txt">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\cross</Filter>
-    </None>
-    <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\dotnet\README.md">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband\dotnet</Filter>
-    </None>
-    <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\meson_options.txt">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband</Filter>
-    </None>
-    <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_engine\3rd_party\rubberband\README.md">
-      <Filter>JUCE Modules\tracktion_engine\3rd_party\rubberband</Filter>
     </None>
     <None Include="..\..\..\..\tools\tracktion_engine\modules\tracktion_graph\3rd_party\farbot\CMakeLists.txt">
       <Filter>JUCE Modules\tracktion_graph\3rd_party\farbot</Filter>
