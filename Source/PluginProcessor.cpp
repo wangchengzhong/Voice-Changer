@@ -177,6 +177,7 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
 	, internalWriteThread("internalWriteThread")
 
 {
+    ensureEngineCreatedOnMessageThread();
     
     formatManager.registerBasicFormats();
     readAheadThread.startThread(3);
@@ -302,6 +303,9 @@ void VoiceChanger_wczAudioProcessor::changeProgramName (int index, const juce::S
 //==============================================================================
 void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    this->sampleRate = sampleRate;
+    ensurePrepareToPlayCalledOnMessageThread(sampleRate,samplesPerBlock);
+
     this->samplesPerBlock = samplesPerBlock;
     fileBuffer.setSize(2, sampleRate * 60);
     internalWriteThread.startThread(7);
@@ -503,6 +507,12 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
         //        spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
         //}
         //spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
+    }
+    
+    if (isDawStream.load())
+    {
+        engineWrapper->playheadSynchroniser.synchronise(*this);
+        engineWrapper->audioInterface.processBlock(buffer, midiMessages);
     }
     const ScopedLock s1(writerLock);
     if (activeWriter.load() != nullptr)

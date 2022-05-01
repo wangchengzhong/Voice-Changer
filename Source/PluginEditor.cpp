@@ -664,7 +664,7 @@ void VoiceChanger_wczAudioProcessorEditor::openDawButtonClicked()
     else
     {
         dawWindow = new NewWindow(juce::String("dawWindow"), juce::Colours::darkslategrey, juce::DocumentWindow::allButtons);// new TemplateRecordingWindow();
-        dawWindow->setContentOwned(new DawComponent(*this), true);
+        dawWindow->setContentOwned(new DawComponent(*this,audioProcessor.engineWrapper->engine,audioProcessor.engineWrapper->edit,audioProcessor), true);
         dawWindow->addToDesktop();
         dawWindow->centreWithSize(800, 600);
         dawWindow->setVisible(true);

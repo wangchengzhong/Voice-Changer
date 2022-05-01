@@ -33,26 +33,152 @@
 #include"FIFO.h"
 #include"TrainingTemplate.h"
 #include"Analyser.h"
+#include "EngineHelpers.h"
+#include "ExtendedUIBehaviour.h"
 #include"SocialButtons.h"
 #include"VocoderForVoiceConversion.h"
 #include"VoiceConversionBuffer.h"
 
-// #include"include/webrtc_vad.h"
-//==============================================================================
-/**
-*/
+#include"Utilities.h"
+
+
 class VoiceChanger_wczAudioProcessor :
 	 public juce::AudioProcessor//,public juce::AudioAppComponent//,public Filter
     ,public TransportInformation
     ,public juce::AudioProcessorValueTreeState::Listener
 	,public juce::ChangeBroadcaster
 {
+
+public:
+
+    std::atomic<bool> isDawStream{ false };
+    std::atomic<bool> isInternalRecording{ false };
+    static void setupInputs(tracktion_engine::Edit& edit)
+    {
+        auto& dm = edit.engine.getDeviceManager();
+
+        for (int i = 0; i < dm.getNumMidiInDevices(); i++)
+        {
+            auto dev = dm.getMidiInDevice(i);
+            dev->setEnabled(true);
+            dev->setEndToEndEnabled(true);
+        }
+
+        edit.playInStopEnabled = true;
+        edit.getTransport().ensureContextAllocated(true);
+
+        // Add the midi input to track 1
+        if (auto t = EngineHelpers::getOrInsertAudioTrackAt(edit, 0))
+            if (auto dev = dm.getMidiInDevice(0))
+                for (auto instance : edit.getAllInputDevices())
+                    if (&instance->getInputDevice() == dev)
+                        instance->setTargetTrack(*t, 0, true);
+
+        // Also add the same midi input to track 2
+        if (auto t = EngineHelpers::getOrInsertAudioTrackAt(edit, 1))
+            if (auto dev = dm.getMidiInDevice(0))
+                for (auto instance : edit.getAllInputDevices())
+                    if (&instance->getInputDevice() == dev)
+                        instance->setTargetTrack(*t, 0, false);
+
+
+        edit.restartPlayback();
+    }
+
+    static void setupOutputs(tracktion_engine::Edit& edit)
+    {
+        auto& dm = edit.engine.getDeviceManager();
+
+        for (int i = 0; i < dm.getNumMidiOutDevices(); i++)
+        {
+            auto dev = dm.getMidiOutDevice(i);
+            dev->setEnabled(true);
+        }
+
+        edit.playInStopEnabled = true;
+        edit.getTransport().ensureContextAllocated(true);
+
+        // Set track 2 to send to midi output
+        if (auto t = EngineHelpers::getOrInsertAudioTrackAt(edit, 1))
+        {
+            auto& output = t->getOutput();
+            output.setOutputToDefaultDevice(true);
+        }
+
+        edit.restartPlayback();
+    }
+
+
+    class PluginEngineBehaviour : public tracktion_engine::EngineBehaviour
+    {
+    public:
+        bool autoInitialiseDeviceManager() override { return false; }
+    };
+
+    //==============================================================================
+    struct EngineWrapper
+    {
+        EngineWrapper()
+            : audioInterface(engine.getDeviceManager().getHostedAudioDeviceInterface())
+        {
+            JUCE_ASSERT_MESSAGE_THREAD
+                audioInterface.initialise({});
+
+            setupInputs(edit);
+            setupOutputs(edit);
+        }
+
+        tracktion_engine::Engine engine{ ProjectInfo::projectName, std::make_unique<ExtendedUIBehaviour>(), std::make_unique<PluginEngineBehaviour>() };
+        tracktion_engine::Edit edit{ engine, tracktion_engine::createEmptyEdit(engine), tracktion_engine::Edit::forEditing, nullptr, 0 };
+        tracktion_engine::TransportControl& transport{ edit.getTransport() };
+        tracktion_engine::HostedAudioDeviceInterface& audioInterface;
+        tracktion_engine::ExternalPlayheadSynchroniser playheadSynchroniser{ edit };
+    };
+
+    template<typename Function>
+    void callFunctionOnMessageThread(Function&& func)
+    {
+        if (MessageManager::getInstance()->isThisTheMessageThread())
+        {
+            func();
+        }
+        else
+        {
+            jassert(!MessageManager::getInstance()->currentThreadHasLockedMessageManager());
+            WaitableEvent finishedSignal;
+            MessageManager::callAsync([&]
+                {
+                    func();
+                    finishedSignal.signal();
+                });
+            finishedSignal.wait(-1);
+        }
+    }
+
+    void ensureEngineCreatedOnMessageThread()
+    {
+        if (!engineWrapper)
+            callFunctionOnMessageThread([&] { engineWrapper = std::make_unique<EngineWrapper>(); });
+    }
+
+    void ensurePrepareToPlayCalledOnMessageThread(double sampleRate, int expectedBlockSize)
+    {
+        jassert(engineWrapper);
+        callFunctionOnMessageThread([&] { engineWrapper->audioInterface.prepareToPlay(sampleRate, expectedBlockSize); });
+    }
+
+    std::unique_ptr<EngineWrapper> engineWrapper;
+
+
+
+//====================================================================================
+
 public:
     void stop();
     CriticalSection modelWriterLock;
     CriticalSection writerLock;
     std::atomic<bool> openVoiceConversion{ false };
-    bool isInternalRecording{ false };
+    // bool isInternalRecording{ false };
     TimeSliceThread internalWriteThread;
     std::unique_ptr<AudioFormatWriter::ThreadedWriter> threadedWriter;
     std::atomic<AudioFormatWriter::ThreadedWriter*> activeWriter{ nullptr };
@@ -110,11 +236,9 @@ public:
     void overallProcess(juce::AudioBuffer<float>& buffer);
 
     void parameterChanged(const juce::String& parameterID, float newValue) override;
-    //==============================================================================
 
     juce::AudioProcessorValueTreeState& getPluginState();
 
-#if _OPEN_FILTERS
     size_t getNumBands() const;
     juce::String getBandName(size_t index) const;
     juce::Colour getBandColour(size_t index) const;
@@ -136,7 +260,8 @@ public:
     void createAnalyserPlot(juce::Path& p, const juce::Rectangle<int> bounds, float minFreq, bool input);
 
     bool checkForNewAnalyserData();
-    //==============================================================================
+
+    //=========================================================
     const juce::String getName() const override;
 
     bool acceptsMidi() const override;
@@ -144,17 +269,17 @@ public:
     bool isMidiEffect() const override;
     double getTailLengthSeconds() const override;
 
-    //==============================================================================
+
     int getNumPrograms() override;
     int getCurrentProgram() override;
     void setCurrentProgram (int index) override;
     const juce::String getProgramName (int index) override;
     void changeProgramName (int index, const juce::String& newName) override;
 
-    //==============================================================================
+
     void  getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-
+    //==========================================================
     juce::Point<int> getSavedSize() const;
     void setSavedSize(const juce::Point<int>& size);
 
@@ -219,7 +344,7 @@ private:
     void updatePlots();
 
     juce::UndoManager                  undo;
-#endif
+
 
     juce::AudioProcessorValueTreeState state;
 #if _OPEN_FILTERS
@@ -236,7 +361,7 @@ private:
     
 
 
-    double sampleRate = 48000;
+    double sampleRate = 44100;
 
     int soloed = -1;
 
@@ -247,7 +372,7 @@ private:
     juce::Point<int> editorSize = { 900, 500 };
 #endif
 
-
+    //================================================================================
 public:
 
 #if _OPEN_DYNAMICS 
