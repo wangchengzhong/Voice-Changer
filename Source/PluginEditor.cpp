@@ -16,7 +16,18 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     , circularMeterL([&]() { return audioProcessor.getRmsLevel(0); },juce::Colours::violet)
     , circularMeterR([&]() { return audioProcessor.getRmsLevel(1); },juce::Colours::lightblue)
 	, pEqEditor(std::make_unique<FrequalizerAudioProcessorEditor>(p))
+	
 {
+    reverbSliderAttachments.add(new AudioProcessorValueTreeState::SliderAttachment(audioProcessor.getPluginState(), ParamNames::size, reverbSizeSlider));
+    reverbSliderAttachments.add(new AudioProcessorValueTreeState::SliderAttachment(audioProcessor.getPluginState(), ParamNames::damp, reverbDampSlider));
+    reverbSliderAttachments.add(new AudioProcessorValueTreeState::SliderAttachment(audioProcessor.getPluginState(), ParamNames::width, reverbWidthSlider));
+    reverbSliderAttachments.add(new AudioProcessorValueTreeState::SliderAttachment(audioProcessor.getPluginState(), ParamNames::dryWet, reverbDrywetSlider));
+    reverbButtonAttachments.add(new AudioProcessorValueTreeState::ButtonAttachment(audioProcessor.getPluginState(), ParamNames::freeze, freezeButton));
+	/*reverbSizeAttachment(audioProcessor.getPluginState(), ParamNames::size, reverbSizeSlider)
+        , reverbDampAttachment(audioProcessor.getPluginState(), ParamNames::damp, reverbDampSlider)
+        , reverbWidthAttachment(audioProcessor.getPluginState(), ParamNames::width, reverbWidthSlider)
+        , reverbDrywetAttachment(audioProcessor.getPluginState(), ParamNames::dryWet, reverbDrywetSlider)
+        , reverbFreezeAttachment(audioProcessor.getPluginState(), ParamNames::freeze, freezeButton)*/
     backgroundTexture = backgroundTexture.rescaled(1400, 600);
 
     thumbnailCore = new AudioThumbnailComp(audioProcessor.formatManager, audioProcessor.transportSource, audioProcessor.thumbnailCache, audioProcessor.currentlyLoadedFile);
@@ -283,14 +294,6 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     addAndMakeVisible(&openCameraButton);
 
     
-    //recWindow = new TemplateRecordingWindow("TemplateRecording", juce::Colours::grey, juce::DocumentWindow::allButtons);
-    //recWindow->setUsingNativeTitleBar(true);
-    //recWindow->setSize(600, 600);
-    //recWindow->setCentrePosition(600, 600);
-    //recWindow->setContentOwned(new BackgroundComponent(), true);
-    //
-    //// recWindow->centreWithSize(500, 500);
-    //recWindow->setVisible(true);
     
     //  AudioProcessorEditor::addAndMakeVisible(pPlayPositionSlider.get());
     openDawButton.setButtonText(juce::CharPointer_UTF8("\xe6\x89\x93\xe5\xbc\x80\xe9\x9f\xb3\xe9\xa2\x91\xe7\xbc\x96\xe8\xbe\x91\xe5\x99\xa8"));

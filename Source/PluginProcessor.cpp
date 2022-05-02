@@ -71,11 +71,67 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
             std::move(paramSmooth));
         params.push_back(std::move(group));
     }
+
+    
+    {
+        const auto range = juce::NormalisableRange<float>(0.0f, 100.0f, 0.01f, 1.0f);
+        const auto defaultValue = 50.0f;
+        auto stringFromValue = [](float value, int)
+        {
+            if (value < 10.0f)
+                return juce::String(value, 2) + " %";
+            else if (value < 100.0f)
+                return juce::String(value, 1) + " %";
+            else
+                return juce::String(value, 0) + " %";
+        };
+        auto reverbSize = std::make_unique<juce::AudioParameterFloat>(ParamNames::size,
+            TRANS(ParamNames::size),
+            range,
+            defaultValue,
+            juce::String(),
+            juce::AudioProcessorParameter::genericParameter,
+            stringFromValue,
+            nullptr);
+        auto reverbDamp = std::make_unique<juce::AudioParameterFloat>(ParamNames::damp,
+            TRANS(ParamNames::damp),
+            range,
+            defaultValue,
+            juce::String(),
+            juce::AudioProcessorParameter::genericParameter,
+            stringFromValue,
+            nullptr);
+        auto reverbWidth = std::make_unique<juce::AudioParameterFloat>(ParamNames::width,
+            TRANS(ParamNames::width),
+            range,
+            defaultValue,
+            juce::String(),
+            juce::AudioProcessorParameter::genericParameter,
+            stringFromValue,
+            nullptr);
+        auto reverbDrywet = std::make_unique<juce::AudioParameterFloat>(ParamNames::dryWet,
+            TRANS(ParamNames::dryWet),
+            range,
+            defaultValue,
+            juce::String(),
+            juce::AudioProcessorParameter::genericParameter,
+            stringFromValue,
+            nullptr);
+        auto reverbFreeze = std::make_unique<juce::AudioParameterBool>(ParamNames::freeze, TRANS(ParamNames::freeze), false);
+        auto group = std::make_unique<juce::AudioProcessorParameterGroup>("reverb", TRANS("Reverb"), "|",
+            std::move(reverbSize),
+            std::move(reverbDamp),
+            std::move(reverbWidth),
+            std::move(reverbDrywet),
+            std::move(reverbFreeze));
+        params.push_back(std::move(group));
+    }
 #if _OPEN_FILTERS
     // setting defaults
 
     const float maxGain = juce::Decibels::decibelsToGain(24.0f);
     auto defaults = createDefaultBands();
+
 
     {
         auto param = std::make_unique<juce::AudioParameterFloat>(VoiceChanger_wczAudioProcessor::paramOutput, TRANS("Output"),
@@ -209,6 +265,7 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
     state.addParameterListener("rmsPeriod", this);
     state.addParameterListener("smoothing", this);
 
+    
     state.state = juce::ValueTree(JucePlugin_Name);
 #endif
 
@@ -330,7 +387,7 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
     updatePlots();
 
     filter.prepare(fspec);
-
+    reverb.prepare(fspec);
     inputAnalyser.setupAnalyser(int(sampleRate), float(sampleRate));
     outputAnalyser.setupAnalyser(int(sampleRate), float(sampleRate));
 #endif
@@ -558,6 +615,7 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
     int numSamples = buffer.getNumSamples();
 
     updateUIControls();
+    // updateReverbSettings();
 
 #if _OPEN_DYNAMICS
     processDynamics(buffer, false, getDynamicsThresholdShift(),
@@ -609,7 +667,7 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
         juce::dsp::AudioBlock<float>              ioBuffer(buffer);
         juce::dsp::ProcessContextReplacing<float> context(ioBuffer);
         filter.process(context);
-
+        reverb.process(context);
         if (getActiveEditor() != nullptr)
             outputAnalyser.addAudioData(buffer, 0, getTotalNumOutputChannels());
 
@@ -704,11 +762,37 @@ void VoiceChanger_wczAudioProcessor::parameterChanged(const juce::String& parame
     if (parameterID.equalsIgnoreCase("rmsPeriod"))
     {
         rmsWindowSize = static_cast<int>(getSampleRate() * newValue) / 1000;
-
     }
     if (parameterID.equalsIgnoreCase("smoothing"))
     {
         isSmoothed = static_cast<bool>(newValue);
+    }
+
+    if (parameterID.equalsIgnoreCase(ParamNames::size))
+    {
+        reverbParams.roomSize = newValue;
+        reverb.setParameters(reverbParams);
+    }
+    if (parameterID.equalsIgnoreCase(ParamNames::width))
+    {
+        reverbParams.width = newValue;
+        reverb.setParameters(reverbParams);
+    }
+    if (parameterID.equalsIgnoreCase(ParamNames::damp))
+    {
+        reverbParams.damping = newValue;
+        reverb.setParameters(reverbParams);
+    }
+    if (parameterID.equalsIgnoreCase(ParamNames::dryWet))
+    {
+        reverbParams.wetLevel = newValue;
+        reverbParams.dryLevel = 1 - newValue;
+        reverb.setParameters(reverbParams);
+    }
+    if (parameterID.equalsIgnoreCase(ParamNames::freeze))
+    {
+        reverbParams.freezeMode = newValue;
+        reverb.setParameters(reverbParams);
     }
 
 
@@ -1506,5 +1590,16 @@ void VoiceChanger_wczAudioProcessor::stopRecording()
     stop();
     lastRecording = parentDir.getNonexistentChildFile("VoiceChanger_wcz Recording", ".wav");
 }
+//void VoiceChanger_wczAudioProcessor::updateReverbSettings()
+//{
+//	reverbParams.roomSize = state.getParameter(ParamNames::size)->getValue();
+//    reverbParams.damping = state.getParameter(ParamNames::damp)->getValue();
+//    reverbParams.width = state.getParameter(ParamNames::width)->getValue();
+//    reverbParams.wetLevel = state.getParameter(ParamNames::dryWet)->getValue();
+//    reverbParams.dryLevel = 1.0f - state.getParameter(ParamNames::dryWet)->getValue();
+//    reverbParams.freezeMode = state.getParameter(ParamNames::freeze)->getValue();
+//    reverb.setParameters(reverbParams);
+//}
+
 
 

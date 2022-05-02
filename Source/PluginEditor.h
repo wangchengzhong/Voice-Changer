@@ -47,7 +47,8 @@ public:
 
     void comboBoxChanged(juce::ComboBox* comboBoxThatWasMoved) override;
 
-
+    OwnedArray<AudioProcessorValueTreeState::SliderAttachment>reverbSliderAttachments;// reverbSizeAttachment, reverbDampAttachment, reverbWidthAttachment, reverbDrywetAttachment;
+    OwnedArray<AudioProcessorValueTreeState::ButtonAttachment>reverbButtonAttachments;// reverbFreezeAttachment;
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
@@ -125,6 +126,12 @@ private:
     juce::Label specificConversionLabel;
     juce::Label generalConversionLabel;
     Label modeChooseLabel;
+
+    TextButton freezeButton{"abc"};
+    Slider reverbSizeSlider{ juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow },
+		reverbDampSlider{ juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow },
+		reverbWidthSlider{ juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow },
+		reverbDrywetSlider{ juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow };
 
     juce::TextButton openTemplateWindowButton;
     juce::TextButton openCameraButton;

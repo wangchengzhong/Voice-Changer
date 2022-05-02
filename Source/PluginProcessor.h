@@ -40,7 +40,14 @@
 #include"VoiceConversionBuffer.h"
 
 #include"Utilities.h"
-
+namespace ParamNames
+{
+    const juce::String size{ "reverbSize" };
+    const juce::String damp{ "reverbDamp" };
+    const juce::String width{ "reverbWidth" };
+    const juce::String dryWet{ "reverbDw" };
+    const juce::String freeze{ "reverbRreeze" };
+}
 
 class VoiceChanger_wczAudioProcessor :
 	 public juce::AudioProcessor//,public juce::AudioAppComponent//,public Filter
@@ -523,4 +530,9 @@ public:
     void processLevelInfo(juce::AudioBuffer<float>& buffer);
     //==============================================================================
     //JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VoiceChanger_wczAudioProcessor)
+private:
+    // void updateReverbSettings();
+    dsp::Reverb::Parameters reverbParams;
+    dsp::Reverb reverb;
 };
+
