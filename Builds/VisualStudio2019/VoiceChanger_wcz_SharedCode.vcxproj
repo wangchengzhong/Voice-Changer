@@ -4586,6 +4586,7 @@
     <ClInclude Include="..\..\soundtouch\source\SoundTouch\PeakFinder.h"/>
     <ClInclude Include="..\..\soundtouch\source\SoundTouch\RateTransposer.h"/>
     <ClInclude Include="..\..\soundtouch\source\SoundTouch\TDStretch.h"/>
+    <ClInclude Include="..\..\Source\WebBrowser.h"/>
     <ClInclude Include="..\..\Source\MatchBuffer.h"/>
     <ClInclude Include="..\..\Source\VoiceConversion.h"/>
     <ClInclude Include="..\..\Source\VoiceConversionBuffer.h"/>

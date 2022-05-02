@@ -349,6 +349,9 @@
       </GROUP>
     </GROUP>
     <GROUP id="{2B23833A-41C0-04F9-78E4-035161AB1CFF}" name="Source">
+      <GROUP id="{AE2A22F3-CF83-165A-4396-B4FEC6B155FF}" name="Web">
+        <FILE id="woMwAR" name="WebBrowser.h" compile="0" resource="0" file="Source/WebBrowser.h"/>
+      </GROUP>
       <GROUP id="{7FF04DBC-FE96-F97E-4FC1-9A639BB14D89}" name="Core">
         <FILE id="ndH7aQ" name="MatchBuffer.cpp" compile="1" resource="0" file="Source/MatchBuffer.cpp"/>
         <FILE id="xKcjU9" name="MatchBuffer.h" compile="0" resource="0" file="Source/MatchBuffer.h"/>

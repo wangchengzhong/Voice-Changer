@@ -119,7 +119,7 @@ private:
 			);
 			return;
 		}
-		auto parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+		auto parentDir = juce::File::getSpecialLocation(juce::File::userDesktopDirectory);
 		
 		lastRecording = parentDir.getNonexistentChildFile("template speech", ".wav");
 		// juce::File lastRecording1("D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/source_train/1a.wav");

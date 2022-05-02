@@ -57,7 +57,7 @@ class VoiceChanger_wczAudioProcessor :
 {
 
 public:
-
+    std::atomic<bool> openReverb{ false };
     std::atomic<bool> isDawStream{ false };
     std::atomic<bool> isInternalRecording{ false };
     static void setupInputs(tracktion_engine::Edit& edit)
@@ -531,7 +531,7 @@ public:
     //==============================================================================
     //JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VoiceChanger_wczAudioProcessor)
 private:
-    // void updateReverbSettings();
+    void updateReverbSettings();
     dsp::Reverb::Parameters reverbParams;
     dsp::Reverb reverb;
 };

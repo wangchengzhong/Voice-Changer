@@ -65,6 +65,7 @@ private:
     void resetAllButtonClicked();
     void switchPitchMethodButtonClicked();
     void switchVoiceConversionButtonClicked();
+    void openReverbButtonClicked();
 
     void stopPlayFileButtonClicked();
     void playFileButtonClicked();
@@ -74,6 +75,7 @@ private:
     void openCameraButtonClicked();
     void openDawButtonClicked();
     void openEqButtonClicked();
+    void openWebButtonClicked();
     // void singModeClicked();
 
     juce::Image backgroundTexture = juce::ImageFileFormat::
@@ -119,7 +121,7 @@ private:
 
     juce::TextButton resetAllButton;
 
-    juce::ImageButton switchPitchMethodButton;
+    ImageButton switchPitchMethodButton;;
     juce::ImageButton switchVoiceConversionButton;
     juce::Label timeDomainLabel;
     juce::Label freqDomainLabel;
@@ -128,7 +130,16 @@ private:
     Label modeChooseLabel;
 
     TextButton freezeButton{"abc"};
-    Slider reverbSizeSlider{ juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow },
+    ImageButton openReverbButton;
+
+    Label
+		reverbOpenLabel{"reverb",juce::CharPointer_UTF8("\xe6\xb7\xb7\xe5\x93\x8d\xe5\xbc\x80\xe5\x85\xb3") },
+		reverbSizeLabel{ "reverb", juce::CharPointer_UTF8("\xe6\x88\xbf\xe9\x97\xb4\xe5\xa4\xa7\xe5\xb0\x8f") },
+		reverbDampLabel{"reverb",juce::CharPointer_UTF8("\xe6\xb7\xb7\xe5\x93\x8d\xe9\x98\xbb\xe5\xb0\xbc") },
+		reverbWidthLabel{"reverb",juce::CharPointer_UTF8("\xe6\xb7\xb7\xe5\x93\x8d\xe5\xae\xbd\xe5\xba\xa6") },
+		reverbDryWetLabel{"reverb",juce::CharPointer_UTF8("\xe5\xb9\xb2\xe6\xb9\xbf\xe6\xaf\x94") };
+    Slider
+		reverbSizeSlider{ juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow },
 		reverbDampSlider{ juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow },
 		reverbWidthSlider{ juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow },
 		reverbDrywetSlider{ juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::TextBoxBelow };
@@ -142,6 +153,7 @@ private:
     juce::TextButton openDawButton;
 
     juce::TextButton openEqButton;
+    TextButton openWebButton;
     juce::AudioDeviceSelectorComponent audioSetupComp;
     int duration{ 300 };
    
@@ -156,6 +168,7 @@ private:
     juce::Component::SafePointer<juce::DocumentWindow> dawWindow;
     juce::Component::SafePointer<juce::DocumentWindow> eqWindow;
     std::unique_ptr<FrequalizerAudioProcessorEditor> pEqEditor;
+    SafePointer<DocumentWindow> webWindow;
 
     Gui::CicularMeter circularMeterL, circularMeterR;
     Gui::HorizontalMeter horizontalMeterL, horizontalMeterR;

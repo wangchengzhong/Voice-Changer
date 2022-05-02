@@ -9,6 +9,7 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "EqualizerEditor.h"
+#include"WebBrowser.h"
 //==============================================================================
 VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(VoiceChanger_wczAudioProcessor& p)
     : AudioProcessorEditor(&p), audioProcessor(p)
@@ -22,7 +23,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     reverbSliderAttachments.add(new AudioProcessorValueTreeState::SliderAttachment(audioProcessor.getPluginState(), ParamNames::damp, reverbDampSlider));
     reverbSliderAttachments.add(new AudioProcessorValueTreeState::SliderAttachment(audioProcessor.getPluginState(), ParamNames::width, reverbWidthSlider));
     reverbSliderAttachments.add(new AudioProcessorValueTreeState::SliderAttachment(audioProcessor.getPluginState(), ParamNames::dryWet, reverbDrywetSlider));
-    reverbButtonAttachments.add(new AudioProcessorValueTreeState::ButtonAttachment(audioProcessor.getPluginState(), ParamNames::freeze, freezeButton));
+    // reverbButtonAttachments.add(new AudioProcessorValueTreeState::ButtonAttachment(audioProcessor.getPluginState(), ParamNames::freeze, freezeButton));
 	/*reverbSizeAttachment(audioProcessor.getPluginState(), ParamNames::size, reverbSizeSlider)
         , reverbDampAttachment(audioProcessor.getPluginState(), ParamNames::damp, reverbDampSlider)
         , reverbWidthAttachment(audioProcessor.getPluginState(), ParamNames::width, reverbWidthSlider)
@@ -245,6 +246,36 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
         0.0f);
     addAndMakeVisible(switchVoiceConversionButton);
 
+    openReverbButton.setClickingTogglesState(true);
+    openReverbButton.onClick = [this] {openReverbButtonClicked(); };
+    openReverbButton.setImages(
+        false, true, false,
+        juce::ImageFileFormat::loadFrom(BinaryData::switch_left_png, BinaryData::switch_left_pngSize), 1.0f, {},
+        {}, 1.0f, {},
+        juce::ImageFileFormat::loadFrom(BinaryData::switch_right_png, BinaryData::switch_right_pngSize), 1.0f, {},
+        0.0f);
+    addAndMakeVisible(openReverbButton);
+
+    reverbSizeSlider.setLookAndFeel(&otherLookAndFeel);
+    reverbSizeSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 15);
+    addAndMakeVisible(reverbSizeSlider);
+    reverbWidthSlider.setLookAndFeel(&otherLookAndFeel);
+    reverbWidthSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 15);
+    addAndMakeVisible(reverbWidthSlider);
+    reverbDampSlider.setLookAndFeel(&otherLookAndFeel);
+    reverbDampSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 15);
+    addAndMakeVisible(reverbDampSlider);
+    reverbDrywetSlider.setLookAndFeel(&otherLookAndFeel);
+    reverbDrywetSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 15);
+    addAndMakeVisible(reverbDrywetSlider);
+    addAndMakeVisible(reverbDampLabel);
+    addAndMakeVisible(reverbWidthLabel);
+    addAndMakeVisible(reverbOpenLabel);
+    addAndMakeVisible(reverbDryWetLabel);
+    addAndMakeVisible(reverbSizeLabel);
+
+
+
     openFileButton.setButtonText(juce::CharPointer_UTF8("\xe6\x89\x93\xe5\xbc\x80\xe6\x9c\xac\xe5\x9c\xb0\xe6\x96\x87\xe4\xbb\xb6"));
     openFileButton.onClick = [this] { openFileButtonClicked(); };
     openFileButton.setColour(juce::TextButton::buttonColourId, juce::Colours::mediumseagreen);
@@ -308,6 +339,12 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     openEqButton.setEnabled(true);
     addAndMakeVisible(&openEqButton);
 
+    openWebButton.setButtonText(juce::CharPointer_UTF8("\xe4\xb8\x8a\xe7\xbd\x91"));
+    openWebButton.onClick = [this] { openWebButtonClicked(); };
+    openWebButton.setColour(juce::TextButton::buttonColourId, juce::Colours::lightskyblue);
+    openWebButton.setEnabled(true);
+    addAndMakeVisible(&openWebButton);
+
 }
 VoiceChanger_wczAudioProcessorEditor::~VoiceChanger_wczAudioProcessorEditor()
 {
@@ -334,7 +371,7 @@ void VoiceChanger_wczAudioProcessorEditor::paint (juce::Graphics& g)
     g.drawRoundedRectangle(circularMeterL.getBounds().toFloat(), 20,3);
 
     g.drawRoundedRectangle(18, 357, 300, 105, 5, 3);
-
+    g.drawRoundedRectangle(552, 312, 380, 100, 5, 3);
     g.setColour(juce::Colours::black);
     g.fillRoundedRectangle(circularMeterL.getBounds().reduced(3,3).toFloat(),20);
     // readFilePosition = audioProcessor.nPlayAudioFileSampleNum == 0 ? 0 : audioProcessor.nPlayAudioFilePosition / audioProcessor.nPlayAudioFileSampleNum;
@@ -390,6 +427,7 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
 
     switchPitchMethodButton.setBounds(220, 375, 50 , 50);
     switchVoiceConversionButton.setBounds(220, 410, 50, 50);
+    
 
     modeChooseLabel.setBounds(213, 360, 90, 30);
 
@@ -400,14 +438,27 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
     specificConversionLabel.setBounds(275, 425, 50, 50);
     generalConversionLabel.setBounds(170, 425, 50, 50);
 
-    openFileButton.setBounds(570, 380, a, 40);
-    playFileButton.setBounds(570, 450, a, 40);
-    stopPlayFileButton.setBounds(570, 520, a, 40);
+    openReverbButton.setBounds(560, 320, 40, 40);
+    reverbSizeSlider.setBounds(620, 310, 70, 70);
+    reverbWidthSlider.setBounds(700, 310, 70, 70);
+    reverbDampSlider.setBounds(780, 310, 70, 70);
+    reverbDrywetSlider.setBounds(860, 310, 70, 70);
 
-    openInnerRecordingButton.setBounds(800, 380, getWidth() / 24, 40);
-    closeInnerRecordingButton.setBounds(800 + getWidth() / 24, 380, getWidth() / 24, 40);
-    openTemplateWindowButton.setBounds(800, 450, getWidth() / 12, 40);
-    openCameraButton.setBounds(800, 520, getWidth() / 12, 40);
+
+    reverbOpenLabel.setBounds(550, 360, 90, 40);
+    reverbSizeLabel.setBounds(620, 380, 70, 30);
+    reverbWidthLabel.setBounds(700, 380, 70, 30);
+    reverbDampLabel.setBounds(780, 380, 70, 30);
+    reverbDryWetLabel.setBounds(860, 380, 70, 30);
+
+    openFileButton.setBounds(570, 420, a, 40);
+    playFileButton.setBounds(570, 480, a, 40);
+    stopPlayFileButton.setBounds(570, 540, a, 40);
+
+    openInnerRecordingButton.setBounds(800, 420, getWidth() / 24, 40);
+    closeInnerRecordingButton.setBounds(800 + getWidth() / 24, 420, getWidth() / 24, 40);
+    openTemplateWindowButton.setBounds(800, 480, getWidth() / 12, 40);
+    openCameraButton.setBounds(800, 540, getWidth() / 12, 40);
     
 
 	audioSetupComp.setBounds(545, 20, 400, 100);
@@ -420,9 +471,9 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
     horizontalMeterR.setBounds(970, 465, 400, 12);
 
 
-    openDawButton.setBounds(1045, 515, 100, 50);
-    openEqButton.setBounds(1205, 515, 100, 50);
-
+    openDawButton.setBounds(1000, 515, 100, 50);
+    openEqButton.setBounds(1125, 515, 100, 50);
+    openWebButton.setBounds(1250, 515, 100, 50);
     thumbnailCore->setBounds(10, 470, 320, 110);
 }
 void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* sliderThatWasMoved)
@@ -642,6 +693,17 @@ void VoiceChanger_wczAudioProcessorEditor::switchVoiceConversionButtonClicked()
     }
 }
 
+void VoiceChanger_wczAudioProcessorEditor::openReverbButtonClicked()
+{
+    if (audioProcessor.openReverb.load())
+        audioProcessor.openReverb = false;
+    else
+    {
+        audioProcessor.openReverb = true;
+    }
+}
+
+
 
 
 void VoiceChanger_wczAudioProcessorEditor::openTemplateWindowButtonClicked()
@@ -716,5 +778,22 @@ void VoiceChanger_wczAudioProcessorEditor::openEqButtonClicked()
 		eqWindow->centreWithSize(900, 500);
 		eqWindow->addToDesktop();
         eqWindow->setVisible(true);
+	}
+}
+void VoiceChanger_wczAudioProcessorEditor::openWebButtonClicked()
+{
+	if(webWindow)
+	{
+        webWindow->toFront(true);
+        webWindow->broughtToFront();
+	}
+	else
+	{
+        webWindow = new NewWindow(juce::String("webWindow"), Colours::darkslategrey, DocumentWindow::allButtons);
+        webWindow->setContentOwned(new WebBrowser(),true);
+        // webWindow->setUsingNativeTitleBar(true);
+		webWindow->centreWithSize(500, 500);
+        webWindow->addToDesktop();
+        webWindow->setVisible(true);
 	}
 }

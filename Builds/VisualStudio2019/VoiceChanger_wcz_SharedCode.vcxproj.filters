@@ -65,6 +65,9 @@
     <Filter Include="VoiceChanger_wcz\soundtouch">
       <UniqueIdentifier>{CEF005F0-A873-1618-E172-CE1ACD396999}</UniqueIdentifier>
     </Filter>
+    <Filter Include="VoiceChanger_wcz\Source\Web">
+      <UniqueIdentifier>{AAD4A34C-4685-F561-FCA4-C0A14BD067AC}</UniqueIdentifier>
+    </Filter>
     <Filter Include="VoiceChanger_wcz\Source\Core">
       <UniqueIdentifier>{5397A5B7-AB26-CE8C-FE7E-0AAE6195DFF4}</UniqueIdentifier>
     </Filter>
@@ -6569,6 +6572,9 @@
     </ClInclude>
     <ClInclude Include="..\..\soundtouch\source\SoundTouch\TDStretch.h">
       <Filter>VoiceChanger_wcz\soundtouch\source\SoundTouch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\WebBrowser.h">
+      <Filter>VoiceChanger_wcz\Source\Web</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\MatchBuffer.h">
       <Filter>VoiceChanger_wcz\Source\Core</Filter>

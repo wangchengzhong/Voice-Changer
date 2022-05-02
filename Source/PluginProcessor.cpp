@@ -615,7 +615,7 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
     int numSamples = buffer.getNumSamples();
 
     updateUIControls();
-    // updateReverbSettings();
+    updateReverbSettings();
 
 #if _OPEN_DYNAMICS
     processDynamics(buffer, false, getDynamicsThresholdShift(),
@@ -667,7 +667,10 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
         juce::dsp::AudioBlock<float>              ioBuffer(buffer);
         juce::dsp::ProcessContextReplacing<float> context(ioBuffer);
         filter.process(context);
-        reverb.process(context);
+        if (openReverb.load())
+        {
+            reverb.process(context);
+        }
         if (getActiveEditor() != nullptr)
             outputAnalyser.addAudioData(buffer, 0, getTotalNumOutputChannels());
 
@@ -1590,16 +1593,16 @@ void VoiceChanger_wczAudioProcessor::stopRecording()
     stop();
     lastRecording = parentDir.getNonexistentChildFile("VoiceChanger_wcz Recording", ".wav");
 }
-//void VoiceChanger_wczAudioProcessor::updateReverbSettings()
-//{
-//	reverbParams.roomSize = state.getParameter(ParamNames::size)->getValue();
-//    reverbParams.damping = state.getParameter(ParamNames::damp)->getValue();
-//    reverbParams.width = state.getParameter(ParamNames::width)->getValue();
-//    reverbParams.wetLevel = state.getParameter(ParamNames::dryWet)->getValue();
-//    reverbParams.dryLevel = 1.0f - state.getParameter(ParamNames::dryWet)->getValue();
-//    reverbParams.freezeMode = state.getParameter(ParamNames::freeze)->getValue();
-//    reverb.setParameters(reverbParams);
-//}
+void VoiceChanger_wczAudioProcessor::updateReverbSettings()
+{
+	reverbParams.roomSize = state.getParameter(ParamNames::size)->getValue();
+    reverbParams.damping = state.getParameter(ParamNames::damp)->getValue();
+    reverbParams.width = state.getParameter(ParamNames::width)->getValue();
+    reverbParams.wetLevel = state.getParameter(ParamNames::dryWet)->getValue();
+    reverbParams.dryLevel = 1.0f - state.getParameter(ParamNames::dryWet)->getValue();
+    reverbParams.freezeMode = state.getParameter(ParamNames::freeze)->getValue();
+    reverb.setParameters(reverbParams);
+}
 
 
 
