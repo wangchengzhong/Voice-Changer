@@ -2,13 +2,13 @@
 #include"JuceHeader.h"
 namespace Gui
 {
-class CicularMeter :public juce::Component, public juce::Timer
+class CicularMeter :public juce::Component//, public juce::Timer
 {
 public:
 	CicularMeter(std::function<float()>&& valueFunction, const juce::Colour& c)
 		: valueSupplier(std::move(valueFunction)), colour(c)
 	{
-		startTimerHz(24);
+		// startTimerHz(24);
 	}
 	void paint(juce::Graphics& g)override
 	{
@@ -45,10 +45,10 @@ public:
 		g.setGradientFill(gradient);
 		g.strokePath(ellipse, juce::PathStrokeType{ 8.f * level,juce::PathStrokeType::JointStyle::curved,juce::PathStrokeType::rounded });
 	}
-	void timerCallback() override
-	{
-		repaint();
-	}
+	//void timerCallback() override
+	//{
+	//	// repaint();
+	//}
 private:
 	juce::Point<float> generatePointWithRandomness(juce::Point<float> p, const float level)
 	{

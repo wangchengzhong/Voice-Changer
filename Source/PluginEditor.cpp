@@ -13,7 +13,7 @@
 VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(VoiceChanger_wczAudioProcessor& p)
     : AudioProcessorEditor(&p), audioProcessor(p)
     , audioSetupComp(juce::StandalonePluginHolder::getInstance()->deviceManager,0,4,0,4,false,false,false,false)
-    , circularMeterL([&]() { return audioProcessor.getRmsLevel(0); },juce::Colours::lightskyblue)
+    , circularMeterL([&]() { return audioProcessor.getRmsLevel(0); },juce::Colours::violet)
     , circularMeterR([&]() { return audioProcessor.getRmsLevel(1); },juce::Colours::lightblue)
 	, pEqEditor(std::make_unique<FrequalizerAudioProcessorEditor>(p))
 {
@@ -330,6 +330,8 @@ void VoiceChanger_wczAudioProcessorEditor::paint (juce::Graphics& g)
     g.setColour(juce::Colours::lightblue);
     g.drawRoundedRectangle(circularMeterL.getBounds().toFloat(), 20,3);
 
+    g.drawRoundedRectangle(18, 357, 300, 105, 5, 3);
+
     g.setColour(juce::Colours::black);
     g.fillRoundedRectangle(circularMeterL.getBounds().reduced(3,3).toFloat(),20);
     // readFilePosition = audioProcessor.nPlayAudioFileSampleNum == 0 ? 0 : audioProcessor.nPlayAudioFilePosition / audioProcessor.nPlayAudioFileSampleNum;
@@ -352,9 +354,9 @@ void VoiceChanger_wczAudioProcessorEditor::timerCallback()
 
     horizontalMeterL.setLevel(leftGain);
     horizontalMeterR.setLevel(rightGain);
-    AudioProcessorEditor::repaint();
-    horizontalMeterL.repaint();
-    horizontalMeterR.repaint();
+    repaint();
+    //horizontalMeterL.repaint();
+    //horizontalMeterR.repaint();
 }
 
 void VoiceChanger_wczAudioProcessorEditor::changeListenerCallback(juce::ChangeBroadcaster* source)
