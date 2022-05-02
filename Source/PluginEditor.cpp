@@ -62,6 +62,13 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
 
     pPitchSlider->setBounds(20, 376, 80, 80);
 
+
+    addAndMakeVisible(pitchShiftLabel);
+    pitchShiftLabel.setColour(juce::Label::textColourId, juce::Colours::white);
+    pitchShiftLabel.setJustificationType(juce::Justification::topLeft);
+    pitchShiftLabel.setText(juce::CharPointer_UTF8("\xe9\x9f\xb3\xe8\xb0\x83\xe7\xbc\xa9\xe6\x94\xbe"), dontSendNotification);
+    pitchShiftLabel.setBounds(23, 359, 80, 20);
+
     pPeakSlider.reset(new juce::Slider("PeakShiftSlider"));
     pPeakSlider->setLookAndFeel(&otherLookAndFeel);
     AudioProcessorEditor::addAndMakeVisible(pPeakSlider.get());
@@ -74,8 +81,11 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
 
     pPeakSlider->setBounds(90, 376, 80, 80);
 
-
-
+    addAndMakeVisible(formantShiftLabel);
+    formantShiftLabel.setColour(juce::Label::textColourId, juce::Colours::white);
+    formantShiftLabel.setJustificationType(juce::Justification::topLeft);
+    formantShiftLabel.setText(juce::CharPointer_UTF8("\xe5\x85\xb1\xe6\x8c\xaf\xe5\xb3\xb0\xe7\xa7\xbb\xe5\x8a\xa8"), dontSendNotification);
+    formantShiftLabel.setBounds(93, 359, 80, 20);
 
     pDynamicsThresholdSlider.reset(new juce::Slider("DynamicsThresholdSlider"));
     pDynamicsThresholdSlider->setRange(-50, 0, 0.001f);
@@ -85,7 +95,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pDynamicsThresholdSlider->setTooltip(TRANS("dynamicsThreshold"));
     AudioProcessorEditor::addAndMakeVisible(pDynamicsThresholdSlider.get());
 
-    pDynamicsThresholdSlider->setBounds(30, 276, 70, 70);
+    pDynamicsThresholdSlider->setBounds(30, 271, 70, 70);
 
     pDynamicsRatioSlider.reset(new juce::Slider("DynamicsRatioSlider"));
     pDynamicsRatioSlider->setRange(1.0, 25.0, 0.01f);
@@ -95,7 +105,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pDynamicsRatioSlider->setTooltip(TRANS("dynamicsRatio"));
     AudioProcessorEditor::addAndMakeVisible(pDynamicsRatioSlider.get());
 
-    pDynamicsRatioSlider->setBounds(85, 276, 70, 70);
+    pDynamicsRatioSlider->setBounds(85, 271, 70, 70);
 
 
     pDynamicsAttackSlider.reset(new juce::Slider("DynamicsAttackSlider"));
@@ -106,7 +116,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pDynamicsAttackSlider->setTooltip(TRANS("dynamicsAttack"));
     AudioProcessorEditor::addAndMakeVisible(pDynamicsAttackSlider.get());
 
-    pDynamicsAttackSlider->setBounds(140, 276, 70, 70);
+    pDynamicsAttackSlider->setBounds(140, 271, 70, 70);
 
     pDynamicsReleaseSlider.reset(new juce::Slider("DynamicsReleaseSlider"));
     pDynamicsReleaseSlider->setRange(0.001f, 2.0f, 0.001f);
@@ -116,7 +126,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pDynamicsReleaseSlider->setTooltip(TRANS("dynamicsRelease"));
     AudioProcessorEditor::addAndMakeVisible(pDynamicsReleaseSlider.get());
 
-    pDynamicsReleaseSlider->setBounds(195, 276, 70, 70);
+    pDynamicsReleaseSlider->setBounds(195, 271, 70, 70);
 
 
     pDynamicsMakeupGainSlider.reset(new juce::Slider("DynamicsMakeupGainSlider"));
@@ -127,7 +137,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     pDynamicsMakeupGainSlider->setTooltip(TRANS("dynamicsMakeupGain"));
     AudioProcessorEditor::addAndMakeVisible(pDynamicsMakeupGainSlider.get());
 
-    pDynamicsMakeupGainSlider->setBounds(250, 276, 70, 70);
+    pDynamicsMakeupGainSlider->setBounds(250, 271, 70, 70);
 
     mmButton.setButtonText(juce::CharPointer_UTF8("\xe5\xa6\xb9\xe5\xa6\xb9"));
     mmButton.onClick = [this] { mmButtonClicked(); };
@@ -177,6 +187,10 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     AudioProcessorEditor::addAndMakeVisible(&resetAllButton);
     resetAllButton.setEnabled(true);
 
+    addAndMakeVisible(modeChooseLabel);
+    modeChooseLabel.setColour(juce::Label::textColourId, juce::Colours::white);
+    modeChooseLabel.setJustificationType(juce::Justification::topLeft);
+    modeChooseLabel.setText(CharPointer_UTF8("\xe6\xa8\xa1\xe5\xbc\x8f\xe9\x80\x89\xe6\x8b\xa9"), dontSendNotification);
 
     addAndMakeVisible(freqDomainLabel);
     freqDomainLabel.setColour(juce::Label::textColourId, juce::Colours::white);
@@ -359,6 +373,7 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
     // subcomponents in your editor..
     auto a = getWidth() / 8;
     auto b = getWidth() / 16;
+
     xjjButton.setBounds(340, 340, a, 30);
     xpyButton.setBounds(340, 390, a, 30);
     ljButton.setBounds(340, 440, a, 30);
@@ -370,8 +385,13 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
 
     switchPitchMethodButton.setBounds(220, 375, 50 , 50);
     switchVoiceConversionButton.setBounds(220, 410, 50, 50);
+
+    modeChooseLabel.setBounds(213, 360, 90, 30);
+
     freqDomainLabel.setBounds(275, 390, 50, 50);
     timeDomainLabel.setBounds(170, 390, 50, 50);
+
+
     specificConversionLabel.setBounds(275, 425, 50, 50);
     generalConversionLabel.setBounds(170, 425, 50, 50);
 

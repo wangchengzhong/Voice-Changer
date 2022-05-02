@@ -314,7 +314,7 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
     //internalRecordWriter = format.createWriterFor(internalRecordingStream, sampleRate, 2, 16, StringPairArray(), 0);
     //threadedInternalRecording = new AudioFormatWriter::ThreadedWriter(internalRecordWriter, internalWriteThread,4800000);
 
-    setLatencySamples(44100 * 5);
+    setLatencySamples(44100 * 2);
     transportSource.prepareToPlay(samplesPerBlock, sampleRate);
 #if _OPEN_FILTERS
     juce::dsp::ProcessSpec fspec;

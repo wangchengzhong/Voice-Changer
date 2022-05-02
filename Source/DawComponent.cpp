@@ -281,4 +281,3 @@ void DawComponent::createOrLoadEdit(juce::File editFile, bool loadOnly)
 	resized();
 
 }
-

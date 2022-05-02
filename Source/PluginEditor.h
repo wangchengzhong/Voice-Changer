@@ -82,6 +82,8 @@ private:
     OtherLookAndFeel otherLookAndFeel;
     std::unique_ptr<juce::Slider> pPitchSlider;
     std::unique_ptr<juce::Slider> pPeakSlider;
+    Label pitchShiftLabel;
+    Label formantShiftLabel;
 #if _OPEN_FILTERS
     std::unique_ptr<juce::Slider> pFilterFreqSlider;
     std::unique_ptr<juce::Slider> pFilterQFactorSlider;
@@ -122,6 +124,7 @@ private:
     juce::Label freqDomainLabel;
     juce::Label specificConversionLabel;
     juce::Label generalConversionLabel;
+    Label modeChooseLabel;
 
     juce::TextButton openTemplateWindowButton;
     juce::TextButton openCameraButton;
