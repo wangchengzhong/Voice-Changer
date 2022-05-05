@@ -105,12 +105,6 @@ public:
 class VoiceConversionBuffer
 {
 public:
-    /**
-    Setup the pitch shifter. By default the shifter will be setup so that
-    the dry signal isn't delayed to be given a somewhat similar latency to the wet signal -
-    this is not accurate when enabled! By enabling minLatency some latency can be reduced with the
-    expense of potential tearing during modulation with a change of the pitch parameter.
-     */
     VoiceConversionBuffer(int numChannels, double sampleRate, int samplesPerBlock, HSMModel model)
         :samplesPerBlock(samplesPerBlock),sampleRate((int)sampleRate),model(model)
     {

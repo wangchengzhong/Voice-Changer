@@ -1,5 +1,6 @@
 #pragma once
 #include"JuceHeader.h"
+//从JUCE教程中截取
 class LiveScrollingAudioDisplay :public juce::AudioVisualiserComponent,
 	public juce::AudioIODeviceCallback
 {

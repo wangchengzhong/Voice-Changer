@@ -11,7 +11,7 @@ class OtherLookAndFeel : public juce::LookAndFeel_V4
 {
 public:
 
-    // method for changing the visual appearance of rotary sliders
+    // 改变旋转滑块视觉外观
     void drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height,
         float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle,
         juce::Slider& slider) override
@@ -46,7 +46,7 @@ public:
     }
 
 
-    // method for changing the visual appearance of ToggleButton
+    // 该方法更改ToggleButton视觉外观
     void drawRoundThumb(juce::Graphics& g, float x, float y, float diameter, juce::Colour colour, float outlineThickness)
     {
         auto halfThickness = outlineThickness * 0.5f;
@@ -65,7 +65,7 @@ public:
         g.strokePath(p, juce::PathStrokeType(outlineThickness));
     }
 
-    // method for changing the visual appearance of ToggleButton
+    // 改变 ToggleButton 视觉外观
     void drawTickBox(juce::Graphics& g, juce::Component& component,
         float x, float y, float w, float h,
         bool ticked,
@@ -101,7 +101,7 @@ public:
 
     OtherLookAndFeel()
     {
-        //getDefaultLookAndFeel().setDefaultSansSerifTypefaceName ("Gill Sans");
+        //getDefaultLookAndFeel().setDefaultSansSerifTypefaceName ("wcz");
         //setColour(Slider::textBoxOutlineColourId, juce::Colours::transparentWhite);
         //setPopupDisplayEnabled(true, false, this);
         //setTextValueSuffix (" Hz or whatever");

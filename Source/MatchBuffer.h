@@ -10,70 +10,22 @@
 #include"JuceHeader.h"
 #include <stddef.h>
 
-// #include "STTypes.h"
-
-//#include "RateTransposer.h"
 #include "FIFOSamplePipeForVC.h"
 #include"FIFOBuffer.h"
-
-// #define SOUNDTOUCH_ALLOW_SSE 1
-
-
-    /// Default values for sound processing parameters:
-    /// Notice that the default parameters are tuned for contemporary popular music 
-    /// processing. For speech processing applications these parameters suit better:
-    ///     #define DEFAULT_SEQUENCE_MS     40
-    ///     #define DEFAULT_SEEKWINDOW_MS   15
-    ///     #define DEFAULT_OVERLAP_MS      8
-    ///
-
-    /// Default length of a single processing sequence, in milliseconds. This determines to how 
-    /// long sequences the original sound is chopped in the time-stretch algorithm.
-    ///
-    /// The larger this value is, the lesser sequences are used in processing. In principle
-    /// a bigger value sounds better when slowing down tempo, but worse when increasing tempo
-    /// and vice versa.
-    ///
-    /// Increasing this value reduces computational burden & vice versa.
-    //#define DEFAULT_SEQUENCE_MS         40
 #define DEFAULT_SEQUENCE_MS         USE_AUTO_SEQUENCE_LEN
 
-/// Giving this value for the sequence length sets automatic parameter value
-/// according to tempo setting (recommended)
 #define USE_AUTO_SEQUENCE_LEN       0
 
-/// Seeking window default length in milliseconds for algorithm that finds the best possible 
-/// overlapping location. This determines from how wide window the algorithm may look for an 
-/// optimal joining location when mixing the sound sequences back together. 
-///
-/// The bigger this window setting is, the higher the possibility to find a better mixing
-/// position will become, but at the same time large values may cause a "drifting" artifact
-/// because consequent sequences will be taken at more uneven intervals.
-///
-/// If there's a disturbing artifact that sounds as if a constant frequency was drifting 
-/// around, try reducing this setting.
-///
-/// Increasing this value increases computational burden & vice versa.
-//#define DEFAULT_SEEKWINDOW_MS       15
 #define DEFAULT_SEEKWINDOW_MS       USE_AUTO_SEEKWINDOW_LEN
 
-/// Giving this value for the seek window length sets automatic parameter value
-/// according to tempo setting (recommended)
 #define USE_AUTO_SEEKWINDOW_LEN     0
 
-/// Overlap length in milliseconds. When the chopped sound sequences are mixed back together, 
-/// to form a continuous sound stream, this parameter defines over how long period the two 
-/// consecutive sequences are let to overlap each other. 
-///
-/// This shouldn't be that critical parameter. If you reduce the DEFAULT_SEQUENCE_MS setting 
-/// by a large amount, you might wish to try a smaller value on this.
-///
-/// Increasing this value increases computational burden & vice versa.
+///重叠长度以毫秒为单位。切片的声音序列混合在一起，
+///为了形成连续的声音流，定义两个声音流的持续时间
+///让连续序列彼此重叠。
+///增加该值会增加计算负担，反之也会增加。
 #define DEFAULT_OVERLAP_MS      8
 
-
-/// Class that does the time-stretch (tempo change) effect for the processed
-/// sound.
     class BufferMatch : public FIFOProcessor
     {
     protected:
@@ -149,92 +101,65 @@
         
         void adaptNormalizer();
 
-        /// Changes the tempo of the given sound samples.
-        /// Returns amount of samples returned in the "output" buffer.
-        /// The maximum amount of samples that can be returned at a time is set by
-        /// the 'set_returnBuffer_size' function.
+        // 实际的处理接口
         void processSamples();
 
     public:
         BufferMatch(int sampleRate, HSMModel model);
         virtual ~BufferMatch();
 
-        /// Operator 'new' is overloaded so that it automatically creates a suitable instance 
-        /// depending on if we've a MMX/SSE/etc-capable CPU available or not.
+        /// 新建一个实例
         static void* operator new(size_t s, int sampleRate, HSMModel& model);
-
-        /// Use this function instead of "new" operator to create a new instance of this class. 
-        /// This function automatically chooses a correct feature set depending on if the CPU
-        /// supports MMX/SSE/etc extensions.
+        /// 重载new
         static BufferMatch* newInstance(int sampleRate, HSMModel model);
-
         /// Returns the output buffer object
         FIFOSamplePipe* getOutput() { return &outputBuffer; };
-
-        /// Returns the input buffer object
+        ///返回输入缓冲区对象
         FIFOSamplePipe* getInput() { return &inputBuffer; };
 
-        /// Sets new target tempo. Normal tempo = 'SCALE', smaller values represent slower 
-        /// tempo, larger faster tempo.
+        /// 设定新的样本密度
         void setTempo(double newTempo);
 
-        /// Returns nonzero if there aren't any samples available for outputting.
+        /// 清零输入输出
         virtual void clear();
-
-        /// Clears the input buffer
+        /// 清零输入
         void clearInput();
-
-        /// Sets the number of channels, 1 = mono, 2 = stereo
         void setChannels(int numChannels);
-
-        /// Enables/disables the quick position seeking algorithm. Zero to disable, 
-        /// nonzero to enable
+        /// 使用快速互相关搜索选项
         void enableQuickSeek(bool enable);
-
-        /// Returns nonzero if the quick seeking algorithm is enabled.
+        /// 是否允许快速互相关搜索
         bool isQuickSeekEnabled() const;
 
-        /// Sets routine control parameters. These control are certain time constants
-        /// defining how the sound is stretched to the desired duration.
-        //
-        /// 'sampleRate' = sample rate of the sound
-        /// 'sequenceMS' = one processing sequence length in milliseconds
-        /// 'seekwindowMS' = seeking window length for scanning the best overlapping 
-        ///      position
-        /// 'overlapMS' = overlapping length
-        void setParameters(int sampleRate,          ///< Samplerate of sound being processed (Hz)
-            int sequenceMS = -1,     ///< Single processing sequence length (ms)
-            int seekwindowMS = -1,   ///< Offset seeking window length (ms)
-            int overlapMS = -1       ///< Sequence overlapping length (ms)
+        /// 常规参数
+        void setParameters(int sampleRate,          ///(Hz)
+            int sequenceMS = -1,     ///一次处理的样本点数 (ms)
+            int seekwindowMS = -1,   ///寻找最佳匹配的长度(ms)
+            int overlapMS = -1       ///序列叠加长度 (ms)
         );
         void setSequenceLength(int sequenceLength);
 
-        /// Get routine control parameters, see setParameters() function.
-        /// Any of the parameters to this function can be NULL, in such case corresponding parameter
-        /// value isn't returned.
+        ///获取常规参数
         void getParameters(int* pSampleRate, int* pSequenceMs, int* pSeekWindowMs, int* pOverlapMs) const;
 
-        /// Adds 'numsamples' pcs of samples from the 'samples' memory position into
-        /// the input of the object.
+        /// 处理样本点
         virtual void putSamples(
-            const SAMPLETYPE* samples,  ///< Input sample data
-            uint numSamples                         ///< Number of samples in 'samples' so that one sample
-                                                    ///< contains both channels if stereo
+            const SAMPLETYPE* samples,  ///< 输入样本点数
+            uint numSamples                         ///单通道音频数量
         );
 
-        /// return nominal input sample requirement for triggering a processing batch
+        // 返回触发处理批次的标称输入样本要求
         int getInputSampleReq() const
         {
             return (int)(nominalSkip + 0.5);
         }
 
-        /// return nominal output sample amount when running a processing batch
+        ///运行处理一次时返回理论输出样本数目
         int getOutputBatchSize() const
         {
             return seekWindowLength - overlapLength;
         }
 
-        /// return approximate initial input-output latency
+        /// 返回近似的初始输入输出延迟
         int getLatency() const
         {
             return sampleReq;

@@ -214,9 +214,10 @@ Eigen::TRowVectorX F0analysis::processF0(const Eigen::Ref<const Eigen::TRowVecto
 	// [mincost,jjmincost]=min(dat(length(dat)).ac);
 	jjmincostFinal = -1;
 	dat.back().ac.minCoeff(&jjmincostFinal);
-	// since jjmincost is acquired through Eigen, it is already 0-based indexing.
+	// jjmincost通过Eigen获取，它已经从 0 开始
 	f0s(f0s.size() - 1) = dat.back().f(jjmincostFinal);
-	jjmincostFinal = dat.back().ant(jjmincostFinal); // ant contains 1-based indices.Thereafter, jjmincost is 0-based
+	jjmincostFinal = dat.back().ant(jjmincostFinal); // ant 从1开始jmincost从0开始
+
 	for (auto k = pms.size() - 1; k >= 1; k--)
 	{
 		f0s(k - 1) = dat[k - 1].f(jjmincostFinal - 1);

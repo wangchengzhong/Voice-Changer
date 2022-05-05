@@ -1,9 +1,9 @@
 #pragma once
 
 #include<cmath>
-// Resample a signal to a new size using linear interpolation
-// The 'originalSize' is the max size of the original signal
-// The 'newSignalSize' is the size to resample to. The 'newSignal' must be at least as big as this size.
+// 使用线性插值将信号重新采样到新的大小
+// 'originalSize' 是原始信号的最大尺寸
+// 'newSignalSize' 是要重新采样到的大小。 'newSignal' 必须至少一样大。
 static void linearResample(const float* const originalSignal, const int originalSize,
 	float* const newSignal, const int newSignalSize)
 {
@@ -12,8 +12,8 @@ static void linearResample(const float* const originalSignal, const int original
 		return (1.f - t) * v0 + t * v1;
 	};
 
-	// If the original signal is bigger than the new size, condense the signal to fit the new buffer
-	// otherwise expand the signal to fit the new buffer
+	// 如果原始信号大于新大小，则压缩信号以适应新缓冲区
+	// 否则扩展信号以适应新缓冲区
 	const auto scale = originalSize / (double)newSignalSize;
 	double index = 0.f;
 

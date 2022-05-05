@@ -55,7 +55,7 @@ public:
 			std::vector<FloatType> previousPeaks(bufferSize/2, 0);
 			//DBG("SIZE mags size: " << mags.size() << " phases size: " << phases.size() << "SIZE");
 
-			// Get magnitudes and phases from spectral coefficients
+			// 从谱系数中获得幅度和相位
 			for (int i = 0, x = 0; i < bufferSize - 1; i += 2, ++x)
 			{
 				const auto real = buffer[i];
@@ -90,7 +90,7 @@ public:
 			}
 			//DBG("peakCount " << peakCount);
 
-			// Propagate peak phases and compute spectral bin phases
+			// 传播峰值相位并计算谱窗的相位
 			//if (psi.size() == 0)
 			//{
 			//	psi = phases;
@@ -107,7 +107,7 @@ public:
 					const auto peak = peaks[peakIndex];
 					const auto prevPeak = previousPeaks[previousPeakIndex];
 					//DBG("\n");
-					// Connect current peak to the previous closest peak
+					//将当前峰值连接到上一个最近的峰值
 					
 					while (previousPeakIndex < previousPeakCount &&
 						std::abs(peak - previousPeaks[previousPeakIndex + 1]) < std::abs(peak - prevPeak))
@@ -115,8 +115,8 @@ public:
 						previousPeakIndex += 1;
 					}
 
-					// Propagate peak's phase assuming linear frequency
-					// Variation between connected peaks p1 and p2
+					// 假设线性频率传播峰值的相位
+					// 连接峰 p1 和 p2 之间的变化
 					const auto averagePeak = (peak + prevPeak) * FloatType(0.5);
 					const auto omega = juce::MathConstants<float>::twoPi * phaseVocoder.getAnalysisHopSize() *
 						averagePeak / (float)phaseVocoder.getWindowSize();
@@ -128,7 +128,7 @@ public:
 					auto bin1 = 1;
 					auto bin2 = phaseVocoder.getWindowSize() / 2;
 					
-					// Rotate phases of all bins around the current peak
+					// 围绕当前峰值旋转所有 bin 的相位
 					if (peakIndex == peakCount)
 					{
 						//DBG("have run at peakIndex==peakCount");
@@ -169,12 +169,12 @@ public:
 				//DBG("have run at this point");
 			}
 
-			// Store state
+			// 存储状态
 			phi0 = phases;
 			previousPeaks = peaks;
 			previousPeakCount = peakCount;
 
-			// Reconstruct whole spectrum
+			// 重建整个谱
 			for (auto i = 0, x = 0; i < bufferSize-1; i += 2, ++x)
 			{
 				//DBG("bufferSize"<<bufferSize);

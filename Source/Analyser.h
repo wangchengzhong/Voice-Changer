@@ -4,16 +4,14 @@
 #include <juce_dsp/juce_dsp.h>
 #include <juce_gui_basics/juce_gui_basics.h>
 
-//==============================================================================
-/*
-*/
+
 template<typename Type>
 class Analyser : public juce::Thread
 {
 public:
     Analyser() : juce::Thread("Frequaliser-Analyser")
     {
-        averager.clear();
+        averager.clear();//È¡ÏûÊä³ö
     }
 
     ~Analyser() override = default;

@@ -24,7 +24,7 @@ typedef unsigned long long ulongptr;
  *
  *****************************************************************************/
 
- // Table for the hierarchical mixing position seeking algorithm
+ // 混合位置搜索算法表
 const short _scanOffsets[5][24] = {
     { 124,  186,  248,  310,  372,  434,  496,  558,  620,  682,  744, 806,
       868,  930,  992, 1054, 1116, 1178, 1240, 1302, 1364, 1426, 1488,   0},
@@ -37,11 +37,6 @@ const short _scanOffsets[5][24] = {
     { 121,  114,   97,  114,   98,  105,  108,   32,  104,   99,  117,  111,
       116,  100,  110,  117,  111,  115,    0,    0,    0,    0,    0,   0} };
 
-/*****************************************************************************
- *
- * Implementation of the class 'BufferMatch'
- *
- *****************************************************************************/
 
 
 BufferMatch::BufferMatch(int sampleRate, HSMModel model) : FIFOProcessor(&outputBuffer)
@@ -88,15 +83,8 @@ BufferMatch::~BufferMatch()
 }
 
 
+//设置控制参数。
 
-// Sets routine control parameters. These control are certain time constants
-// defining how the sound is stretched to the desired duration.
-//
-// 'sampleRate' = sample rate of the sound
-// 'sequenceMS' = one processing sequence length in milliseconds (default = 82 ms)
-// 'seekwindowMS' = seeking window length for scanning the best overlapping 
-//      position (default = 28 ms)
-// 'overlapMS' = overlapping length (default = 12 ms)
 
 void BufferMatch::setParameters(int aSampleRate, int aSequenceMS,
     int aSeekWindowMS, int aOverlapMS)
@@ -146,7 +134,7 @@ void BufferMatch::setSequenceLength(int sequenceLength)
 //}
 
 
-// Overlaps samples in 'midBuffer' with the samples in 'pInput'
+
 void BufferMatch::overlapMono(SAMPLETYPE* pOutput, const SAMPLETYPE* pInput) const
 {
     int i;
@@ -182,7 +170,6 @@ void BufferMatch::clearInput()
 }
 
 
-// Clears the sample buffers
 void BufferMatch::clear()
 {
     outputBuffer.clear();
@@ -191,22 +178,18 @@ void BufferMatch::clear()
 
 
 
-// Enables/disables the quick position seeking algorithm. Zero to disable, nonzero
-// to enable
 void BufferMatch::enableQuickSeek(bool enable)
 {
     bQuickSeek = enable;
 }
 
 
-// Returns nonzero if the quick seeking algorithm is enabled.
 bool BufferMatch::isQuickSeekEnabled() const
 {
     return bQuickSeek;
 }
 
 
-// Seeks for the optimal overlap-mixing position.
 int BufferMatch::seekBestOverlapPosition(const SAMPLETYPE* refPos)
 {
     if (bQuickSeek)
@@ -221,8 +204,7 @@ int BufferMatch::seekBestOverlapPosition(const SAMPLETYPE* refPos)
 }
 
 
-// Overlaps samples in 'midBuffer' with the samples in 'pInputBuffer' at position
-// of 'ovlPos'.
+
 inline void BufferMatch::overlap(SAMPLETYPE* pOutput, const SAMPLETYPE* pInput, uint ovlPos) const
 {
     if (channels == 1)
@@ -233,12 +215,9 @@ inline void BufferMatch::overlap(SAMPLETYPE* pOutput, const SAMPLETYPE* pInput, 
 }
 
 
-// Seeks for the optimal overlap-mixing position. The 'stereo' version of the
-// routine
-//
-// The best position is determined as the position where the two overlapped
-// sample sequences are 'most alike', in terms of the highest cross-correlation
-// value over the overlapping period
+//寻求最佳重叠混合位置
+//互相关取得最大值，说明样本序列是最相似的
+//就从那个点开始重叠相加
 int BufferMatch::seekBestOverlapPositionFull(const SAMPLETYPE* refPos)
 {
     int bestOffs;

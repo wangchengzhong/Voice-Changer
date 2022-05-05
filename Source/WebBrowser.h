@@ -33,21 +33,20 @@ public:
         : addressTextBox (addressBox)
     {}
 
-    // This method gets called when the browser is about to go to a new URL..
+    // 当浏览器即将转到新 URL 时，将调用此方法。
     bool pageAboutToLoad (const String& newURL) override
     {
-        // We'll just update our address box to reflect the new location..
+        // 只需更新地址框，以反映新的位置
         addressTextBox.setText (newURL, false);
 
-        // we could return false here to tell the browser not to go ahead with
-        // loading the page.
+        // 在这里返回false，告诉浏览器不要继续加载页面。
         return true;
     }
 
-    // This method gets called when the browser is requested to launch a new window
+    // 当请求浏览器启动新窗口时
     void newWindowAttemptingToLoad (const String& newURL) override
     {
-        // We'll just load the URL into the main window
+        //将URL加载到主窗口中
         goToURL (newURL);
     }
 
@@ -66,16 +65,15 @@ public:
     {
         setOpaque (true);
 
-        // Create an address box..
+        // 创建一个地址框
         addAndMakeVisible (addressTextBox);
-        // addressTextBox.setTextToShowWhenEmpty ("Enter a web address, e.g. https://www.juce.com", Colours::grey);
         addressTextBox.onReturnKey = [this] { webView->goToURL (addressTextBox.getText()); };
 
-        // create the actual browser component
+        // 创建实际的浏览器组件
         webView.reset (new BrowserComponent (addressTextBox));
         addAndMakeVisible (webView.get());
 
-        // add some buttons..
+        // 增加一些按钮
         addAndMakeVisible (goButton);
         goButton.onClick = [this] { webView->goToURL (addressTextBox.getText()); };
         addAndMakeVisible (backButton);
@@ -83,7 +81,7 @@ public:
         addAndMakeVisible (forwardButton);
         forwardButton.onClick = [this] { webView->goForward(); };
 
-        // send the browser to a start page..
+        // 将浏览器发送到起始页
         webView->goToURL ("https://music.163.com/");
 
         setSize (500, 500);

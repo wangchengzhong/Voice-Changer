@@ -4,14 +4,14 @@
 #include"JuceHeader.h"
 #include"SoundTouch.h"
 
-
+//基于环形缓冲的双缓冲。为Soundtouch构建此数据结构时，接口采取串行读取方式。详见论文6.3.2节
 class RingBufferForST
 {
 public:
     RingBufferForST() {}
     ~RingBufferForST() {}
 
-    void initialise(int numChannels, int numSamples)
+    void initialise(int numChannels, int numSamples)//开辟环形缓冲区和普通缓冲区存储空间
     {
         readPos.resize(numChannels);
         writePos.resize(numChannels);
@@ -26,7 +26,7 @@ public:
         pointerBuffer.resize(numChannels * numSamples);
     }
 
-    void pushSample(float sample, int channel)
+    void pushSample(float sample, int channel)//往环形缓冲区加样本点
     {
         buffer.setSample(channel, writePos[channel], sample);
 
@@ -36,7 +36,7 @@ public:
         }
     }
 
-    float popSample(int channel)
+    float popSample(int channel)//从环形缓冲区往外输出样本点
     {
         auto sample = buffer.getSample(channel, readPos[channel]);
 
@@ -47,7 +47,7 @@ public:
         return sample;
     }
 
-    int getAvailableSampleNum(int channel)
+    int getAvailableSampleNum(int channel)//获取环形缓冲区中可用的样本点（输入进来但还没有进入黑箱处理）
     {
         if (readPos[channel] <= writePos[channel])
         {
@@ -59,7 +59,7 @@ public:
         }
     }
 
-    const float* readPointerArray(int reqSamples)
+    const float* readPointerArray(int reqSamples)//黑箱调用此方法获取寻求数据的位置
     {
         for (int samplePos = 0; samplePos < reqSamples; samplePos++)
         {
@@ -73,7 +73,7 @@ public:
         return pointerBuffer.data();// pointerBuffer.getArrayOfReadPointers();
     }
 
-    void writePointerArray(float* ptrBegin, int writeNum)
+    void writePointerArray(float* ptrBegin, int writeNum)//黑箱调用此方法获取输出数据的位置
     {
         for (int i = 0; i < writeNum * 2; i++)
         {
@@ -85,7 +85,7 @@ public:
         //return pointerBuffer.data();
     
     
-    void copyToBuffer(int numSamples)
+    void copyToBuffer(int numSamples)//内部处理模块，将获得的输出的放入环形缓冲，仅在输出双缓冲中使用
     {
         for (int channel = 0; channel < buffer.getNumChannels(); channel++)
         {
@@ -108,11 +108,7 @@ class PitchShifterSoundTouch
 {
 public:
     /**
-    Setup the pitch shifter. By default the shifter will be setup so that
-    the dry signal isn't delayed to be given a somewhat similar latency to the wet signal -
-    this is not accurate when enabled! By enabling minLatency some latency can be reduced with the
-    expense of potential tearing during modulation with a change of the pitch parameter.
-     */
+     设置音调缩放器。需保证内部处理算法的健壮，程序不处理的输入输出样本点不一致的情况*/
     PitchShifterSoundTouch(int numChannels, double sampleRate, int samplesPerBlock, bool dryCompensationDelay = false, bool minLatency = false)
         :samplesPerBlock(samplesPerBlock)
     {
@@ -127,8 +123,6 @@ public:
         st->setSetting(SETTING_SEQUENCE_MS, 60);
         st->setSetting(SETTING_SEEKWINDOW_MS, 25);
         //soundtouch::SAMPLETYPE
-        //rubberband->setMaxProcessSize(samplesPerBlock);
-        // initLatency = (int)rubberband->getLatency();
         maxSamples = 256;
 
         input.initialise(numChannels, sampleRate);
@@ -180,10 +174,7 @@ public:
         auto newPitch = pitchSmoothing.skip(buffer.getNumSamples());
         if (oldPitch != newPitch)
         {
-            // st->setPitch(newPitch);
             st->setPitch(newPitch);
-            // st->setPitch(newPitch);
-            //oldPitch = newPitch;
         }
 
         for (int sample = 0; sample < buffer.getNumSamples(); sample++)
@@ -231,8 +222,7 @@ public:
         //DBG(availableSamples);
         if (availableSamples > 0)
         {
-            // If rubberband samples are available then copy to the output ring buffer.
-            // rubberband->retrieve(output.writePointerArray(), availableSamples);
+            // 如果黑箱产生可用的样本点，则复制到输出环缓冲区。
             float* readSample = st->ptrBegin();
             output.writePointerArray(readSample, availableSamples);
             st->receiveSamples(static_cast<unsigned int>(availableSamples));
@@ -241,7 +231,7 @@ public:
 
         auto availableOutputSamples = output.getAvailableSampleNum(0);
         // DBG(availableOutputSamples);
-        // Copy samples from output ring buffer to output buffer where available.
+        //将样本从输出环缓冲区复制到输出缓冲区（如果可用）。
         for (int channel = 0; channel < buffer.getNumChannels(); channel++)
         {
             for (int sample = 0; sample < buffer.getNumSamples(); sample++)
@@ -259,7 +249,6 @@ public:
 
         if (pitchParam == 0 && mixParam != 100.0)
         {
-            // Ensure no phasing with mix occurs when pitch is set to +/-0 semitones.
             mixSmoothing.setTargetValue(0.0);
         }
         else
@@ -268,40 +257,39 @@ public:
         }
         dryWet->setWetMixProportion(mixSmoothing.skip(buffer.getNumSamples()));
         dryWet->mixWetSamples(buffer);
-        //                                    
-        // Mix in the dry signal.
     }
 
-    /** Set the wet/dry mix as a % value.
+    /**设置干/湿信号比
      */
     void setMixPercentage(float newPercentage)
     {
         mixParam = newPercentage;
     }
 
-    /** Set the pitch shift in semitones.
+    /** 以半音的形式设置音调缩放
      */
     void setSemitoneShift(float newShift)
     {
         pitchParam = newShift;
     }
 
-    /** Get the % value of the wet/dry mix.
+    /** 获取干湿信号比
      */
     float getMixPercentage()
     {
         return mixParam;
     }
 
-    /** Get the pitch shift in semitones.
+    /** 以半音为单位的音调缩放
      */
     float getSemitoneShift()
     {
         return pitchParam;
     }
 
-    /** Get the estimated latency. This is an average guess of latency with no pitch shifting
-    but can vary by a few buffers. Changing the pitch shift can cause less or more latency.
+    /** 获取估计的延迟，是无音高变化时的平均延迟猜测
+     *可以通过几个缓冲区来改变。
+     *改变音高或降低音高都会导致延迟增加。
      */
     int getLatencyEstimationInSamples()
     {
@@ -309,7 +297,6 @@ public:
     }
 
 private:
-    // std::unique_ptr<RubberBand::RubberBandStretcher> rubberband;
     std::unique_ptr<soundtouch::SoundTouch> st;
     RingBufferForST input, output;
     juce::AudioBuffer<float> inputBuffer, outputBuffer;

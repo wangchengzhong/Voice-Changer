@@ -5,6 +5,15 @@
 #include"ExtendedUIBehaviour.h"
 #include"TransportToolbarFactory.h"
 #include"PluginProcessor.h"
+/*详见论文6.6.2：引擎通过 GUI 界面操纵编辑控制模块各参数，从而控制底层音频流；它在构
+建时需引入引擎编辑控制模块和选择管理器。其中，编辑控制由主处理器引用传
+来，负责各轨道的激活、音频文件位置管理等；选择管理器在创建界面时构建。
+引擎界面组件分为主控按钮和单轨编辑两大模块。主控按钮直接通过选择管
+理器获取用户的编辑目标轨道，而后执行轨道的新建、删除等；它还控制整个编辑
+器的音频流来源。单轨编辑模块在主控按钮控制下构建轨道或删除轨道。它负责
+轨道的播放、录制、编辑，并负责每个轨道内部的细节。它的子模块中，轨道音频
+缩略图组件、轨道信息设置组件、轨道外挂插件组件可以动态构建和销毁；而进
+度条显示和视图状态用于管理轨道整体，是静态的。*/
 class DawComponent:public juce::Component,
                    public juce::Button::Listener,
                    public juce::Slider::Listener,

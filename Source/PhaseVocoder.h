@@ -46,10 +46,6 @@ public:
 
 		initialiseWindow(getWindowForEnum(windowType));
 
-		// Processing reuses the spectral buffer to resize the output grain
-		// It must be the at least the size of the min pitch ratio
-		// TODO FFT size must be big enough also
-		// 
 		spectralBufferSize = windowLength * (1 / MinPitchRatio) < spectralBufferSize ?
 			(int)ceil(windowLength * (1 / MinPitchRatio)) : spectralBufferSize;
 
@@ -57,7 +53,7 @@ public:
 		
 		std::fill(spectralBuffer.data(), spectralBuffer.data() + spectralBufferSize, 0.f);
 //#if USE_3rdPARTYPITCHSHIFT==false
-		// Calculate maximium size resample signal can be
+		
 		const auto maxResampleSize = (int)std::ceil(std::max(this->windowSize * MaxPitchRatio,
 			this->windowSize / MinPitchRatio));
 
@@ -115,15 +111,14 @@ public:
 		rescalingFactor = factor;
 	}
 
-	// The main process function corresponds to the following high level algorithm
-	// Note: The processing is split up internally to avoid extra memory usage
-	// 1. Read incoming samples into the internal analysis buffer
-	// 2. If there are enough samples to begin processing, read a block from the analysis buffer
-	// 3. Perform an FFT of on the block of samples
-	// 4. Do some processing with the spectral data
-	// 5. Perform an iFFT back into the time domain
-	// 6. Write the block of samples back into the internal synthesis buffer
-	// 7. Read a block of samples from the synthesis buffer
+	// 对应算法
+	// 1. 将输入样本读入内部分析缓冲区
+	// 2. 如果有足够的样本开始处理，从分析缓冲区中读取一个块
+	// 3. 对样本块执行 FFT
+	// 4. 对频谱数据做一些处理
+	// 5. 执行 iFFT 回到时域
+	// 6. 将样本块写回内部合成缓冲区
+	// 7. 从合成缓冲区中读取一个样本块
 	void process(FloatType* const audioBuffer, const int audioBufferSize,
 		std::function<void(FloatType* const, const int)> processCallback)
 	{
@@ -136,9 +131,9 @@ public:
 		//DBG("Callback: " << ++callbackCount << ", SampleCount: " << incomingSampleCount <<
 		//	", (+ incoming): " << audioBufferSize);
 		//////////////////
-		// Only write enough  samples into the analysis buffer to complete a processing
-		// frame. Likewise, only write enough into the synthesis buffer to generate the 
-		// next output audio frame. 
+		// 仅将足够的样本写入分析缓冲区以完成处理
+		// 同样，只需写入足够的合成缓冲区以生成
+		// 下一个输出音频帧。
 		for (auto internalOffset = 0, internalBufferSize = 0;
 			internalOffset < audioBufferSize;
 			internalOffset += internalBufferSize)
@@ -152,8 +147,8 @@ public:
 			/////////////////////////////////
 			jassert(internalBufferSize <= audioBufferSize);
 
-			// Write the incoming samples into the internal buffer
-			// Once there are enough samples, perform spectral processing
+			// 将传入的样本写入内部缓冲区
+			// 一旦有足够的样本，执行频谱处理
 			const auto previousAnalysisWriteIndex = analysisBuffer.getReadIndex();
 			analysisBuffer.write(audioBuffer + internalOffset, internalBufferSize);
 			///////////////////////////
@@ -261,9 +256,8 @@ public:
 		return std::fmod(arg + juce::MathConstants<FloatType>::pi,
 			-juce::MathConstants<FloatType>::twoPi) + juce::MathConstants<FloatType>::pi;
 	}
-
-	// Returns the 2^x exponent for a given power of two value
-	// If the value given is not a power of two, the nearest power 2 will be used
+	// 返回给定 2 的幂的 2^x 指数
+	// 如果给定的值不是 2 的幂，将使用最接近的 2 幂
 	static int nearestPower2(int value)
 	{
 		return (int)log2(juce::nextPowerOfTwo(value));

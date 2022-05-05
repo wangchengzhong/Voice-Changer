@@ -2,7 +2,7 @@
 
 #include "modelSerialization.h"
 #include "PluginEditor.h"
-
+// 初始化均衡器参数
 #if _OPEN_FILTERS
 juce::String VoiceChanger_wczAudioProcessor::paramOutput("output");
 juce::String VoiceChanger_wczAudioProcessor::paramType("type");
@@ -17,7 +17,7 @@ namespace IDs
     juce::String sizeX{ "size-x" };
     juce::String sizeY{ "size-y" };
 }
-
+// 根据滤波器序号返回ID（中文名字）
 juce::String VoiceChanger_wczAudioProcessor::getBandID(size_t index)
 {
     switch (index)
@@ -32,7 +32,7 @@ juce::String VoiceChanger_wczAudioProcessor::getBandID(size_t index)
     }
     return "unknown";
 }
-
+// 从ID推断出滤波器序号（数组下标）
 int VoiceChanger_wczAudioProcessor::getBandIndexFromID(juce::String paramID)
 {
     for (size_t i = 0; i < 6; ++i)
@@ -41,7 +41,7 @@ int VoiceChanger_wczAudioProcessor::getBandIndexFromID(juce::String paramID)
 
     return -1;
 }
-
+// 默认添加6组滤波器
 std::vector<VoiceChanger_wczAudioProcessor::Band> createDefaultBands()
 {
     std::vector<VoiceChanger_wczAudioProcessor::Band> defaults;
@@ -54,12 +54,12 @@ std::vector<VoiceChanger_wczAudioProcessor::Band> createDefaultBands()
     return defaults;
 }
 #endif
-
+// 构建音频处理器参数树组
 juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 {
-    std::vector<std::unique_ptr<juce::AudioProcessorParameterGroup>> params;
-
+    std::vector<std::unique_ptr<juce::AudioProcessorParameterGroup>> params;//总组
     {
+        // 电平表组
         auto paramRight = std::make_unique<juce::AudioParameterFloat>("right", "Right", -60.f, 12.f, 0.f);
         auto paramLeft = std::make_unique<juce::AudioParameterFloat>("left", "Left", -60.f, 12.f, 0.f);
         auto paramRmsPeriod = std::make_unique<juce::AudioParameterInt>("rmsPeriod", "Period", 1, 500, 50);
@@ -74,6 +74,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 
     
     {
+        //混响器组
         const auto range = juce::NormalisableRange<float>(0.0f, 100.0f, 0.01f, 1.0f);
         const auto defaultValue = 50.0f;
         auto stringFromValue = [](float value, int)
@@ -134,6 +135,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 
 
     {
+        //均衡器组：输出
         auto param = std::make_unique<juce::AudioParameterFloat>(VoiceChanger_wczAudioProcessor::paramOutput, TRANS("Output"),
             juce::NormalisableRange<float>(0.0f, 2.0f, 0.01f), 1.0f,
             TRANS("Output level"),
@@ -147,6 +149,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 
     for (size_t i = 0; i < defaults.size(); ++i)
     {
+        // 每单个滤波器就要加一组。一组里面封装了滤波器类型、品质因数、增益、中心频率、是否被激活
         auto prefix = "Q" + juce::String(i + 1) + ": ";
 
         auto typeParameter = std::make_unique<juce::AudioParameterChoice>(VoiceChanger_wczAudioProcessor::getTypeParamName(i),
@@ -204,12 +207,12 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 
     }
 #endif
-    return { params.begin(), params.end() };
+    return { params.begin(), params.end() };//封装后返回
 }
 
 
 
-//==============================================================================
+//==============================================================================处理器总构造函数
 VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
     : AudioProcessor(BusesProperties()
@@ -220,33 +223,33 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
         .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
     )
-    , pPlayBuffer(&fileBuffer)
-    , ti(Stopped, Mainpage)
+    , pPlayBuffer(&fileBuffer)//播放指针默认指向fileBuffer
+    , ti(Stopped, Mainpage)// 播放控制初始化
     , TransportInformation(ti)
-    , spectrum(juce::Image::RGB, 512, 256, true)
+    , spectrum(juce::Image::RGB, 512, 256, true)//主界面频谱画面初始化
 
 #endif
-    , thumbnailCache(1)
-	, readAheadThread("transport read ahead")
+    , thumbnailCache(1)//主界面离线文件频谱缩略图
+	, readAheadThread("transport read ahead")//初始化预先读取的线程名
     // , trainingTemplate(sourceBufferAligned, targetBufferAligned, voiceChangerParameter)
-    , state(*this, &undo, "PARAMS", createParameterLayout())
-	, internalWriteThread("internalWriteThread")
+    , state(*this, &undo, "PARAMS", createParameterLayout())//参数树状态初始化，包括：撤回方法、构建方法、处理器指向
+	, internalWriteThread("internalWriteThread")//内录线程
 
 {
-    ensureEngineCreatedOnMessageThread();
+    ensureEngineCreatedOnMessageThread();//初始化Tracktion子引擎
     
-    formatManager.registerBasicFormats();
-    readAheadThread.startThread(3);
+    formatManager.registerBasicFormats();//初始化文件格式读取器
+    readAheadThread.startThread(3);//构建读取线程备用
 #if _OPEN_FILTERS
-    frequencies.resize(300);
+    frequencies.resize(300);//每次传给均衡器分析器300个样本点
     for (size_t i = 0; i < frequencies.size(); ++i) {
-        frequencies[i] = 20.0 * std::pow(2.0, i / 30.0);
+        frequencies[i] = 20.0 * std::pow(2.0, i / 30.0);//按照log尺度来显示
     }
-    magnitudes.resize(frequencies.size());
+    magnitudes.resize(frequencies.size());//总幅频响应幅度尺寸与频率相同（每个频率点显示一个幅度）
 
     // needs to be in sync with the ProcessorChain filter
-    bands = createDefaultBands();
-
+    bands = createDefaultBands();//构建6个滤波器
+    //对每个滤波器，绑定它们的参数响应
     for (size_t i = 0; i < bands.size(); ++i)
     {
         bands[i].magnitudes.resize(frequencies.size(), 1.0);
@@ -258,6 +261,7 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
         state.addParameterListener(getActiveParamName(i), this);
 
     }
+    //绑定外围的参数响应（混响器和均衡器里的输出增益控制）
     state.addParameterListener(paramOutput, this);
 
     state.addParameterListener("left", this);
@@ -268,7 +272,7 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
     
     state.state = juce::ValueTree(JucePlugin_Name);
 #endif
-
+    // 增加不需要构建到树里的零碎参数
     addParameter(nPitchShift = new juce::AudioParameterFloat("PitchShift", "pitchShift", -12.0f, 12.0f, 0.0f));
     addParameter(nPeakShift = new juce::AudioParameterFloat("PeakShift", "peakShift", 0.5f, 2.0f, 1.f));
 
@@ -361,34 +365,35 @@ void VoiceChanger_wczAudioProcessor::changeProgramName (int index, const juce::S
 void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     this->sampleRate = sampleRate;
-    ensurePrepareToPlayCalledOnMessageThread(sampleRate,samplesPerBlock);
+    ensurePrepareToPlayCalledOnMessageThread(sampleRate,samplesPerBlock);//同步子引擎的prepareToPlay信息
 
     this->samplesPerBlock = samplesPerBlock;
     fileBuffer.setSize(2, sampleRate * 60);
-    internalWriteThread.startThread(7);
+    internalWriteThread.startThread(7);//开辟内录线程
     //internalRecordingStream = new FileOutputStream(File::getSpecialLocation(File::userDesktopDirectory).getChildFile("test.wav"));
     //WavAudioFormat format;
     //internalRecordWriter = format.createWriterFor(internalRecordingStream, sampleRate, 2, 16, StringPairArray(), 0);
     //threadedInternalRecording = new AudioFormatWriter::ThreadedWriter(internalRecordWriter, internalWriteThread,4800000);
 
     setLatencySamples(44100 * 2);
-    transportSource.prepareToPlay(samplesPerBlock, sampleRate);
+    transportSource.prepareToPlay(samplesPerBlock, sampleRate);//初始化播放控制模块
 #if _OPEN_FILTERS
+    //初始化DSP模块
     juce::dsp::ProcessSpec fspec;
     fspec.sampleRate = sampleRate;
     fspec.maximumBlockSize = juce::uint32(sampleRate);
     fspec.numChannels = juce::uint32(getTotalNumOutputChannels());
-
-    for (size_t i = 0; i < bands.size(); ++i) {
+    //根据默认参数初始化每个滤波器的参数响应
+	for (size_t i = 0; i < bands.size(); ++i) {
         updateBand(i);
     }
     filter.get<6>().setGainLinear(*state.getRawParameterValue(paramOutput));
 
     updatePlots();
-
+    //初始化DSP模块
     filter.prepare(fspec);
     reverb.prepare(fspec);
-    inputAnalyser.setupAnalyser(int(sampleRate), float(sampleRate));
+    inputAnalyser.setupAnalyser(int(sampleRate), float(sampleRate));//初始化输入输出分析器
     outputAnalyser.setupAnalyser(int(sampleRate), float(sampleRate));
 #endif
 
@@ -398,7 +403,7 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
     {
         juce::LinearSmoothedValue<float> rms{ -100.0f };
         rms.reset(sampleRate, 0.5);
-        rmsLevels.emplace_back(std::move(rms));
+        rmsLevels.emplace_back(std::move(rms));//初始化电平表显示数组
     }
     rmsFifo.reset(numberOfChannels, static_cast<int>(sampleRate) + 1);
     rmsCalculationBuffer.clear();
@@ -406,17 +411,17 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
 
 
     gainLeft.reset(sampleRate, 0.2);;
-    gainLeft.setCurrentAndTargetValue(juce::Decibels::decibelsToGain(state.getRawParameterValue("left")->load()));
+    gainLeft.setCurrentAndTargetValue(juce::Decibels::decibelsToGain(state.getRawParameterValue("left")->load()));//初始化增益
 
     gainRight.reset(sampleRate, 0.2);
     gainRight.setCurrentAndTargetValue(juce::Decibels::decibelsToGain(state.getRawParameterValue("right")->load()));
 
-    rmsWindowSize = static_cast<int>(sampleRate * state.getRawParameterValue("rmsPeriod")->load()) / 1000;
+    rmsWindowSize = static_cast<int>(sampleRate * state.getRawParameterValue("rmsPeriod")->load()) / 1000;//初始化电平表缓冲
     isSmoothed = false; //static_cast<bool>(state.getRawParameterValue("smooth")->load());
 
 
 #if USE_3rdPARTYPITCHSHIFT
-#if USE_RUBBERBAND
+#if USE_RUBBERBAND //构建频域和时域音调缩放处理实例
     rbs = std::make_unique<PitchShifterRubberband>(getTotalNumInputChannels(), sampleRate, samplesPerBlock);
 #endif
 #if USE_SOUNDTOUCH
@@ -452,7 +457,7 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
 
     for (int i = 0; i < getTotalNumInputChannels(); ++i)
     {
-
+        //构建频域音调缩放和共振峰移动实例
 #if _OPEN_WAHWAH
         filtersForWahWah.add(filter = new Filter());
 #endif
@@ -478,7 +483,7 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
 #endif
     }
  
-#if _OPEN_DYNAMICS
+#if _OPEN_DYNAMICS//初始化动态参数
     mixedDownInputDynamics.setSize(1, samplesPerBlock);
     inputLevelDynamics = 0.0f;
     ylPrevDynamics = 0.0f;
@@ -490,8 +495,7 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
 
 void VoiceChanger_wczAudioProcessor::releaseResources()
 {
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
+    // 停止播放时，使用该方法释放资源
     // isInternalRecording = false;
 	// internalWriteThread.stopThread(1000);
     // threadedInternalRecording = nullptr;
@@ -505,7 +509,7 @@ void VoiceChanger_wczAudioProcessor::releaseResources()
 
 #ifndef JucePlugin_PreferredChannelConfigurations
 bool VoiceChanger_wczAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
-{
+{//juce默认接口
   #if JucePlugin_IsMidiEffect
     juce::ignoreUnused (layouts);
     return true;
@@ -529,17 +533,17 @@ bool VoiceChanger_wczAudioProcessor::isBusesLayoutSupported (const BusesLayout& 
 
 void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-    if (realtimeMode)
+    if (realtimeMode)//在实时模式
     {
-        overallProcess(buffer);
+        overallProcess(buffer);//不切换音频源
     	processLevelInfo(buffer);
     }
-    else
+    else//在离线模式
     {
 
         // spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
         buffer.clear();
-        transportSource.getNextAudioBlock(AudioSourceChannelInfo(buffer));
+        transportSource.getNextAudioBlock(AudioSourceChannelInfo(buffer));//切换到离线音频源再处理
         overallProcess(buffer);
         processLevelInfo(buffer);
         //if (!canReadSampleBuffer)
@@ -566,19 +570,19 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
         //spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
     }
     
-    if (isDawStream.load())
+    if (isDawStream.load())//如果子引擎与主引擎链接
     {
         engineWrapper->playheadSynchroniser.synchronise(*this);
-        engineWrapper->audioInterface.processBlock(buffer, midiMessages);
+        engineWrapper->audioInterface.processBlock(buffer, midiMessages);//使用子引擎的音频块
     }
-    const ScopedLock s1(writerLock);
+    const ScopedLock s1(writerLock);//锁死内录线程
     if (activeWriter.load() != nullptr)
     {
-        activeWriter.load()->write(buffer.getArrayOfReadPointers(), buffer.getNumSamples());
+        activeWriter.load()->write(buffer.getArrayOfReadPointers(), buffer.getNumSamples());//将当前音频块写入
     }
 }
-void VoiceChanger_wczAudioProcessor::getNextAudioBlock(juce::AudioSourceChannelInfo& buffer)
-{
+void VoiceChanger_wczAudioProcessor::getNextAudioBlock(juce::AudioSourceChannelInfo& buffer)//手动获取下一个音频块
+{//已用transportSource方法替代
     auto outputSamplesRemaining = buffer.buffer->getNumSamples();
     auto outputSamplesOffset = buffer.startSample;
     while (outputSamplesRemaining > 0)
@@ -604,7 +608,7 @@ void VoiceChanger_wczAudioProcessor::getNextAudioBlock(juce::AudioSourceChannelI
     }
 }
 
-void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& buffer)
+void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& buffer)//具体的总处理
 {
     
     juce::ScopedNoDenormals noDenormals;
@@ -614,20 +618,20 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
 
     int numSamples = buffer.getNumSamples();
 
-    updateUIControls();
-    updateReverbSettings();
+    updateUIControls();//更新音调缩放控制
+    updateReverbSettings();//更新混响控制
 
 #if _OPEN_DYNAMICS
     processDynamics(buffer, false, getDynamicsThresholdShift(),
         getDynamicsRatioShift(), getDynamicsAttackShift(),
-        getDynamicsReleaseShift(), getDynamicsMakeupGainShift());
+        getDynamicsReleaseShift(), getDynamicsMakeupGainShift());//处理动态数据
 #endif
 #if _OPEN_WAHWAH
     //processWahwah(juce::AudioBuffer<float>&buffer,float attackValue,float releaseValue,float MixLFOAndEnvelope,
     // float lfoFrequency,float mixRatio,float filterQFactor,float filterGain,float filterFreq)
     processWahwah(buffer, 0.02, 0.3, 0.8, 5, 0.5, 20, 2, 200.0f);
 #endif
-
+    //以下方法均直接调用接口
 #if _OPEN_PEAK_PITCH
 #if USE_3rdPARTYPITCHSHIFT
     //  if ( !openVoiceConversion)
@@ -699,11 +703,11 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
 }
 
 
-void VoiceChanger_wczAudioProcessor::processLevelInfo(juce::AudioBuffer<float>& buffer)
+void VoiceChanger_wczAudioProcessor::processLevelInfo(juce::AudioBuffer<float>& buffer)//电平表计算
 {
     const auto numSamples = buffer.getNumSamples();
     {
-        const auto startGain = gainLeft.getCurrentValue();
+        const auto startGain = gainLeft.getCurrentValue();//获取当前增益
         gainLeft.skip(numSamples);
 
         const auto endGain = gainLeft.getCurrentValue();
@@ -717,7 +721,7 @@ void VoiceChanger_wczAudioProcessor::processLevelInfo(juce::AudioBuffer<float>& 
     }
     for (auto& rmsLevel : rmsLevels)
         rmsLevel.skip(numSamples);
-    rmsFifo.push(buffer);
+    rmsFifo.push(buffer);//将当前音频块送入电平表FIFO
 
 }
 
@@ -754,7 +758,7 @@ juce::String VoiceChanger_wczAudioProcessor::getActiveParamName(size_t index)
     return getBandID(index) + "-" + paramActive;
 }
 #endif
-void VoiceChanger_wczAudioProcessor::parameterChanged(const juce::String& parameterID, float newValue)
+void VoiceChanger_wczAudioProcessor::parameterChanged(const juce::String& parameterID, float newValue)//参数树响应
 {
     if (parameterID.equalsIgnoreCase("left"))
         gainLeft.setTargetValue(juce::Decibels::decibelsToGain(newValue));
@@ -831,7 +835,7 @@ void VoiceChanger_wczAudioProcessor::parameterChanged(const juce::String& parame
 #endif
 }
 
-std::vector<float> VoiceChanger_wczAudioProcessor::getRmsLevels()
+std::vector<float> VoiceChanger_wczAudioProcessor::getRmsLevels()//获取双通道的RMS电平值
 {
     rmsFifo.pull(rmsCalculationBuffer, rmsWindowSize);
     std::vector<float>levels;
@@ -844,13 +848,13 @@ std::vector<float> VoiceChanger_wczAudioProcessor::getRmsLevels()
 }
 float VoiceChanger_wczAudioProcessor::getRmsLevel(const int channel)
 {
-    rmsFifo.pull(rmsCalculationBuffer.getWritePointer(channel), channel, rmsWindowSize);
+    rmsFifo.pull(rmsCalculationBuffer.getWritePointer(channel), channel, rmsWindowSize);//先从FIFO送入计算rms值的音频块然后在那里获取电平值
     processLevelValue(rmsLevels[channel], juce::Decibels::gainToDecibels(rmsCalculationBuffer.getRMSLevel(channel, 0, rmsWindowSize)));
     return rmsLevels[channel].getCurrentValue();
 }
 void VoiceChanger_wczAudioProcessor::processLevelValue(juce::LinearSmoothedValue<float>& smoothedValue, const float value)const
 {
-    if (isSmoothed)
+    if (isSmoothed)//是否需要平滑电平
     {
         if (value < smoothedValue.getCurrentValue())
         {
@@ -894,7 +898,7 @@ void VoiceChanger_wczAudioProcessor::setBandSolo(int index)
     updateBypassedStates();
 }
 
-void VoiceChanger_wczAudioProcessor::updateBypassedStates()
+void VoiceChanger_wczAudioProcessor::updateBypassedStates()//根据全局soloed值控制滤波器组激活
 {
     if (juce::isPositiveAndBelow(soloed, bands.size())) {
         filter.setBypassed<0>(soloed != 0);
@@ -915,14 +919,14 @@ void VoiceChanger_wczAudioProcessor::updateBypassedStates()
     updatePlots();
 }
 
-VoiceChanger_wczAudioProcessor::Band* VoiceChanger_wczAudioProcessor::getBand(size_t index)
+VoiceChanger_wczAudioProcessor::Band* VoiceChanger_wczAudioProcessor::getBand(size_t index)//获取单滤波器指针
 {
     if (juce::isPositiveAndBelow(index, bands.size()))
         return &bands[index];
     return nullptr;
 }
 
-juce::StringArray VoiceChanger_wczAudioProcessor::getFilterTypeNames()
+juce::StringArray VoiceChanger_wczAudioProcessor::getFilterTypeNames()//获取滤波器名字显示
 {
     return {
         TRANS(juce::CharPointer_UTF8("\xe6\x97\xa0\xe6\xbb\xa4\xe6\xb3\xa2\xe5\x99\xa8")),
@@ -940,7 +944,7 @@ juce::StringArray VoiceChanger_wczAudioProcessor::getFilterTypeNames()
     };
 }
 
-void VoiceChanger_wczAudioProcessor::updateBand(const size_t index)
+void VoiceChanger_wczAudioProcessor::updateBand(const size_t index)//按照滤波器信息获取IIR系数
 {
     if (sampleRate > 0) {
         juce::dsp::IIR::Coefficients<float>::Ptr newCoefficients;
@@ -989,7 +993,7 @@ void VoiceChanger_wczAudioProcessor::updateBand(const size_t index)
         if (newCoefficients)
         {
             {
-                // minimise lock scope, get<0>() needs to be a  compile time constant
+                // 最小化线程锁范围，get<0>（）需要是编译时常量
                 juce::ScopedLock processLock(getCallbackLock());
                 if (index == 0)
                     *filter.get<0>().state = *newCoefficients;
@@ -1009,8 +1013,8 @@ void VoiceChanger_wczAudioProcessor::updateBand(const size_t index)
                 frequencies.size(), sampleRate);
 
         }
-        updateBypassedStates();
-        updatePlots();
+        updateBypassedStates();//更新完后仍要更新旁通状态
+        updatePlots();//更新总的幅频响应画法
     }
 }
 
@@ -1029,7 +1033,7 @@ void VoiceChanger_wczAudioProcessor::updatePlots()
                 juce::FloatVectorOperations::multiply(magnitudes.data(), bands[i].magnitudes.data(), static_cast<int> (magnitudes.size()));
     }
 
-    sendChangeMessage();
+    sendChangeMessage();//向编辑器广播：有新数据可用了；如果没有构建编辑器，listener为空指针也不会报错
 }
 #endif
 //==============================================================================
@@ -1053,6 +1057,7 @@ const std::vector<double>& VoiceChanger_wczAudioProcessor::getMagnitudes()
 
 void VoiceChanger_wczAudioProcessor::createFrequencyPlot(juce::Path& p, const std::vector<double>& mags, const juce::Rectangle<int> bounds, float pixelsPerDouble)
 {
+    // 画每个滤波器的幅频响应，方法放在处理器，但调用时在编辑器，传入的引用也都是编辑器的
     p.startNewSubPath(float(bounds.getX()), mags[0] > 0 ? float(bounds.getCentreY() - pixelsPerDouble * std::log(mags[0]) / std::log(2.0)) : bounds.getBottom());
     const auto xFactor = static_cast<double> (bounds.getWidth()) / frequencies.size();
     for (size_t i = 1; i < frequencies.size(); ++i)
@@ -1065,17 +1070,17 @@ void VoiceChanger_wczAudioProcessor::createFrequencyPlot(juce::Path& p, const st
 void VoiceChanger_wczAudioProcessor::createAnalyserPlot(juce::Path& p, const juce::Rectangle<int> bounds, float minFreq, bool input)
 {
     if (input)
-        inputAnalyser.createPath(p, bounds.toFloat(), minFreq);
+        inputAnalyser.createPath(p, bounds.toFloat(), minFreq);//更新的实时的频谱
     else
         outputAnalyser.createPath(p, bounds.toFloat(), minFreq);
 }
 
 bool VoiceChanger_wczAudioProcessor::checkForNewAnalyserData()
 {
-    return inputAnalyser.checkForNewData() || outputAnalyser.checkForNewData();
+    return inputAnalyser.checkForNewData() || outputAnalyser.checkForNewData();//检查是否有新的分析器数据可以了，而后传给编辑器
 }
 //==============================================================================
-void VoiceChanger_wczAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
+void VoiceChanger_wczAudioProcessor::getStateInformation (juce::MemoryBlock& destData)//便于保存当前状态下次加载
 {
     std::unique_ptr<juce::XmlElement> xml(new juce::XmlElement("VoiceChangerWczParam"));
 
@@ -1233,7 +1238,7 @@ void VoiceChanger_wczAudioProcessor::processWahwah(
 }
 #endif
 
-#if _OPEN_DYNAMICS
+#if _OPEN_DYNAMICS// 动态处理模块：ADSR
 void VoiceChanger_wczAudioProcessor::processDynamics(
     juce::AudioBuffer<float>& buffer
     ,bool isExpanderOrCompressor
@@ -1336,7 +1341,7 @@ float VoiceChanger_wczAudioProcessor::calculateAttackOrReleaseForDynamics(float 
 }
 #endif
 
-
+//参数设置（音调缩放和动态控制）
 void VoiceChanger_wczAudioProcessor::setPitchShift(float pitch)
 {
     
@@ -1409,7 +1414,7 @@ float VoiceChanger_wczAudioProcessor::getPlayAudioFilePosition()
 }
 
 
-juce::Image& VoiceChanger_wczAudioProcessor::getSpectrumView()
+juce::Image& VoiceChanger_wczAudioProcessor::getSpectrumView()//获取主界面频谱
 {
     if (pitchShifters[0]->getProcessFlag())
     {
@@ -1420,7 +1425,7 @@ juce::Image& VoiceChanger_wczAudioProcessor::getSpectrumView()
     }
     return spectrum;
 }
-void VoiceChanger_wczAudioProcessor::drawSpectrumGraph(juce::Image view, std::shared_ptr<float>power, juce::Colour color, bool isLog)
+void VoiceChanger_wczAudioProcessor::drawSpectrumGraph(juce::Image view, std::shared_ptr<float>power, juce::Colour color, bool isLog)//绘制主界面频谱
 {
     int postPoint = 0;
     float postLevel = 0.0f;
@@ -1468,7 +1473,7 @@ void VoiceChanger_wczAudioProcessor::drawSpectrumGraph(juce::Image view, std::sh
     // syncPluginParameter();
 }
 
-void VoiceChanger_wczAudioProcessor::updateUIControls()
+void VoiceChanger_wczAudioProcessor::updateUIControls()//更新音调缩放参数控制
 {
 
 #if _OPEN_PEAK_PITCH
@@ -1537,13 +1542,13 @@ void VoiceChanger_wczAudioProcessor::setState(TransportState newState)
     }
 }
 
-void VoiceChanger_wczAudioProcessor::loadFileIntoTransport(const File& audioFile)
+void VoiceChanger_wczAudioProcessor::loadFileIntoTransport(const File& audioFile)//将读取的文件放入播放控制模块
 {
     transportSource.stop();
     transportSource.setSource(nullptr);
     currentAudioFileSource = nullptr;
 
-    AudioFormatReader* reader = formatManager.createReaderFor(audioFile);
+    AudioFormatReader* reader = formatManager.createReaderFor(audioFile);//获取对应类型的读取器
     currentlyLoadedFile = audioFile;
 
     if (reader != nullptr)
@@ -1555,12 +1560,12 @@ void VoiceChanger_wczAudioProcessor::loadFileIntoTransport(const File& audioFile
             32768,
             &readAheadThread,
             reader->sampleRate
-        );
+        );//设置播放控制参数
     }
 }
 void VoiceChanger_wczAudioProcessor::stop()
 {
-    {
+    {//停止内录
         const ScopedLock s1(writerLock);
         activeWriter = nullptr;
     }
@@ -1582,8 +1587,8 @@ void VoiceChanger_wczAudioProcessor::startRecording(const File& file)
                 threadedWriter.reset(new AudioFormatWriter::ThreadedWriter
                 (writer, internalWriteThread, 32768));
 
-                const ScopedLock s1(writerLock);
-                activeWriter = threadedWriter.get();
+                const ScopedLock s1(writerLock);//抢互斥锁
+                activeWriter = threadedWriter.get();//获取写入线程
             }
         }
     }
@@ -1591,7 +1596,7 @@ void VoiceChanger_wczAudioProcessor::startRecording(const File& file)
 void VoiceChanger_wczAudioProcessor::stopRecording()
 {
     stop();
-    lastRecording = parentDir.getNonexistentChildFile("VoiceChanger_wcz Recording", ".wav");
+    lastRecording = parentDir.getNonexistentChildFile("VoiceChanger_wcz Recording", ".wav");//更新文件名避免下一次录制覆盖
 }
 void VoiceChanger_wczAudioProcessor::updateReverbSettings()
 {

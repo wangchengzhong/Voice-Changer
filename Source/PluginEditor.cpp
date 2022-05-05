@@ -1,11 +1,3 @@
-/*
-  ==============================================================================
-
-    This file contains the basic framework code for a JUCE plugin editor.
-
-  ==============================================================================
-*/
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "EqualizerEditor.h"
@@ -19,6 +11,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
 	, pEqEditor(std::make_unique<FrequalizerAudioProcessorEditor>(p))
 	
 {
+    //设置参数和旋钮的绑定方法
     reverbSliderAttachments.add(new AudioProcessorValueTreeState::SliderAttachment(audioProcessor.getPluginState(), ParamNames::size, reverbSizeSlider));
     reverbSliderAttachments.add(new AudioProcessorValueTreeState::SliderAttachment(audioProcessor.getPluginState(), ParamNames::damp, reverbDampSlider));
     reverbSliderAttachments.add(new AudioProcessorValueTreeState::SliderAttachment(audioProcessor.getPluginState(), ParamNames::width, reverbWidthSlider));
@@ -34,7 +27,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     thumbnailCore = new AudioThumbnailComp(audioProcessor.formatManager, audioProcessor.transportSource, audioProcessor.thumbnailCache, audioProcessor.currentlyLoadedFile);
     addAndMakeVisible(thumbnailCore);
     thumbnailCore->addChangeListener(this);
-
+    //可视化电平表组件（paint方法重载）
     addAndMakeVisible(circularMeterL);
     addAndMakeVisible(circularMeterR);
     addAndMakeVisible(horizontalMeterL);
@@ -43,7 +36,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     // editor's size to whatever you need it to be.
     
     //addAndMakeVisible(audioSetupComp);
-
+    //音频信息设置显示
     auto pluginHolder = juce::StandalonePluginHolder::getInstance();
     juce::AudioDeviceManager::AudioDeviceSetup anotherSetup = pluginHolder->deviceManager.getAudioDeviceSetup();
     //// DBG(audioSetupComp.deviceManager.getAudioDeviceSetup().outputDeviceName);
@@ -61,7 +54,9 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     //// = juce::String("VB-Audio VoiceMeeter VAIO");
     
 
-    startTimerHz(30);
+    startTimerHz(30);//主界面定时器工作
+    //=====================================================================================================
+    //设置所有按钮的位置、参数绑定、及视觉效果
     
     pPitchSlider.reset(new juce::Slider("PitchShiftSlider"));
     pPitchSlider->setLookAndFeel(&otherLookAndFeel);
@@ -346,10 +341,13 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     addAndMakeVisible(&openWebButton);
 
 }
-VoiceChanger_wczAudioProcessorEditor::~VoiceChanger_wczAudioProcessorEditor()
+VoiceChanger_wczAudioProcessorEditor::~VoiceChanger_wczAudioProcessorEditor()//析构：销毁子界面，关闭定时器
 {
-    if (templateRecordingWindow)
-        delete[] templateRecordingWindow;
+    delete[] templateRecordingWindow;
+    delete[] eqWindow;
+    delete[] dawWindow;
+    delete[]webWindow;
+    delete[]cameraWindow;
     stopTimer();
 }
 
@@ -388,7 +386,7 @@ bool operator!=(const TransportInformation A, const TransportInformation B)
     return false;
 }
 void VoiceChanger_wczAudioProcessorEditor::timerCallback()
-{
+{//定时器行为：定期重新绘制图像
     const auto leftGain = audioProcessor.getRmsLevel(0);
     const auto rightGain = audioProcessor.getRmsLevel(1);
 
@@ -411,8 +409,7 @@ void VoiceChanger_wczAudioProcessorEditor::changeListenerCallback(juce::ChangeBr
 
 void VoiceChanger_wczAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    // 设置页面布局
     auto a = getWidth() / 8;
     auto b = getWidth() / 16;
 
@@ -476,7 +473,7 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
     openWebButton.setBounds(1250, 515, 100, 50);
     thumbnailCore->setBounds(10, 470, 320, 110);
 }
-void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* sliderThatWasMoved)
+void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* sliderThatWasMoved)//旋钮改变响应
 {
     if (sliderThatWasMoved == pPitchSlider.get())
     {
@@ -519,7 +516,7 @@ void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* slid
     }
 }
 
-void VoiceChanger_wczAudioProcessorEditor::comboBoxChanged(juce::ComboBox* comboBoxThatWasMoved)
+void VoiceChanger_wczAudioProcessorEditor::comboBoxChanged(juce::ComboBox* comboBoxThatWasMoved)//已被替换成更高级参数树方法
 {
 /*#if _OPEN_FILTERS
     if (comboBoxThatWasMoved == pFilterTypeComboBox.get())
@@ -555,7 +552,7 @@ void VoiceChanger_wczAudioProcessorEditor::xpyButtonClicked()
 
 void VoiceChanger_wczAudioProcessorEditor::openFileButtonClicked()
 {
-    
+    // 打开界面选择器，获取文件信息创建相应的读取句柄，而后读入音频流
     juce::FileChooser chooser("choose a WAV or AIFF file",juce::File::getSpecialLocation(juce::File::userDesktopDirectory), "*.wav; *.mp3; *.flac");
     //auto chooserFlags = juce::FileBrowserComponent::openMode
     //    | juce::FileBrowserComponent::canSelectFiles;
@@ -605,7 +602,7 @@ void VoiceChanger_wczAudioProcessorEditor::openModelButtonClicked()
 {
     juce::FileChooser chooser(juce::CharPointer_UTF8("\xe5\xaf\xbb\xe6\x89\xbe\xe6\xa8\xa1\xe5\x9e\x8b\xe6\x96\x87\xe4\xbb\xb6"),
         juce::File::getSpecialLocation(juce::File::userDesktopDirectory), "*.dat");
-
+    //载入模型信息并为处理器的模型文件初始化
 	if(chooser.browseForFileToOpen())
     {
         auto file = chooser.getResult();
@@ -705,7 +702,7 @@ void VoiceChanger_wczAudioProcessorEditor::openReverbButtonClicked()
 
 
 
-
+//打开子界面按钮响应
 void VoiceChanger_wczAudioProcessorEditor::openTemplateWindowButtonClicked()
 {
     if (templateRecordingWindow)

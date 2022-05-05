@@ -73,8 +73,8 @@ struct BlockCircularBuffer final
 		writeIndex = readIndex = 0;
 	}
 
-	// Read samples from the internal buffer into the 'destBuffer'
-	// perform a wrap of the read if near the internal buffer boundaries
+	// 从内部缓冲区读取样本到目标音频块
+	// 如果接近内部缓冲区边界，则执行读取的换行
 	void read(ElementType* const destBuffer, const long destLength)
 	{
 		const auto firstReadAmount = readIndex + destLength >= length ?
@@ -100,8 +100,7 @@ struct BlockCircularBuffer final
 
 	}
 
-	// Write all samples from the 'sourceBuffer' into the internal buffer
-	// Perform any wrapping required
+	// 将原音频块中的样本写入内部缓冲区
 	void write(const ElementType* sourceBuffer, const long sourceLength)
 	{
 		const auto firstWriteAmount = writeIndex + sourceLength >= length ?
@@ -124,14 +123,13 @@ struct BlockCircularBuffer final
 
 	}
 
-	// The first 'overlapAmount' of 'sourceBuffer' samples are added to the existing buffer
-	// The remainder of samples are set in the buffer (overwrite)
+
 	void overlapWrite(ElementType* const sourceBuffer, const long sourceLength)
 	{
-		// Since we're using a circular buffer, we have to be careful when to add samples to the existing
-		// data and when to overwrite out of date samples. This number can change when modulating between
-		// the pitch (which alters the size of the overlaps). The calculation below will determine the
-		// index we need to "add" to and at which point we need to "set" the samples to overwrite the history
+		/*详见论文6.3.2：
+		首先，需将理论交叠尺寸与实际送入音频块比较取较小值，确定实际交叠尺寸。先
+			写入重叠部分，后单独写入实际送入音频块与缓冲未交叠的部分。这两次写入都
+			需要检查是否到达环形区末尾。若到达末尾，需再细分成两步写入*/
 		const int writeIndexDifference = getDifferenceBetweenIndexes(writeIndex, latestDataIndex, length);
 		const int overlapSampleCount = sourceLength - writeHopSize;
 		const auto overlapAmount = std::min(writeIndexDifference, overlapSampleCount);

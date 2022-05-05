@@ -136,11 +136,11 @@ private:
         return true;
     }
 
-    // Add the first overlap amount of samples to the destination buffer
-    // Move the remaining samples into the dest buffer (overwrite what's there)
-    // The numElements is the total amount including the overlap amount
-    // The overlapAmount must be less than the numElements
-    // Returns true on wrapped write
+    /*详见论文6.3.2：
+    首先，需将理论交叠尺寸与实际送入音频块比较取较小值，确定实际交叠尺寸。先
+        写入重叠部分，后单独写入实际送入音频块与缓冲未交叠的部分。这两次写入都
+        需要检查是否到达环形区末尾。若到达末尾，需再细分成两步写入
+        */
     bool overlapAdd(DataType* destBuffer, DataType* sourceBuffer, size_t overlapAmount,
         size_t numSrcElements, size_t destIndex)
     {
