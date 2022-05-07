@@ -73,7 +73,6 @@ void HSMwfwconvert(const HSMModel & model, PicosStructArray & picos)
 	auto t = (int)(abc / 20) + 1;
 
 	concurrency::parallel_for(size_t(0), (size_t)20, [&](size_t aaa)
-
 	{
 
 		Eigen::TRowVectorX P(m);

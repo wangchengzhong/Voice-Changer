@@ -95,7 +95,6 @@ struct HSMModel
 
 using PicosStructArray = std::vector<PicosElement>;
 
-
 /**
  * \struct Structure for the thz variable in HSMptraining.m
 */
@@ -107,7 +106,3 @@ struct ThzElementType
 };
 
 using ThzStructArray = std::vector<ThzElementType>;
-
-
-
-

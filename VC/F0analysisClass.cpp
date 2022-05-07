@@ -17,7 +17,7 @@ F0analysis::F0analysis(
 	vuvcost = 0.14 * fact;
 	uvvcost = 0.14 * fact;
 	octjump = 0.35 * fact;
-
+	uvuvcost = 0;
 	L = static_cast<int>(std::ceil(3.0 * fs / f0min));
 	if ((L % 2) == 0)
 	{
@@ -47,49 +47,34 @@ F0analysis::F0analysis(
 	xgmax = 0.0;////// x.cwiseAbs().maxCoeff();
 	dat.resize(pms.size());
 
-	rx.resize(threadNum);
-	for(auto& t:rx)
-	{
-		t.resize(L2);
-	}
+	rx.resize(threadNum); for (auto& t : rx) { t.resize(L2); }
 
-	//rk.resize(Ncandidates - 1);
-	//fk.resize(Ncandidates - 1);
-	
 
 	rk.resize(threadNum);
 	fk.resize(threadNum);
-	for(auto& t:rk)
-	{
-		t = Eigen::TRowVectorX::Zero(Ncandidates - 1);
-		//t.setZero();
-	}
-	for(auto& t:fk)
-	{
-		t = Eigen::TRowVectorX::Zero(Ncandidates - 1);
-		t.setZero();
-	}
+	for (auto& t : rk) { t = Eigen::TRowVectorX::Zero(Ncandidates - 1); }
+	for (auto& t : fk) { t = Eigen::TRowVectorX::Zero(Ncandidates - 1); }
 
-	trama.resize(threadNum);
+	trama.resize(threadNum); for (auto& t : trama) { t.setZero(2 * L2 + 1); }
 	tramaTemp.resize(threadNum);
 
-	innerLength.resize(threadNum);
-	xlmax.resize(threadNum);
+	innerLength.resize(threadNum); for (auto& t : innerLength) t = 0;
+	xlmax.resize(threadNum); for (auto& t : xlmax) t = 0.0;
 
-	ftemp.resize(threadNum);
-	ra_.resize(threadNum);
-	ra.resize(threadNum);
-
-	tmax.resize(threadNum);
-	rmax.resize(threadNum);
-	fmax.resize(threadNum);
+	ftemp.resize(threadNum); // for (auto& t : ftemp) { t.resize(Lp2); }
+	
+	ra_.resize(threadNum); for (auto& t : ra_) { t.setZero(Lp2); }
+	ra.resize(threadNum); for (auto& t : ra) { t.setZero(L2); }
+	tmax.resize(threadNum); for (auto& t : tmax) t = 0.0;
+	rmax.resize(threadNum); for (auto& t : rmax) t = 0.0;
+	fmax.resize(threadNum); for (auto& t : fmax) t = 0.0;
 	jj.resize(threadNum);
-	rmin.resize(threadNum);
+	rmin.resize(threadNum); for (auto& t : rmin) t = 0.0;
 
-	ruv.resize(threadNum);
+	ruv.resize(threadNum); for (auto& t : ruv)t = (Eigen::TFloat)0.0;
+	f0s.resize(pms.size()); f0s.setZero();
 
-	f0s.resize(pms.size());
-	f0s.setZero();
+	
 }
 
 
@@ -98,8 +83,6 @@ Eigen::TRowVectorX F0analysis::processF0(const Eigen::Ref<const Eigen::TRowVecto
 	if (pms.size() != this->pms.size())
 		updateSize(pms);
 	xgmax = x.cwiseAbs().maxCoeff();
-	DBG(x.size());
-	DBG(pms.size());
 	concurrency::parallel_for(size_t(0), (size_t)threadNum, [&](size_t m)
 	//for(size_t m = (0); m<(size_t)threadNum;m++)
 	{
@@ -121,7 +104,7 @@ Eigen::TRowVectorX F0analysis::processF0(const Eigen::Ref<const Eigen::TRowVecto
 				}
 				else
 				{
-					trama[m] = x.segment(pms(k - 1) - L2 - 1, 2 * L2 + 1);
+					trama[m] = x.segment(pms(k - 1) - L2 - 1, 2 * L2 + 1);//+1
 				}
 
 				trama[m].array() -= trama[m].segment(L2 - Ldc, 2 * Ldc + 1).sum() / (2 * Ldc + 1.0);
@@ -132,6 +115,7 @@ Eigen::TRowVectorX F0analysis::processF0(const Eigen::Ref<const Eigen::TRowVecto
 						.cwiseProduct(w)
 						.eval()).array().abs2().matrix()
 						.cast<std::complex<Eigen::TFloat>>().eval();
+				// DBG(ftemp[m].size());
 				ra_[m] = ifft(ftemp[m]).real().eval();
 				ra[m] = (1 / ra_[m](0)) * ra_[m].head(L2);
 
@@ -164,20 +148,16 @@ Eigen::TRowVectorX F0analysis::processF0(const Eigen::Ref<const Eigen::TRowVecto
 						}
 					}
 				}
-
 				ruv[m] = voith + std::max<Eigen::TFloat>(Eigen::TFloat(0.0), Eigen::TFloat(2.0) - std::min(Eigen::TFloat(1.0), xlmax[m] / xgmax) / (silth / (1.0 + voith)));
 				auto jj = fk[m].array() > 0;
 				dat[k - 1].r = concat(indexByLogical(rk[m], jj) 
-					+ octcost * (f0min / indexByLogical(fk[m], jj).array()).unaryExpr([](const auto& e) 
-						{return std::log2(e); }).matrix(), ruv[m]);
+					+ octcost * (f0min / indexByLogical(fk[m], jj).array()).unaryExpr([](const auto& e) {return std::log2(e); }).matrix()
+					, ruv[m]);
 				dat[k - 1].f = concat(indexByLogical(fk[m], jj), 0);
 				dat[k - 1].ac = Eigen::TRowVectorX::Zero(dat[k - 1].f.size());
 				dat[k - 1].ant = Eigen::RowVectorXi::Zero(dat[k - 1].f.size());
 			}
-			
-
 		}
-		
 	}
 	);
 	dat[0].ac = -dat[0].r;

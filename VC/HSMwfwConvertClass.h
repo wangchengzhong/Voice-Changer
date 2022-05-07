@@ -12,6 +12,9 @@ public:
 	Eigen::TRowVectorX lsfadap(Eigen::Ref<const Eigen::TVectorX> lsf, size_t aaa);
 	void updateSize(PicosStructArray& picos);
 private:
+	int threadNum{ 20 };
+	int timesPerThread;
+
 	HSMModel model;
 	PicosStructArray& picos;
 	Eigen::TFloat fmax{ 5000.0 };
@@ -43,9 +46,6 @@ private:
 	const FwxyStructArray& fw{ model.fw };
 	const Eigen::RowVectorXi& fx{ fw[0].x };
 
-	int threadNum{ 20 };
-	int timesPerThread;
-
 	std::vector<Eigen::TRowVectorX> P;
 	std::vector<Eigen::TRowVectorX> PP;
 	std::vector<Eigen::TRowVectorX> P2;
@@ -54,7 +54,7 @@ private:
 	std::vector<int> lsfNk;
 	std::vector<Eigen::Matrix<double,1, -1, 1>> lsfff;
 	std::vector<Eigen::Array<double, 1, -1, 1>> lsfPP;
-	const int lsfFs{ 2 * 5000 };
+	const int lsfFs{ 10000 };
 	std::vector<Eigen::Matrix<double, 1, -1, 1>> lsfR;
 	std::vector<Eigen::TRowVectorX> lsfai;
 	std::vector<double> lsfe;
@@ -76,19 +76,19 @@ private:
 	Eigen::RowVectorXi adaps2;// {seq<Eigen::RowVectorXi>(1, 2, p) };
 
 	std::vector<Eigen::TRowVectorXc> adapPart1, adapPart2;
-	std::vector<Eigen::TRowVectorXc> temp1, temp2;
+	std::vector<Eigen::TRowVectorXc> adapTemp1, adapTemp2;
 	std::vector<Eigen::TRowVectorX> adapai;
 
 private:
 	std::vector<Eigen::TRowVectorX> aivt;
 
-	std::vector<Eigen::TRowVectorXc>eevt;
+	std::vector<Eigen::TMatrixXc>eevt;
 	std::vector<Eigen::TRowVectorXc> Afvt;
 	std::vector<double> E1;
 	std::vector<Eigen::TRowVectorX>Evt;
 	std::vector<Eigen::TRowVectorX> aavt;
 
-	std::vector<Eigen::TRowVectorX>vtt;
+	std::vector<Eigen::TVectorX>vtt;
 
 	std::vector<Eigen::TVectorX> vttaux;
 

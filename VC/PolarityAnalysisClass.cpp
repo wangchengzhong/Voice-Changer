@@ -5,10 +5,10 @@ PolarityAnalysis::PolarityAnalysis(PicosStructArray& picos)
 	:picos(picos)
 {
 	timesPerThread = static_cast<int>(static_cast<float>(picos.size()) / (float)threadNum + 1);
-	E.resize(threadNum);
-	dP.resize(threadNum);
-	dN.resize(threadNum);
-	alfa.resize(threadNum);
+	E.resize(threadNum); for (auto& t : E) { t = 0.0; }
+	dP.resize(threadNum); for (auto& t : dP) { t = 0.0; }
+	dN.resize(threadNum); for (auto& t : dN) { t = 0.0; }
+	alfa.resize(threadNum); for (auto& t : alfa) { t = 0.0; }
 }
 
 void PolarityAnalysis::updateSize(PicosStructArray& picos)
@@ -24,6 +24,7 @@ int PolarityAnalysis::processPolarity(PicosStructArray picos)
 		{
 			if(k<=picos.size())
 			{
+				// int pol = 0; int polE = 0;
 				if(picos[k-1].f0>0)
 				{
 					E[m] = picos[k - 1].a * picos[k - 1].a.transpose();
@@ -54,9 +55,8 @@ int PolarityAnalysis::processPolarity(PicosStructArray picos)
 	else if (polE < 0)
 		pol = -1;
 	else
-	{
 		pol = 1;
-	}
+	
 	if(pol==-1)
 	{
 		for(PicosElement& element:picos)

@@ -7,8 +7,8 @@
 
 HSMsynthesize::HSMsynthesize(PicosStructArray& picos, int bufferLength)
 	:picos(picos),bufferLength(bufferLength),Npm(0)
+	, timesPerThread(static_cast<int>(static_cast<float>(picos.size()) / (float)threadNum + 1))
 {
-	timesPerThread = static_cast<int>(static_cast<float>(picos.size()) / (float)threadNum + 1);
 	y.resize(bufferLength);
 	y.setZero();
 	
@@ -35,7 +35,7 @@ Eigen::TRowVectorX HSMsynthesize::filter(const Eigen::TRowVectorX& a, const Eige
 {
 	na_filter[m] = a.size() - 1;
 	an_filter[m] = a / a(0);
-	y_filter[m].resize(x.size());
+	y_filter[m].setZero(x.size());
 	for(Eigen::Index i = 0; i < na_filter[m]; i++)
 	{
 		y_filter[m](i) = x(i) / a(0) - an_filter[m].segment(1, i).dot(y.head(i).reverse());
@@ -58,6 +58,7 @@ Eigen::TRowVectorX HSMsynthesize::processSynthesize(PicosStructArray& picos, int
 				if(k<=Npm)
 				{
 					n2[m] = picos[k - 1].pm;
+					n1[m] = 0; n3[m] = 0;
 					if(k==1)
 					{
 						n3[m] = picos[k].pm;

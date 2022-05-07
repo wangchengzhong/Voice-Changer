@@ -9,15 +9,15 @@ HarmonicAnalysis::HarmonicAnalysis(Eigen::RowVectorXi& pms, Eigen::TFloat fmax, 
 	:fmax(fmax),pms(pms),picos(picos),pmsSize(pms.size())
 {
 	timesPerThread = static_cast<int>(static_cast<float>(pms.size()) / (float)threadNum + 1);
-	Lw.resize(threadNum);
-	Lw2.resize(threadNum);
+	Lw.resize(threadNum); for (auto& t : Lw) { t = 0; }
+	Lw2.resize(threadNum); for (auto& t : Lw2) { t = 0; }
 	// trama2T.resize(threadNum);
 
 	gv.resize(threadNum);
 	win.resize(threadNum);
-	K.resize(threadNum);
+	K.resize(threadNum); for (auto& t : K) { t = 0; }
 	h.resize(threadNum);
-	i1 = (0, 1);
+	// i1 = (0, 1);
 	t1.resize(threadNum);
 	t2.resize(threadNum);
 	t3.resize(threadNum);
@@ -49,12 +49,13 @@ PicosStructArray HarmonicAnalysis::processHarmonic(const Eigen::TRowVectorX& x, 
 						K[m] = (int)std::ceil(fmax / f0s(k - 1)) - 1;
 						h[m].resize(Lw[m], 2 * K[m]);
 						h[m].setZero();
+						std::complex<Eigen::TFloat> i1(0, 1);
 						h[m].col(0) = (gv[m] / fs * i1 * 2 * pi * f0s(k - 1)).array().exp().transpose();
 						for(int kk = 2; kk <= K[m]; kk++)
 						{
 							h[m].col(kk - 1) = h[m].col(kk - 2).cwiseProduct(h[m].col(0));
 						}
-						for(int kk = 1; kk <= K[m]; kk++)
+						for(int kk = 1; kk <=  K[m]; kk++)
 						{
 							h[m].col(kk - 1) = h[m].col(kk - 1).cwiseProduct(win[m]);
 						}
@@ -66,7 +67,7 @@ PicosStructArray HarmonicAnalysis::processHarmonic(const Eigen::TRowVectorX& x, 
 						coef[m] = t2[m].llt().solve(t3[m]).eval(); 
 						auto coef1K = coef[m].head(K[m]);
 
-						picos[k-1].a = 2 * coef1K.cwiseAbs().transpose();
+						picos[k - 1].a = 2 * coef1K.cwiseAbs().transpose();
 						picos[k - 1].p = angle(coef1K.transpose());
 					}
 

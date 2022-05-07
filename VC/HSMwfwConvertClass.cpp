@@ -27,56 +27,32 @@ HSMwfwConvert::HSMwfwConvert(HSMModel model, PicosStructArray& picos)
 	std::transform(th2.cbegin(), th2.cend(), th2d.begin(), [](const ThxyElementType& e) {return e.E.determinant(); });
 	std::transform(th2.cbegin(), th2.cend(), th2I.begin(), [](const ThxyElementType& e) {return e.E.inverse(); });
 
-	thd.resize(threadNum);
-	thI.resize(threadNum);
+	P.resize(threadNum); for (auto& i : P) { i.setZero(m); }
+	PP.resize(threadNum); for (auto& i : PP) { i.setZero(mm); }
+	P2.resize(threadNum); for (auto& i : P2) { i.setZero(m); }
 
-	th2d.resize(threadNum);
-	th2I.resize(threadNum);
-
-	P.resize(threadNum);
-	PP.resize(threadNum);
-	P2.resize(threadNum);
-
-	for(auto& i:P)
-	{
-		i.resize(m);
-	}
-	for(auto& i:PP)
-	{
-		i.resize(mm);
-	}
 	for(int i = 0; i < threadNum;i++)
 	{
-		P2[i] = P[i];
+		for(int j = 0; j<P[0].size();j++)
+		{
+			P2[i](j) = P[i](j);
+		}
  	}
 
 	lsfNk.resize(threadNum);
 	lsfff.resize(threadNum);
 	lsfPP.resize(threadNum);
 	lsfR.resize(threadNum);
-	for (auto& i : lsfR)
-	{
-		// i.setZero(p + 1).eval();
-		i = Eigen::TRowVectorX::Zero((int)(p + 1)).eval();
-	}
+	for (auto& i : lsfR) { i = Eigen::TRowVectorX::Zero(p + 1).eval(); }
 	lsfai.resize(threadNum);
-	for (auto& i : lsfai)
-	{
-		i.resize(p);
-		//i.setZero(p+2);
-	}
+	for (auto& i : lsfai) { i.resize(p); }
 	lsfe.resize(threadNum);
 	lsfk.resize(threadNum);
 
-	lsfaz1.resize(threadNum);
-	for (auto& i : lsfaz1)
-	{
-		i.resize(p + 2);
-	}
+	lsfaz1.resize(threadNum); for (auto& i : lsfaz1) { i.setZero(p + 2); }
 	lsfaz2.resize(threadNum);
-	lsflsf.resize(threadNum);
-	lsfSize.resize(threadNum);
-	
+	lsflsf.resize(threadNum); 
+	lsfSize.resize(threadNum); for (auto& i : lsfSize) { i = 0; }
 	
 	
 
@@ -89,21 +65,20 @@ HSMwfwConvert::HSMwfwConvert(HSMModel model, PicosStructArray& picos)
 
 	adapPart1.resize(threadNum);
 	adapPart2.resize(threadNum);
-	for(auto& i: adapPart1)
-		i.resize(adaps1.size());
-	for(auto& i: adapPart2)
-		i.resize(adaps2.size());
+	for (auto& i : adapPart1) { i.setZero(adaps1.size()); }
+	for (auto& i : adapPart2) { i.setZero(adaps2.size()); }
 
-	temp1.resize(threadNum);
-	for(auto& i: temp1)
+	adapTemp1.resize(threadNum);
+	for(auto& i: adapTemp1)
 	{
 		i.resize(adapPart1[0].size() * 2 + 1);
 		i(0) = 1;
 	}
-	temp2.resize(threadNum);
-	for(auto& i:temp2)
+	adapTemp2.resize(threadNum);
+	for(auto& i:adapTemp2)
 	{
 		i.resize(adapPart2[0].size() * 2 + 1);
+		// i(0) = 1;
 	}
 	
 	adapai.resize(threadNum);
@@ -121,11 +96,7 @@ HSMwfwConvert::HSMwfwConvert(HSMModel model, PicosStructArray& picos)
 	aivtt.resize(threadNum);
 
 	fy.resize(threadNum);
-	for(auto& i:fy)
-	{
-		i.resize(fw[0].y.size());
-		i.setZero();
-	}
+	for (auto& i : fy) { i.setZero(fw[0].y.size()); }
 
 	ff1.resize(threadNum);
 	ap1.resize(threadNum);
@@ -134,19 +105,16 @@ HSMwfwConvert::HSMwfwConvert(HSMModel model, PicosStructArray& picos)
 	aa2.resize(threadNum);
 	pp2.resize(threadNum);
 
-	jjant1.resize(threadNum);
-	jjant2.resize(threadNum);
-	for (auto& i : jjant1) i = 1;
-	for (auto& i : jjant2) i = 1;
-	scale.resize(threadNum);
-	for (auto i : scale) i = 0.0;
+	jjant1.resize(threadNum); for (auto& i : jjant1) i = 1;
+	jjant2.resize(threadNum); for (auto& i : jjant2) i = 1;
+	scale.resize(threadNum); for (auto& i : scale) i = 0.0;
+	
 
 	f2j.resize(threadNum);
 	f1j.resize(threadNum);
-	jj.resize(threadNum);
-	for (auto& i : jj) i = 0;
+	jj.resize(threadNum); for (auto& i : jj) i = 0;
 
-	nf.resize(threadNum);
+	nf.resize(threadNum); for (auto& i : nf) i = 0;
 	seqnf.resize(threadNum);
 	win.resize(threadNum);
 
@@ -210,6 +178,7 @@ Eigen::TVectorX HSMwfwConvert::aaalsf(Eigen::Ref<const Eigen::TRowVectorX> aa, E
 
 Eigen::TRowVectorX HSMwfwConvert::lsfadap(Eigen::Ref<const Eigen::TVectorX> lsf, size_t r)
 {
+	const auto i1 = std::complex<double>(0, 1);
 	int p = (int)lsf.size();
 	for(Eigen::Index j = 0; j < adaps1.size(); j++)
 	{
@@ -219,13 +188,15 @@ Eigen::TRowVectorX HSMwfwConvert::lsfadap(Eigen::Ref<const Eigen::TVectorX> lsf,
 	{
 		adapPart2[r](j) = std::exp(i1 * lsf(adaps2(j) - 1));
 	}
-	temp1[r].segment(1, adapPart1[r].size()) = adapPart1[r];
-	temp1[r].tail(adapPart1[r].size()) = adapPart1[r];
-	temp2[r].head(adapPart2[r].size()) = adapPart2[r];
-	temp2[r](adapPart2[r].size()) = -1;
-	temp2[r].tail(adapPart1[r].size()) = adapPart2[r].conjugate();
-	adapai[r] = (0.5 * (poly(temp1[r]) + poly(temp2[r]))).real().eval();
-	return adapai[r].head(adapai.size() - 1);
+	adapTemp1[r](0) = 1;
+	adapTemp1[r].segment(1, adapPart1[r].size()) = adapPart1[r];
+	adapTemp1[r].tail(adapPart1[r].size()) = adapPart1[r].conjugate();
+
+	adapTemp2[r].head(adapPart2[r].size()) = adapPart2[r];
+	adapTemp2[r](adapPart2[r].size()) = -1;
+	adapTemp2[r].tail(adapPart1[r].size()) = adapPart2[r].conjugate();
+	adapai[r] = (0.5 * (poly(adapTemp1[r]) + poly(adapTemp2[r]))).real().eval();
+	return adapai[r].head(adapai[r].size() - 1);
 }
 
 
@@ -272,19 +243,19 @@ void HSMwfwConvert::processWfwConvert(PicosStructArray& picos)
 				P[r] /= Psum[r];
 
 
-				vt[r](v[r].size());
-				vt[r].setZero();
+				vt[r].setZero(v[r].size());
+				// vt[r].setZero();
 				for(size_t j = 1; j<=m;j++)
 				{
 					vt[r] = vt[r] + P[r](j - 1) * (th[j - 1].v + th[j - 1].R * thI[j - 1] * (v[r] - th[j - 1].u));
 				}
 				aivt[r] = lsfadap(vt[r], r);
-				eevt[r](p + 1, (int)std::ceil(fmax / f02s(k - 1)) - 1);
-				eevt[r].setOnes();
-				eevt[r](1, 0) = std::exp(-i1 * pi * f02s(k - 1) / fmax);
+				eevt[r].setOnes(p + 1, (int)std::ceil(fmax / f02s(k - 1)) - 1);
+				// eevt[r].setOnes();
+				eevt[r](1, 0) = std::exp(- i1 * pi * f02s(k - 1) / fmax);
 				for(Eigen::Index jj = 2; jj <= eevt[r].cols(); jj++)
 				{
-					eevt[r](1, jj - 1) = eevt[r](1, jj - 2);
+					eevt[r](1, jj - 1) = eevt[r](1, jj - 2) * eevt[r](1, 0);
 				}
 				for(Eigen::Index jj = 3; jj<=p+1;jj++)
 				{
@@ -302,14 +273,15 @@ void HSMwfwConvert::processWfwConvert(PicosStructArray& picos)
 				}
 
 				PP[r] = PP[r] / PP[r].sum();
-				vtt[r].resize(vt.size());
+				// vtt[r].resize(vt.size());
+				vtt[r].resize(vt[r].size());
 				vtt[r].setZero();
 				for(size_t j = 1; j<=mm; j++)
 				{
 					vtt[r] = vtt[r] + PP[r](j - 1) * (th2[j - 1].v + th2[j - 1].R * th2I[j - 1] * (vt[r] - th2[j - 1].u));
 				}
 
-				vttaux[r].resize(vtt[m].size() + 2);
+				vttaux[r].resize(vtt[r].size() + 2);
 				vttaux[r](0) = 0;
 				vttaux[r](vttaux[r].size() - 1) = pi;
 				vttaux[r].segment(1, vtt[r].size()) = vtt[r];
@@ -326,38 +298,43 @@ void HSMwfwConvert::processWfwConvert(PicosStructArray& picos)
 				{
 					fy[r] += P[r](j - 1) * fw[j - 1].y;
 				}
+
 				ff1[r].resize(picos[k - 1].a.size() + 2);
 				ff1[r](0) = 0.0;
 				ff1[r](ff1[r].size() - 1) = fmax;
 				ff1[r].segment(1, picos[k - 1].a.size()) = seq(1, picos[k - 1].a.size()) * f01s(k - 1);
-				ap1[r].resize(picos[k - 1].a.size() + 2);
-				ap1[r].segment(1, picos[k - 1].a.size()) = picos[k - 1].a.array() * (i1 * picos[k - 1].p).array().exp();
+
+				ap1[r].setZero(picos[k - 1].a.size() + 2);
 				ap1[r](0) = picos[k - 1].a(0);
+				ap1[r].segment(1, picos[k - 1].a.size()) = picos[k - 1].a.array() * (i1 * picos[k - 1].p).array().exp();
 				ap1[r](ap1[r].size() - 1) = 0;
-				aa1[r].resize(picos[k - 1].a.size() + 2);
+
+				aa1[r].setZero(picos[k - 1].a.size() + 2);
 				aa1[r](0) = std::log(picos[k - 1].a(0));
-				aa1[r](aa1.size() - 1) = std::log(picos[k - 1].a.minCoeff());
+				aa1[r](aa1[r].size() - 1) = std::log(picos[k - 1].a.minCoeff());
 				aa1[r].segment(1, picos[k - 1].a.size()) = picos[k - 1].a.array().log();
 
-				aa2[r].resize((int)std::ceil(fmax / f02s(k - 1)) - 1);
-				aa2[r].setZero();
+				aa2[r].setZero((int)std::ceil(fmax / f02s(k - 1)) - 1);
+				// aa2[r].setZero();
 				pp2[r] = aa2[r];
-
-				for(Eigen::Index j = 1; j <= aa2[r].size(); j++)
+				jjant1[r] = 1; jjant2[r] = 1;
+				for (Eigen::Index j = 1; j <= aa2[r].size(); j++)
 				{
 					f2j[r] = j * f02s(k - 1);
-					for(jj[r] = jjant1[r]; jj[r]<=fy[r].size()-1;jj[r]++)
+					jj[r] = 0;
+					//========================================================================================================
+					for (jj[r] = jjant1[r]; jj[r] <= fy[r].size() - 1; jj[r]++)
 					{
-						if(f2j[r]>=fy[r](jj[r]-1)&&f2j[r]<fy[r](jj[r]))
+						if (f2j[r] >= fy[r](jj[r] - 1) && f2j[r] < fy[r](jj[r]))
 						{
 							jjant1[r] = (int)jj[r];
 							break;
 						}
 					}
 					f1j[r] = fx(jj[r] - 1) + (fx(jj[r]) - fx(jj[r] - 1)) * (f2j[r] - fy[r](jj[r] - 1)) / (fy[r](jj[r]) - fy[r](jj[r] - 1));
-					if(f1j[r]<fmax)
+					if (f1j[r] < fmax)
 					{
-						for(jj[r] = jjant2[r];jj[r]<ff1[r].size()-1;jj[r]++)
+						for (jj[r] = jjant2[r]; jj[r] <= ff1[r].size() - 1; jj[r]++)
 						{
 							if (f1j[r] >= ff1[r](jj[r] - 1) && f1j[r] < ff1[r](jj[r]))
 							{
@@ -389,7 +366,7 @@ void HSMwfwConvert::processWfwConvert(PicosStructArray& picos)
 				for(Eigen::Index j = 1; j <= g[r].size(); j++)
 				{
 					ind[r] = seqnf[r].array() + j;
-					if(j<nf[r])
+					if(j<=nf[r])
 					{
 						for(Eigen::Index jj = 1; jj < ind[r].size(); ++jj)
 						{

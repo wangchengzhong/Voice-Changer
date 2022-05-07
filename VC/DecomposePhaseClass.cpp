@@ -9,11 +9,11 @@ DecomposePhase::DecomposePhase(PicosStructArray& picos)
 {
 	timesPerThread = static_cast<int>(static_cast<float>(picos.size()) / (float)threadNum + 1);
 	linpAlfa.resize(threadNum);
-	K.resize(threadNum);
+	K.resize(threadNum); for (auto& t : K) { t = 0; }
 	
-	alfa.resize(threadNum);
+	alfa.resize(threadNum); for (auto& t : alfa) { t = 0.0; }
 
-	imax.resize(threadNum);
+	imax.resize(threadNum); for (auto& t : imax) { t = 0; }
 }
 
 void DecomposePhase::updateSize(PicosStructArray& picos)

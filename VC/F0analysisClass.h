@@ -47,7 +47,7 @@ private:
 	int L;
 	int L2{ 0 };
 	int Lz;
-	int Lp2{ 2 };
+	int Lp2{ 2048 };
 	int Lxlmax;
 	int Ldc;
 	Eigen::TRowVectorX w;
@@ -91,6 +91,6 @@ private:
 	Eigen::TFloat cost;
 
 	Eigen::TRowVectorX f0s;
-	Eigen::Index jjmincostFinal;
+	Eigen::Index jjmincostFinal{ -1 };
 
 };

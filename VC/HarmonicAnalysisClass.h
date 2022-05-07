@@ -30,12 +30,9 @@ private:
 	std::vector<int> K;
 	std::vector<Eigen::TMatrixXc> h;
 	std::complex<Eigen::TFloat>i1;// (0, 1);
-	std::vector<Eigen::TMatrixXc> t1;
-	std::vector<Eigen::TMatrixXc> t2;
-	std::vector<Eigen::Matrix<std::complex<double>,-1,1,0>> t3;
-	std::vector<Eigen::Matrix<std::complex<double>,-1,1,0>> coef;
+	std::vector<Eigen::Matrix<std::complex<double>, -1, -1, 1>> t1;
+	std::vector<Eigen::Matrix<std::complex<double>, -1, -1, 0>> t2;
+	std::vector<Eigen::Matrix<std::complex<double>, -1, 1, 0>> t3;
+	std::vector<Eigen::Matrix<std::complex<double>, -1, 1, 0>> coef;
 	// std::vector<Eigen::VectorBlock<Eigen::TRowVectorXc>> coef1K;
-
-
-
 };

@@ -1,5 +1,8 @@
 #pragma once
 
+#include "f0analysisbyboersma.h"
+#include "harmonicanalysis.h"
+#include "HSManalyze.h"
 #include"JuceHeader.h"
 #include"VoiceConversion.h"
 class RingBufferForVC
@@ -108,9 +111,28 @@ public:
     VoiceConversionBuffer(int numChannels, double sampleRate, int samplesPerBlock, HSMModel model)
         :samplesPerBlock(samplesPerBlock),sampleRate((int)sampleRate),model(model)
     {
+        outputTransitBuffer.resize(45000);
+        spxUpSize = (spx_uint32_t)45000;
+        spxDownSize = (spx_uint32_t)(45000 / sampleRate * 16000);
+        vcOrigBuffer.resize((int)(45000 / sampleRate * 16000));
+        vcConvertedBuffer.resize((int)(45000 / sampleRate * 16000));
+        downResampler = speex_resampler_init(1, sampleRate, (int)16000, 3, &err);
+        upResampler = speex_resampler_init(1, (int)16000, sampleRate, 3, &err);
+        //vcOrigBuffer.resize(spxDownSize);
+        //vcConvertedBuffer.resize(spxDownSize);
+    	initializeBuffer.resize(bufferLength);
+		for(auto i:initializeBuffer)
+			i = (float)rand() / RAND_MAX - 0.5;
 
-        vc = std::make_unique<VoiceConversion>(sampleRate,this->model);
-        vc->setChannels(numChannels);
+		auto temp = 1 + std::floor((bufferLength - 3.0 * 16000 / 50) / 128);
+		pms = 1 + (int)std::ceil(1.5 * 16000 / 50) + 128 * seq<Eigen::RowVectorXi>(0, temp).array();
+        DBG("trial size:" << pms.size());
+        f0s = f0analysisbyboersma(initializeBuffer, 16000, pms);
+        picos = harmonicanalysis(initializeBuffer, 16000, pms, f0s, 5000);
+        picos = HSManalyze(initializeBuffer, 16000);
+        pVcImpl = std::make_unique<VoiceConversionImpl>(model, pms, initializeBuffer, picos);
+        // vc = std::make_unique<VoiceConversion>(sampleRate,this->model);
+        // vc->setChannels(numChannels);
 
         input.initialise(numChannels, sampleRate * 20);
         output.initialise(numChannels, sampleRate * 20);
@@ -177,26 +199,29 @@ public:
                 input.pushSample(buffer.getSample(channel, sample), channel);
                 buffer.setSample(channel, sample, 0.0);
 
-                //if (channel == buffer.getNumChannels() - 1)
                 {
                     if (reqSamples == input.getAvailableSampleNum(0))
                     {
-                        //vc->setSequenceLength(reqSamples);
-                        vc->putSamples(input.readPointerArray((int)reqSamples), static_cast<unsigned int>(reqSamples));
+                        //vc->putSamples(input.readPointerArray((int)reqSamples), static_cast<unsigned int>(reqSamples));
+                        err = speex_resampler_process_float(downResampler, 0, input.readPointerArray(reqSamples), &spxUpSize, vcOrigBuffer.data(), &spxDownSize);
+                        pVcImpl->processConversion(vcOrigBuffer, vcConvertedBuffer, 1);
+                        err = speex_resampler_process_float(upResampler, 0, vcConvertedBuffer.data(), &spxDownSize, outputTransitBuffer.data(), &spxUpSize);
+                        output.writePointerArray(outputTransitBuffer.data(), reqSamples);
+                        output.copyToBuffer(reqSamples);
                     }
                 }
             }
         }
 
-        auto availableSamples = static_cast<int>(vc->numSamples());
 
-        if (availableSamples > 0)
-        {
-            double* readSample = vc->ptrBegin();
-            output.writePointerArray(readSample, availableSamples);
-            vc->receiveSamples(static_cast<unsigned int>(availableSamples));
-            output.copyToBuffer(availableSamples);
-        }
+        //auto availableSamples = static_cast<int>(vc->numSamples());
+        //if (availableSamples > 0)
+        //{
+        //    double* readSample = vc->ptrBegin();
+        //    output.writePointerArray(readSample, availableSamples);
+        //    vc->receiveSamples(static_cast<unsigned int>(availableSamples));
+        //    output.copyToBuffer(availableSamples);
+        //}
 
         auto availableOutputSamples = output.getAvailableSampleNum(0);
 
@@ -217,10 +242,11 @@ public:
 
 private:
     HSMModel model;
+    std::unique_ptr<VoiceConversionImpl> pVcImpl;
     int sampleRate;
-    std::unique_ptr<VoiceConversion> vc;
+    // std::unique_ptr<VoiceConversion> vc;
     RingBufferForVC input, output;
-    juce::AudioBuffer<double> inputBuffer, outputBuffer;
+    std::vector<double> outputTransitBuffer;
     int samplesPerBlock;
     juce::SpinLock paramLock;
 
@@ -233,4 +259,18 @@ private:
 	int underThresCount{ 0 };
     
 	const int reqSamples{ 45000 };
+    int bufferLength{ 15000 };
+    Eigen::TRowVectorX initializeBuffer;
+    Eigen::RowVectorXi pms;
+    PicosStructArray picos;
+
+    Eigen::TRowVectorX f0s;
+    SpeexResamplerState* upResampler;
+    SpeexResamplerState* downResampler;
+    int err;
+    spx_uint32_t spxUpSize;
+    spx_uint32_t spxDownSize;
+    std::vector<SAMPLETYPE> vcOrigBuffer;
+    std::vector<SAMPLETYPE> vcConvertedBuffer;
+    std::vector<SAMPLETYPE> vcBuffer;
 };

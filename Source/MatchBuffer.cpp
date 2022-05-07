@@ -581,7 +581,7 @@ void BufferMatch::processSamples()
         vcConvertedBuffer.resize(spxDownSize);
         
         err = speex_resampler_process_float(downResampler, 0, inputBuffer.ptrBegin(), &spxUpSize, vcOrigBuffer.data(), &spxDownSize);
-        // pVcImpl->processConversion(vcOrigBuffer, vcConvertedBuffer, 1);
+    	//pVcImpl->processConversion(vcOrigBuffer, vcConvertedBuffer, 1);
     	convertBlock(vcOrigBuffer, vcConvertedBuffer, 1, model);
         err = speex_resampler_process_float(upResampler, 0, vcConvertedBuffer.data(), &spxDownSize, inputBuffer.ptrBegin(), &spxUpSize);
         
