@@ -5,7 +5,7 @@
 class HSMsynthesize
 {
 public:
-	HSMsynthesize(PicosStructArray& picos, int bufferLength);
+	HSMsynthesize(PicosStructArray& picos, int bufferLength, Eigen::TRowVectorX& output);
 	~HSMsynthesize() = default;
 	Eigen::TRowVectorX processSynthesize(PicosStructArray& picos, int bufferLength);
 	Eigen::TRowVectorX filter(const Eigen::TRowVectorX& a, const Eigen::TRowVectorX& x, int m);
@@ -17,7 +17,7 @@ private:
 	int threadNum{ 20 };
 	int timesPerThread;
 
-	Eigen::TRowVectorX y;
+	Eigen::TRowVectorX& y;
 	size_t Npm;
 
 	std::random_device rd;

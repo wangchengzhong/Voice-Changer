@@ -195,10 +195,10 @@ public:
 
 				
 				copyFromSpectralToFft(spectralBufferData,fftBufferIn);
-//#if USE_3rdPARTYPITCHSHIFT == false
+#if USE_3rdPARTYPITCHSHIFT==false
 
-				// processCallback(spectralBufferData, spectralBufferSize);
-
+				processCallback(spectralBufferData, spectralBufferSize);
+#endif
 				fft->performRealOnlyInverseTransform(spectralBufferData);
 
 				// spectralBuffer.resize(spectralBufferSize);

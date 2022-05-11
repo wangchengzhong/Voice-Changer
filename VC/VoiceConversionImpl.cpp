@@ -15,34 +15,43 @@
 VoiceConversionImpl::VoiceConversionImpl(HSMModel model, Eigen::RowVectorXi pms, Eigen::TRowVectorX x, PicosStructArray picos)
 	:
 	sampleRate(16000)
-	,bufferLength(15000)
 	,model(model)
 	,x(x)
 	,pms(pms)
 	,picos(picos)
 	,hsmAnalysis(this->pms,this->picos)
 	,hsmWfwConvert(model,this->picos)
-	,hsmSynthesize(this->picos, bufferLength)
+	, output(bufferLength)
+	,hsmSynthesize(this->picos, bufferLength,output)
+	
 {
 }
 
 
 void VoiceConversionImpl::processConversion(std::vector<double>& origBuffer, std::vector<double>& convertedBuffer, int verbose) noexcept
 {
+	//picos.clear();
 	bufferLength = origBuffer.size();
-	x.resize(bufferLength);
+	// x.resize(bufferLength);
 	DBG("actual input buffer length:" << bufferLength);
+	x.setZero(bufferLength);
 	for(int i = 0; i < bufferLength; i++)
 	{
-		x[i] = origBuffer[i];
+		x(i) = origBuffer[i];
 	}
 	
-	picos = hsmAnalysis.processHSManalysis(x);
+	hsmAnalysis.processHSManalysis(x);
+	for (auto& i : picos)
+	{
+		for (auto& j : i.p)
+			DBG(" class: " << j);
+	}
 	hsmWfwConvert.processWfwConvert(picos);
-	output = hsmSynthesize.processSynthesize(picos,bufferLength);
+	
+	hsmSynthesize.processSynthesize(picos,bufferLength);
 	for(int i = 0; i < bufferLength; i++)
 	{
-		convertedBuffer[i] = output[i];
+		convertedBuffer[i] = output(i);
 	}
 }
 

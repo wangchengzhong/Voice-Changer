@@ -60,6 +60,7 @@ private:
     void switchPitchMethodButtonClicked();
     void switchVoiceConversionButtonClicked();
     void openReverbButtonClicked();
+    void allFuncButtonClicked();
 
     void stopPlayFileButtonClicked();
     void playFileButtonClicked();
@@ -110,12 +111,12 @@ private:
     juce::TextButton playFileButton;
     juce::TextButton stopPlayFileButton;
     // std::unique_ptr<juce::Slider> pPlayPositionSlider;
-
+    ToggleButton allFuncButton;
     
 
     juce::TextButton resetAllButton;
 
-    ImageButton switchPitchMethodButton;;
+    ImageButton switchPitchMethodButton;
     juce::ImageButton switchVoiceConversionButton;
     juce::Label timeDomainLabel;
     juce::Label freqDomainLabel;

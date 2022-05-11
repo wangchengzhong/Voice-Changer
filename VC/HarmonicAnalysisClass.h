@@ -4,7 +4,7 @@
 class HarmonicAnalysis
 {
 public:
-	HarmonicAnalysis(Eigen::RowVectorXi& pms, Eigen::TFloat fmax, PicosStructArray picos);
+	HarmonicAnalysis(Eigen::RowVectorXi& pms, Eigen::TFloat fmax, PicosStructArray& picos);
 	~HarmonicAnalysis() = default;
 
 	PicosStructArray processHarmonic(const Eigen::TRowVectorX& x, 
@@ -15,7 +15,7 @@ private:
 	int threadNum{ 20 };
 	int timesPerThread;
 	Eigen::TFloat fmax{ 5000 };
-	PicosStructArray picos;
+	PicosStructArray& picos;
 	Eigen::RowVectorXi& pms;
 	// ::TRowVectorX f0s;
 	

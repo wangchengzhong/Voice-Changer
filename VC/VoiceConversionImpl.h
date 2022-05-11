@@ -15,7 +15,7 @@ public:
 
 	HSMModel model;
 	int sampleRate;
-	int bufferLength;
+	int bufferLength{ 15000 };
 	Eigen::RowVectorXi pms;
 	Eigen::TRowVectorX x;
 	PicosStructArray picos;

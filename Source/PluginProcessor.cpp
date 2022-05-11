@@ -533,53 +533,56 @@ bool VoiceChanger_wczAudioProcessor::isBusesLayoutSupported (const BusesLayout& 
 
 void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-    if (realtimeMode)//在实时模式
+    if (allFunc.load())
     {
-        overallProcess(buffer);//不切换音频源
-    	processLevelInfo(buffer);
-    }
-    else//在离线模式
-    {
+        if (realtimeMode)//在实时模式
+        {
+            overallProcess(buffer);//不切换音频源
+            //processLevelInfo(buffer);
+        }
+        else//在离线模式
+        {
 
-        // spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
-        buffer.clear();
-        transportSource.getNextAudioBlock(AudioSourceChannelInfo(buffer));//切换到离线音频源再处理
-        overallProcess(buffer);
-        processLevelInfo(buffer);
-        //if (!canReadSampleBuffer)
-        //{
-        //    if (pPlayBuffer)
-        //        if (pPlayBuffer->getNumChannels())
-        //            canReadSampleBuffer = true;
-        //}
-        //if (canReadSampleBuffer)
-        //{
-        //    if (pPlayBuffer->getNumChannels())
-        //    {
-        //        if (shouldProcessFile)
-        //        {
-        //            getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
-        //            // transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
-        //            overallProcess(buffer);
-        //            return;
-        //        }
-        //    }
-        //    else
-        //        spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
-        //}
-        //spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
+            // spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
+            buffer.clear();
+            transportSource.getNextAudioBlock(AudioSourceChannelInfo(buffer));//切换到离线音频源再处理
+            overallProcess(buffer);
+            //if (!canReadSampleBuffer)
+            //{
+            //    if (pPlayBuffer)
+            //        if (pPlayBuffer->getNumChannels())
+            //            canReadSampleBuffer = true;
+            //}
+            //if (canReadSampleBuffer)
+            //{
+            //    if (pPlayBuffer->getNumChannels())
+            //    {
+            //        if (shouldProcessFile)
+            //        {
+            //            getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+            //            // transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+            //            overallProcess(buffer);
+            //            return;
+            //        }
+            //    }
+            //    else
+            //        spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
+            //}
+            //spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
+        }
+
+        if (isDawStream.load())//如果子引擎与主引擎链接
+        {
+            engineWrapper->playheadSynchroniser.synchronise(*this);
+            engineWrapper->audioInterface.processBlock(buffer, midiMessages);//使用子引擎的音频块
+        }
+        const ScopedLock s1(writerLock);//锁死内录线程
+        if (activeWriter.load() != nullptr)
+        {
+            activeWriter.load()->write(buffer.getArrayOfReadPointers(), buffer.getNumSamples());//将当前音频块写入
+        }
     }
-    
-    if (isDawStream.load())//如果子引擎与主引擎链接
-    {
-        engineWrapper->playheadSynchroniser.synchronise(*this);
-        engineWrapper->audioInterface.processBlock(buffer, midiMessages);//使用子引擎的音频块
-    }
-    const ScopedLock s1(writerLock);//锁死内录线程
-    if (activeWriter.load() != nullptr)
-    {
-        activeWriter.load()->write(buffer.getArrayOfReadPointers(), buffer.getNumSamples());//将当前音频块写入
-    }
+    processLevelInfo(buffer);
 }
 void VoiceChanger_wczAudioProcessor::getNextAudioBlock(juce::AudioSourceChannelInfo& buffer)//手动获取下一个音频块
 {//已用transportSource方法替代

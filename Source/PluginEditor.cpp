@@ -47,12 +47,11 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     setSize(1400, 600);
     //// addAndMakeVisible(bkg);
     //// addAndMakeVisible(playAudioFileComponent);
-    AudioProcessorEditor::addAndMakeVisible(audioSetupComp);
+    addAndMakeVisible(audioSetupComp);
 
     //juce::StandalonePluginHolder::getInstance()
     // audioSetupComp
     //// = juce::String("VB-Audio VoiceMeeter VAIO");
-    
 
     startTimerHz(30);//主界面定时器工作
     //=====================================================================================================
@@ -240,6 +239,14 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
         juce::ImageFileFormat::loadFrom(BinaryData::switch_right_png, BinaryData::switch_right_pngSize), 1.0f, {},
         0.0f);
     addAndMakeVisible(switchVoiceConversionButton);
+    
+    allFuncButton.setButtonText(juce::CharPointer_UTF8("\xe6\x89\x93\xe5\xbc\x80\xe5\x8f\x98\xe5\xa3\xb0\xe5\x8a\x9f\xe8\x83\xbd"));
+    allFuncButton.onClick = [this] { allFuncButtonClicked(); };
+    allFuncButton.setColour(juce::ToggleButton::ColourIds::tickColourId, juce::Colours::red);
+    allFuncButton.setColour(juce::ToggleButton::ColourIds::tickDisabledColourId, juce::Colours::green);
+    addAndMakeVisible(&allFuncButton);
+    allFuncButton.setEnabled(true);
+
 
     openReverbButton.setClickingTogglesState(true);
     openReverbButton.onClick = [this] {openReverbButtonClicked(); };
@@ -435,6 +442,8 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
     specificConversionLabel.setBounds(275, 425, 50, 50);
     generalConversionLabel.setBounds(170, 425, 50, 50);
 
+    
+    
     openReverbButton.setBounds(560, 320, 40, 40);
     reverbSizeSlider.setBounds(620, 310, 70, 70);
     reverbWidthSlider.setBounds(700, 310, 70, 70);
@@ -460,7 +469,7 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
 
 	audioSetupComp.setBounds(545, 20, 400, 100);
     //playAudioFileComponent.setBounds(AudioProcessorEditor::getLocalBounds());
-
+    allFuncButton.setBounds(580, 3, 200, 20);
     circularMeterL.setBounds(970, 20, 400, 400);
     circularMeterR.setBounds(970, 20, 400, 400);
 
@@ -471,6 +480,7 @@ void VoiceChanger_wczAudioProcessorEditor::resized()
     openDawButton.setBounds(1000, 515, 100, 50);
     openEqButton.setBounds(1125, 515, 100, 50);
     openWebButton.setBounds(1250, 515, 100, 50);
+    
     thumbnailCore->setBounds(10, 470, 320, 110);
 }
 void VoiceChanger_wczAudioProcessorEditor::sliderValueChanged(juce::Slider* sliderThatWasMoved)//旋钮改变响应
@@ -689,7 +699,15 @@ void VoiceChanger_wczAudioProcessorEditor::switchVoiceConversionButtonClicked()
 	    }
     }
 }
-
+void VoiceChanger_wczAudioProcessorEditor::allFuncButtonClicked()
+{
+    if (audioProcessor.allFunc.load())
+        audioProcessor.allFunc = false;
+    else
+    {
+        audioProcessor.allFunc = true;
+    }
+}
 void VoiceChanger_wczAudioProcessorEditor::openReverbButtonClicked()
 {
     if (audioProcessor.openReverb.load())
@@ -699,6 +717,7 @@ void VoiceChanger_wczAudioProcessorEditor::openReverbButtonClicked()
         audioProcessor.openReverb = true;
     }
 }
+
 
 
 

@@ -5,9 +5,10 @@
 #include "ppl.h"
 #include "seq.h"
 
-HSMsynthesize::HSMsynthesize(PicosStructArray& picos, int bufferLength)
+HSMsynthesize::HSMsynthesize(PicosStructArray& picos, int bufferLength, Eigen::TRowVectorX& output)
 	:picos(picos),bufferLength(bufferLength),Npm(0)
 	, timesPerThread(static_cast<int>(static_cast<float>(picos.size()) / (float)threadNum + 1))
+	,y(output)
 {
 	y.resize(bufferLength);
 	y.setZero();

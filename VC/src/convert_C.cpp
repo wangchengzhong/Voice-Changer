@@ -32,8 +32,12 @@ void convertBlock(std::vector<double>& origBuffer, std::vector<double>& converte
 	int fs = 16000;
 
 	auto picos = HSManalyze(x, fs);//6~16
+	//for (auto& i : picos)
+	//{
+	//	for (auto& j : i.p)
+	//		DBG(j);
+	//}
 	// auto start = std::chrono::high_resolution_clock::now();
-
 	HSMwfwconvert(model, picos);//0.7~1.4
 	
 	auto y = HSMsynthesize(picos, L);

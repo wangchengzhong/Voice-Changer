@@ -127,8 +127,8 @@ public:
 		auto temp = 1 + std::floor((bufferLength - 3.0 * 16000 / 50) / 128);
 		pms = 1 + (int)std::ceil(1.5 * 16000 / 50) + 128 * seq<Eigen::RowVectorXi>(0, temp).array();
         DBG("trial size:" << pms.size());
-        f0s = f0analysisbyboersma(initializeBuffer, 16000, pms);
-        picos = harmonicanalysis(initializeBuffer, 16000, pms, f0s, 5000);
+        //f0s = f0analysisbyboersma(initializeBuffer, 16000, pms);
+        //picos = harmonicanalysis(initializeBuffer, 16000, pms, f0s, 5000);
         picos = HSManalyze(initializeBuffer, 16000);
         pVcImpl = std::make_unique<VoiceConversionImpl>(model, pms, initializeBuffer, picos);
         // vc = std::make_unique<VoiceConversion>(sampleRate,this->model);
@@ -204,7 +204,9 @@ public:
                     {
                         //vc->putSamples(input.readPointerArray((int)reqSamples), static_cast<unsigned int>(reqSamples));
                         err = speex_resampler_process_float(downResampler, 0, input.readPointerArray(reqSamples), &spxUpSize, vcOrigBuffer.data(), &spxDownSize);
-                        pVcImpl->processConversion(vcOrigBuffer, vcConvertedBuffer, 1);
+                        
+                    	// pVcImpl->processConversion(vcOrigBuffer, vcConvertedBuffer, 1);
+                        convertBlock(vcOrigBuffer, vcConvertedBuffer, 1, model);
                         err = speex_resampler_process_float(upResampler, 0, vcConvertedBuffer.data(), &spxDownSize, outputTransitBuffer.data(), &spxUpSize);
                         output.writePointerArray(outputTransitBuffer.data(), reqSamples);
                         output.copyToBuffer(reqSamples);

@@ -5,7 +5,7 @@
 #include"ppl.h"
 #include "seq.h"
 
-HarmonicAnalysis::HarmonicAnalysis(Eigen::RowVectorXi& pms, Eigen::TFloat fmax, PicosStructArray picos)
+HarmonicAnalysis::HarmonicAnalysis(Eigen::RowVectorXi& pms, Eigen::TFloat fmax, PicosStructArray& picos)
 	:fmax(fmax),pms(pms),picos(picos),pmsSize(pms.size())
 {
 	timesPerThread = static_cast<int>(static_cast<float>(pms.size()) / (float)threadNum + 1);

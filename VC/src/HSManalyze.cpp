@@ -27,9 +27,9 @@ PicosStructArray HSManalyze(Eigen::Ref<Eigen::TRowVectorX> x, Eigen::TFloat fs)
 	auto f0s = f0analysisbyboersma(x, fs, pms, f0min, f0max);//0.2~0.3
 	
 	//auto start = std::chrono::high_resolution_clock::now();
-	
 	auto picos = harmonicanalysis(x, fs, pms, f0s, fmax);//1~9
-
+	
+	//DBG(picos[0].p[0]);
 	//auto end = std::chrono::high_resolution_clock::now();
 	//auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 	// DBG("duration is " << duration.count());
@@ -38,6 +38,7 @@ PicosStructArray HSManalyze(Eigen::Ref<Eigen::TRowVectorX> x, Eigen::TFloat fs)
 	
 	
 	polarityanalysis(picos);
+	
 	decomposephase(picos);
 	
 	return  picos;

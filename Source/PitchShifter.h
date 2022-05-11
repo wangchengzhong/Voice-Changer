@@ -21,7 +21,7 @@ public:
 		if (phaseVocoder.getPitchRatio() == newPitchRatio)
 			return;
 		const juce::SpinLock::ScopedLockType lock(phaseVocoder.getParamLock());
-		phaseVocoder.setPitchRatio(1);
+		phaseVocoder.setPitchRatio(newPitchRatio);
 		phaseVocoder.setSynthesisHopSize((int)(phaseVocoder.getWindowSize() / (float)phaseVocoder.getWindowOverlapCount()));
 		phaseVocoder.setAnalysisHopSize((int)round(phaseVocoder.getSynthesisHopSize() / phaseVocoder.getPitchRatio()));
 #if USE_3rdPARTYPITCHSHIFT==false

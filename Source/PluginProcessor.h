@@ -60,6 +60,7 @@ class VoiceChanger_wczAudioProcessor :
 
 public:
     //总控逻辑
+    std::atomic<bool> allFunc{ false };
     std::atomic<bool> isModelLoaded{ false }; //是否已经加载了模型
     std::atomic<bool> openReverb{ false };//混响开关
     std::atomic<bool> isDawStream{ false };//是否用了子引擎音频流

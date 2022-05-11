@@ -138,7 +138,7 @@ public:
 			juce::File{}, "*.wav; *.flac; *.mp3; *.m4a");
 		if (chooser->browseForFileToOpen())
 		{
-			auto file = chooser->getResult();
+			file = chooser->getResult();
 			if (file != juce::File{})
 			{
 				auto* reader = formatManager.createReaderFor(file);
@@ -182,8 +182,11 @@ public:
 		
 		// audioProcessor.setState(Starting);
 		// changeState(Starting);
-
-		// convertSingle(modelFile, wavFile, convertedWavFile, 1);
+		auto filenameStr = file.getFullPathName().toStdString();
+		size_t start_pos = filenameStr.find("\\");
+		filenameStr.replace(start_pos, 1, "/");
+		auto filename = filenameStr.c_str();
+		convertSingle(modelFile, filename, convertedFile, 1);
 	}
 	void stopButtonClicked()
 	{
@@ -225,7 +228,7 @@ public:
 		//{
 		//	DBG(origBuffer[i]);
 		//}
-		trainHSMSingle(origBuffer, targetBuffer, 30, modelFile);
+		trainHSMSingle(origBuffer, targetBuffer, 5, modelFile);
 		
 
 		//const int n = 8;
@@ -252,12 +255,13 @@ public:
 	}
 	bool playing{ false };
 private:
-	
+	File file;
 	char* sourceAudioDir = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/source_train/";// juce::File::getSpecialLocation(File::userDocumentsDirectory);// "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/source_train/";
 	char* targetAudioDir = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/target_train/";
 	//const int numTrainSamples = 1;
 	//const char* modelFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/ModelsModel.dat";
 	const char* modelFile = "D:/Model.dat";
+	const char* convertedFile = "D:/converted.wav";
 	//const char* wavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/source_train/1.wav";
 	//const char* convertedWavFile = "D:/1a/voice_changer@wcz/VoiceChanger@wcz/VC/Audios/test/jal_in_50_3_c.wav";
 

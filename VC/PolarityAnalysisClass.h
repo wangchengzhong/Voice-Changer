@@ -8,7 +8,7 @@ public:
 	PolarityAnalysis(PicosStructArray& picos);
 	~PolarityAnalysis() = default;
 	void updateSize(PicosStructArray& picos);
-	int processPolarity(PicosStructArray picos);
+	int processPolarity(PicosStructArray& picos);
 private:
 	PicosStructArray& picos;
 	int pol{ 0 };
