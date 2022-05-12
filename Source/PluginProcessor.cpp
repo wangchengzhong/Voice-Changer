@@ -226,7 +226,7 @@ VoiceChanger_wczAudioProcessor::VoiceChanger_wczAudioProcessor()
     , pPlayBuffer(&fileBuffer)//播放指针默认指向fileBuffer
     , ti(Stopped, Mainpage)// 播放控制初始化
     , TransportInformation(ti)
-    , spectrum(juce::Image::RGB, 512, 256, true)//主界面频谱画面初始化
+    // , spectrum(juce::Image::RGB, 512, 256, true)//主界面频谱画面初始化
 
 #endif
     , thumbnailCache(1)//主界面离线文件频谱缩略图
@@ -293,6 +293,7 @@ VoiceChanger_wczAudioProcessor::~VoiceChanger_wczAudioProcessor()
     //parameters.removeParameterListener("rmsPeriod", this);
     //parameters.removeParameterListener("smoothing", this);
     transportSource.setSource(nullptr);
+    mainpageAnalyser.stopThread(1000);
 #if _OPEN_FILTERS
 	inputAnalyser.stopThread(1000);
     outputAnalyser.stopThread(1000);
@@ -396,7 +397,7 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
     inputAnalyser.setupAnalyser(int(sampleRate), float(sampleRate));//初始化输入输出分析器
     outputAnalyser.setupAnalyser(int(sampleRate), float(sampleRate));
 #endif
-
+    mainpageAnalyser.setupSpectralAnalyser(int(sampleRate), float(sampleRate));
     const auto numberOfChannels = getTotalNumInputChannels();
     rmsLevels.clear();
     for (auto i = 0; i < numberOfChannels; i++)
@@ -505,6 +506,7 @@ void VoiceChanger_wczAudioProcessor::releaseResources()
     inputAnalyser.stopThread(1000);
     outputAnalyser.stopThread(1000);
 #endif
+    mainpageAnalyser.stopThread(1000);
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -582,6 +584,13 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
             activeWriter.load()->write(buffer.getArrayOfReadPointers(), buffer.getNumSamples());//将当前音频块写入
         }
     }
+    else
+    {
+        processDynamics(buffer,false, getDynamicsThresholdShift(),
+            getDynamicsRatioShift(), getDynamicsAttackShift(),
+            getDynamicsReleaseShift(), getDynamicsMakeupGainShift());
+    }
+    mainpageAnalyser.addAudioData(buffer, 0, getNumInputChannels());
     processLevelInfo(buffer);
 }
 void VoiceChanger_wczAudioProcessor::getNextAudioBlock(juce::AudioSourceChannelInfo& buffer)//手动获取下一个音频块
@@ -623,7 +632,11 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
 
     updateUIControls();//更新音调缩放控制
     updateReverbSettings();//更新混响控制
-
+    if (openVoiceConversion.load() && isModelLoaded.load())
+    {
+        vcb->processBuffer(buffer);
+        buffer.copyFrom(1, 0, buffer, 0, 0, numSamples);
+    }
 #if _OPEN_DYNAMICS
     processDynamics(buffer, false, getDynamicsThresholdShift(),
         getDynamicsRatioShift(), getDynamicsAttackShift(),
@@ -635,32 +648,19 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
     processWahwah(buffer, 0.02, 0.3, 0.8, 5, 0.5, 20, 2, 200.0f);
 #endif
     //以下方法均直接调用接口
-#if _OPEN_PEAK_PITCH
 #if USE_3rdPARTYPITCHSHIFT
-    //  if ( !openVoiceConversion)
     {
 #if USE_SOUNDTOUCH
     	if ( !useFD.load())
         	sts->processBuffer(buffer);
+#endif
 #if USE_RUBBERBAND
         else
     		rbs->processBuffer(buffer);
     }
 #endif
+#endif
 
-#endif
-#endif
-    
-#if _SHOW_SPEC
-    if (openVoiceConversion.load()&&isModelLoaded.load())
-    {
-            vcb->processBuffer(buffer);
-            buffer.copyFrom(1, 0, buffer, 0, 0, numSamples);
-    }
-    
-
-#endif
-#endif
 #if _OPEN_FILTERS
     //if ( !openVoiceConversion)
     {
@@ -680,20 +680,18 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
         }
         if (getActiveEditor() != nullptr)
             outputAnalyser.addAudioData(buffer, 0, getTotalNumOutputChannels());
-
     }
-
+#endif
     {
         for (int channel = 0; channel < getNumInputChannels(); ++channel)
         {
             auto channelDataFlt = buffer.getWritePointer(channel);
-            pitchShifters[channel]->process(channelDataFlt, numSamples);
+            // pitchShifters[channel]->process(channelDataFlt, numSamples);
             peakShifters[channel]->process(channelDataFlt, numSamples);
         }
     }
-#endif
-#if _OPEN_TEST
 
+#if _OPEN_TEST
     for (int channel = 0; channel < getNumInputChannels(); ++channel)
     {
         float* channelData = buffer.getWritePointer(channel);
@@ -1417,64 +1415,64 @@ float VoiceChanger_wczAudioProcessor::getPlayAudioFilePosition()
 }
 
 
-juce::Image& VoiceChanger_wczAudioProcessor::getSpectrumView()//获取主界面频谱
-{
-    if (pitchShifters[0]->getProcessFlag())
-    {
-        spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
-        auto level = pitchShifters[0]->getSpectrumInput();
-        drawSpectrumGraph(spectrum, level, juce::Colours::lightskyblue, true);//juce::Colour(0, 255, 0), true);
-        pitchShifters[0]->setProcessFlag(false); 
-    }
-    return spectrum;
-}
-void VoiceChanger_wczAudioProcessor::drawSpectrumGraph(juce::Image view, std::shared_ptr<float>power, juce::Colour color, bool isLog)//绘制主界面频谱
-{
-    int postPoint = 0;
-    float postLevel = 0.0f;
-    juce::Graphics g(view);
-    for (int x = 1; x < 512; x++)
-    {
-        float skewedProportionX = 0.0f;
-        if (isLog)
-        
-        {
-            skewedProportionX = 1.0f - std::exp(std::log(1.0f - (float)x / 512.0f) * 0.2f);
-        }
-        else
-        {
-            skewedProportionX = (float)x / 512.0f;
-        }
-        auto fftDataIndex = juce::jlimit(0, 1024, (int)(skewedProportionX * 1024.));
-        auto lv = power.get()[fftDataIndex];
-        if ((std::fabs(postLevel - lv) > 0.000001) || (x == 511) || (!isLog))
-        {
-            g.setColour(color);
-            g.setOpacity(1.0);
-            g.drawLine(
-                (float)postPoint,
-                juce::jmap(postLevel, 0.0f, 1.0f, 256.0f, 0.0f),
-                (float)x,
-                juce::jmap(lv, 0.0f, 1.0f, 256.0f, 0.0f)
-
-            );
-            {
-                g.setOpacity(0.3);
-                juce::Path pen;
-                pen.startNewSubPath(juce::Point<float>((float)postPoint, juce::jmap(postLevel, 0.0f, 1.0f, 256.0f, 0.0f)));
-                pen.lineTo(juce::Point<float>((float)x, juce::jmap(lv, 0.0f, 1.0f, 256.0f, 0.0f)));
-                pen.lineTo(juce::Point<float>((float)x, 256.0f));
-                pen.lineTo(juce::Point<float>((float)postPoint, 256.0f));
-                pen.closeSubPath();
-                g.fillPath(pen);
-            }
-            postPoint = x;
-            postLevel = lv;
-        }
-    }
-    g.setOpacity(1.0);
-    // syncPluginParameter();
-}
+//juce::Image& VoiceChanger_wczAudioProcessor::getSpectrumView()//获取主界面频谱
+//{
+//    if (pitchShifters[0]->getProcessFlag())
+//    {
+//        spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
+//        auto level = pitchShifters[0]->getSpectrumInput();
+//        drawSpectrumGraph(spectrum, level, juce::Colours::lightskyblue, true);//juce::Colour(0, 255, 0), true);
+//        pitchShifters[0]->setProcessFlag(false); 
+//    }
+//    return spectrum;
+//}
+//void VoiceChanger_wczAudioProcessor::drawSpectrumGraph(juce::Image view, std::shared_ptr<float>power, juce::Colour color, bool isLog)//绘制主界面频谱
+//{
+//    int postPoint = 0;
+//    float postLevel = 0.0f;
+//    juce::Graphics g(view);
+//    for (int x = 1; x < 512; x++)
+//    {
+//        float skewedProportionX = 0.0f;
+//        if (isLog)
+//        
+//        {
+//            skewedProportionX = 1.0f - std::exp(std::log(1.0f - (float)x / 512.0f) * 0.2f);
+//        }
+//        else
+//        {
+//            skewedProportionX = (float)x / 512.0f;
+//        }
+//        auto fftDataIndex = juce::jlimit(0, 1024, (int)(skewedProportionX * 1024.));
+//        auto lv = power.get()[fftDataIndex];
+//        if ((std::fabs(postLevel - lv) > 0.000001) || (x == 511) || (!isLog))
+//        {
+//            g.setColour(color);
+//            g.setOpacity(1.0);
+//            g.drawLine(
+//                (float)postPoint,
+//                juce::jmap(postLevel, 0.0f, 1.0f, 256.0f, 0.0f),
+//                (float)x,
+//                juce::jmap(lv, 0.0f, 1.0f, 256.0f, 0.0f)
+//
+//            );
+//            {
+//                g.setOpacity(0.3);
+//                juce::Path pen;
+//                pen.startNewSubPath(juce::Point<float>((float)postPoint, juce::jmap(postLevel, 0.0f, 1.0f, 256.0f, 0.0f)));
+//                pen.lineTo(juce::Point<float>((float)x, juce::jmap(lv, 0.0f, 1.0f, 256.0f, 0.0f)));
+//                pen.lineTo(juce::Point<float>((float)x, 256.0f));
+//                pen.lineTo(juce::Point<float>((float)postPoint, 256.0f));
+//                pen.closeSubPath();
+//                g.fillPath(pen);
+//            }
+//            postPoint = x;
+//            postLevel = lv;
+//        }
+//    }
+//    g.setOpacity(1.0);
+//    // syncPluginParameter();
+//}
 
 void VoiceChanger_wczAudioProcessor::updateUIControls()//更新音调缩放参数控制
 {

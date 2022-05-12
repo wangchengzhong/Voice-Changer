@@ -41,6 +41,7 @@
 #include"VoiceConversionBuffer.h"
 
 #include"Utilities.h"
+#include"SpectrumAnalyser.h"
 //混响参数
 namespace ParamNames
 {
@@ -309,7 +310,7 @@ public:
     void setSavedSize(const juce::Point<int>& size);
 
     // 获取主界面频谱
-    juce::Image& getSpectrumView();
+    // juce::Image& getSpectrumView();
     // 设置音调缩放程度
     void setPitchShift(float pitch);
     //设置共振峰移动程度
@@ -397,13 +398,14 @@ private:
 
     Analyser<float> inputAnalyser; // 输入频谱分析器
     Analyser<float> outputAnalyser; //输出频谱分析器
-
+    
 
     juce::Point<int> editorSize = { 900, 500 }; // 默认均衡器界面大小
 #endif
 
     //================================================================================
 public:
+    SpectrumAnalyser<float> mainpageAnalyser;
     //动态处理参数组
 #if _OPEN_DYNAMICS 
     juce::AudioBuffer<float> mixedDownInputDynamics;
@@ -514,10 +516,10 @@ private:
     juce::AudioParameterFloat* nDynamicsMakeupGain;
 
     // 绘制频谱曲线
-    void drawSpectrumGraph(juce::Image view, std::shared_ptr<float>level, juce::Colour colour, bool isLog);
+    // void drawSpectrumGraph(juce::Image view, std::shared_ptr<float>level, juce::Colour colour, bool isLog);
     //void syncPluginParameter();
-public:
-    juce::Image spectrum;// 频谱绘画对象
+//public:
+    //juce::Image spectrum;// 频谱绘画对象
 private:
 #if USE_3rdPARTYPITCHSHIFT
 #if USE_RUBBERBAND

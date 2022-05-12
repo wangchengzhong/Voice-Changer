@@ -75,7 +75,6 @@ public:
                 waitForData.wait(100);
         }
     }
-
     void createPath(juce::Path& p, const juce::Rectangle<float> bounds, float minFreq)
     {
         p.clear();
@@ -118,7 +117,7 @@ private:
     Type sampleRate{};
 
     juce::dsp::FFT fft{ 12 };
-    juce::dsp::WindowingFunction<Type> windowing{ size_t(fft.getSize()), juce::dsp::WindowingFunction<Type>::hann, true };
+    juce::dsp::WindowingFunction<Type> windowing{ size_t(fft.getSize()), juce::dsp::WindowingFunction<Type>::hann,true };
     juce::AudioBuffer<float> fftBuffer{ 1, fft.getSize() * 2 };
 
     juce::AudioBuffer<float> averager{ 5, fft.getSize() / 2 };

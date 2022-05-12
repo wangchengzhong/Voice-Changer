@@ -370,8 +370,8 @@ void VoiceChanger_wczAudioProcessorEditor::paint (juce::Graphics& g)
     int x = 12, y = 12, width = 512, height = 256;
     g.setColour(juce::Colours::lightblue);
     g.drawRect(x - 3, y - 3, width + 6, height + 6, 3);
-    g.drawImage(audioProcessor.getSpectrumView(), x, y, width, height, 0, 0, width, height);
-
+    // g.drawImage(audioProcessor.getSpectrumView(), x, y, width, height, 0, 0, width, height);
+    g.drawImage(audioProcessor.mainpageAnalyser.createSpectrumPlot(), x, y, width, height, 0, 0, width, height);
     g.setColour(juce::Colours::lightblue);
     g.drawRoundedRectangle(circularMeterL.getBounds().toFloat(), 20,3);
 
@@ -654,13 +654,13 @@ void VoiceChanger_wczAudioProcessorEditor::playFileButtonClicked()
 void VoiceChanger_wczAudioProcessorEditor::realtimeButtonClicked()
 {
     audioProcessor.realtimeMode = true;
-    audioProcessor.spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
+    audioProcessor.mainpageAnalyser.spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
 
 }
 void VoiceChanger_wczAudioProcessorEditor::offlineButtonClicked()
 {
     audioProcessor.realtimeMode = false;
-    audioProcessor.spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
+    audioProcessor.mainpageAnalyser.spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
 }
 
 void VoiceChanger_wczAudioProcessorEditor::resetAllButtonClicked()

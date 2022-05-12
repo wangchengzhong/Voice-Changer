@@ -75,10 +75,10 @@ public:
 		phaseVocoder.setProcessFlag(flag);
 	}
 
-	std::shared_ptr<float>getSpectrumInput()
-	{
-		return phaseVocoder.getSpectrumInput();
-	}
+	//std::shared_ptr<float>getSpectrumInput()
+	//{
+	//	return phaseVocoder.getSpectrumInput();
+	//}
 private:
 	PhaseVocoder phaseVocoder;
 #if USE_3rdPARTYPITCHSHIFT==false

@@ -35,7 +35,7 @@ public:
 //#endif
 		windowFunction(windowLength),
 		fft(std::make_unique<juce::dsp::FFT>(nearestPower2(fftSize))),
-		fftBufferIn(new float[windowLength]),
+		// fftBufferIn(new float[windowLength]),
 		// fftBufferOut(new float[windowLength]),
 		level(new float[spectrumNum])
 	{
@@ -194,9 +194,8 @@ public:
 				fft->performRealOnlyForwardTransform(spectralBufferData);
 
 				
-				copyFromSpectralToFft(spectralBufferData,fftBufferIn);
+				//copyFromSpectralToFft(spectralBufferData,fftBufferIn);
 #if USE_3rdPARTYPITCHSHIFT==false
-
 				processCallback(spectralBufferData, spectralBufferSize);
 #endif
 				fft->performRealOnlyInverseTransform(spectralBufferData);
@@ -241,15 +240,15 @@ public:
 		juce::FloatVectorOperations::multiply(audioBuffer, 1.f / rescalingFactor, audioBufferSize);
 // #endif
 	}
-	void copyFromSpectralToFft(FloatType* spectralBufferData,std::shared_ptr<float> fftBuffer)
-	{
-		//fftBuffer.reset();
-		setProcessFlag(true);
-		for (int i = 0, index = 0; index < spectralBufferSize - 1; i++, index += 2)
-		{
-			fftBuffer.get()[i] = (float)std::sqrtf(spectralBufferData[index] * spectralBufferData[index] + spectralBufferData[index + 1] * spectralBufferData[index + 1]);
-		}
-	}
+	//void copyFromSpectralToFft(FloatType* spectralBufferData,std::shared_ptr<float> fftBuffer)
+	//{
+	//	//fftBuffer.reset();
+	//	setProcessFlag(true);
+	//	for (int i = 0, index = 0; index < spectralBufferSize - 1; i++, index += 2)
+	//	{
+	//		fftBuffer.get()[i] = (float)std::sqrtf(spectralBufferData[index] * spectralBufferData[index] + spectralBufferData[index + 1] * spectralBufferData[index + 1]);
+	//	}
+	//}
 	// Principal argument - Unwrap a phase argument to between [-PI, PI]
 	static float principalArgument(float arg)
 	{
@@ -262,27 +261,27 @@ public:
 	{
 		return (int)log2(juce::nextPowerOfTwo(value));
 	}
-	std::shared_ptr<float>getSpectrumInput(void)
-	{
-		auto LevelRange = juce::FloatVectorOperations::findMinAndMax(fftBufferIn.get(), windowSize / 2);
-		auto LevelMax = juce::jmax(LevelRange.getEnd(), 200.0f);
-		auto LevelMin = juce::jmin(LevelRange.getStart(), 0.0f);
-		auto minDB = -60.0f;
-		auto maxDB = 0.0f;
-		for (int i = 0; i < spectrumNum; i++)
-		{
-			auto pos = (int)(windowSize / 2) * i / spectrumNum;
-			auto data = juce::jmap(fftBufferIn.get()[pos], LevelMin, LevelMax, 0.0f, 1.0f);
-			auto power = juce::jmap(
-				juce::jlimit(minDB, maxDB, juce::Decibels::gainToDecibels(data)),
-				minDB, maxDB, 0.0f, 1.0f
-			);
-			level.get()[i] = power;
-		}
-		setProcessFlag(false);
+	//std::shared_ptr<float>getSpectrumInput(void)
+	//{
+	//	auto LevelRange = juce::FloatVectorOperations::findMinAndMax(fftBufferIn.get(), windowSize / 2);
+	//	auto LevelMax = juce::jmax(LevelRange.getEnd(), 200.0f);
+	//	auto LevelMin = juce::jmin(LevelRange.getStart(), 0.0f);
+	//	auto minDB = -60.0f;
+	//	auto maxDB = 0.0f;
+	//	for (int i = 0; i < spectrumNum; i++)
+	//	{
+	//		auto pos = (int)(windowSize / 2) * i / spectrumNum;
+	//		auto data = juce::jmap(fftBufferIn.get()[pos], LevelMin, LevelMax, 0.0f, 1.0f);
+	//		auto power = juce::jmap(
+	//			juce::jlimit(minDB, maxDB, juce::Decibels::gainToDecibels(data)),
+	//			minDB, maxDB, 0.0f, 1.0f
+	//		);
+	//		level.get()[i] = power;
+	//	}
+	//	setProcessFlag(false);
 
-		return level;
-	}
+	//	return level;
+	//}
 	void setProcessFlag(bool flag)
 	{
 		std::lock_guard<std::mutex> lock(flagLock);
@@ -336,7 +335,7 @@ private:
 	}
 
 protected:
-	std::shared_ptr<float>fftBufferIn, fftBufferOut;
+	// std::shared_ptr<float>fftBufferIn, fftBufferOut;
 private:
 	std::unique_ptr<juce::dsp::FFT> fft;
 
