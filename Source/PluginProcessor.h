@@ -309,8 +309,6 @@ public:
     //编辑器界面设置
     void setSavedSize(const juce::Point<int>& size);
 
-    // 获取主界面频谱
-    // juce::Image& getSpectrumView();
     // 设置音调缩放程度
     void setPitchShift(float pitch);
     //设置共振峰移动程度
@@ -516,10 +514,7 @@ private:
     juce::AudioParameterFloat* nDynamicsMakeupGain;
 
     // 绘制频谱曲线
-    // void drawSpectrumGraph(juce::Image view, std::shared_ptr<float>level, juce::Colour colour, bool isLog);
-    //void syncPluginParameter();
-//public:
-    //juce::Image spectrum;// 频谱绘画对象
+
 private:
 #if USE_3rdPARTYPITCHSHIFT
 #if USE_RUBBERBAND

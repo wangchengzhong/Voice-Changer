@@ -544,8 +544,6 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
         }
         else//在离线模式
         {
-
-            // spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
             buffer.clear();
             transportSource.getNextAudioBlock(AudioSourceChannelInfo(buffer));//切换到离线音频源再处理
             overallProcess(buffer);
@@ -567,8 +565,6 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
             //            return;
             //        }
             //    }
-            //    else
-            //        spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
             //}
             //spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
         }
@@ -1413,66 +1409,6 @@ float VoiceChanger_wczAudioProcessor::getPlayAudioFilePosition()
 {
     return nPlayAudioFilePosition / nPlayAudioFileSampleNum;
 }
-
-
-//juce::Image& VoiceChanger_wczAudioProcessor::getSpectrumView()//获取主界面频谱
-//{
-//    if (pitchShifters[0]->getProcessFlag())
-//    {
-//        spectrum.clear(juce::Rectangle<int>(512, 256), juce::Colour(0, 0, 0));
-//        auto level = pitchShifters[0]->getSpectrumInput();
-//        drawSpectrumGraph(spectrum, level, juce::Colours::lightskyblue, true);//juce::Colour(0, 255, 0), true);
-//        pitchShifters[0]->setProcessFlag(false); 
-//    }
-//    return spectrum;
-//}
-//void VoiceChanger_wczAudioProcessor::drawSpectrumGraph(juce::Image view, std::shared_ptr<float>power, juce::Colour color, bool isLog)//绘制主界面频谱
-//{
-//    int postPoint = 0;
-//    float postLevel = 0.0f;
-//    juce::Graphics g(view);
-//    for (int x = 1; x < 512; x++)
-//    {
-//        float skewedProportionX = 0.0f;
-//        if (isLog)
-//        
-//        {
-//            skewedProportionX = 1.0f - std::exp(std::log(1.0f - (float)x / 512.0f) * 0.2f);
-//        }
-//        else
-//        {
-//            skewedProportionX = (float)x / 512.0f;
-//        }
-//        auto fftDataIndex = juce::jlimit(0, 1024, (int)(skewedProportionX * 1024.));
-//        auto lv = power.get()[fftDataIndex];
-//        if ((std::fabs(postLevel - lv) > 0.000001) || (x == 511) || (!isLog))
-//        {
-//            g.setColour(color);
-//            g.setOpacity(1.0);
-//            g.drawLine(
-//                (float)postPoint,
-//                juce::jmap(postLevel, 0.0f, 1.0f, 256.0f, 0.0f),
-//                (float)x,
-//                juce::jmap(lv, 0.0f, 1.0f, 256.0f, 0.0f)
-//
-//            );
-//            {
-//                g.setOpacity(0.3);
-//                juce::Path pen;
-//                pen.startNewSubPath(juce::Point<float>((float)postPoint, juce::jmap(postLevel, 0.0f, 1.0f, 256.0f, 0.0f)));
-//                pen.lineTo(juce::Point<float>((float)x, juce::jmap(lv, 0.0f, 1.0f, 256.0f, 0.0f)));
-//                pen.lineTo(juce::Point<float>((float)x, 256.0f));
-//                pen.lineTo(juce::Point<float>((float)postPoint, 256.0f));
-//                pen.closeSubPath();
-//                g.fillPath(pen);
-//            }
-//            postPoint = x;
-//            postLevel = lv;
-//        }
-//    }
-//    g.setOpacity(1.0);
-//    // syncPluginParameter();
-//}
 
 void VoiceChanger_wczAudioProcessor::updateUIControls()//更新音调缩放参数控制
 {

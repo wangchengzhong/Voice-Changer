@@ -53,7 +53,7 @@ VoiceChanger_wczAudioProcessorEditor::VoiceChanger_wczAudioProcessorEditor(Voice
     // audioSetupComp
     //// = juce::String("VB-Audio VoiceMeeter VAIO");
 
-    startTimerHz(30);//主界面定时器工作
+    startTimerHz(20);//主界面定时器工作
     //=====================================================================================================
     //设置所有按钮的位置、参数绑定、及视觉效果
     

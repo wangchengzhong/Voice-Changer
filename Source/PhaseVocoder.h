@@ -29,20 +29,15 @@ public:
 		windowSize(windowLength),
 		spectralBufferSize(windowLength * 2),
 		analysisBuffer(windowLength),
-#//if USE_3rdPARTYPITCHSHIFT == false
 		resampleBufferSize(windowLength),
 		synthesisBuffer(windowLength * 3),
-//#endif
+
 		windowFunction(windowLength),
-		fft(std::make_unique<juce::dsp::FFT>(nearestPower2(fftSize))),
-		// fftBufferIn(new float[windowLength]),
-		// fftBufferOut(new float[windowLength]),
-		level(new float[spectrumNum])
+		fft(std::make_unique<juce::dsp::FFT>(nearestPower2(fftSize)))
 	{
 		windowOverlaps = getOverlapsRequiredForWindowType(windowType);
 		analysisHopSize = windowLength / windowOverlaps;
 		synthesisHopSize = windowLength / windowOverlaps;
-		// DBG("cur1: " << synthesisHopSize);
 
 		initialiseWindow(getWindowForEnum(windowType));
 
@@ -52,14 +47,13 @@ public:
 		spectralBuffer.resize(spectralBufferSize);
 		
 		std::fill(spectralBuffer.data(), spectralBuffer.data() + spectralBufferSize, 0.f);
-//#if USE_3rdPARTYPITCHSHIFT==false
 		
 		const auto maxResampleSize = (int)std::ceil(std::max(this->windowSize * MaxPitchRatio,
 			this->windowSize / MinPitchRatio));
 
 		resampleBuffer.resize(maxResampleSize);
 		std::fill(resampleBuffer.data(), resampleBuffer.data() + maxResampleSize, 0.f);
-//#endif
+
 	}
 
 	juce::SpinLock& getParamLock() { return paramLock; }
@@ -177,10 +171,6 @@ public:
 				analysisBuffer.setReadHopSize(analysisHopSize);
 				analysisBuffer.read(spectralBufferData, windowSize);
 
-				//
-				////////////////////////////////////////////
-				//DBG("Analysis Read Index: " << analysisBuffer.getReadIndex());
-				////////////////////////////////////////////
 				// spectralBuffer.resize(spectralBufferSize * 2);
 				// std::fill(spectralBuffer.begin(), spectralBuffer.end(), 0);
 			
@@ -193,11 +183,8 @@ public:
 				// Perform FFT, process and inverse FFT
 				fft->performRealOnlyForwardTransform(spectralBufferData);
 
-				
-				//copyFromSpectralToFft(spectralBufferData,fftBufferIn);
-#if USE_3rdPARTYPITCHSHIFT==false
 				processCallback(spectralBufferData, spectralBufferSize);
-#endif
+
 				fft->performRealOnlyInverseTransform(spectralBufferData);
 
 				// spectralBuffer.resize(spectralBufferSize);
@@ -212,13 +199,11 @@ public:
 				linearResample(spectralBufferData, windowSize, resampleBuffer.data(), resampleBufferSize);
 				synthesisBuffer.setWriteHopSize(synthesisHopSize);
 				synthesisBuffer.overlapWrite(resampleBuffer.data(), resampleBufferSize);
-				////////////////////////////////////////////////////
-				//DBG("Synthesis Write Index: " << synthesisBuffer.getWriteIndex());
-				////////////////////////////////////////////////////
-//#endif
+
+
 				setProcessFlag(true);
 			}
-//#if USE_3rdPARTYPITCHSHIFT == false
+
 			// Emit silence until we start producing output
 			if (!isProcessing)
 			{
@@ -240,15 +225,7 @@ public:
 		juce::FloatVectorOperations::multiply(audioBuffer, 1.f / rescalingFactor, audioBufferSize);
 // #endif
 	}
-	//void copyFromSpectralToFft(FloatType* spectralBufferData,std::shared_ptr<float> fftBuffer)
-	//{
-	//	//fftBuffer.reset();
-	//	setProcessFlag(true);
-	//	for (int i = 0, index = 0; index < spectralBufferSize - 1; i++, index += 2)
-	//	{
-	//		fftBuffer.get()[i] = (float)std::sqrtf(spectralBufferData[index] * spectralBufferData[index] + spectralBufferData[index + 1] * spectralBufferData[index + 1]);
-	//	}
-	//}
+
 	// Principal argument - Unwrap a phase argument to between [-PI, PI]
 	static float principalArgument(float arg)
 	{
@@ -261,27 +238,6 @@ public:
 	{
 		return (int)log2(juce::nextPowerOfTwo(value));
 	}
-	//std::shared_ptr<float>getSpectrumInput(void)
-	//{
-	//	auto LevelRange = juce::FloatVectorOperations::findMinAndMax(fftBufferIn.get(), windowSize / 2);
-	//	auto LevelMax = juce::jmax(LevelRange.getEnd(), 200.0f);
-	//	auto LevelMin = juce::jmin(LevelRange.getStart(), 0.0f);
-	//	auto minDB = -60.0f;
-	//	auto maxDB = 0.0f;
-	//	for (int i = 0; i < spectrumNum; i++)
-	//	{
-	//		auto pos = (int)(windowSize / 2) * i / spectrumNum;
-	//		auto data = juce::jmap(fftBufferIn.get()[pos], LevelMin, LevelMax, 0.0f, 1.0f);
-	//		auto power = juce::jmap(
-	//			juce::jlimit(minDB, maxDB, juce::Decibels::gainToDecibels(data)),
-	//			minDB, maxDB, 0.0f, 1.0f
-	//		);
-	//		level.get()[i] = power;
-	//	}
-	//	setProcessFlag(false);
-
-	//	return level;
-	//}
 	void setProcessFlag(bool flag)
 	{
 		std::lock_guard<std::mutex> lock(flagLock);
@@ -335,7 +291,7 @@ private:
 	}
 
 protected:
-	// std::shared_ptr<float>fftBufferIn, fftBufferOut;
+
 private:
 	std::unique_ptr<juce::dsp::FFT> fft;
 
@@ -370,5 +326,5 @@ private:
 
 	float pitchRatio = 0.f;
 	float timeStretchRatio = 1.f;
-	std::shared_ptr<float> level;
+
 };
