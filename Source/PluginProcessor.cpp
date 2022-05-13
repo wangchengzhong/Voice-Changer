@@ -378,7 +378,8 @@ void VoiceChanger_wczAudioProcessor::prepareToPlay (double sampleRate, int sampl
 
     setLatencySamples(44100 * 2);
     transportSource.prepareToPlay(samplesPerBlock, sampleRate);//初始化播放控制模块
-#if _OPEN_FILTERS
+    offlineOnlineTransitBuffer.setSize(getNumInputChannels(), samplesPerBlock);
+	#if _OPEN_FILTERS
     //初始化DSP模块
     juce::dsp::ProcessSpec fspec;
     fspec.sampleRate = sampleRate;
@@ -544,9 +545,17 @@ void VoiceChanger_wczAudioProcessor::processBlock(juce::AudioBuffer<float>& buff
         }
         else//在离线模式
         {
-            buffer.clear();
+            // buffer.clear();
+            for (int j = 0; j < buffer.getNumChannels(); j++)
+            {
+                offlineOnlineTransitBuffer.copyFrom(j, 0, buffer, j, 0, buffer.getNumSamples());
+            }
             transportSource.getNextAudioBlock(AudioSourceChannelInfo(buffer));//切换到离线音频源再处理
-            overallProcess(buffer);
+
+            for(int j = 0; j < buffer.getNumChannels(); j++)
+				buffer.addFrom(j, 0, offlineOnlineTransitBuffer, j, 0, buffer.getNumSamples(), 0.8);
+            
+        	overallProcess(buffer);
             //if (!canReadSampleBuffer)
             //{
             //    if (pPlayBuffer)

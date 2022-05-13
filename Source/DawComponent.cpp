@@ -136,10 +136,10 @@ void DawComponent::setupGUI()
 
 	clearTracksButton.onClick = [this]
 	{
-		const auto userIsSure = engine.getUIBehaviour().showOkCancelAlertBox(TRANS("MIDI Clip"),
-			TRANS("sure?"),
-			TRANS("Clear all"),
-			TRANS("Ignore")) == 1;
+		const auto userIsSure = engine.getUIBehaviour().showOkCancelAlertBox(TRANS(juce::CharPointer_UTF8("\xe6\xb8\x85\xe7\xa9\xba")),
+			TRANS(juce::CharPointer_UTF8("\xe7\xa1\xae\xe5\xae\x9a\xef\xbc\x9f")),
+			TRANS(juce::CharPointer_UTF8("\xe6\xb8\x85\xe7\xa9\xba")),
+			TRANS(juce::CharPointer_UTF8("\xe5\xbf\xbd\xe7\x95\xa5"))) == 1;
 		if (!userIsSure) return;
 		for (auto* t : tracktion_engine::getAudioTracks(edit))
 			edit.deleteTrack(t);

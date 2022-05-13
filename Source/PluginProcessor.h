@@ -256,7 +256,9 @@ public:
    #endif
     // 总处理接口
     void processBlock (juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
-    void overallProcess(juce::AudioBuffer<float>& buffer);
+    AudioBuffer<float> offlineOnlineTransitBuffer;
+    std::atomic<bool> bFirstTimeOfflineBuffer{ true };
+	void overallProcess(juce::AudioBuffer<float>& buffer);
     // 参数树变化响应
     void parameterChanged(const juce::String& parameterID, float newValue) override;
     // 获取参数树状态
