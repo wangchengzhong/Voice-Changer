@@ -116,8 +116,8 @@ public:
         spxDownSize = (spx_uint32_t)(45000 / sampleRate * 16000);
         vcOrigBuffer.resize((int)(45000 / sampleRate * 16000));
         vcConvertedBuffer.resize((int)(45000 / sampleRate * 16000));
-        downResampler = speex_resampler_init(1, sampleRate, (int)16000, 3, &err);
-        upResampler = speex_resampler_init(1, (int)16000, sampleRate, 3, &err);
+        downResampler = speex_resampler_init(1, sampleRate, (int)16000, 2, &err);
+        upResampler = speex_resampler_init(1, (int)16000, sampleRate, 2, &err);
         //vcOrigBuffer.resize(spxDownSize);
         //vcConvertedBuffer.resize(spxDownSize);
     	initializeBuffer.resize(bufferLength);
@@ -206,8 +206,8 @@ public:
                         err = speex_resampler_process_float(downResampler, 0, input.readPointerArray(reqSamples), &spxUpSize, vcOrigBuffer.data(), &spxDownSize);
                         
                     	// pVcImpl->processConversion(vcOrigBuffer, vcConvertedBuffer, 1);
-                        convertBlock(vcOrigBuffer, vcConvertedBuffer, 1, model);
-                        err = speex_resampler_process_float(upResampler, 0, vcConvertedBuffer.data(), &spxDownSize, outputTransitBuffer.data(), &spxUpSize);
+                        // convertBlock(vcOrigBuffer, vcConvertedBuffer, 1, model);
+                        err = speex_resampler_process_float(upResampler, 0, vcOrigBuffer.data(), &spxDownSize, outputTransitBuffer.data(), &spxUpSize);
                         output.writePointerArray(outputTransitBuffer.data(), reqSamples);
                         output.copyToBuffer(reqSamples);
                     }

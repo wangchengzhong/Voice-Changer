@@ -11075,14 +11075,14 @@
     <ClInclude Include="..\..\JuceLibraryCode\JucePluginDefines.h">
       <Filter>JUCE Library Code</Filter>
     </ClInclude>
-    <ClInclude Include="BlockCircularBufferForVC.h">
-      <Filter>VoiceChanger_wcz\Source\DataStructure</Filter>
-    </ClInclude>
-    <ClInclude Include="VCVocoder.h">
-      <Filter>VoiceChanger_wcz\Source\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\SpectrumAnalyser.h">
       <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\VCVocoder.h">
+      <Filter>VoiceChanger_wcz\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\BlockCircularBufferForVC.h">
+      <Filter>VoiceChanger_wcz\Source\DataStructure</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

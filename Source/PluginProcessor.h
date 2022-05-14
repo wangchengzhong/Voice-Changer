@@ -42,6 +42,7 @@
 
 #include"Utilities.h"
 #include"SpectrumAnalyser.h"
+#include"VCVocoder.h"
 //混响参数
 namespace ParamNames
 {
@@ -528,7 +529,8 @@ private:
 #endif
 #endif
 public:
-    std::unique_ptr<VoiceConversionBuffer> vcb;// 有模板变声调用接口
+    std::unique_ptr<PhaseVocoderForVC> vcv;
+    // std::unique_ptr<VoiceConversionBuffer> vcb;// 有模板变声调用接口
     int samplesPerBlock;
 private:
     //电平表模块参数

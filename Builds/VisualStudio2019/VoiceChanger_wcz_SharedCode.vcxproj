@@ -4454,7 +4454,9 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_tracktion_graph.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\BlockCircularBufferForVC.h" />
     <ClInclude Include="..\..\Source\SpectrumAnalyser.h" />
+    <ClInclude Include="..\..\Source\VCVocoder.h" />
     <ClInclude Include="..\..\VC\DecomposePhaseClass.h" />
     <ClInclude Include="..\..\VC\F0analysisClass.h" />
     <ClInclude Include="..\..\VC\HarmonicAnalysisClass.h" />
@@ -6127,8 +6129,6 @@
     <ClInclude Include="..\..\JuceLibraryCode\BinaryData.h" />
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h" />
     <ClInclude Include="..\..\JuceLibraryCode\JucePluginDefines.h" />
-    <ClInclude Include="BlockCircularBufferForVC.h" />
-    <ClInclude Include="VCVocoder.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\background_texture_dark_headline.jpg" />

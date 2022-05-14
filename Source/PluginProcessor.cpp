@@ -639,7 +639,8 @@ void VoiceChanger_wczAudioProcessor::overallProcess(juce::AudioBuffer<float>& bu
     updateReverbSettings();//¸üÐÂ»ìÏì¿ØÖÆ
     if (openVoiceConversion.load() && isModelLoaded.load())
     {
-        vcb->processBuffer(buffer);
+        vcv->process(buffer.getWritePointer(0), buffer.getNumSamples());
+        //vcb->processBuffer(buffer);
         buffer.copyFrom(1, 0, buffer, 0, 0, numSamples);
     }
 #if _OPEN_DYNAMICS

@@ -769,14 +769,6 @@ double BufferMatch::calcCrossCorr(const SAMPLETYPE* pV1, const SAMPLETYPE* pV2, 
 //    anorm = norm;
 //    return corr / sqrt((norm < 1e-9 ? 1.0 : norm));
 
-
-
-
-
-
-
-
-
     int i;
     const float* pVec1;
     const __m128* pVec2;

@@ -627,8 +627,11 @@ void VoiceChanger_wczAudioProcessorEditor::openModelButtonClicked()
             // DBG(filename);
             const ScopedLock s1(audioProcessor.modelWriterLock);
             audioProcessor.model = deserializeModel(filename);
-            audioProcessor.vcb.release();
-            audioProcessor.vcb = std::make_unique<VoiceConversionBuffer>(1,audioProcessor.getSampleRate(), audioProcessor.samplesPerBlock, audioProcessor.model);
+
+            audioProcessor.vcv.release();
+            audioProcessor.vcv = std::make_unique<PhaseVocoderForVC>(audioProcessor.getSampleRate(), audioProcessor.model);
+            // audioProcessor.vcb.release();
+            // audioProcessor.vcb = std::make_unique<VoiceConversionBuffer>(1,audioProcessor.getSampleRate(), audioProcessor.samplesPerBlock, audioProcessor.model);
         }
         audioProcessor.isModelLoaded = true;
     }

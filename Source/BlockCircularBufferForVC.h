@@ -1,7 +1,4 @@
 #pragma once
-#pragma once
-#pragma once
-
 #include <juce_core/juce_core.h>
 #include <memory>
 #include <cassert>
@@ -107,9 +104,9 @@ struct BlockCircularBufferForVC final
 		assert(firstReadAmount <= destLength);
 
 		const auto internalBuffer = block.getData();
-		assert(internalBuffer != destBuffer);
+		// assert(internalBuffer != destBuffer);
 
-		for(int i = 0; i < firstReadAmount; i++)
+		for (int i = 0; i < firstReadAmount; i++)
 		{
 			destBuffer[i] = internalBuffer[i + readIndex];
 		}
@@ -136,8 +133,9 @@ struct BlockCircularBufferForVC final
 			length - writeIndex : sourceLength;
 
 		auto internalBuffer = block.getData();
-		assert(internalBuffer != sourceBuffer);
-		for(int i = 0; i < firstWriteAmount; i++)
+
+		// assert(internalBuffer != sourceBuffer);
+		for (int i = 0; i < firstWriteAmount; i++)
 		{
 			internalBuffer[i + writeIndex] = sourceBuffer[i];
 		}
@@ -170,7 +168,6 @@ struct BlockCircularBufferForVC final
 		const int writeIndexDifference = getDifferenceBetweenIndexes(writeIndex, latestDataIndex, length);
 		const int overlapSampleCount = sourceLength - writeHopSize;
 		const auto overlapAmount = std::min(writeIndexDifference, overlapSampleCount);
-
 		//DBG("writeIndexDifference: " << writeIndexDifference << ", overlapSampleCount: " << overlapSampleCount);
 		auto tempWriteIndex = writeIndex;
 		auto firstWriteAmount = writeIndex + overlapAmount > length ?
@@ -178,12 +175,20 @@ struct BlockCircularBufferForVC final
 		//DBG("firstWriteAmout: " << firstWriteAmount << "\n");
 
 		auto internalBuffer = block.getData();
-
-		juce::FloatVectorOperations::add(internalBuffer + writeIndex, sourceBuffer, firstWriteAmount);
+		
+		for (int i = 0; i < firstWriteAmount; i++)
+		{
+			internalBuffer[i + writeIndex] = (double)((overlapAmount - i) * internalBuffer[i + writeIndex] + i * sourceBuffer[i]) / (double)overlapAmount;
+		}
+		//juce::FloatVectorOperations::add(internalBuffer + writeIndex, sourceBuffer, firstWriteAmount);
 
 		if (firstWriteAmount < overlapAmount)
 		{
-			juce::FloatVectorOperations::add(internalBuffer, sourceBuffer + firstWriteAmount, overlapAmount - firstWriteAmount);
+			for (int i = 0; i < overlapAmount - firstWriteAmount; i++)
+			{
+				internalBuffer[i] = (double)((overlapAmount - firstWriteAmount - i) * internalBuffer[i] + (firstWriteAmount + i) * sourceBuffer[i + firstWriteAmount]) / (double)overlapAmount;
+			}
+			//juce::FloatVectorOperations::add(internalBuffer, sourceBuffer + firstWriteAmount, overlapAmount - firstWriteAmount);
 		}
 
 		tempWriteIndex += overlapAmount;
@@ -224,9 +229,4 @@ private:
 	long latestDataIndex = 0;
 	int writeHopSize = 0;
 	int readHopSize = 0;
-
-
-#ifdef DEBUG
-	const char* name = "";
-#endif
 };

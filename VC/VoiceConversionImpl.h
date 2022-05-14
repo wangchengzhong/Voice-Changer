@@ -24,10 +24,4 @@ public:
 	HSManalysis hsmAnalysis;
 	HSMwfwConvert hsmWfwConvert;
 	HSMsynthesize hsmSynthesize;
-
-
-
-
-
-
 };
