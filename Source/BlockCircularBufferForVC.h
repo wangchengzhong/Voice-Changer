@@ -175,20 +175,65 @@ struct BlockCircularBufferForVC final
 		//DBG("firstWriteAmout: " << firstWriteAmount << "\n");
 
 		auto internalBuffer = block.getData();
-		
-		for (int i = 0; i < firstWriteAmount; i++)
-		{
-			internalBuffer[i + writeIndex] = (double)((overlapAmount - i) * internalBuffer[i + writeIndex] + i * sourceBuffer[i]) / (double)overlapAmount;
-		}
-		//juce::FloatVectorOperations::add(internalBuffer + writeIndex, sourceBuffer, firstWriteAmount);
 
+		//for(int i = 0; i < firstWriteAmount;i++)
+		//{
+		//	internalBuffer[i + writeIndex] = (double)((overlapAmount - i) * internalBuffer[i + writeIndex] + (double)i * sourceBuffer[i]) / (double)overlapAmount;
+		//}
+
+		//for (int i = 0; i < firstWriteAmount; i++)
+		//{
+		//	if (sourceBuffer[i] > (double)1e-10)
+		//	{
+		//		int newOvl = overlapAmount - i;
+		//		int count = 0;
+		//		for (int j = i; j < firstWriteAmount; j++)
+		//		{
+		//			//if(internalBuffer[j+writeIndex])
+		//			internalBuffer[j + writeIndex] = (double)((newOvl - count) * internalBuffer[j + writeIndex] + (double)count * sourceBuffer[j]) / (double)newOvl;
+		//			count++;
+		//		}
+		//		newOvlAmount = newOvl;
+		//		beginCrossFading = true;
+		//		break;
+		//	}
+		//}
+
+
+		juce::FloatVectorOperations::add(internalBuffer + writeIndex, sourceBuffer, firstWriteAmount);
+
+
+		// newOvlAmount = overlapAmount;
 		if (firstWriteAmount < overlapAmount)
 		{
-			for (int i = 0; i < overlapAmount - firstWriteAmount; i++)
-			{
-				internalBuffer[i] = (double)((overlapAmount - firstWriteAmount - i) * internalBuffer[i] + (firstWriteAmount + i) * sourceBuffer[i + firstWriteAmount]) / (double)overlapAmount;
-			}
-			//juce::FloatVectorOperations::add(internalBuffer, sourceBuffer + firstWriteAmount, overlapAmount - firstWriteAmount);
+			////if (beginCrossFading == true)
+			//{
+				//for(int i = 0; i < overlapAmount - firstWriteAmount; i++)
+				//{
+				//	internalBuffer[i] = (double)((overlapAmount - firstWriteAmount - i) * internalBuffer[i] + (firstWriteAmount + i) * sourceBuffer[i + firstWriteAmount]) / (double)overlapAmount;
+				//}
+			//}
+
+			//else
+			//{
+			//	for (int i = 0; i < overlapAmount - firstWriteAmount; i++)
+			//	{
+			//		if (fabs(sourceBuffer[i + firstWriteAmount]) > (double)1e-12)
+			//		{
+			//			newOvlAmount = overlapAmount - i - firstWriteAmount;
+			//			int count = 0;
+			//			for (int j = i; j < overlapAmount - firstWriteAmount; j++)
+			//			{
+			//				internalBuffer[j] = (double)((newOvlAmount - count) * internalBuffer[j] + (double)count * sourceBuffer[i + firstWriteAmount]) / (double)newOvlAmount;
+			//				count++;
+			//			}
+			//			beginCrossFading = true;
+			//			break;
+			//		}
+			//	}
+			//}
+			
+			juce::FloatVectorOperations::add(internalBuffer, sourceBuffer + firstWriteAmount, overlapAmount - firstWriteAmount);
 		}
 
 		tempWriteIndex += overlapAmount;
@@ -229,4 +274,6 @@ private:
 	long latestDataIndex = 0;
 	int writeHopSize = 0;
 	int readHopSize = 0;
+	int newOvlAmount{ 0 };
+	bool beginCrossFading{ false };
 };

@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <random>
 #include "ppl.h"
+#include"JuceHeader.h"
 // filter(1,picos(k).e,randn(1,n3-n1))
 // see https://www.mathworks.com/help/matlab/ref/filter.html
 // b = 1, a = picos(k).e, x = randn(1,n3-n1)

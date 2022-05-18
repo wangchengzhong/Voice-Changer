@@ -127,9 +127,6 @@
     <Filter Include="VoiceChanger_wcz\rubberband\src\audiocurves">
       <UniqueIdentifier>{3DDD434F-6440-4FE3-6204-E0090C206C64}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VoiceChanger_wcz\rubberband\src\base">
-      <UniqueIdentifier>{EDE6309F-ABF0-AAC7-2D4B-878C6298B00A}</UniqueIdentifier>
-    </Filter>
     <Filter Include="VoiceChanger_wcz\rubberband\src\dsp">
       <UniqueIdentifier>{E8E3B50A-9D7D-D548-951A-E18BAC830359}</UniqueIdentifier>
     </Filter>
@@ -1404,6 +1401,9 @@
     </Filter>
     <Filter Include="JUCE Library Code">
       <UniqueIdentifier>{7ED5A90E-41AF-A1EF-659B-37CEEAB9BA61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VoiceChanger_wcz\rubberband\src\base">
+      <UniqueIdentifier>{EDE6309F-ABF0-AAC7-2D4B-878C6298B00A}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

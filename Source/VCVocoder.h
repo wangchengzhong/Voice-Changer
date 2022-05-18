@@ -21,29 +21,34 @@ class PhaseVocoderForVC
 {
 
 public:
-	PhaseVocoderForVC(int sampleRate, HSMModel& model, int windowLength = 45000) :
+	PhaseVocoderForVC(int sampleRate, HSMModel& model, int windowLength = 4410) :
 		samplesTilNextProcess(windowLength),
 		windowSize(windowLength),
 		analysisBuffer(windowLength * 2),
 		synthesisBuffer(windowLength * 3),
 		pMidBufferUnaligned(new double[overlapLength + 16 / sizeof(double)]),
-		model(model)
+		model(model),
+		analysisHopSize(windowLength-1900),
+		synthesisHopSize(windowLength-1900)
 	{
 		pMidBuffer = (double*)ALIGN_POINTER_16(pMidBufferUnaligned);
 		memset(pMidBuffer, 0,  sizeof(double) * overlapLength);
-		midEndPos = bufferLength - 1024;
-		analysisHopSize = windowLength - 3000;
-		synthesisHopSize = windowLength - 3000;
+		midEndPos = bufferLength - 2400;
+		//analysisHopSize = windowLength - 1200;
+		//synthesisHopSize = windowLength - 1200;//+ 133;
 
 		outputTransitBuffer.resize(bufferLength);
+		spxDownSizeSlice = (spx_uint32_t)896;
+		spxUpSizeSlice = (spx_uint32_t)(2470);
 		spxUpSize = (spx_uint32_t)bufferLength;
-		spxDownSize = (spx_uint32_t)(bufferLength / sampleRate * 16000);
+		spxDownSize = (spx_uint32_t)((float)bufferLength / (float)sampleRate * 16000.0);
 		vcBuffer.resize(bufferLength);
-		vcOrigBuffer.resize((int)(bufferLength / sampleRate * 16000));
-		vcConvertedBuffer.resize((int)(bufferLength / sampleRate * 16000));
+		vcOrigBuffer.resize((int)((float)bufferLength / (float)sampleRate * 16000.0));
+		vcConvertedBuffer.resize((int)((float)bufferLength / (float)sampleRate * 16000.0));
 		downResampler = speex_resampler_init(1, sampleRate, (int)16000, 3, &err);
 		upResampler = speex_resampler_init(1, (int)16000, sampleRate, 3, &err);
-
+		//speex_resampler_skip_zeros(upResampler);
+		//speex_resampler_skip_zeros(downResampler);
 	}
 
 	juce::SpinLock& getParamLock() { return paramLock; }
@@ -109,9 +114,30 @@ public:
 				analysisBuffer.read(vcBuffer.data(), windowSize);
 				// memcpy(vcBuffer.data(), outputTransitBuffer.data(), sizeof(double) * bufferLength);
 				err = speex_resampler_process_float(downResampler, 0, vcBuffer.data(), &spxUpSize, vcOrigBuffer.data(), &spxDownSize);
+				
 				convertBlock(vcOrigBuffer, vcConvertedBuffer, 1, model);
+				// auto a = slicing(vcConvertedBuffer, 352, 1247);
 				err = speex_resampler_process_float(upResampler, 0, vcConvertedBuffer.data(), &spxDownSize, outputTransitBuffer.data(), &spxUpSize);
-
+				// speex_resampler_reset_mem(downResampler);
+				//for (int i = bufferLength - 1; i > 0; i = i-1)
+				//{
+				//	if (fabs(outputTransitBuffer[i]) > 1e-12)
+				//	{
+				//		auto tmpBuffer = slicing(outputTransitBuffer, 0, i);
+				//		outputTransitBuffer.resize(outputTransitBuffer.size()-tmpBuffer.size(), 0.0);
+				//		outputTransitBuffer.insert(outputTransitBuffer.end(), tmpBuffer.begin(), tmpBuffer.end());
+				//		break;
+				//	}
+				//	
+				//	//outputTransitBuffer.insert(outputTransitBuffer.begin(), (double)0.0);
+				//	//outputTransitBuffer.pop_back();
+				//	//DBG(outputTransitBuffer.size());
+				//}
+				//DBG("beginning\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+				//for(auto i:vcConvertedBuffer)
+				//{
+				//	DBG(i);
+				//}
 				//do something here
 				if (isBeginning)
 				{
@@ -122,13 +148,13 @@ public:
 				else
 				{
 					
-					//bestOffset = seekBestOverlapPositionQuick(outputTransitBuffer.data());
-					//DBG(bestOffset);
-					// synthesisBuffer.setWriteHopSize(getAnalysisHopSize());
-					//memcpy(pMidBuffer, outputTransitBuffer.data() + sizeof(double)*(midEndPos - 1), sizeof(double) * 1024);
+					// bestOffset = seekBestOverlapPositionQuick(outputTransitBuffer.data());
+					// DBG(bestOffset);
+					// synthesisBuffer.setWriteHopSize(bufferLength-2048+bestOffset);
+					// memcpy(pMidBuffer, outputTransitBuffer.data() + (midEndPos - 1), sizeof(double) * 2400);
 				}
 
-				synthesisBuffer.overlapWrite(outputTransitBuffer.data(), bufferLength);
+				synthesisBuffer.overlapWrite(outputTransitBuffer.data(), outputTransitBuffer.size());
 			}
 
 			// Emit silence until we start producing output
@@ -231,6 +257,23 @@ public:
 		}
 		return bestOffs;
 	}
+	std::vector<double> slicing(std::vector<double>& arr,
+		int X, int Y)
+	{
+
+		// Starting and Ending iterators
+		auto start = arr.begin() + X;
+		auto end = arr.begin() + Y + 1;
+
+		// To store the sliced vector
+		std::vector<double> result(Y - X + 1);
+
+		// Copy vector using copy function()
+		copy(start, end, result.begin());
+
+		// Return the final sliced vector
+		return result;
+	}
 	double calcCrossCorr(const double* pV1, const double* pV2, double& anorm)
 	{
 
@@ -288,7 +331,7 @@ public:
 private:
 
 	// Buffers
-	int bufferLength{ 45000 };
+	int bufferLength{ 4410 };
 	BlockCircularBufferForVC<FloatTypeForVC> analysisBuffer;
 	BlockCircularBufferForVC<FloatTypeForVC> synthesisBuffer;
 	// Misc state
@@ -316,13 +359,15 @@ private:
 	int err;
 	spx_uint32_t spxUpSize;
 	spx_uint32_t spxDownSize;
+	spx_uint32_t spxUpSizeSlice;
+	spx_uint32_t spxDownSizeSlice;
 	std::vector<double> vcOrigBuffer;
 	std::vector<double> vcConvertedBuffer;
 	std::vector<double> vcBuffer;
 	std::vector<double> outputTransitBuffer;
 
-	int overlapLength{ 1024 };
-	int seekLength{ 1024 };
+	int overlapLength{ 2048 };
+	int seekLength{ 128 };
 	double* pMidBuffer;
 	double* pMidBufferUnaligned;
 	bool isBeginning{ true };

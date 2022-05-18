@@ -17,13 +17,13 @@ void convertBlock(std::vector<double>& origBuffer, std::vector<double>& converte
 
 	Eigen::TRowVectorX x(numSample);
 
-	//for (int i = 0; i < numSample; i++)
-	//{
-	//	//x(i) = inStart[i];
-	//	x(i) = origBuffer[i];// +startSample];
-	//}
+	for (int i = 0; i < numSample; i++)
+	{
+		//x(i) = inStart[i];
+		x(i) = origBuffer[i];// +startSample];
+	}
 	//rawData(origBuffer.data());
-	memcpy(x.data(), origBuffer.data(), sizeof(double) * numSample);
+	//memcpy(x.data(), origBuffer.data(), sizeof(double) * numSample);
 	// constexpr auto min = std::numeric_limits<>
 	// x = Eigen::Map<Eigen::TRowVectorX>(origBuffer, 1, -1);
 	// reinterpret_cast<float*>(x.data(), numSample);
@@ -43,14 +43,14 @@ void convertBlock(std::vector<double>& origBuffer, std::vector<double>& converte
 	
 	auto y = HSMsynthesize(picos, L);
 
-	//for(int i = 0; i < numSample; i++)
-	//{
-	//	//outStart[i] = y(i);
-	//	convertedBuffer[i] = y(i);
-	//}
+	for(int i = 0; i < numSample; i++)
+	{
+		//outStart[i] = y(i);
+		convertedBuffer[i] = y(i);
+	}
 
 	// convertedBuffer.resize(y.size());
-	memcpy(convertedBuffer.data(), y.data(), sizeof(double) * y.size());
+	//memcpy(convertedBuffer.data(), y.data(), sizeof(double) * y.size());
 	//std::vector<double> vec(y.data(), y.data() + y.rows() * y.cols());
 	//convertedBuffer.resize(y.size());
 	//memcpy(&convertedBuffer, &vec, sizeof(double) * vec.size());
