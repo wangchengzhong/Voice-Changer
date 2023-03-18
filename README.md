@@ -39,8 +39,13 @@ compression, EQ(with arbitrary number and filter type), wah_wah, high_quality pi
 ## add basic "Voice Conversion System" framework
 
 #参考工程
+
 https://github.com/ffAudio/Frequalizer
+
 https://github.com/GroovemanAndCo/DAWn
+
 https://github.com/juce-framework/JUCE
+
 https://github.com/Tracktion/tracktion_engine
+
 https://github.com/leomccormack/Spatial_Audio_Framework
