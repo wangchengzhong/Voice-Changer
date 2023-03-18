@@ -49,3 +49,5 @@ https://github.com/juce-framework/JUCE
 https://github.com/Tracktion/tracktion_engine
 
 https://github.com/leomccormack/Spatial_Audio_Framework
+
+https://github.com/ShuhuaGao/vchsm
