@@ -1,5 +1,5 @@
-# VoiceChanger_wcz
-voice changer using JUCE platform, rubberband and soundtouch, as well as independent freq based phase vocoder implementation.
+# VoiceChanger
+voice changer using JUCE platform, rubberband and soundtouch, as well as independent freq based phase vocoder implementation, as well as GMM-based voice conversion.
 ## main functions:
 compression, EQ(with arbitrary number and filter type), wah_wah, high_quality pitch shift and peak(formant) shift.
 ![image](https://user-images.githubusercontent.com/55294472/226099197-562a0790-3d54-4e68-b794-5c85ca94141a.png)
