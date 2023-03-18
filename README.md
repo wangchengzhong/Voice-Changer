@@ -2,6 +2,7 @@
 voice changer using JUCE platform, rubberband and soundtouch, as well as independent freq based phase vocoder implementation.
 ## main functions:
 compression, EQ(with arbitrary number and filter type), wah_wah, high_quality pitch shift and peak(formant) shift.
+![image](https://user-images.githubusercontent.com/55294472/226099197-562a0790-3d54-4e68-b794-5c85ca94141a.png)
 
 ##  当前主流的实时pitch shift库
 - rubberband
