@@ -3,6 +3,10 @@ voice changer using JUCE platform, rubberband and soundtouch, as well as indepen
 ## main functions:
 compression, EQ(with arbitrary number and filter type), wah_wah, high_quality pitch shift and peak(formant) shift.
 ![image](https://user-images.githubusercontent.com/55294472/226099197-562a0790-3d54-4e68-b794-5c85ca94141a.png)
+![image](https://user-images.githubusercontent.com/55294472/226099238-30bb5bf9-c363-48fb-b052-b638f44b58ac.png)
+![image](https://user-images.githubusercontent.com/55294472/226099263-772b9b6c-7ceb-488d-854b-a26637f84e7f.png)
+![image](https://user-images.githubusercontent.com/55294472/226099276-be79ff21-78c9-484c-90d4-872c20c2ed15.png)
+
 
 ##  当前主流的实时pitch shift库
 - rubberband
@@ -33,3 +37,10 @@ compression, EQ(with arbitrary number and filter type), wah_wah, high_quality pi
 
 2022.1.3
 ## add basic "Voice Conversion System" framework
+
+#参考工程
+https://github.com/ffAudio/Frequalizer
+https://github.com/GroovemanAndCo/DAWn
+https://github.com/juce-framework/JUCE
+https://github.com/Tracktion/tracktion_engine
+https://github.com/leomccormack/Spatial_Audio_Framework
